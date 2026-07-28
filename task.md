@@ -1,0 +1,5 @@
+- [x] Convertir los 206 productos del archivo extraído JSON a una base de datos JavaScript en `script.js`
+- [x] Modificar `index.html` para simplificar la estructura (quitar carrusel, quitar categorías, centrar logo, añadir barra de búsqueda, ajustar carrito)
+- [x] Actualizar `styles.css` con la nueva paleta de colores rosa/morado, fuentes tipográficas elegantes y diseño responsivo para móvil
+- [x] Modificar `script.js` para cargar dinámicamente los productos con scroll infinito/lazy loading, filtrado por búsqueda y checkout de WhatsApp
+- [/] Verificar el sitio web y asegurar que funcione correctamente

@@ -1,0 +1,1472 @@
+[
+    {
+        "id": 1,
+        "name": "Producto de Maquillaje",
+        "price": 100000,
+        "image": "img/product_1.jpg",
+        "page": 2
+    },
+    {
+        "id": 2,
+        "name": "Kit extractores de espinillas y puntos negros",
+        "price": 6900,
+        "image": "img/product_2.jpg",
+        "page": 4
+    },
+    {
+        "id": 3,
+        "name": "Kit viajero Ácido Salicilico Skincare Bioaqua",
+        "price": 21900,
+        "image": "img/product_3.jpg",
+        "page": 4
+    },
+    {
+        "id": 4,
+        "name": "Kit anti acné Bioaqua en caja x3 productos",
+        "price": 22900,
+        "image": "img/product_4.jpg",
+        "page": 4
+    },
+    {
+        "id": 5,
+        "name": "Protector solar Bioaqua Vitamina C",
+        "price": 7900,
+        "image": "img/product_5.jpg",
+        "page": 4
+    },
+    {
+        "id": 6,
+        "name": "Velo Tea Control grasa Bioaqua",
+        "price": 1900,
+        "image": "img/product_6.jpg",
+        "page": 4
+    },
+    {
+        "id": 7,
+        "name": "Jabón de arroz en barra Bioaqua",
+        "price": 8900,
+        "image": "img/product_7.jpg",
+        "page": 5
+    },
+    {
+        "id": 8,
+        "name": "Mascarilla de carbón puntos negros",
+        "price": 5900,
+        "image": "img/product_8.jpg",
+        "page": 5
+    },
+    {
+        "id": 9,
+        "name": "Colageno de ojeras",
+        "price": 1900,
+        "image": "img/product_9.jpg",
+        "page": 5
+    },
+    {
+        "id": 10,
+        "name": "Kit truly íntimo aroma delicioso hidratante",
+        "price": 54900,
+        "image": "img/product_10.jpg",
+        "page": 5
+    },
+    {
+        "id": 11,
+        "name": "Molde de hielo facial",
+        "price": 7900,
+        "image": "img/product_11.jpg",
+        "page": 5
+    },
+    {
+        "id": 12,
+        "name": "Contorno de ojos antioxidante UVA Sadoer",
+        "price": 6000,
+        "image": "img/product_12.jpg",
+        "page": 6
+    },
+    {
+        "id": 13,
+        "name": "Gel limpiador facial Lula Ceramidas",
+        "price": 25000,
+        "image": "img/product_13.jpg",
+        "page": 6
+    },
+    {
+        "id": 14,
+        "name": "Tónico facial agua de rosas Purpure 120ml",
+        "price": 15000,
+        "image": "img/product_14.jpg",
+        "page": 6
+    },
+    {
+        "id": 15,
+        "name": "tonico facial acido hialuronico Bioaqua",
+        "price": 10000,
+        "image": "img/product_15.jpg",
+        "page": 6
+    },
+    {
+        "id": 16,
+        "name": "Contorno de ojos hidratante Colageno Bioaqua",
+        "price": 6000,
+        "image": "img/product_16.jpg",
+        "page": 6
+    },
+    {
+        "id": 17,
+        "name": "Crema facial hidratante Colageno Bioaqua",
+        "price": 10000,
+        "image": "img/product_17.jpg",
+        "page": 7
+    },
+    {
+        "id": 18,
+        "name": "Serum ácido Hialurónico Bioaqua",
+        "price": 5000,
+        "image": "img/product_18.jpg",
+        "page": 7
+    },
+    {
+        "id": 19,
+        "name": "Hidratante facial con perlas Lula (atenea)",
+        "price": 19900,
+        "image": "img/product_19.jpg",
+        "page": 7
+    },
+    {
+        "id": 20,
+        "name": "Desmaquillante Lula (Atenea)",
+        "price": 19900,
+        "image": "img/product_20.jpg",
+        "page": 7
+    },
+    {
+        "id": 21,
+        "name": "Jabón anti acné bioaqua",
+        "price": 10000,
+        "image": "img/product_21.jpg",
+        "page": 7
+    },
+    {
+        "id": 22,
+        "name": "Protector solar Centella Asiática Bioaqua",
+        "price": 10000,
+        "image": "img/product_22.jpg",
+        "page": 8
+    },
+    {
+        "id": 23,
+        "name": "Piedra guasha masajeador facial",
+        "price": 5000,
+        "image": "img/product_23.jpg",
+        "page": 8
+    },
+    {
+        "id": 24,
+        "name": "Dúo de Colageno ojos y labios Bioaqua",
+        "price": 4000,
+        "image": "img/product_24.jpg",
+        "page": 8
+    },
+    {
+        "id": 25,
+        "name": "Pañitos húmedos desmaquillantes",
+        "price": 4000,
+        "image": "img/product_25.jpg",
+        "page": 8
+    },
+    {
+        "id": 26,
+        "name": "Agua de rosas mediana 125ml",
+        "price": 9900,
+        "image": "img/product_26.jpg",
+        "page": 8
+    },
+    {
+        "id": 27,
+        "name": "gel exfoliantes de arroz bioaqua",
+        "price": 12900,
+        "image": "img/product_27.jpg",
+        "page": 9
+    },
+    {
+        "id": 28,
+        "name": "gel de arroz bioaqua 300g gel blanco",
+        "price": 9900,
+        "image": "img/product_28.jpg",
+        "page": 9
+    },
+    {
+        "id": 29,
+        "name": "desmaquillante de arroz bioaqua 300ml",
+        "price": 14900,
+        "image": "img/product_29.jpg",
+        "page": 9
+    },
+    {
+        "id": 30,
+        "name": "Mascarilla de arcilla blanqueadora en sobrecito bioaqua",
+        "price": 14900,
+        "image": "img/product_30.jpg",
+        "page": 9
+    },
+    {
+        "id": 31,
+        "name": "agua micelar vitamina c",
+        "price": 9900,
+        "image": "img/product_31.jpg",
+        "page": 9
+    },
+    {
+        "id": 32,
+        "name": "mascarilla comprimida",
+        "price": 1500,
+        "image": "img/product_32.jpg",
+        "page": 10
+    },
+    {
+        "id": 33,
+        "name": "pañitos desmaquillantes",
+        "price": 3000,
+        "image": "img/product_33.jpg",
+        "page": 10
+    },
+    {
+        "id": 34,
+        "name": "Bloom Bubbles parches para el acne bye bye granos Bloomshell",
+        "price": 9900,
+        "image": "img/product_34.jpg",
+        "page": 10
+    },
+    {
+        "id": 35,
+        "name": "Protector solar rosas Con Color Karité",
+        "price": 11900,
+        "image": "img/product_35.jpg",
+        "page": 10
+    },
+    {
+        "id": 36,
+        "name": "Jabón Azufre facial Purpure en barra",
+        "price": 12900,
+        "image": "img/product_36.jpg",
+        "page": 10
+    },
+    {
+        "id": 37,
+        "name": "Jabón Detox facial Purpure carbón activado en barra",
+        "price": 12900,
+        "image": "img/product_37.jpg",
+        "page": 11
+    },
+    {
+        "id": 38,
+        "name": "Exfoliante hidratante gel facial 200ml Aguacate",
+        "price": 10000,
+        "image": "img/product_38.jpg",
+        "page": 11
+    },
+    {
+        "id": 39,
+        "name": "Pañitos húmedos en lata",
+        "price": 6900,
+        "image": "img/product_39.jpg",
+        "page": 11
+    },
+    {
+        "id": 40,
+        "name": "Crema de manos hidratante Labubu",
+        "price": 6000,
+        "image": "img/product_40.jpg",
+        "page": 11
+    },
+    {
+        "id": 41,
+        "name": "Protector solar en barra",
+        "price": 7500,
+        "image": "img/product_41.jpg",
+        "page": 11
+    },
+    {
+        "id": 42,
+        "name": "Protector solar ácido Hialurónico",
+        "price": 10000,
+        "image": "img/product_42.jpg",
+        "page": 12
+    },
+    {
+        "id": 43,
+        "name": "Jabón ácido Hialurónico bioaqua",
+        "price": 10000,
+        "image": "img/product_43.jpg",
+        "page": 12
+    },
+    {
+        "id": 44,
+        "name": "Jabón facial rosas bioaqua Combo de arroz bioaqua x5 productos",
+        "price": 10000,
+        "image": "img/product_44.jpg",
+        "page": 12
+    },
+    {
+        "id": 45,
+        "name": "Crema hidratante con dispensador arroz bioaqua",
+        "price": 10000,
+        "image": "img/product_45.jpg",
+        "page": 12
+    },
+    {
+        "id": 46,
+        "name": "Producto de Maquillaje",
+        "price": 29900,
+        "image": "img/product_46.jpg",
+        "page": 12
+    },
+    {
+        "id": 47,
+        "name": "Espuma facial ácido Hialurónico Ushas",
+        "price": 13900,
+        "image": "img/product_47.jpg",
+        "page": 13
+    },
+    {
+        "id": 48,
+        "name": "Espuma limpiadora",
+        "price": 10000,
+        "image": "img/product_48.jpg",
+        "page": 13
+    },
+    {
+        "id": 49,
+        "name": "desmaquillante en barra",
+        "price": 7900,
+        "image": "img/product_49.jpg",
+        "page": 13
+    },
+    {
+        "id": 50,
+        "name": "Jabón facial blanqueador Nicotinamida manchas y pecas",
+        "price": 8900,
+        "image": "img/product_50.jpg",
+        "page": 13
+    },
+    {
+        "id": 51,
+        "name": "rodillo jade",
+        "price": 10000,
+        "image": "img/product_51.jpg",
+        "page": 13
+    },
+    {
+        "id": 52,
+        "name": "Protector solar Aloe Vera Bioaqua",
+        "price": 10000,
+        "image": "img/product_52.jpg",
+        "page": 14
+    },
+    {
+        "id": 53,
+        "name": "Protector solar vokali",
+        "price": 7900,
+        "image": "img/product_53.jpg",
+        "page": 14
+    },
+    {
+        "id": 54,
+        "name": "protector solar",
+        "price": 7900,
+        "image": "img/product_54.jpg",
+        "page": 14
+    },
+    {
+        "id": 55,
+        "name": "Parches anti acné (figuras)",
+        "price": 8900,
+        "image": "img/product_55.jpg",
+        "page": 14
+    },
+    {
+        "id": 56,
+        "name": "Parches estrellita acné color surtido (color aleatorio)",
+        "price": 2000,
+        "image": "img/product_56.jpg",
+        "page": 14
+    },
+    {
+        "id": 57,
+        "name": "Rubor Candy Love Purpure",
+        "price": 12000,
+        "image": "img/product_57.jpg",
+        "page": 16
+    },
+    {
+        "id": 58,
+        "name": "Rubor en barra con aplicador",
+        "price": 9000,
+        "image": "img/product_58.jpg",
+        "page": 16
+    },
+    {
+        "id": 59,
+        "name": "polvo compacto",
+        "price": 10000,
+        "image": "img/product_59.jpg",
+        "page": 16
+    },
+    {
+        "id": 60,
+        "name": "Tinta de labios aplicador grueso",
+        "price": 6000,
+        "image": "img/product_60.jpg",
+        "page": 16
+    },
+    {
+        "id": 61,
+        "name": "Gloss roll on brillo labial lip oil surtido",
+        "price": 3000,
+        "image": "img/product_61.jpg",
+        "page": 16
+    },
+    {
+        "id": 62,
+        "name": "Gloss aroma miel hidratante",
+        "price": 3000,
+        "image": "img/product_62.jpg",
+        "page": 17
+    },
+    {
+        "id": 63,
+        "name": "Lápiz delineador de labios karite surtido",
+        "price": 3000,
+        "image": "img/product_63.jpg",
+        "page": 17
+    },
+    {
+        "id": 64,
+        "name": "Tinta de labios esmalte Stitch surtida",
+        "price": 5000,
+        "image": "img/product_64.jpg",
+        "page": 17
+    },
+    {
+        "id": 65,
+        "name": "Tinta de labios botella de Vino surtida",
+        "price": 5000,
+        "image": "img/product_65.jpg",
+        "page": 17
+    },
+    {
+        "id": 66,
+        "name": "Tinta de labios Lazy tape",
+        "price": 5000,
+        "image": "img/product_66.jpg",
+        "page": 17
+    },
+    {
+        "id": 67,
+        "name": "Papel absorbe grasa con polvo suelto natural y espejo Bloomshell",
+        "price": 19000,
+        "image": "img/product_67.jpg",
+        "page": 18
+    },
+    {
+        "id": 68,
+        "name": "Tinta café Bloomshell con llavero Bloom Latte Kiss",
+        "price": 24000,
+        "image": "img/product_68.jpg",
+        "page": 18
+    },
+    {
+        "id": 69,
+        "name": "Primer facial leche esencial",
+        "price": 7000,
+        "image": "img/product_69.jpg",
+        "page": 18
+    },
+    {
+        "id": 70,
+        "name": "Laminador de cejas Bloomshell gel fijador de",
+        "price": 16000,
+        "image": "img/product_70.jpg",
+        "page": 18
+    },
+    {
+        "id": 71,
+        "name": "Lápiz doble blanco y negro unidad",
+        "price": 3000,
+        "image": "img/product_71.jpg",
+        "page": 18
+    },
+    {
+        "id": 72,
+        "name": "Base líquida de maquillaje surtida",
+        "price": 6000,
+        "image": "img/product_72.jpg",
+        "page": 19
+    },
+    {
+        "id": 73,
+        "name": "Lápiz retráctil de cejas con brocha",
+        "price": 6000,
+        "image": "img/product_73.jpg",
+        "page": 19
+    },
+    {
+        "id": 74,
+        "name": "Rubor cremoso multi usos labios o mejillas surtido",
+        "price": 5000,
+        "image": "img/product_74.jpg",
+        "page": 19
+    },
+    {
+        "id": 75,
+        "name": "Rubor en barra surtido",
+        "price": 8000,
+        "image": "img/product_75.jpg",
+        "page": 19
+    },
+    {
+        "id": 76,
+        "name": "Iluminador en barra surtido",
+        "price": 6000,
+        "image": "img/product_76.jpg",
+        "page": 19
+    },
+    {
+        "id": 77,
+        "name": "Kit de labios Glitter set x3 productos",
+        "price": 5000,
+        "image": "img/product_77.jpg",
+        "page": 20
+    },
+    {
+        "id": 78,
+        "name": "Delineador negro plumón 36h eyeliner plumón y sello",
+        "price": 5000,
+        "image": "img/product_78.jpg",
+        "page": 20
+    },
+    {
+        "id": 79,
+        "name": "Pestañina Prosa Café",
+        "price": 20000,
+        "image": "img/product_79.jpg",
+        "page": 20
+    },
+    {
+        "id": 80,
+        "name": "Delineador negro líquido pincel Prosa resistente",
+        "price": 20000,
+        "image": "img/product_80.jpg",
+        "page": 20
+    },
+    {
+        "id": 81,
+        "name": "Polvo base cushion 2 en 1",
+        "price": 10000,
+        "image": "img/product_81.jpg",
+        "page": 20
+    },
+    {
+        "id": 82,
+        "name": "Llavero Dúo mimosa + mini shell tint Bloomshell",
+        "price": 25000,
+        "image": "img/product_82.jpg",
+        "page": 21
+    },
+    {
+        "id": 83,
+        "name": "Llavero Dúo nude + mini gloss hidratante Bloomshell",
+        "price": 25000,
+        "image": "img/product_83.jpg",
+        "page": 21
+    },
+    {
+        "id": 84,
+        "name": "Brillo hidratante mágico strawberry Purpure en barra",
+        "price": 7000,
+        "image": "img/product_84.jpg",
+        "page": 21
+    },
+    {
+        "id": 85,
+        "name": "Bloom Black Bloomshell lápiz cremoso negro",
+        "price": 9000,
+        "image": "img/product_85.jpg",
+        "page": 21
+    },
+    {
+        "id": 86,
+        "name": "Rubor luminoso compacto Blush Purpure",
+        "price": 15000,
+        "image": "img/product_86.jpg",
+        "page": 21
+    },
+    {
+        "id": 87,
+        "name": "Dúo rubor e iluminador Purpure",
+        "price": 12000,
+        "image": "img/product_87.jpg",
+        "page": 22
+    },
+    {
+        "id": 88,
+        "name": "Gel de cejas Diamond Purpure",
+        "price": 12000,
+        "image": "img/product_88.jpg",
+        "page": 22
+    },
+    {
+        "id": 89,
+        "name": "Iluminador Lula (atenea)",
+        "price": 15000,
+        "image": "img/product_89.jpg",
+        "page": 22
+    },
+    {
+        "id": 90,
+        "name": "Beauty blender esponja surtida biselada",
+        "price": 3000,
+        "image": "img/product_90.jpg",
+        "page": 22
+    },
+    {
+        "id": 91,
+        "name": "Polvo suelto banana Lula (atenea)",
+        "price": 13500,
+        "image": "img/product_91.jpg",
+        "page": 22
+    },
+    {
+        "id": 92,
+        "name": "Paleta de sombras corazones",
+        "price": 12000,
+        "image": "img/product_92.jpg",
+        "page": 23
+    },
+    {
+        "id": 93,
+        "name": "Paleta de sombras Hudamoji corazones",
+        "price": 10000,
+        "image": "img/product_93.jpg",
+        "page": 23
+    },
+    {
+        "id": 94,
+        "name": "Gloss aplicador grueso magic",
+        "price": 6500,
+        "image": "img/product_94.jpg",
+        "page": 23
+    },
+    {
+        "id": 95,
+        "name": "Paleta de maquillaje Helado",
+        "price": 15000,
+        "image": "img/product_95.jpg",
+        "page": 23
+    },
+    {
+        "id": 96,
+        "name": "Gloss aplicador grueso tipo Dior surtido",
+        "price": 8000,
+        "image": "img/product_96.jpg",
+        "page": 23
+    },
+    {
+        "id": 97,
+        "name": "Gel de cejas Karité",
+        "price": 5500,
+        "image": "img/product_97.jpg",
+        "page": 24
+    },
+    {
+        "id": 98,
+        "name": "Gloss espiral ice cream con llavero surtido",
+        "price": 8000,
+        "image": "img/product_98.jpg",
+        "page": 24
+    },
+    {
+        "id": 99,
+        "name": "Tratamiento fortalecedor de pestañas arroz Pestañina transparente ácido Hialurónico",
+        "price": 6500,
+        "image": "img/product_99.jpg",
+        "page": 24
+    },
+    {
+        "id": 100,
+        "name": "Polvo en gel matificante control grasa Karité",
+        "price": 12000,
+        "image": "img/product_100.jpg",
+        "page": 24
+    },
+    {
+        "id": 101,
+        "name": "Lápiz de cejas retráctil con cepillo",
+        "price": 5000,
+        "image": "img/product_101.jpg",
+        "page": 24
+    },
+    {
+        "id": 102,
+        "name": "Rubor con aplicador blush surtido con destellos",
+        "price": 13000,
+        "image": "img/product_102.jpg",
+        "page": 25
+    },
+    {
+        "id": 103,
+        "name": "Base tipo tinta Buena cobertura Kiss Beauty",
+        "price": 7000,
+        "image": "img/product_103.jpg",
+        "page": 25
+    },
+    {
+        "id": 104,
+        "name": "Pestañina económica miss ever",
+        "price": 6500,
+        "image": "img/product_104.jpg",
+        "page": 25
+    },
+    {
+        "id": 105,
+        "name": "Rubor cremoso 2 en 1 surtido",
+        "price": 11000,
+        "image": "img/product_105.jpg",
+        "page": 25
+    },
+    {
+        "id": 106,
+        "name": "Lip balm strawberry llavero fresita",
+        "price": 5000,
+        "image": "img/product_106.jpg",
+        "page": 25
+    },
+    {
+        "id": 107,
+        "name": "Base líquida For me surtida",
+        "price": 6000,
+        "image": "img/product_107.jpg",
+        "page": 26
+    },
+    {
+        "id": 108,
+        "name": "Base líquida Fit surtida",
+        "price": 6000,
+        "image": "img/product_108.jpg",
+        "page": 26
+    },
+    {
+        "id": 109,
+        "name": "Corrector líquido fitme surtido con aplicador",
+        "price": 8000,
+        "image": "img/product_109.jpg",
+        "page": 26
+    },
+    {
+        "id": 110,
+        "name": "Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida",
+        "price": 6500,
+        "image": "img/product_110.jpg",
+        "page": 26
+    },
+    {
+        "id": 111,
+        "name": "Paleta de sombras 18 tonos New Nude",
+        "price": 15000,
+        "image": "img/product_111.jpg",
+        "page": 26
+    },
+    {
+        "id": 112,
+        "name": "Fijador de maquillaje cherry",
+        "price": 12000,
+        "image": "img/product_112.jpg",
+        "page": 27
+    },
+    {
+        "id": 113,
+        "name": "Kit de primer + fijador de maquillaje Arroz",
+        "price": 6000,
+        "image": "img/product_113.jpg",
+        "page": 27
+    },
+    {
+        "id": 114,
+        "name": "Rubor en perlas tonos surtidos rubor granulado o iluminador",
+        "price": 7000,
+        "image": "img/product_114.jpg",
+        "page": 27
+    },
+    {
+        "id": 115,
+        "name": "Corrector de ojeras super stay Gant Beauty",
+        "price": 8500,
+        "image": "img/product_115.jpg",
+        "page": 27
+    },
+    {
+        "id": 116,
+        "name": "Gloss purpure Lip Gloss Glow",
+        "price": 15000,
+        "image": "img/product_116.jpg",
+        "page": 27
+    },
+    {
+        "id": 117,
+        "name": "Fijador de maquillaje Purpure 160ml",
+        "price": 13000,
+        "image": "img/product_117.jpg",
+        "page": 28
+    },
+    {
+        "id": 118,
+        "name": "Gloss Voluminizador con color Purpure",
+        "price": 23000,
+        "image": "img/product_118.jpg",
+        "page": 28
+    },
+    {
+        "id": 119,
+        "name": "Fijador de maquillaje en Spray",
+        "price": 10000,
+        "image": "img/product_119.jpg",
+        "page": 28
+    },
+    {
+        "id": 120,
+        "name": "Lip gloss huellita con destellos aplicador Jumbo Magic",
+        "price": 7000,
+        "image": "img/product_120.jpg",
+        "page": 28
+    },
+    {
+        "id": 121,
+        "name": "Primer vitamina c",
+        "price": 6500,
+        "image": "img/product_121.jpg",
+        "page": 28
+    },
+    {
+        "id": 122,
+        "name": "Pestañina prosa",
+        "price": 3500,
+        "image": "img/product_122.jpg",
+        "page": 29
+    },
+    {
+        "id": 123,
+        "name": "Lápiz de cejas",
+        "price": 19000,
+        "image": "img/product_123.jpg",
+        "page": 29
+    },
+    {
+        "id": 124,
+        "name": "Base skin cover Mocmallure",
+        "price": 10000,
+        "image": "img/product_124.jpg",
+        "page": 29
+    },
+    {
+        "id": 125,
+        "name": "Iluminador Candy Love Purpure",
+        "price": 11500,
+        "image": "img/product_125.jpg",
+        "page": 29
+    },
+    {
+        "id": 126,
+        "name": "Dúo contorno y rubor en barra Purpure",
+        "price": 13000,
+        "image": "img/product_126.jpg",
+        "page": 29
+    },
+    {
+        "id": 127,
+        "name": "Perfume capilar de hadas con shimmer surtido",
+        "price": 12000,
+        "image": "img/product_127.jpg",
+        "page": 31
+    },
+    {
+        "id": 128,
+        "name": "Aceite capilar arroz bioaqua",
+        "price": 13000,
+        "image": "img/product_128.jpg",
+        "page": 31
+    },
+    {
+        "id": 129,
+        "name": "Shampoo de rizos kids Exotic Sin sal",
+        "price": 16000,
+        "image": "img/product_129.jpg",
+        "page": 31
+    },
+    {
+        "id": 130,
+        "name": "Tratamiento de rizos kids Exotic",
+        "price": 17000,
+        "image": "img/product_130.jpg",
+        "page": 31
+    },
+    {
+        "id": 131,
+        "name": "Acondicionador Rizos Exotic",
+        "price": 16000,
+        "image": "img/product_131.jpg",
+        "page": 31
+    },
+    {
+        "id": 132,
+        "name": "Shampoo rizos 1.000ml Exotic",
+        "price": 16000,
+        "image": "img/product_132.jpg",
+        "page": 32
+    },
+    {
+        "id": 133,
+        "name": "Tratamiento capilar rizos more curls exotic 1.000ml",
+        "price": 17000,
+        "image": "img/product_133.jpg",
+        "page": 32
+    },
+    {
+        "id": 134,
+        "name": "Tratamiento capilar Melancia 3en1 para cabello seco y dañado",
+        "price": 17000,
+        "image": "img/product_134.jpg",
+        "page": 32
+    },
+    {
+        "id": 135,
+        "name": "Tratamiento capilar coco Exotic 1.000ml",
+        "price": 17000,
+        "image": "img/product_135.jpg",
+        "page": 32
+    },
+    {
+        "id": 136,
+        "name": "Shampoo de coco ml Exotic",
+        "price": 16000,
+        "image": "img/product_136.jpg",
+        "page": 32
+    },
+    {
+        "id": 137,
+        "name": "Shampoo Repolarizacion intensiva exotic",
+        "price": 16000,
+        "image": "img/product_137.jpg",
+        "page": 33
+    },
+    {
+        "id": 138,
+        "name": "Tratamiento Repolarizacion intensiva exotic",
+        "price": 17000,
+        "image": "img/product_138.jpg",
+        "page": 33
+    },
+    {
+        "id": 139,
+        "name": "Shampoo de cebolla 1.000ml Exotic",
+        "price": 16000,
+        "image": "img/product_139.jpg",
+        "page": 33
+    },
+    {
+        "id": 140,
+        "name": "Acondicionador de cebolla Exotic",
+        "price": 16000,
+        "image": "img/product_140.jpg",
+        "page": 33
+    },
+    {
+        "id": 141,
+        "name": "Tratamiento capilar de cebolla Exotic",
+        "price": 17000,
+        "image": "img/product_141.jpg",
+        "page": 33
+    },
+    {
+        "id": 142,
+        "name": "Óleo premium Cebolla aceite capilar crecimiento",
+        "price": 10000,
+        "image": "img/product_142.jpg",
+        "page": 34
+    },
+    {
+        "id": 143,
+        "name": "Óleo Romero aceite capilar crecimiento",
+        "price": 11000,
+        "image": "img/product_143.jpg",
+        "page": 34
+    },
+    {
+        "id": 144,
+        "name": "Tratamiento capilar 500g Coco recuperación y brillo",
+        "price": 15000,
+        "image": "img/product_144.jpg",
+        "page": 34
+    },
+    {
+        "id": 145,
+        "name": "Cepillo masajeador capilar para e shampoo o tratamientos",
+        "price": 6000,
+        "image": "img/product_145.jpg",
+        "page": 34
+    },
+    {
+        "id": 146,
+        "name": "Set x3 gorro ducha",
+        "price": 3000,
+        "image": "img/product_146.jpg",
+        "page": 34
+    },
+    {
+        "id": 147,
+        "name": "Scrunchie satin bamba cabello moña anti quiebre",
+        "price": 4000,
+        "image": "img/product_147.jpg",
+        "page": 36
+    },
+    {
+        "id": 148,
+        "name": "Set mini ganchos más moñitas",
+        "price": 5000,
+        "image": "img/product_148.jpg",
+        "page": 36
+    },
+    {
+        "id": 149,
+        "name": "Kit cauchos y moñas",
+        "price": 3000,
+        "image": "img/product_149.jpg",
+        "page": 36
+    },
+    {
+        "id": 150,
+        "name": "Cartón animado moñas y pinzas surtido",
+        "price": 4000,
+        "image": "img/product_150.jpg",
+        "page": 36
+    },
+    {
+        "id": 151,
+        "name": "Cera moldeadora de cabello hello kitty kuromi surtido",
+        "price": 7000,
+        "image": "img/product_151.jpg",
+        "page": 36
+    },
+    {
+        "id": 152,
+        "name": "Kit de moñas y mini pinzas para el cabello en cajita",
+        "price": 6000,
+        "image": "img/product_152.jpg",
+        "page": 37
+    },
+    {
+        "id": 153,
+        "name": "Ondas sin calor tubo de seda más scrunchies",
+        "price": 11000,
+        "image": "img/product_153.jpg",
+        "page": 37
+    },
+    {
+        "id": 154,
+        "name": "Bloom Hair curl pro Cepillo definidor de rizos Bloomshell",
+        "price": 15000,
+        "image": "img/product_154.jpg",
+        "page": 37
+    },
+    {
+        "id": 155,
+        "name": "Set x3 pinzas Flor color surtido 1 grande 2 pequeñas",
+        "price": 7000,
+        "image": "img/product_155.jpg",
+        "page": 37
+    },
+    {
+        "id": 156,
+        "name": "Cepillo pulidor de cabello color surtido",
+        "price": 5000,
+        "image": "img/product_156.jpg",
+        "page": 37
+    },
+    {
+        "id": 157,
+        "name": "Cepillo desenredante anti frizz color surtido",
+        "price": 10000,
+        "image": "img/product_157.jpg",
+        "page": 38
+    },
+    {
+        "id": 158,
+        "name": "Kit balaca puffy más muñequeras",
+        "price": 12000,
+        "image": "img/product_158.jpg",
+        "page": 38
+    },
+    {
+        "id": 159,
+        "name": "Gorrito de cabello micro fibra",
+        "price": 12000,
+        "image": "img/product_159.jpg",
+        "page": 38
+    },
+    {
+        "id": 160,
+        "name": "Toalla de cabello de micro fibra",
+        "price": 11000,
+        "image": "img/product_160.jpg",
+        "page": 38
+    },
+    {
+        "id": 161,
+        "name": "Cepillo masajeador capilar shampoo",
+        "price": 8000,
+        "image": "img/product_161.jpg",
+        "page": 38
+    },
+    {
+        "id": 162,
+        "name": "Cepillo de cabello Sanrio",
+        "price": 9000,
+        "image": "img/product_162.jpg",
+        "page": 39
+    },
+    {
+        "id": 163,
+        "name": "Cepillo de cabello garrita",
+        "price": 9000,
+        "image": "img/product_163.jpg",
+        "page": 39
+    },
+    {
+        "id": 164,
+        "name": "Balaca elástica",
+        "price": 3000,
+        "image": "img/product_164.jpg",
+        "page": 39
+    },
+    {
+        "id": 165,
+        "name": "Gorrito para dormir satin surtido",
+        "price": 8000,
+        "image": "img/product_165.jpg",
+        "page": 39
+    },
+    {
+        "id": 166,
+        "name": "Cartón x4 pinzas",
+        "price": 5000,
+        "image": "img/product_166.jpg",
+        "page": 39
+    },
+    {
+        "id": 167,
+        "name": "Encrespador de pestañas",
+        "price": 8000,
+        "image": "img/product_167.jpg",
+        "page": 41
+    },
+    {
+        "id": 168,
+        "name": "Brocha para corrector",
+        "price": 9000,
+        "image": "img/product_168.jpg",
+        "page": 41
+    },
+    {
+        "id": 169,
+        "name": "Borla mini de precisión borla para el dedo",
+        "price": 1000,
+        "image": "img/product_169.jpg",
+        "page": 41
+    },
+    {
+        "id": 170,
+        "name": "Encrespador de pestañas económic",
+        "price": 5000,
+        "image": "img/product_170.jpg",
+        "page": 41
+    },
+    {
+        "id": 171,
+        "name": "Pomos de algodón desmaquillantes",
+        "price": 8000,
+        "image": "img/product_171.jpg",
+        "page": 41
+    },
+    {
+        "id": 172,
+        "name": "Brocha doble de cejas",
+        "price": 3000,
+        "image": "img/product_172.jpg",
+        "page": 42
+    },
+    {
+        "id": 173,
+        "name": "Set x3 perfiladores",
+        "price": 3000,
+        "image": "img/product_173.jpg",
+        "page": 42
+    },
+    {
+        "id": 174,
+        "name": "Brocha doble para cejas laminadas orgánicas",
+        "price": 5500,
+        "image": "img/product_174.jpg",
+        "page": 42
+    },
+    {
+        "id": 175,
+        "name": "Papel absorbe grasa x100 Carbón",
+        "price": 6000,
+        "image": "img/product_175.jpg",
+        "page": 42
+    },
+    {
+        "id": 176,
+        "name": "Brocha de cejas + perfilador",
+        "price": 5000,
+        "image": "img/product_176.jpg",
+        "page": 42
+    },
+    {
+        "id": 177,
+        "name": "Repuestos encrespador",
+        "price": 3000,
+        "image": "img/product_177.jpg",
+        "page": 43
+    },
+    {
+        "id": 178,
+        "name": "Beauty blender grande Big Blender Bloomshell",
+        "price": 11000,
+        "image": "img/product_178.jpg",
+        "page": 43
+    },
+    {
+        "id": 179,
+        "name": "Organizador viajero de colgar surtido",
+        "price": 20000,
+        "image": "img/product_179.jpg",
+        "page": 43
+    },
+    {
+        "id": 180,
+        "name": "Set de brochas viajeras surtidas",
+        "price": 6000,
+        "image": "img/product_180.jpg",
+        "page": 43
+    },
+    {
+        "id": 181,
+        "name": "Brocha para base pequeña viral TikTok",
+        "price": 6000,
+        "image": "img/product_181.jpg",
+        "page": 43
+    },
+    {
+        "id": 182,
+        "name": "Set de brochas sirena",
+        "price": 12000,
+        "image": "img/product_182.jpg",
+        "page": 44
+    },
+    {
+        "id": 183,
+        "name": "Paquete x9 mini borlas para el maquillaje borla para el dedo",
+        "price": 7000,
+        "image": "img/product_183.jpg",
+        "page": 44
+    },
+    {
+        "id": 184,
+        "name": "Brocha de rostro",
+        "price": 8000,
+        "image": "img/product_184.jpg",
+        "page": 44
+    },
+    {
+        "id": 185,
+        "name": "Brocha de ojos difuminadora",
+        "price": 6000,
+        "image": "img/product_185.jpg",
+        "page": 44
+    },
+    {
+        "id": 186,
+        "name": "Papel de arroz absorbe grasa",
+        "price": 6000,
+        "image": "img/product_186.jpg",
+        "page": 44
+    },
+    {
+        "id": 187,
+        "name": "Papel absorbe grasa strawberry",
+        "price": 6000,
+        "image": "img/product_187.jpg",
+        "page": 45
+    },
+    {
+        "id": 188,
+        "name": "Plantilla multiusos molde delineador",
+        "price": 3000,
+        "image": "img/product_188.jpg",
+        "page": 45
+    },
+    {
+        "id": 189,
+        "name": "Toalla afelpada multiusos toalla desmaquillante o borla",
+        "price": 6000,
+        "image": "img/product_189.jpg",
+        "page": 45
+    },
+    {
+        "id": 190,
+        "name": "Kit de brochas kabuki pequeño",
+        "price": 12000,
+        "image": "img/product_190.jpg",
+        "page": 45
+    },
+    {
+        "id": 191,
+        "name": "Perfilador + Depilador",
+        "price": 5000,
+        "image": "img/product_191.jpg",
+        "page": 45
+    },
+    {
+        "id": 192,
+        "name": "Cosmetiquera tornasol",
+        "price": 16000,
+        "image": "img/product_192.jpg",
+        "page": 46
+    },
+    {
+        "id": 193,
+        "name": "Fijador de maquillarte spray sellante",
+        "price": 8000,
+        "image": "img/product_193.jpg",
+        "page": 46
+    },
+    {
+        "id": 194,
+        "name": "Cepillo cejas y pestañas paquete x10",
+        "price": 5000,
+        "image": "img/product_194.jpg",
+        "page": 46
+    },
+    {
+        "id": 195,
+        "name": "Paquete almohadilla lifting",
+        "price": 6000,
+        "image": "img/product_195.jpg",
+        "page": 46
+    },
+    {
+        "id": 196,
+        "name": "Aplicador desechable",
+        "price": 5000,
+        "image": "img/product_196.jpg",
+        "page": 46
+    },
+    {
+        "id": 197,
+        "name": "Pinza de pestañas perfumes y cremas",
+        "price": 5000,
+        "image": "img/product_197.jpg",
+        "page": 47
+    },
+    {
+        "id": 198,
+        "name": "Bling bling grapadora de Piedritas",
+        "price": 22000,
+        "image": "img/product_198.jpg",
+        "page": 47
+    },
+    {
+        "id": 199,
+        "name": "Producto de Maquillaje",
+        "price": 5000,
+        "image": "img/product_199.jpg",
+        "page": 47
+    },
+    {
+        "id": 200,
+        "name": "Producto de Maquillaje",
+        "price": 5000,
+        "image": "img/product_200.jpg",
+        "page": 47
+    },
+    {
+        "id": 201,
+        "name": "Producto de Maquillaje",
+        "price": 22000,
+        "image": "img/product_201.jpg",
+        "page": 47
+    },
+    {
+        "id": 202,
+        "name": "Mini mantequilla corporal shimmer Purpure 50gr -",
+        "price": 11000,
+        "image": "img/product_202.jpg",
+        "page": 48
+    },
+    {
+        "id": 203,
+        "name": "Shimmer corporal Splash aroma Purpure brilli brilli 55ml",
+        "price": 12000,
+        "image": "img/product_203.jpg",
+        "page": 48
+    },
+    {
+        "id": 204,
+        "name": "Crema serum íntimo Truly 50ml MORADO",
+        "price": 25000,
+        "image": "img/product_204.jpg",
+        "page": 48
+    },
+    {
+        "id": 205,
+        "name": "Aceite íntimo Truly 50ml morado",
+        "price": 25000,
+        "image": "img/product_205.jpg",
+        "page": 48
+    },
+    {
+        "id": 206,
+        "name": "Crema serum Unicorn Truly 50ml",
+        "price": 25000,
+        "image": "img/product_206.jpg",
+        "page": 48
+    },
+    {
+        "id": 207,
+        "name": "Aceite íntimo Truly 50ml",
+        "price": 25000,
+        "image": "img/product_207.jpg",
+        "page": 49
+    },
+    {
+        "id": 208,
+        "name": "Body Splash Purpure 140ml",
+        "price": 15000,
+        "image": "img/product_208.jpg",
+        "page": 49
+    },
+    {
+        "id": 209,
+        "name": "Brilli brilli Purpure shimmer con aroma Grande surtido",
+        "price": 15000,
+        "image": "img/product_209.jpg",
+        "page": 49
+    },
+    {
+        "id": 210,
+        "name": "Mantequilla Grande con shimmer Purpure 220ml",
+        "price": 23000,
+        "image": "img/product_210.jpg",
+        "page": 49
+    }
+]
