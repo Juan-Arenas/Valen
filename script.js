@@ -1,4 +1,4 @@
-// Prodigiosa Store - Logic & Interactive Shopping Cart
+
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const hamburger = document.querySelector('.hamburger');
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredProducts = [];
     let displayedCount = 0;
     const ITEMS_PER_PAGE = 24;
+    const PRODUCTS_API_URL = '/api/products';
     let cart = [];
 
     // WhatsApp Number Config (Pre-filled from catalog header)
@@ -55,32 +56,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Load Products from Extracted JSON File
+    // Load Products from backend API or fallback to local JSON
     async function loadProducts() {
+        let products = [];
         try {
-            const response = await fetch('extracted_products.json');
+            const response = await fetch(PRODUCTS_API_URL);
             if (!response.ok) {
-                throw new Error('Error al cargar el catálogo de productos');
+                throw new Error('Error al cargar el catálogo desde la API');
             }
-            allProducts = await response.json();
-            filteredProducts = [...allProducts];
-            
-            // Reset and start rendering
-            displayedCount = 0;
-            productsGrid.innerHTML = '';
-            loadMoreProducts();
-            setupInfiniteScroll();
-        } catch (error) {
-            console.error('Error:', error);
-            productsGrid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--primary-pink);">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
-                    <h3>No pudimos cargar los productos en este momento.</h3>
-                    <p>Por favor, recarga la página o inténtalo más tarde.</p>
-                </div>
-            `;
-            loadingTrigger.style.display = 'none';
+            products = await response.json();
+        } catch (apiError) {
+            console.warn('No se pudo cargar desde la API, intentando fallback a JSON local:', apiError);
+            try {
+                const response = await fetch('extracted_products.json');
+                if (!response.ok) {
+                    throw new Error('Error al cargar el catálogo desde JSON local');
+                }
+                products = await response.json();
+            } catch (jsonError) {
+                console.error('Error:', jsonError);
+                productsGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--primary-pink);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
+                        <h3>No pudimos cargar los productos en este momento.</h3>
+                        <p>Por favor, recarga la página o inténtalo más tarde.</p>
+                    </div>
+                `;
+                loadingTrigger.style.display = 'none';
+                return;
+            }
         }
+
+        allProducts = products;
+        filteredProducts = allProducts.filter(product => product.active !== false);
+        displayedCount = 0;
+        productsGrid.innerHTML = '';
+        loadMoreProducts();
+        setupInfiniteScroll();
     }
 
     // Render Product Chunk
@@ -154,10 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         
-        filteredProducts = allProducts.filter(product => {
-            const nameClean = product.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            return nameClean.includes(query);
-        });
+        filteredProducts = allProducts
+            .filter(product => product.active !== false)
+            .filter(product => {
+                const nameClean = product.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                return nameClean.includes(query);
+            });
 
         displayedCount = 0;
         productsGrid.innerHTML = '';
@@ -235,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let total = 0;
-        let messageText = '✨ *PEDIDO NUEVO - PRODIGIOSA STORE* ✨\n';
+        let messageText = '✨ *PEDIDO NUEVO - VALEN MAKEUP* ✨\n';
         messageText += 'Hola, me gustaría realizar la compra de los siguientes productos:\n\n';
 
         cart.forEach((item, index) => {

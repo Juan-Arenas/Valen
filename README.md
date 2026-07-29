@@ -1,0 +1,101 @@
+# Ventas Maquillaje
+
+Este proyecto ya puede integrarse con un bot de Telegram para actualizar el catálogo desde el teléfono.
+
+## Arquitectura actualizada: backend + base de datos
+
+Este proyecto ahora incluye un backend en Python con SQLite para almacenar el catálogo en una base de datos y un bot de Telegram que actualiza directamente esa base de datos.
+
+### Qué puede hacer ahora
+- El catálogo se guarda en `catalog.db` en SQLite.
+- El bot de Telegram actualiza el catálogo en la base de datos.
+- El frontend carga `GET /api/products` desde el backend.
+- Sigue existiendo un fallback local a `extracted_products.json` si el backend no está disponible.
+
+### Requisitos
+- Python 3.10+
+- Token de bot de Telegram
+- IDs de usuarios autorizados para el bot
+
+### Instalación
+```powershell
+python -m pip install -r requirements.txt
+```
+
+### Ejecución del backend
+```powershell
+python backend.py
+```
+
+El backend expone estas rutas:
+- `GET /api/products` - productos activos por defecto
+- `GET /api/products?active=false` - todos los productos
+- `GET /api/products/<id>` - producto por ID
+- `POST /api/products` - crear producto
+- `PUT /api/products/<id>` - actualizar producto
+- `PATCH /api/products/<id>/state` - cambiar estado activo/inactivo
+- `GET /api/health` - estado del servicio
+
+### Configuración del bot
+Configura las variables de entorno antes de iniciar el bot:
+```powershell
+$env:BOT_TOKEN = "TU_TOKEN_DE_TELEGRAM"
+$env:AUTHORIZED_USERS = "123456789,987654321"
+```
+
+### Ejecución del bot
+```powershell
+python telegram_bot.py
+```
+
+### Comandos disponibles
+- `/help` - Mostrar ayuda
+- `/format` - Ver el formato de actualización de producto
+- `/list` - Listar productos activos
+- `/list_all` - Listar todos los productos
+- `/activate <id>` o `/subir <id>` - Activar producto
+- `/deactivate <id>` o `/bajar <id>` - Desactivar producto
+- `/status <id>` - Ver detalles de un producto
+- `/set_price <id> <precio>` - Cambiar precio
+- `/set_name <id> <nombre>` - Cambiar nombre
+- `/set_image <id> <url>` - Cambiar imagen desde URL
+- `/add_product Nombre;Precio;Imagen;Página` - Agregar producto nuevo
+- Enviar una foto con caption `/set_image <id>` para subir la imagen localmente
+
+### Cómo funciona la web ahora
+`script.js` intenta primero cargar los productos desde el backend en `/api/products`.
+Si no encuentra el backend, usa `extracted_products.json` como fallback.
+
+Para desplegar la web y el backend juntos, sirve el frontend desde el mismo host que `backend.py`.
+Si el frontend se publica en un servicio separado, actualiza la URL en `script.js` o usa un proxy hacia la API.
+
+### Datos del catálogo
+El backend usa la base de datos SQLite y carga inicialmente `extracted_products.json` en `catalog.db` solo la primera vez.
+Los productos deben tener estos campos:
+- `id` (número)
+- `name` (nombre del producto)
+- `price` (precio en pesos)
+- `image` (ruta local o URL de la imagen)
+- `page` (número de página, opcional)
+- `active` (true/false para mostrar u ocultar)
+
+Ejemplo de producto:
+```json
+{
+  "id": 1,
+  "name": "Labial rojo",
+  "price": 12900,
+  "image": "img/product_201.jpg",
+  "page": 5,
+  "active": true
+}
+```
+
+### Usuarios autorizados
+Configura los IDs en la variable de entorno `AUTHORIZED_USERS`:
+```powershell
+$env:AUTHORIZED_USERS = "123456789,987654321"
+```
+El bot solo responderá a esos usuarios.
+
+Para obtener el ID de Telegram de un usuario, se puede usar un bot como @userinfobot o pedirle que ejecute `/start` y registrar el ID que aparece en el log del bot.
