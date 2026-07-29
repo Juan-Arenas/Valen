@@ -51,7 +51,7 @@ python telegram_bot.py
 ### Despliegue recomendado
 Este proyecto está preparado para desplegarse en servicios como Railway, Fly.io o Heroku.
 
-- Frontend + backend juntos: sirve `index.html` junto a `backend.py` desde el mismo host.
+- Frontend + backend juntos: el backend sirve `index.html`, `styles.css`, `script.js`, `img/` y la API.
 - Bot de Telegram: se ejecuta como un worker continuo.
 
 Variables de entorno para producción:
@@ -74,6 +74,9 @@ Si despliegas con `DATABASE_URL`, `db.py` usará Postgres automáticamente en lu
 
 ### API remota en el frontend
 `script.js` ahora usa `window.API_BASE_URL` si está configurado. Si no, usa `/api/products` localmente.
+
+### Archivo runtime
+Se incluye `runtime.txt` para servicios que usan la versión de Python definida en ese archivo.
 
 ### Comandos disponibles
 - `/help` - Mostrar ayuda

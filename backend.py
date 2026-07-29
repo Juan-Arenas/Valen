@@ -1,5 +1,6 @@
 import os
-from flask import Flask, jsonify, request, abort
+from pathlib import Path
+from flask import Flask, jsonify, request, abort, send_from_directory
 from flask_cors import CORS
 
 from db import (
@@ -12,9 +13,25 @@ from db import (
     update_product,
 )
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+app = Flask(__name__, static_folder=str(BASE_DIR), static_url_path="")
 CORS(app)
 init_db()
+
+
+@app.route("/")
+def root_index():
+    return send_from_directory(BASE_DIR, "index.html")
+
+
+@app.route("/<path:path>")
+def serve_static(path: str):
+    if path.startswith("api/"):
+        abort(404)
+    target_path = BASE_DIR / path
+    if target_path.exists() and target_path.is_file():
+        return send_from_directory(BASE_DIR, path)
+    return send_from_directory(BASE_DIR, "index.html")
 
 
 @app.route("/api/products", methods=["GET"])
