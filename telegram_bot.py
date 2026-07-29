@@ -253,45 +253,6 @@ async def add_product(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     await update.message.reply_text(f"Producto agregado: {product_id} - {name}")
 
 
-async def photo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if not is_authorized(update):
-        await update.message.reply_text("🚫 No estás autorizado para usar este bot.")
-        return
-
-    if not update.message.photo:
-        return
-
-    caption = (update.message.caption or "").strip()
-    if not caption.startswith("/set_image"):
-        return
-
-    parts = caption.split()
-    if len(parts) < 2:
-        await update.message.reply_text("Uso: envía la foto con el caption: /set_image <id>")
-        return
-
-    try:
-        product_id = int(parts[1])
-    except ValueError:
-        await update.message.reply_text("El ID debe ser un número válido.")
-        return
-
-    product = get_product(product_id)
-    if not product:
-        await update.message.reply_text(f"Producto con ID {product_id} no encontrado.")
-        return
-
-    photo = update.message.photo[-1]
-    file = await context.bot.get_file(photo.file_id)
-    image_dir = Path(__file__).resolve().parent / "img"
-    image_dir.mkdir(exist_ok=True)
-    image_path = image_dir / f"product_{product_id}.jpg"
-    await file.download_to_drive(str(image_path))
-
-    update_product(product_id, image=f"img/product_{product_id}.jpg")
-    await update.message.reply_text(f"Imagen guardada y actualizada para producto {product_id}.")
-
-
 @admin_only
 async def format_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(

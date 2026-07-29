@@ -62,6 +62,42 @@ Variables de entorno para producción:
 - `PORT`: puerto HTTP para el backend.
 - `FLASK_DEBUG`: `true` o `false`.
 
+### Despliegue en Heroku
+Para desplegar en Heroku, sigue este flujo:
+
+1. Instala Heroku CLI en Windows:
+```powershell
+choco install heroku-cli
+```
+2. Inicia sesión y crea la app:
+```powershell
+cd "C:\Users\Juan Arenas\Downloads\Ventas Maquillaje"
+heroku login
+heroku create nombre-de-tu-app
+```
+3. Añade Postgres:
+```powershell
+heroku addons:create heroku-postgresql:hobby-dev --app nombre-de-tu-app
+```
+4. Configura variables de entorno en Heroku:
+```powershell
+heroku config:set BOT_TOKEN="TU_BOT_TOKEN" AUTHORIZED_USERS="123456789,987654321" FLASK_DEBUG=false --app nombre-de-tu-app
+```
+5. Empuja tu código y arranca los procesos:
+```powershell
+git push heroku main
+heroku ps:scale web=1 worker=1 --app nombre-de-tu-app
+```
+6. Verifica que funciona:
+```powershell
+heroku open --app nombre-de-tu-app
+heroku logs --tail --app nombre-de-tu-app
+```
+
+Comprueba también:
+- `https://nombre-de-tu-app.herokuapp.com/api/health`
+- Envía `/help` al bot de Telegram para confirmar que responde.
+
 ### Procfile
 El archivo `Procfile` expone:
 ```text
