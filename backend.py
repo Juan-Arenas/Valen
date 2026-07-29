@@ -5,6 +5,7 @@ from flask_cors import CORS
 from db import (
     init_db,
     create_product,
+    delete_product,
     get_product,
     get_products,
     set_product_state,
@@ -99,6 +100,14 @@ def update_product_state(product_id: int):
 
     product = get_product(product_id)
     return jsonify(product)
+
+
+@app.route("/api/products/<int:product_id>", methods=["DELETE"])
+def delete_product_endpoint(product_id: int):
+    deleted = delete_product(product_id)
+    if not deleted:
+        abort(404, description="Producto no encontrado")
+    return jsonify({"deleted": True})
 
 
 @app.route("/api/health", methods=["GET"])

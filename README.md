@@ -87,7 +87,9 @@ Si despliegas con `DATABASE_URL`, `db.py` usará Postgres automáticamente en lu
 - `/set_name <id> <nombre>` - Cambiar nombre
 - `/set_image <id> <url>` - Cambiar imagen desde URL
 - `/add_product Nombre;Precio;Imagen;Página` - Agregar producto nuevo
+- `/delete` - Seleccionar y borrar un producto con botones interactivos
 - Enviar una foto con caption `/set_image <id>` para subir la imagen localmente
+- Enviar una foto con caption `/add_product Nombre;Precio;Página` para crear un producto y guardar la imagen
 
 ### Cómo funciona la web ahora
 `script.js` intenta primero cargar los productos desde el backend en `/api/products`.

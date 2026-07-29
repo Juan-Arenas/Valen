@@ -209,3 +209,30 @@ def update_product(product_id: int, **fields: Any) -> bool:
 
 def set_product_state(product_id: int, active: bool) -> bool:
     return update_product(product_id, active=active)
+
+
+def delete_product(product_id: int) -> bool:
+    conn = _get_connection()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT image FROM products WHERE id = {_placeholder()}", (product_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return False
+
+    image_path = row["image"]
+    if image_path and not image_path.lower().startswith(("http://", "https://")):
+        local_path = Path(image_path)
+        if not local_path.is_absolute():
+            local_path = BASE_DIR / local_path
+        try:
+            if local_path.exists() and local_path.is_file():
+                local_path.unlink()
+        except OSError:
+            pass
+
+    cursor.execute(f"DELETE FROM products WHERE id = {_placeholder()}", (product_id,))
+    deleted = cursor.rowcount > 0
+    conn.commit()
+    conn.close()
+    return deleted
