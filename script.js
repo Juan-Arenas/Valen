@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let filteredProducts = [];
     let displayedCount = 0;
     const ITEMS_PER_PAGE = 24;
-    const PRODUCTS_API_URL = '/api/products';
+    const API_BASE_URL = (window.API_BASE_URL || '').replace(/\/$/, '');
+    const PRODUCTS_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/products` : '/api/products';
     let cart = [];
 
     // WhatsApp Number Config (Pre-filled from catalog header)

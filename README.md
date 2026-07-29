@@ -48,6 +48,33 @@ $env:AUTHORIZED_USERS = "123456789,987654321"
 python telegram_bot.py
 ```
 
+### Despliegue recomendado
+Este proyecto está preparado para desplegarse en servicios como Railway, Fly.io o Heroku.
+
+- Frontend + backend juntos: sirve `index.html` junto a `backend.py` desde el mismo host.
+- Bot de Telegram: se ejecuta como un worker continuo.
+
+Variables de entorno para producción:
+- `DATABASE_URL` (opcional): URL de Postgres si usas una base de datos en la nube.
+- `BOT_TOKEN`: token de Telegram.
+- `AUTHORIZED_USERS`: lista de IDs de Telegram autorizados.
+- `HOST`: host del servicio (por defecto `0.0.0.0`).
+- `PORT`: puerto HTTP para el backend.
+- `FLASK_DEBUG`: `true` o `false`.
+
+### Procfile
+El archivo `Procfile` expone:
+```text
+web: gunicorn backend:app --bind 0.0.0.0:$PORT
+worker: python telegram_bot.py
+```
+
+### Hosting con Postgres
+Si despliegas con `DATABASE_URL`, `db.py` usará Postgres automáticamente en lugar de SQLite.
+
+### API remota en el frontend
+`script.js` ahora usa `window.API_BASE_URL` si está configurado. Si no, usa `/api/products` localmente.
+
 ### Comandos disponibles
 - `/help` - Mostrar ayuda
 - `/format` - Ver el formato de actualización de producto
