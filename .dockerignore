@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.env
+venv/
+.venv/
+catalog.db
+**/img/*.jpg
+**/img/*.jpeg
+**/img/*.png
+**/img/*.gif
+**/node_modules
+.git

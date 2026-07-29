@@ -78,6 +78,22 @@ Si despliegas con `DATABASE_URL`, `db.py` usará Postgres automáticamente en lu
 ### Archivo runtime
 Se incluye `runtime.txt` para servicios que usan la versión de Python definida en ese archivo.
 
+### Contenedores Docker
+También puedes ejecutar todo con Docker y Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+Esto levanta:
+- `web`: backend y frontend disponibles en `http://localhost:5000`
+- `bot`: worker del bot de Telegram
+
+Asegúrate de definir en tu entorno:
+- `BOT_TOKEN`
+- `AUTHORIZED_USERS`
+- `DATABASE_URL` (opcional)
+
 ### Comandos disponibles
 - `/help` - Mostrar ayuda
 - `/format` - Ver el formato de actualización de producto
