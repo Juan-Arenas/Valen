@@ -15,7 +15,7 @@
 <body>
     <header class="header">
         <div class="container">
-            <div class="logo">
+            <div class="logo" id="site-logo">
                 <img src="Logo.jpeg" alt="Valen Makeup Logo" class="logo-img">
                 <div class="logo-text">
                     <h1 class="store-name">VALEN MAKEUP</h1>
@@ -154,6 +154,111 @@
                 <button class="btn btn-checkout checkout-btn" id="btn-checkout">
                     <i class="fab fa-whatsapp"></i> Enviar pedido a WhatsApp
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-password-modal" class="modal admin-hidden-modal">
+        <div class="modal-content admin-modal-content">
+            <span class="close admin-close">&times;</span>
+            <h2>Acceso administrativo</h2>
+            <p>Ingresa la contraseña secreta para abrir el panel.</p>
+            <form id="admin-login-form" class="admin-form">
+                <div class="form-group">
+                    <label>PIN de acceso</label>
+                    <div class="pin-input-group" id="admin-pin-group">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-1" class="pin-digit" autocomplete="one-time-code">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-2" class="pin-digit" autocomplete="one-time-code">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-3" class="pin-digit" autocomplete="one-time-code">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-4" class="pin-digit" autocomplete="one-time-code">
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Entrar</button>
+                <p class="admin-message" id="admin-login-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="modal admin-panel">
+        <div class="modal-content admin-panel-content">
+            <span class="close admin-close" id="admin-panel-close">&times;</span>
+            <div class="admin-panel-header">
+                <div>
+                    <h2>Panel Administrativo</h2>
+                    <p class="admin-subtitle">Gestiona productos, categorías y contraseña secreta.</p>
+                </div>
+            </div>
+            <div class="admin-panel-body">
+                <section class="admin-section admin-grid-two">
+                    <div class="admin-card">
+                        <h3>Crear nuevo producto</h3>
+                        <form id="admin-product-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="admin-product-name">Nombre del producto</label>
+                                <input type="text" id="admin-product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-product-price">Precio</label>
+                                <input type="number" id="admin-product-price" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-product-image">URL de imagen</label>
+                                <input type="text" id="admin-product-image" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-product-page">Página / orden</label>
+                                <input type="number" id="admin-product-page" min="1" value="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-product-category">Categoría</label>
+                                <select id="admin-product-category"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-product-category-new">O crea una categoría nueva</label>
+                                <input type="text" id="admin-product-category-new" placeholder="Nombre categoría nueva">
+                            </div>
+                            <div class="form-group form-group-inline">
+                                <label>
+                                    <input type="checkbox" id="admin-product-active" checked>
+                                    Producto activo
+                                </label>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Guardar producto</button>
+                            <p class="admin-message" id="admin-product-message"></p>
+                        </form>
+                    </div>
+                    <div class="admin-card">
+                        <h3>Categorías</h3>
+                        <form id="admin-category-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="admin-new-category">Nombre de categoría</label>
+                                <input type="text" id="admin-new-category" placeholder="Nueva categoría" required>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Agregar categoría</button>
+                            <p class="admin-message" id="admin-category-message"></p>
+                        </form>
+                        <div id="admin-category-list" class="admin-list"></div>
+                    </div>
+                </section>
+
+                <section class="admin-section">
+                    <h3>Productos</h3>
+                    <div id="admin-product-list" class="admin-product-list"></div>
+                </section>
+
+                <section class="admin-section">
+                    <div class="admin-card admin-card-fullwidth">
+                        <h3>Cambiar contraseña del panel</h3>
+                        <form id="admin-change-password-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="admin-new-password">Nueva contraseña</label>
+                                <input type="password" id="admin-new-password" required>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Actualizar contraseña</button>
+                            <p class="admin-message" id="admin-password-message"></p>
+                        </form>
+                    </div>
+                </section>
             </div>
         </div>
     </div>

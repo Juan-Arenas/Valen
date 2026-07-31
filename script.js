@@ -271,6 +271,400 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(whatsappUrl, '_blank');
     });
 
+    // Admin panel logic
+    const logoButton = document.getElementById('site-logo');
+    const adminPasswordModal = document.getElementById('admin-password-modal');
+    const adminPanel = document.getElementById('admin-panel');
+    const adminLoginForm = document.getElementById('admin-login-form');
+    const adminLoginMessage = document.getElementById('admin-login-message');
+    const adminPinInputs = [
+        document.getElementById('admin-pin-input-1'),
+        document.getElementById('admin-pin-input-2'),
+        document.getElementById('admin-pin-input-3'),
+        document.getElementById('admin-pin-input-4'),
+    ];
+    const adminProductForm = document.getElementById('admin-product-form');
+    const adminCategoryForm = document.getElementById('admin-category-form');
+    const adminChangePasswordForm = document.getElementById('admin-change-password-form');
+    const adminCategorySelect = document.getElementById('admin-product-category');
+    const adminCategoryList = document.getElementById('admin-category-list');
+    const adminProductList = document.getElementById('admin-product-list');
+    const adminProductMessage = document.getElementById('admin-product-message');
+    const adminCategoryMessage = document.getElementById('admin-category-message');
+    const adminPasswordMessage = document.getElementById('admin-password-message');
+    const adminCloseButtons = document.querySelectorAll('.admin-close');
+
+    let adminPassword = '';
+    let adminCategories = [];
+    let adminProducts = [];
+
+    let logoTapCount = 0;
+    let logoTapTimer = null;
+
+    logoButton.addEventListener('click', () => {
+        logoTapCount += 1;
+        if (logoTapTimer) {
+            clearTimeout(logoTapTimer);
+        }
+        logoTapTimer = setTimeout(() => {
+            logoTapCount = 0;
+        }, 1200);
+
+        if (logoTapCount >= 3) {
+            logoTapCount = 0;
+            openAdminLogin();
+        }
+    });
+
+    function openAdminLogin() {
+        adminLoginMessage.textContent = '';
+        adminPinInputs.forEach(input => {
+            input.value = '';
+        });
+        adminPinInputs[0].focus();
+        adminPasswordModal.classList.add('active');
+    }
+
+    function closeAdminModals() {
+        adminPasswordModal.classList.remove('active');
+        adminPanel.classList.remove('active');
+    }
+
+    adminCloseButtons.forEach(button => {
+        button.addEventListener('click', closeAdminModals);
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === adminPasswordModal || event.target === adminPanel) {
+            closeAdminModals();
+        }
+    });
+
+    adminPinInputs.forEach((input, index) => {
+        input.addEventListener('input', (event) => {
+            const value = event.target.value.replace(/\D/g, '');
+            event.target.value = value;
+            if (value && index < adminPinInputs.length - 1) {
+                adminPinInputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Backspace' && !event.target.value && index > 0) {
+                adminPinInputs[index - 1].focus();
+            }
+        });
+    });
+
+    adminLoginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        adminLoginMessage.textContent = '';
+        const password = adminPinInputs.map(input => input.value.trim()).join('');
+        if (password.length !== 4) {
+            adminLoginMessage.textContent = 'Ingresa el PIN de 4 dígitos.';
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/api/admin/authenticate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ password }),
+        });
+
+        if (!response.ok) {
+            adminLoginMessage.textContent = 'Contraseña incorrecta.';
+            return;
+        }
+
+        adminPassword = password;
+        adminPasswordModal.classList.remove('active');
+        adminPanel.classList.add('active');
+        await loadAdminData();
+    });
+
+    async function loadAdminData() {
+        await Promise.all([loadAdminCategories(), loadAdminProducts()]);
+    }
+
+    async function loadAdminCategories() {
+        const response = await fetch(`${API_BASE_URL}/api/categories`);
+        if (!response.ok) {
+            adminCategoryMessage.textContent = 'Error cargando categorías.';
+            return;
+        }
+        adminCategories = await response.json();
+        renderAdminCategories();
+        populateCategorySelect();
+    }
+
+    async function loadAdminProducts() {
+        const response = await fetch(`${API_BASE_URL}/api/products?active=false`);
+        if (!response.ok) {
+            adminProductMessage.textContent = 'Error cargando productos.';
+            return;
+        }
+        adminProducts = await response.json();
+        renderAdminProducts();
+    }
+
+    function populateCategorySelect() {
+        adminCategorySelect.innerHTML = '<option value="">Seleccionar categoría</option>';
+        adminCategories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.name;
+            adminCategorySelect.appendChild(option);
+        });
+    }
+
+    function renderAdminCategories() {
+        adminCategoryList.innerHTML = '';
+        adminCategories.forEach(category => {
+            const categoryRow = document.createElement('div');
+            categoryRow.className = 'admin-list-item';
+            categoryRow.innerHTML = `
+                <div>
+                    <span>${category.name}</span>
+                </div>
+                <div class="admin-list-actions">
+                    <button class="admin-btn-sm" data-action="delete-category" data-id="${category.id}">Eliminar</button>
+                </div>
+            `;
+            adminCategoryList.appendChild(categoryRow);
+        });
+    }
+
+    function renderAdminProducts() {
+        adminProductList.innerHTML = '';
+        adminProducts.forEach(product => {
+            const categoryLabel = product.category || 'Sin categoría';
+            const productRow = document.createElement('div');
+            productRow.className = 'admin-product-row';
+            productRow.innerHTML = `
+                <div>
+                    <strong>${product.name}</strong>
+                    <span>${categoryLabel}</span>
+                </div>
+                <div>
+                    <span>Precio: $${product.price.toLocaleString('es-CO')}</span>
+                    <span>Orden: ${product.page}</span>
+                </div>
+                <div class="admin-product-actions">
+                    <button class="admin-btn-sm" data-action="edit-product" data-id="${product.id}">Editar</button>
+                    <button class="admin-btn-sm" data-action="delete-product" data-id="${product.id}">Eliminar</button>
+                </div>
+            `;
+            adminProductList.appendChild(productRow);
+        });
+    }
+
+    adminCategoryList.addEventListener('click', async (event) => {
+        const button = event.target.closest('button');
+        if (!button) return;
+        const action = button.dataset.action;
+        const id = parseInt(button.dataset.id, 10);
+        if (action === 'delete-category') {
+            await deleteCategory(id);
+        }
+    });
+
+    adminProductList.addEventListener('click', async (event) => {
+        const button = event.target.closest('button');
+        if (!button) return;
+        const action = button.dataset.action;
+        const id = parseInt(button.dataset.id, 10);
+        if (action === 'delete-product') {
+            await deleteProduct(id);
+        } else if (action === 'edit-product') {
+            await openProductForEdit(id);
+        }
+    });
+
+    adminCategoryForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        adminCategoryMessage.textContent = '';
+        const categoryName = document.getElementById('admin-new-category').value.trim();
+        if (!categoryName) {
+            adminCategoryMessage.textContent = 'Ingresa el nombre de la categoría.';
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/api/categories`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-Password': adminPassword,
+            },
+            body: JSON.stringify({ name: categoryName }),
+        });
+
+        if (!response.ok) {
+            adminCategoryMessage.textContent = 'No se pudo crear la categoría.';
+            return;
+        }
+
+        document.getElementById('admin-new-category').value = '';
+        adminCategoryMessage.textContent = 'Categoría creada correctamente.';
+        await loadAdminCategories();
+    });
+
+    adminProductForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        adminProductMessage.textContent = '';
+
+        const name = document.getElementById('admin-product-name').value.trim();
+        const price = document.getElementById('admin-product-price').value.trim();
+        const image = document.getElementById('admin-product-image').value.trim();
+        const page = document.getElementById('admin-product-page').value.trim();
+        const categoryId = document.getElementById('admin-product-category').value;
+        const categoryNew = document.getElementById('admin-product-category-new').value.trim();
+        const active = document.getElementById('admin-product-active').checked;
+
+        if (!name || !price || !image) {
+            adminProductMessage.textContent = 'Completa todos los campos obligatorios.';
+            return;
+        }
+
+        const payload = {
+            name,
+            price: parseInt(price, 10),
+            image,
+            page: parseInt(page, 10) || 1,
+            active,
+        };
+
+        if (categoryNew) {
+            const categoryResponse = await fetch(`${API_BASE_URL}/api/categories`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Password': adminPassword,
+                },
+                body: JSON.stringify({ name: categoryNew }),
+            });
+            if (categoryResponse.ok) {
+                const category = await categoryResponse.json();
+                payload.category_id = category.id;
+            }
+        } else if (categoryId) {
+            payload.category_id = parseInt(categoryId, 10);
+        } else if (adminProductForm.dataset.editing) {
+            payload.category_id = null;
+        }
+
+        const isEditing = Boolean(adminProductForm.dataset.editing);
+        const url = isEditing ? `${API_BASE_URL}/api/products/${adminProductForm.dataset.editing}` : `${API_BASE_URL}/api/products`;
+        const method = isEditing ? 'PATCH' : 'POST';
+
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-Password': adminPassword,
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            adminProductMessage.textContent = isEditing ? 'No se pudo actualizar el producto.' : 'No se pudo crear el producto.';
+            return;
+        }
+
+        if (isEditing) {
+            delete adminProductForm.dataset.editing;
+            adminProductMessage.textContent = 'Producto actualizado correctamente.';
+        } else {
+            adminProductMessage.textContent = 'Producto creado con éxito.';
+        }
+
+        adminProductForm.reset();
+        await loadAdminData();
+    });
+
+    adminChangePasswordForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        adminPasswordMessage.textContent = '';
+        const newPassword = document.getElementById('admin-new-password').value.trim();
+        if (!newPassword) {
+            adminPasswordMessage.textContent = 'Ingresa la nueva contraseña.';
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/api/admin/password`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-Password': adminPassword,
+            },
+            body: JSON.stringify({ password: newPassword }),
+        });
+
+        if (!response.ok) {
+            adminPasswordMessage.textContent = 'No se pudo actualizar la contraseña.';
+            return;
+        }
+
+        adminPassword = newPassword;
+        document.getElementById('admin-new-password').value = '';
+        adminPasswordMessage.textContent = 'Contraseña actualizada correctamente.';
+    });
+
+    async function deleteCategory(categoryId) {
+        const response = await fetch(`${API_BASE_URL}/api/categories/${categoryId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-Admin-Password': adminPassword,
+            },
+        });
+
+        if (!response.ok) {
+            adminCategoryMessage.textContent = 'No se pudo eliminar la categoría.';
+            return;
+        }
+
+        adminCategoryMessage.textContent = 'Categoría eliminada.';
+        await loadAdminData();
+    }
+
+    async function deleteProduct(productId) {
+        const response = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-Admin-Password': adminPassword,
+            },
+        });
+
+        if (!response.ok) {
+            adminProductMessage.textContent = 'No se pudo eliminar el producto.';
+            return;
+        }
+
+        adminProductMessage.textContent = 'Producto eliminado.';
+        await loadAdminProducts();
+    }
+
+    async function openProductForEdit(productId) {
+        const response = await fetch(`${API_BASE_URL}/api/products/${productId}`);
+        if (!response.ok) {
+            adminProductMessage.textContent = 'No se pudo cargar el producto.';
+            return;
+        }
+
+        const product = await response.json();
+        document.getElementById('admin-product-name').value = product.name;
+        document.getElementById('admin-product-price').value = product.price;
+        document.getElementById('admin-product-image').value = product.image;
+        document.getElementById('admin-product-page').value = product.page;
+        document.getElementById('admin-product-active').checked = product.active;
+        document.getElementById('admin-product-category').value = product.category_id || '';
+        document.getElementById('admin-product-category-new').value = '';
+
+        adminProductForm.dataset.editing = productId;
+        adminProductMessage.textContent = 'Edita los datos y presiona Guardar producto.';
+    }
+
     // Floating Notification Effect
     function showNotification(message) {
         // Remove existing notification if any

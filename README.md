@@ -1,21 +1,20 @@
 # Ventas Maquillaje
 
-Este proyecto ya puede integrarse con un bot de Telegram para actualizar el catálogo desde el teléfono.
+Proyecto completo con frontend, backend y panel administrativo oculto.
 
-## Arquitectura actualizada: backend + base de datos
+## Arquitectura actualizada: backend + base de datos + admin secreto
 
-Este proyecto ahora incluye un backend en Python con SQLite para almacenar el catálogo en una base de datos y un bot de Telegram que actualiza directamente esa base de datos.
+Este proyecto ahora incluye un backend en Python con SQLite que sirve la interfaz, la API del catálogo y un panel administrativo oculto en la misma página.
 
 ### Qué puede hacer ahora
 - El catálogo se guarda en `catalog.db` en SQLite.
-- El bot de Telegram actualiza el catálogo en la base de datos.
 - El frontend carga `GET /api/products` desde el backend.
-- Sigue existiendo un fallback local a `extracted_products.json` si el backend no está disponible.
+- El panel administrativo oculto se abre al hacer triple clic en el logo.
+- El acceso administrativo se protege con la contraseña secreta `2006`.
+- Puede crear productos, gestionar categorías, editar productos, eliminar elementos y cambiar la contraseña.
 
 ### Requisitos
 - Python 3.10+
-- Token de bot de Telegram
-- IDs de usuarios autorizados para el bot
 
 ### Instalación
 ```powershell
@@ -36,28 +35,14 @@ El backend expone estas rutas:
 - `PATCH /api/products/<id>/state` - cambiar estado activo/inactivo
 - `GET /api/health` - estado del servicio
 
-### Configuración del bot
-Configura las variables de entorno antes de iniciar el bot:
-```powershell
-$env:BOT_TOKEN = "TU_TOKEN_DE_TELEGRAM"
-$env:AUTHORIZED_USERS = "123456789,987654321"
-```
-
-### Ejecución del bot
-```powershell
-python telegram_bot.py
-```
-
 ### Despliegue recomendado
 Este proyecto está preparado para desplegarse en servicios como Railway, Fly.io o Heroku.
 
 - Frontend + backend juntos: el backend sirve `index.html`, `styles.css`, `script.js`, `img/` y la API.
-- Bot de Telegram: se ejecuta como un worker continuo.
 
 Variables de entorno para producción:
 - `DATABASE_URL` (opcional): URL de Postgres si usas una base de datos en la nube.
-- `BOT_TOKEN`: token de Telegram.
-- `AUTHORIZED_USERS`: lista de IDs de Telegram autorizados.
+- `ADMIN_PASSWORD` (opcional): contraseña inicial para el administrador.
 - `HOST`: host del servicio (por defecto `0.0.0.0`).
 - `PORT`: puerto HTTP para el backend.
 - `FLASK_DEBUG`: `true` o `false`.
@@ -102,7 +87,6 @@ Comprueba también:
 El archivo `Procfile` expone:
 ```text
 web: gunicorn backend:app --bind 0.0.0.0:$PORT
-worker: python telegram_bot.py
 ```
 
 ### Hosting con Postgres
@@ -115,7 +99,7 @@ Si despliegas con `DATABASE_URL`, `db.py` usará Postgres automáticamente en lu
 Se incluye `runtime.txt` para servicios que usan la versión de Python definida en ese archivo.
 
 ### Contenedores Docker
-También puedes ejecutar todo con Docker y Docker Compose:
+También puedes ejecutar el backend con Docker y Docker Compose:
 
 ```bash
 docker compose up --build
@@ -123,11 +107,8 @@ docker compose up --build
 
 Esto levanta:
 - `web`: backend y frontend disponibles en `http://localhost:5000`
-- `bot`: worker del bot de Telegram
 
 Asegúrate de definir en tu entorno:
-- `BOT_TOKEN`
-- `AUTHORIZED_USERS`
 - `DATABASE_URL` (opcional)
 
 ### Comandos disponibles
