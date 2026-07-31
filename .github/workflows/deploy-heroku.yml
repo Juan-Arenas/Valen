@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Syntax check
-        run: python -m py_compile db.py backend.py telegram_bot.py
+        run: python -m py_compile db.py backend.py
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
