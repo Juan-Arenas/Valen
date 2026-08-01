@@ -284,6 +284,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('admin-pin-input-4'),
     ];
     const adminProductForm = document.getElementById('admin-product-form');
+    const adminProductPanel = document.getElementById('admin-product-panel');
+    const adminProductToggle = document.getElementById('admin-product-toggle');
+    const adminProductCancel = document.getElementById('admin-product-cancel');
     const adminCategoryForm = document.getElementById('admin-category-form');
     const adminChangePasswordForm = document.getElementById('admin-change-password-form');
     const adminCategorySelect = document.getElementById('admin-product-category');
@@ -338,6 +341,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target === adminPasswordModal || event.target === adminPanel) {
             closeAdminModals();
         }
+    });
+
+    function showAdminProductPanel() {
+        adminProductPanel.classList.remove('hidden');
+        adminProductToggle.innerHTML = '<i class="fas fa-minus"></i> Ocultar formulario';
+    }
+
+    function hideAdminProductPanel() {
+        adminProductPanel.classList.add('hidden');
+        adminProductToggle.innerHTML = '<i class="fas fa-plus"></i> Agregar producto';
+    }
+
+    adminProductToggle.addEventListener('click', () => {
+        if (adminProductPanel.classList.contains('hidden')) {
+            showAdminProductPanel();
+        } else {
+            hideAdminProductPanel();
+        }
+    });
+
+    adminProductCancel.addEventListener('click', () => {
+        adminProductForm.reset();
+        delete adminProductForm.dataset.editing;
+        adminProductMessage.textContent = '';
+        hideAdminProductPanel();
     });
 
     adminPinInputs.forEach((input, index) => {
@@ -438,25 +466,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderAdminProducts() {
         adminProductList.innerHTML = '';
+        const grouped = {};
+
         adminProducts.forEach(product => {
-            const categoryLabel = product.category || 'Sin categoría';
-            const productRow = document.createElement('div');
-            productRow.className = 'admin-product-row';
-            productRow.innerHTML = `
-                <div>
-                    <strong>${product.name}</strong>
-                    <span>${categoryLabel}</span>
-                </div>
-                <div>
-                    <span>Precio: $${product.price.toLocaleString('es-CO')}</span>
-                    <span>Orden: ${product.page}</span>
-                </div>
-                <div class="admin-product-actions">
-                    <button class="admin-btn-sm" data-action="edit-product" data-id="${product.id}">Editar</button>
-                    <button class="admin-btn-sm" data-action="delete-product" data-id="${product.id}">Eliminar</button>
+            const key = product.category || 'Sin categoría';
+            if (!grouped[key]) {
+                grouped[key] = [];
+            }
+            grouped[key].push(product);
+        });
+
+        const sortedCategories = Object.keys(grouped).sort((a, b) => {
+            if (a === 'Sin categoría') return 1;
+            if (b === 'Sin categoría') return -1;
+            return a.localeCompare(b, 'es', { sensitivity: 'base' });
+        });
+
+        sortedCategories.forEach(categoryName => {
+            const sectionHeader = document.createElement('div');
+            sectionHeader.className = 'admin-product-section';
+            sectionHeader.innerHTML = `
+                <div class="admin-product-section-header">
+                    <h4>${categoryName}</h4>
+                    <span>${grouped[categoryName].length} productos</span>
                 </div>
             `;
-            adminProductList.appendChild(productRow);
+            adminProductList.appendChild(sectionHeader);
+
+            grouped[categoryName].forEach(product => {
+                const productRow = document.createElement('div');
+                productRow.className = 'admin-product-row';
+                productRow.innerHTML = `
+                    <div>
+                        <strong>${product.name}</strong>
+                        <span>${categoryName}</span>
+                    </div>
+                    <div>
+                        <span>Precio: $${product.price.toLocaleString('es-CO')}</span>
+                        <span>Orden: ${product.page}</span>
+                    </div>
+                    <div class="admin-product-actions">
+                        <button class="admin-btn-sm" data-action="edit-product" data-id="${product.id}">Editar</button>
+                        <button class="admin-btn-sm" data-action="delete-product" data-id="${product.id}">Eliminar</button>
+                    </div>
+                `;
+                adminProductList.appendChild(productRow);
+            });
         });
     }
 
@@ -663,6 +718,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         adminProductForm.dataset.editing = productId;
         adminProductMessage.textContent = 'Edita los datos y presiona Guardar producto.';
+        showAdminProductPanel();
+        document.getElementById('admin-product-name').focus();
     }
 
     // Floating Notification Effect

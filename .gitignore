@@ -1,3 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+catalog.db
+.env
+env/
+venv/
+.vscode/
+*.sqlite3
+node_modules/
 __pycache__/
 *.py[cod]
 .env
