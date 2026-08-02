@@ -4,13 +4,10 @@ __pycache__/
 catalog.db
 .env
 env/
-venv/
 .vscode/
 *.sqlite3
 node_modules/
-__pycache__/
 *.py[cod]
-.env
-venv/
 .venv/
-catalog.db
+CATALOGO ACTUALIZADO 2026.pdf
+.vercel
