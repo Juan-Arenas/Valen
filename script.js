@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartCount = document.querySelector('.cart-count');
     const productsGrid = document.getElementById('products-grid');
     const searchInput = document.getElementById('search-input');
+    const categoryFilters = document.getElementById('category-filters');
     const loadingTrigger = document.getElementById('loading-trigger');
     const btnCheckout = document.getElementById('btn-checkout');
 
@@ -18,9 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let allProducts = [];
     let filteredProducts = [];
     let displayedCount = 0;
+    let allCategories = [];
+    let selectedCategoryId = null;
     const ITEMS_PER_PAGE = 24;
     const API_BASE_URL = (window.API_BASE_URL || '').replace(/\/$/, '');
     const PRODUCTS_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/products` : '/api/products';
+    const CATEGORIES_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/categories` : '/api/categories';
     let cart = [];
 
     async function fetchJson(url, options = {}) {
@@ -93,11 +97,62 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         allProducts = products;
-        filteredProducts = allProducts.filter(product => product.active !== false);
+        applyFilters();
+    }
+
+    async function loadCategories() {
+        try {
+            const response = await fetchJson(CATEGORIES_API_URL);
+            if (!response.ok) {
+                throw new Error('No se pudo cargar las categorías');
+            }
+            allCategories = await response.json();
+        } catch (error) {
+            console.warn('Error al cargar categorías:', error);
+            allCategories = [];
+        }
+        renderCategoryFilters();
+    }
+
+    function renderCategoryFilters() {
+        categoryFilters.innerHTML = '';
+        const allOption = document.createElement('button');
+        allOption.type = 'button';
+        allOption.className = `category-pill${selectedCategoryId === null ? ' active' : ''}`;
+        allOption.textContent = 'Todas';
+        allOption.addEventListener('click', () => {
+            selectedCategoryId = null;
+            renderCategoryFilters();
+            applyFilters();
+        });
+        categoryFilters.appendChild(allOption);
+
+        allCategories.forEach(category => {
+            const pill = document.createElement('button');
+            pill.type = 'button';
+            pill.className = `category-pill${selectedCategoryId === category.id ? ' active' : ''}`;
+            pill.textContent = category.name;
+            pill.addEventListener('click', () => {
+                selectedCategoryId = category.id;
+                renderCategoryFilters();
+                applyFilters();
+            });
+            categoryFilters.appendChild(pill);
+        });
+    }
+
+    function applyFilters() {
+        const query = searchInput.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        filteredProducts = allProducts
+            .filter(product => product.active !== false)
+            .filter(product => {
+                const matchesSearch = !query || product.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(query);
+                const matchesCategory = selectedCategoryId === null || product.category_id === selectedCategoryId;
+                return matchesSearch && matchesCategory;
+            });
         displayedCount = 0;
         productsGrid.innerHTML = '';
         loadMoreProducts();
-        setupInfiniteScroll();
     }
 
     // Render Product Chunk
@@ -168,19 +223,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Search Filtering
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        
-        filteredProducts = allProducts
-            .filter(product => product.active !== false)
-            .filter(product => {
-                const nameClean = product.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                return nameClean.includes(query);
-            });
-
-        displayedCount = 0;
-        productsGrid.innerHTML = '';
-        loadMoreProducts();
+    searchInput.addEventListener('input', () => {
+        applyFilters();
     });
 
     // Shopping Cart Operations
@@ -865,5 +909,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // App Initialization
     loadCartFromLocalStorage();
+    loadCategories();
     loadProducts();
 });
