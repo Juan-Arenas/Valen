@@ -18,6 +18,7 @@ from db import (
     update_category,
     update_product,
     check_admin_password,
+    get_database_backend,
 )
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -236,7 +237,27 @@ def admin_update_password():
 
 @app.route("/api/health", methods=["GET"])
 def health_check():
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "ok", "database": get_database_backend()})
+
+
+@app.errorhandler(400)
+def handle_bad_request(error):
+    return jsonify({"error": "Bad Request", "description": error.description if hasattr(error, 'description') else str(error)}), 400
+
+
+@app.errorhandler(401)
+def handle_unauthorized(error):
+    return jsonify({"error": "Unauthorized", "description": error.description if hasattr(error, 'description') else str(error)}), 401
+
+
+@app.errorhandler(404)
+def handle_not_found(error):
+    return jsonify({"error": "Not Found", "description": error.description if hasattr(error, 'description') else str(error)}), 404
+
+
+@app.errorhandler(500)
+def handle_internal_error(error):
+    return jsonify({"error": "Internal Server Error", "description": str(error)}), 500
 
 
 if __name__ == "__main__":

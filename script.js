@@ -610,8 +610,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if (!name || !price || !image) {
-            adminProductMessage.textContent = 'Completa todos los campos obligatorios.';
+        if (!name || !price || (!image && !imageFile)) {
+            adminProductMessage.textContent = 'Completa todos los campos obligatorios. Asegúrate de incluir una imagen.';
             return;
         }
 
@@ -632,10 +632,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ name: categoryNew }),
             });
-            if (categoryResponse.ok) {
-                const category = await categoryResponse.json();
-                payload.category_id = category.id;
+
+            if (!categoryResponse.ok) {
+                let categoryError = 'No se pudo crear la categoría nueva.';
+                try {
+                    const errorBody = await categoryResponse.json();
+                    if (errorBody && errorBody.description) {
+                        categoryError += ` ${errorBody.description}`;
+                    }
+                } catch (error) {
+                    const text = await categoryResponse.text();
+                    if (text) {
+                        categoryError += ` ${text}`;
+                    }
+                }
+                adminProductMessage.textContent = categoryError;
+                return;
             }
+
+            const category = await categoryResponse.json();
+            payload.category_id = category.id;
         } else if (categoryId) {
             payload.category_id = parseInt(categoryId, 10);
         } else if (adminProductForm.dataset.editing) {
@@ -663,6 +679,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorMessage += ` ${errorBody.description}`;
                 } else if (errorBody && errorBody.message) {
                     errorMessage += ` ${errorBody.message}`;
+                } else if (typeof errorBody === 'string' && errorBody.trim()) {
+                    errorMessage += ` ${errorBody}`;
                 }
             } catch (error) {
                 const text = await response.text();
@@ -670,6 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorMessage += ` ${text}`;
                 }
             }
+            console.error('Admin product request failed:', response.status, response.statusText, errorMessage);
             adminProductMessage.textContent = errorMessage;
             return;
         }
