@@ -11,12 +11,22 @@ try:
 except ImportError:  # pragma: no cover
     psycopg = None
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 BASE_DIR = Path(__file__).resolve().parent
 DB_FILE = BASE_DIR / "catalog.db"
 JSON_SOURCE = BASE_DIR / "extracted_products.json"
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 USE_POSTGRES = bool(DATABASE_URL)
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "2006").strip() or "2006"
+
+
+def get_database_backend() -> str:
+    return "postgres" if USE_POSTGRES else "sqlite"
 
 
 def _get_connection():
@@ -150,19 +160,31 @@ def _column_exists(cursor, table_name: str, column_name: str) -> bool:
 
 
 def init_db() -> None:
+    if not USE_POSTGRES:
+        hosting_env = any(
+            os.environ.get(name)
+            for name in ("RENDER", "FLY_APP_NAME", "HEROKU_APP_NAME", "RAILWAY_PUBLIC_DOMAIN")
+        )
+        if hosting_env:
+            print("WARNING: DATABASE_URL no está configurada; usando SQLite local. Los cambios no se compartirán entre instancias.")
+
     conn = _get_connection()
     cursor = conn.cursor()
     _execute_schema_updates(cursor)
     conn.commit()
 
-    if cursor.execute("SELECT COUNT(*) FROM admin").fetchone()[0] == 0:
+    row = cursor.execute("SELECT COUNT(*) FROM admin").fetchone()
+    admin_count = row[0] if isinstance(row, tuple) else row.get("count") if isinstance(row, dict) else next(iter(row.values()), 0)
+    if admin_count == 0:
         cursor.execute(
             f"INSERT INTO admin (role, password_hash) VALUES ({_placeholder()}, {_placeholder()})",
             ("admin", _hash_password(ADMIN_PASSWORD)),
         )
         conn.commit()
 
-    if cursor.execute("SELECT COUNT(*) FROM products").fetchone()[0] == 0:
+    row = cursor.execute("SELECT COUNT(*) FROM products").fetchone()
+    product_count = row[0] if isinstance(row, tuple) else row.get("count") if isinstance(row, dict) else next(iter(row.values()), 0)
+    if product_count == 0:
         _seed_from_json(conn)
 
     conn.commit()
