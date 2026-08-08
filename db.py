@@ -187,6 +187,10 @@ def init_db() -> None:
     if product_count == 0:
         _seed_from_json(conn)
 
+    if USE_POSTGRES:
+        _sync_postgres_sequence(cursor, "products")
+        _sync_postgres_sequence(cursor, "categories")
+
     conn.commit()
     conn.close()
 
@@ -253,6 +257,20 @@ def _seed_from_json(conn) -> None:
             cursor.execute(query, (name, price, image, page, active, category_id))
 
     conn.commit()
+
+
+def _sync_postgres_sequence(cursor, table_name: str, column_name: str = "id") -> None:
+    cursor.execute(f"SELECT MAX({column_name}) AS max_id FROM {table_name}")
+    row = cursor.fetchone()
+    max_id = None
+    if row:
+        max_id = row[0] if isinstance(row, tuple) else row.get("max_id")
+    if max_id is None:
+        return
+    cursor.execute(
+        "SELECT setval(pg_get_serial_sequence(%s, %s), %s, true)",
+        (table_name, column_name, max_id),
+    )
 
 
 def get_categories() -> List[Dict[str, Any]]:
