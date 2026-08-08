@@ -291,9 +291,27 @@ def get_category(category_id: int) -> Optional[Dict[str, Any]]:
     return _category_from_row(row) if row else None
 
 
+def _get_category_id_by_name(conn, name: str) -> Optional[int]:
+    cursor = conn.cursor()
+    placeholder = _placeholder()
+    cursor.execute(
+        f"SELECT id FROM categories WHERE name = {placeholder}",
+        (name.strip(),),
+    )
+    row = cursor.fetchone()
+    if not row:
+        return None
+    return row[0] if not isinstance(row, dict) else row["id"]
+
+
 def create_category(name: str) -> int:
     conn = _get_connection()
     cursor = conn.cursor()
+    existing_id = _get_category_id_by_name(conn, name)
+    if existing_id is not None:
+        conn.close()
+        return existing_id
+
     placeholder = _placeholder()
     if USE_POSTGRES:
         cursor.execute(
