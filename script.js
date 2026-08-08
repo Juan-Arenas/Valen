@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const PRODUCTS_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/products` : '/api/products';
     let cart = [];
 
+    async function fetchJson(url, options = {}) {
+        return fetch(url, { cache: 'no-store', ...options });
+    }
+
     // WhatsApp Number Config (Pre-filled from catalog header)
     const WHATSAPP_NUMBER = '573002525489'; 
 
@@ -61,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadProducts() {
         let products = [];
         try {
-            const response = await fetch(PRODUCTS_API_URL);
+            const response = await fetchJson(PRODUCTS_API_URL);
             if (!response.ok) {
                 throw new Error('Error al cargar el catálogo desde la API');
             }
@@ -69,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (apiError) {
             console.warn('No se pudo cargar desde la API, intentando fallback a JSON local:', apiError);
             try {
-                const response = await fetch('extracted_products.json');
+                const response = await fetchJson('extracted_products.json');
                 if (!response.ok) {
                     throw new Error('Error al cargar el catálogo desde JSON local');
                 }
@@ -393,23 +397,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/admin/authenticate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ password }),
-        });
+        try {
+            const response = await fetchJson(`${API_BASE_URL}/api/admin/authenticate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password }),
+            });
 
-        if (!response.ok) {
-            adminLoginMessage.textContent = 'Contraseña incorrecta.';
-            return;
+            if (!response.ok) {
+                if (response.status === 401) {
+                    adminLoginMessage.textContent = 'Contraseña incorrecta.';
+                } else {
+                    adminLoginMessage.textContent = 'No se pudo conectar con el backend administrativo.';
+                }
+                return;
+            }
+
+            adminPassword = password;
+            adminPasswordModal.classList.remove('active');
+            adminPanel.classList.add('active');
+            await loadAdminData();
+        } catch (error) {
+            adminLoginMessage.textContent = 'Error de conexión: el backend no está disponible.';
+            console.error('Admin login error:', error);
         }
-
-        adminPassword = password;
-        adminPasswordModal.classList.remove('active');
-        adminPanel.classList.add('active');
-        await loadAdminData();
     });
 
     async function loadAdminData() {
@@ -417,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadAdminCategories() {
-        const response = await fetch(`${API_BASE_URL}/api/categories`);
+        const response = await fetchJson(`${API_BASE_URL}/api/categories`);
         if (!response.ok) {
             adminCategoryMessage.textContent = 'Error cargando categorías.';
             return;
@@ -428,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadAdminProducts() {
-        const response = await fetch(`${API_BASE_URL}/api/products?active=false`);
+        const response = await fetchJson(`${API_BASE_URL}/api/products?active=false`);
         if (!response.ok) {
             adminProductMessage.textContent = 'Error cargando productos.';
             return;
@@ -546,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/categories`, {
+        const response = await fetchJson(`${API_BASE_URL}/api/categories`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -565,17 +578,37 @@ document.addEventListener('DOMContentLoaded', () => {
         await loadAdminCategories();
     });
 
+    function readFileAsDataURL(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(new Error('No se pudo leer la imagen'));
+            reader.readAsDataURL(file);
+        });
+    }
+
     adminProductForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         adminProductMessage.textContent = '';
 
         const name = document.getElementById('admin-product-name').value.trim();
         const price = document.getElementById('admin-product-price').value.trim();
-        const image = document.getElementById('admin-product-image').value.trim();
+        const imageInput = document.getElementById('admin-product-image');
         const page = document.getElementById('admin-product-page').value.trim();
         const categoryId = document.getElementById('admin-product-category').value;
         const categoryNew = document.getElementById('admin-product-category-new').value.trim();
         const active = document.getElementById('admin-product-active').checked;
+
+        const imageFile = imageInput.files[0];
+        let image = imageInput.dataset.currentImage || '';
+        if (imageFile) {
+            try {
+                image = await readFileAsDataURL(imageFile);
+            } catch (error) {
+                adminProductMessage.textContent = 'No se pudo leer la imagen seleccionada.';
+                return;
+            }
+        }
 
         if (!name || !price || !image) {
             adminProductMessage.textContent = 'Completa todos los campos obligatorios.';
@@ -591,7 +624,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (categoryNew) {
-            const categoryResponse = await fetch(`${API_BASE_URL}/api/categories`, {
+            const categoryResponse = await fetchJson(`${API_BASE_URL}/api/categories`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -613,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = isEditing ? `${API_BASE_URL}/api/products/${adminProductForm.dataset.editing}` : `${API_BASE_URL}/api/products`;
         const method = isEditing ? 'PATCH' : 'POST';
 
-        const response = await fetch(url, {
+        const response = await fetchJson(url, {
             method,
             headers: {
                 'Content-Type': 'application/json',
@@ -634,6 +667,8 @@ document.addEventListener('DOMContentLoaded', () => {
             adminProductMessage.textContent = 'Producto creado con éxito.';
         }
 
+        const adminProductImageInput = document.getElementById('admin-product-image');
+        adminProductImageInput.removeAttribute('data-current-image');
         adminProductForm.reset();
         await loadAdminData();
     });
@@ -647,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetch(`${API_BASE_URL}/api/admin/password`, {
+        const response = await fetchJson(`${API_BASE_URL}/api/admin/password`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -667,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function deleteCategory(categoryId) {
-        const response = await fetch(`${API_BASE_URL}/api/categories/${categoryId}`, {
+        const response = await fetchJson(`${API_BASE_URL}/api/categories/${categoryId}`, {
             method: 'DELETE',
             headers: {
                 'X-Admin-Password': adminPassword,
@@ -684,7 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function deleteProduct(productId) {
-        const response = await fetch(`${API_BASE_URL}/api/products/${productId}`, {
+        const response = await fetchJson(`${API_BASE_URL}/api/products/${productId}`, {
             method: 'DELETE',
             headers: {
                 'X-Admin-Password': adminPassword,
@@ -701,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function openProductForEdit(productId) {
-        const response = await fetch(`${API_BASE_URL}/api/products/${productId}`);
+        const response = await fetchJson(`${API_BASE_URL}/api/products/${productId}`);
         if (!response.ok) {
             adminProductMessage.textContent = 'No se pudo cargar el producto.';
             return;
@@ -710,7 +745,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const product = await response.json();
         document.getElementById('admin-product-name').value = product.name;
         document.getElementById('admin-product-price').value = product.price;
-        document.getElementById('admin-product-image').value = product.image;
+        const adminProductImageInput = document.getElementById('admin-product-image');
+        adminProductImageInput.value = '';
+        adminProductImageInput.dataset.currentImage = product.image;
         document.getElementById('admin-product-page').value = product.page;
         document.getElementById('admin-product-active').checked = product.active;
         document.getElementById('admin-product-category').value = product.category_id || '';
