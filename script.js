@@ -656,7 +656,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (!response.ok) {
-            adminProductMessage.textContent = isEditing ? 'No se pudo actualizar el producto.' : 'No se pudo crear el producto.';
+            let errorMessage = isEditing ? 'No se pudo actualizar el producto.' : 'No se pudo crear el producto.';
+            try {
+                const errorBody = await response.json();
+                if (errorBody && errorBody.description) {
+                    errorMessage += ` ${errorBody.description}`;
+                } else if (errorBody && errorBody.message) {
+                    errorMessage += ` ${errorBody.message}`;
+                }
+            } catch (error) {
+                const text = await response.text();
+                if (text) {
+                    errorMessage += ` ${text}`;
+                }
+            }
+            adminProductMessage.textContent = errorMessage;
             return;
         }
 
