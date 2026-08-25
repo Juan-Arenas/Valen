@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let displayedCount = 0;
     let allCategories = [];
     let selectedCategoryId = null;
-    const ITEMS_PER_PAGE = 24;
+    const ITEMS_PER_PAGE = Infinity;
     const API_BASE_URL = (window.API_BASE_URL || '').replace(/\/$/, '');
     const PRODUCTS_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/products` : '/api/products';
     const CATEGORIES_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/categories` : '/api/categories';
@@ -152,27 +152,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         displayedCount = 0;
         productsGrid.innerHTML = '';
-        loadMoreProducts();
+        renderAllProducts();
     }
 
-    // Render Product Chunk
-    function loadMoreProducts() {
-        const nextProducts = filteredProducts.slice(displayedCount, displayedCount + ITEMS_PER_PAGE);
-        if (nextProducts.length === 0) {
-            loadingTrigger.style.display = 'none';
-            if (displayedCount === 0) {
-                productsGrid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--dark-purple);">
-                        <i class="far fa-frown" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
-                        <h3>No encontramos productos que coincidan con tu búsqueda.</h3>
-                        <p>Intenta buscando con palabras clave diferentes.</p>
-                    </div>
-                `;
-            }
+    // Render all products at once (no pagination)
+    function renderAllProducts() {
+        loadingTrigger.style.display = 'none';
+
+        if (filteredProducts.length === 0) {
+            productsGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--dark-purple);">
+                    <i class="far fa-frown" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
+                    <h3>No encontramos productos que coincidan con tu búsqueda.</h3>
+                    <p>Intenta buscando con palabras clave diferentes.</p>
+                </div>
+            `;
             return;
         }
 
-        nextProducts.forEach(product => {
+        const fragment = document.createDocumentFragment();
+
+        filteredProducts.forEach(product => {
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
@@ -187,13 +187,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </div>
             `;
-            productsGrid.appendChild(card);
+            fragment.appendChild(card);
         });
 
-        // Add event listeners to newly created buttons
-        const newButtons = productsGrid.querySelectorAll(`.btn-add-cart`);
-        newButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        productsGrid.appendChild(fragment);
+
+        // Add event listeners to all buttons
+        productsGrid.querySelectorAll('.btn-add-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
                 const id = parseInt(btn.getAttribute('data-id'));
                 const prodObj = allProducts.find(p => p.id === id);
                 if (prodObj) {
@@ -202,24 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        displayedCount += nextProducts.length;
-        if (displayedCount >= filteredProducts.length) {
-            loadingTrigger.style.display = 'none';
-        } else {
-            loadingTrigger.style.display = 'flex';
-        }
-    }
-
-    // Infinite Scroll Setup (IntersectionObserver)
-    function setupInfiniteScroll() {
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && displayedCount < filteredProducts.length) {
-                loadMoreProducts();
-            }
-        }, {
-            rootMargin: '100px'
-        });
-        observer.observe(loadingTrigger);
+        displayedCount = filteredProducts.length;
     }
 
     // Search Filtering

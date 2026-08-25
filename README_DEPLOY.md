@@ -36,12 +36,42 @@ Pasos para desplegar usando Neon (Postgres) + Render (o cualquier servicio que a
 Comandos útiles (local testing)
 ```bash
 python -m venv venv
-source venv/Scripts/activate    # Windows: venv\\Scripts\\activate
+venv\Scripts\activate
 pip install -r requirements.txt
-set DATABASE_URL=postgres://... # Windows PowerShell: $env:DATABASE_URL='postgres://...'
-set ADMIN_PASSWORD=2006
+$env:DATABASE_URL = 'postgres://user:password@host:5432/dbname'   # PowerShell
+$env:ADMIN_PASSWORD = '2006'
 python backend.py
 ```
+### Despliegue con Fly.io desde CMD
+1. Instala flyctl:
+```powershell
+winget install Fly-io.flyctl
+```
+2. Inicia sesión:
+```powershell
+flyctl auth login
+```
+3. Crea la app en Fly:
+```powershell
+cd "C:\Users\Juan Arenas\Downloads\Ventas Maquillaje"
+flyctl apps create valen-makeup
+```
+4. Despliega con Docker usando `fly.toml` y variables de entorno:
+```powershell
+flyctl deploy --config fly.toml
+```
+5. Configura variables si necesitas actualizar la base de datos o la contraseña:
+```powershell
+flyctl secrets set DATABASE_URL="postgres://user:password@host:5432/dbname"
+flyctl secrets set ADMIN_PASSWORD="2006"
+```
+6. Revisa el estado y abre la app:
+```powershell
+flyctl status
+flyctl open
+```
+
+> Nota: si no tienes Postgres en producción, el backend usará `catalog.db` localmente, pero para producción es recomendable usar `DATABASE_URL` con Postgres.
 
 Notas sobre Neon
 - Neon provee una URL Postgres. Pega esa URL en `DATABASE_URL` en el servicio de hosting. `db.py` detectará Postgres automáticamente y creará las tablas.
