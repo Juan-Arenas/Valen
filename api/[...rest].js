@@ -2,10 +2,12 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
+const https = require('https');
 
-const TMP_FILE = path.join(os.tmpdir(), 'valen_makeup_data_v5.json');
+const SYNC_FILE = path.join(os.tmpdir(), 'valen_sync_state.json');
 const SOURCE_FILE = path.join(process.cwd(), 'extracted_products.json');
 const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || '2006';
+const SYNC_OBJECT_ID = 'ff808181a067127101a084ef75f353bd';
 
 function hashPassword(password) {
   return crypto.createHash('sha256').update(String(password)).digest('hex');
@@ -57,119 +59,201 @@ function getCategoryForPage(page) {
   return 'Cuidado Facial y Corporal';
 }
 
-function loadInitialData() {
-  const raw = fs.readFileSync(SOURCE_FILE, 'utf8');
-  const productsRaw = JSON.parse(raw);
-  const data = {
-    products: [],
-    categories: DEFAULT_CATEGORIES.map(c => ({ ...c })),
-    admin: {
-      passwordHash: hashPassword(DEFAULT_PASSWORD),
-    },
-    nextProductId: 1,
-    nextCategoryId: 6,
-  };
-
-  const categoryMap = {};
-  data.categories.forEach(cat => {
-    categoryMap[cat.name.toLowerCase()] = cat.id;
+function fetchRemoteSync() {
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.restful-api.dev',
+      path: '/objects/' + SYNC_OBJECT_ID,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'ValenMakeupBackend/1.0',
+        'Content-Type': 'application/json',
+      },
+      timeout: 3000,
+    };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => (data += chunk));
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          resolve(json && json.data ? json.data : null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    });
+    req.on('error', () => resolve(null));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(null);
+    });
+    req.end();
   });
+}
+
+function updateRemoteSync(syncData) {
+  return new Promise((resolve) => {
+    const payload = JSON.stringify({
+      name: 'valen_makeup_sync',
+      data: syncData,
+    });
+    const options = {
+      hostname: 'api.restful-api.dev',
+      path: '/objects/' + SYNC_OBJECT_ID,
+      method: 'PUT',
+      headers: {
+        'User-Agent': 'ValenMakeupBackend/1.0',
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload),
+      },
+      timeout: 3000,
+    };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => (data += chunk));
+      res.on('end', () => {
+        resolve(res.statusCode >= 200 && res.statusCode < 300);
+      });
+    });
+    req.on('error', () => resolve(false));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(false);
+    });
+    req.write(payload);
+    req.end();
+  });
+}
+
+async function loadSyncState() {
+  let state = await fetchRemoteSync();
+  if (state && typeof state === 'object') {
+    try {
+      fs.writeFileSync(SYNC_FILE, JSON.stringify(state), 'utf8');
+    } catch (e) {}
+    return state;
+  }
+  if (fs.existsSync(SYNC_FILE)) {
+    try {
+      state = JSON.parse(fs.readFileSync(SYNC_FILE, 'utf8'));
+      return state;
+    } catch (e) {}
+  }
+  return {
+    deleted_ids: [],
+    edited_products: {},
+    custom_products: [],
+    custom_categories: [],
+    adminPasswordHash: hashPassword(DEFAULT_PASSWORD),
+  };
+}
+
+async function saveSyncState(state) {
+  try {
+    fs.writeFileSync(SYNC_FILE, JSON.stringify(state), 'utf8');
+  } catch (e) {}
+  updateRemoteSync(state).catch(() => {});
+}
+
+async function loadFullData() {
+  const syncState = await loadSyncState();
+  const deletedIds = new Set((syncState.deleted_ids || []).map(Number));
+  const editedMap = syncState.edited_products || {};
+  const customProducts = syncState.custom_products || [];
+  const customCategories = syncState.custom_categories || [];
+
+  let productsRaw = [];
+  if (fs.existsSync(SOURCE_FILE)) {
+    try {
+      productsRaw = JSON.parse(fs.readFileSync(SOURCE_FILE, 'utf8'));
+    } catch (e) {
+      productsRaw = [];
+    }
+  }
+
+  const categories = DEFAULT_CATEGORIES.map((c) => ({ ...c }));
+  const catMap = new Map();
+  categories.forEach((c) => catMap.set(c.name.toLowerCase(), c.id));
+  let nextCategoryId = 6;
+
+  customCategories.forEach((c) => {
+    const clean = normalizeCategoryName(c.name || c);
+    if (clean && clean.toLowerCase() !== 'todas' && clean.toLowerCase() !== 'todos' && !catMap.has(clean.toLowerCase())) {
+      const id = c.id || nextCategoryId++;
+      categories.push({ id, name: clean });
+      catMap.set(clean.toLowerCase(), id);
+      nextCategoryId = Math.max(nextCategoryId, id + 1);
+    }
+  });
+
+  const products = [];
+  let maxId = 0;
 
   for (const item of productsRaw) {
-    const name = String(item.name || '').trim();
-    const price = Number(item.price || 0);
-    const image = String(item.image || '').trim();
-    const page = Number(item.page || 1) || 1;
-    const active = item.active !== false;
-    let categoryName = normalizeCategoryName(item.category || '');
-    if (!categoryName) {
-      categoryName = getCategoryForPage(page);
-    }
-    let categoryId = null;
+    const id = Number(item.id);
+    if (!id || deletedIds.has(id)) continue;
+    maxId = Math.max(maxId, id);
 
-    if (categoryName) {
-      if (!categoryMap[categoryName.toLowerCase()]) {
-        categoryMap[categoryName.toLowerCase()] = data.nextCategoryId;
-        data.categories.push({ id: data.nextCategoryId, name: categoryName });
-        data.nextCategoryId += 1;
-      }
-      categoryId = categoryMap[categoryName.toLowerCase()];
+    let product = {
+      id,
+      name: String(item.name || '').trim(),
+      price: Number(item.price || 0),
+      image: String(item.image || '').trim(),
+      page: Number(item.page || 1) || 1,
+      active: item.active !== false,
+      category: normalizeCategoryName(item.category || getCategoryForPage(item.page)),
+    };
+
+    if (editedMap[id]) {
+      product = { ...product, ...editedMap[id] };
     }
 
-    data.products.push({
-      id: Number(item.id) || data.nextProductId,
-      name,
-      price,
-      image,
-      page,
-      active,
-      category_id: categoryId,
-      category: categoryName || null,
+    const catName = normalizeCategoryName(product.category);
+    if (catName && !catMap.has(catName.toLowerCase())) {
+      const newId = nextCategoryId++;
+      categories.push({ id: newId, name: catName });
+      catMap.set(catName.toLowerCase(), newId);
+    }
+    product.category_id = catMap.get((catName || '').toLowerCase()) || null;
+    product.category = catName;
+    products.push(product);
+  }
+
+  for (const item of customProducts) {
+    const id = Number(item.id);
+    if (!id || deletedIds.has(id)) continue;
+    maxId = Math.max(maxId, id);
+
+    const catName = normalizeCategoryName(item.category || getCategoryForPage(item.page));
+    if (catName && !catMap.has(catName.toLowerCase())) {
+      const newId = nextCategoryId++;
+      categories.push({ id: newId, name: catName });
+      catMap.set(catName.toLowerCase(), newId);
+    }
+
+    products.push({
+      id,
+      name: String(item.name || '').trim(),
+      price: Number(item.price || 0),
+      image: String(item.image || '').trim(),
+      page: Number(item.page || 1) || 1,
+      active: item.active !== false,
+      category_id: catMap.get((catName || '').toLowerCase()) || null,
+      category: catName,
     });
-    data.nextProductId = Math.max(data.nextProductId, Number(item.id) + 1 || data.nextProductId + 1);
   }
 
-  if (data.products.length > 0) {
-    data.nextProductId = Math.max(data.nextProductId, Math.max(...data.products.map((item) => item.id)) + 1);
-  }
-
-  fs.writeFileSync(TMP_FILE, JSON.stringify(data, null, 2), 'utf8');
-  return data;
-}
-
-function loadData() {
-  let data = null;
-  if (fs.existsSync(TMP_FILE)) {
-    try {
-      data = JSON.parse(fs.readFileSync(TMP_FILE, 'utf8'));
-    } catch (error) {
-      data = null;
-    }
-  }
-
-  if (!data || !data.products || data.products.length === 0 || !data.categories || data.categories.length === 0) {
-    return loadInitialData();
-  }
-
-  // Ensure clean categories without emojis
-  const cleanedCats = [];
-  const catMap = new Map();
-  for (const cat of data.categories) {
-    const cleanName = normalizeCategoryName(cat.name);
-    if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !catMap.has(cleanName.toLowerCase())) {
-      catMap.set(cleanName.toLowerCase(), { id: cat.id, name: cleanName });
-      cleanedCats.push({ id: cat.id, name: cleanName });
-    }
-  }
-
-  for (const defCat of DEFAULT_CATEGORIES) {
-    if (!catMap.has(defCat.name.toLowerCase())) {
-      cleanedCats.push({ ...defCat });
-      catMap.set(defCat.name.toLowerCase(), { ...defCat });
-    }
-  }
-
-  data.categories = cleanedCats;
-
-  // Clean products category references
-  data.products.forEach(p => {
-    if (p.category) {
-      p.category = normalizeCategoryName(p.category);
-    } else {
-      p.category = getCategoryForPage(p.page);
-    }
-    const foundCat = data.categories.find(c => c.name.toLowerCase() === (p.category || '').toLowerCase());
-    if (foundCat) {
-      p.category_id = foundCat.id;
-      p.category = foundCat.name;
-    }
-  });
-
-  return data;
-}
-
-function saveData(data) {
-  fs.writeFileSync(TMP_FILE, JSON.stringify(data, null, 2), 'utf8');
+  return {
+    products,
+    categories,
+    syncState,
+    admin: {
+      passwordHash: syncState.adminPasswordHash || hashPassword(DEFAULT_PASSWORD),
+    },
+    nextProductId: maxId + 1,
+    nextCategoryId,
+  };
 }
 
 function parseSegments(url) {
@@ -182,6 +266,9 @@ function parseSegments(url) {
 function sendJson(res, status, payload) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.end(JSON.stringify(payload));
 }
 
@@ -222,13 +309,13 @@ function findCategoryById(data, categoryId) {
 
 function ensureCategory(data, name) {
   const normalized = normalizeCategoryName(name);
-  if (!normalized) {
-    return null;
-  }
-  const existing = data.categories.find((category) => category.name.toLowerCase() === normalized.toLowerCase());
+  if (!normalized) return null;
+  const existing = data.categories.find((c) => c.name.toLowerCase() === normalized.toLowerCase());
   if (existing) return existing.id;
   const newCategory = { id: data.nextCategoryId++, name: normalized };
   data.categories.push(newCategory);
+  if (!data.syncState.custom_categories) data.syncState.custom_categories = [];
+  data.syncState.custom_categories.push(newCategory);
   return newCategory.id;
 }
 
@@ -237,11 +324,7 @@ function updateProductCategoryField(product, data) {
   product.category = category ? category.name : null;
 }
 
-function removeUnusedCategories(data) {
-  // Never auto-remove categories; categories should only be deleted explicitly
-}
-
-function handleProducts(data, req, res, segments, payload) {
+async function handleProducts(data, req, res, segments, payload) {
   const method = req.method;
 
   if (segments.length === 0) {
@@ -290,7 +373,9 @@ function handleProducts(data, req, res, segments, payload) {
       };
       updateProductCategoryField(product, data);
       data.products.push(product);
-      saveData(data);
+      if (!data.syncState.custom_products) data.syncState.custom_products = [];
+      data.syncState.custom_products.push(product);
+      await saveSyncState(data.syncState);
       sendJson(res, 201, product);
       return;
     }
@@ -330,15 +415,32 @@ function handleProducts(data, req, res, segments, payload) {
         product.category_id = ensureCategory(data, payload.category_new);
       }
       updateProductCategoryField(product, data);
-      saveData(data);
+
+      if (!data.syncState.edited_products) data.syncState.edited_products = {};
+      const customIdx = (data.syncState.custom_products || []).findIndex((p) => p.id === productId);
+      if (customIdx >= 0) {
+        data.syncState.custom_products[customIdx] = { ...product };
+      } else {
+        data.syncState.edited_products[productId] = { ...product };
+      }
+      await saveSyncState(data.syncState);
       sendJson(res, 200, product);
       return;
     }
     if (method === 'DELETE') {
       if (!requireAdmin(req, data, payload, res)) return;
+      if (!data.syncState.deleted_ids) data.syncState.deleted_ids = [];
+      if (!data.syncState.deleted_ids.includes(productId)) {
+        data.syncState.deleted_ids.push(productId);
+      }
+      if (data.syncState.custom_products) {
+        data.syncState.custom_products = data.syncState.custom_products.filter((p) => p.id !== productId);
+      }
+      if (data.syncState.edited_products) {
+        delete data.syncState.edited_products[productId];
+      }
       data.products = data.products.filter((item) => item.id !== productId);
-      removeUnusedCategories(data);
-      saveData(data);
+      await saveSyncState(data.syncState);
       sendJson(res, 200, { deleted: true });
       return;
     }
@@ -361,7 +463,14 @@ function handleProducts(data, req, res, segments, payload) {
       return;
     }
     product.active = payload.active === true;
-    saveData(data);
+    if (!data.syncState.edited_products) data.syncState.edited_products = {};
+    const customIdx = (data.syncState.custom_products || []).findIndex((p) => p.id === productId);
+    if (customIdx >= 0) {
+      data.syncState.custom_products[customIdx].active = product.active;
+    } else {
+      data.syncState.edited_products[productId] = { ...product };
+    }
+    await saveSyncState(data.syncState);
     sendJson(res, 200, product);
     return;
   }
@@ -369,7 +478,7 @@ function handleProducts(data, req, res, segments, payload) {
   notFound(res);
 }
 
-function handleCategories(data, req, res, segments, payload) {
+async function handleCategories(data, req, res, segments, payload) {
   const method = req.method;
   if (segments.length === 0) {
     if (method === 'GET') {
@@ -383,7 +492,7 @@ function handleCategories(data, req, res, segments, payload) {
         return;
       }
       const id = ensureCategory(data, payload.name);
-      saveData(data);
+      await saveSyncState(data.syncState);
       const category = findCategoryById(data, id);
       sendJson(res, 201, category);
       return;
@@ -412,7 +521,11 @@ function handleCategories(data, req, res, segments, payload) {
           product.category = category.name;
         }
       });
-      saveData(data);
+      if (data.syncState.custom_categories) {
+        const catItem = data.syncState.custom_categories.find((c) => c.id === category.id);
+        if (catItem) catItem.name = category.name;
+      }
+      await saveSyncState(data.syncState);
       sendJson(res, 200, category);
       return;
     }
@@ -425,7 +538,10 @@ function handleCategories(data, req, res, segments, payload) {
         return product;
       });
       data.categories = data.categories.filter((item) => item.id !== category.id);
-      saveData(data);
+      if (data.syncState.custom_categories) {
+        data.syncState.custom_categories = data.syncState.custom_categories.filter((c) => c.id !== category.id);
+      }
+      await saveSyncState(data.syncState);
       sendJson(res, 200, { deleted: true });
       return;
     }
@@ -434,7 +550,7 @@ function handleCategories(data, req, res, segments, payload) {
   notFound(res);
 }
 
-function handleAdmin(data, req, res, segments, payload) {
+async function handleAdmin(data, req, res, segments, payload) {
   const method = req.method;
   if (segments.length === 1 && segments[0] === 'authenticate' && method === 'POST') {
     if (!payload || !payload.password) {
@@ -455,8 +571,9 @@ function handleAdmin(data, req, res, segments, payload) {
       sendJson(res, 400, { error: 'missing_fields', message: 'El campo password es obligatorio' });
       return;
     }
-    data.admin.passwordHash = hashPassword(payload.password);
-    saveData(data);
+    data.syncState.adminPasswordHash = hashPassword(payload.password);
+    data.admin.passwordHash = data.syncState.adminPasswordHash;
+    await saveSyncState(data.syncState);
     sendJson(res, 200, { updated: true });
     return;
   }
@@ -464,7 +581,7 @@ function handleAdmin(data, req, res, segments, payload) {
   notFound(res);
 }
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type,X-Admin-Password');
@@ -476,24 +593,24 @@ module.exports = (req, res) => {
   }
 
   const segments = parseSegments(req.url);
-  const data = loadData();
+  const data = await loadFullData();
 
-  parseBody(req, (payload) => {
+  parseBody(req, async (payload) => {
     if (segments.length === 0) {
       sendJson(res, 404, { error: 'not_found', message: 'Ruta no encontrada' });
       return;
     }
 
     if (segments[0] === 'products') {
-      handleProducts(data, req, res, segments.slice(1), payload);
+      await handleProducts(data, req, res, segments.slice(1), payload);
       return;
     }
     if (segments[0] === 'categories') {
-      handleCategories(data, req, res, segments.slice(1), payload);
+      await handleCategories(data, req, res, segments.slice(1), payload);
       return;
     }
     if (segments[0] === 'admin') {
-      handleAdmin(data, req, res, segments.slice(1), payload);
+      await handleAdmin(data, req, res, segments.slice(1), payload);
       return;
     }
     if (segments[0] === 'health' && req.method === 'GET') {

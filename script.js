@@ -93,7 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchJson(url, options = {}) {
-        return fetch(url, { cache: 'no-store', ...options });
+        const sep = url.includes('?') ? '&' : '?';
+        const bustUrl = `${url}${sep}_t=${Date.now()}`;
+        return fetch(bustUrl, {
+            cache: 'no-store',
+            headers: {
+                'Pragma': 'no-cache',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                ...(options.headers || {})
+            },
+            ...options
+        });
     }
 
     // WhatsApp Number Config (Pre-filled from catalog header)
