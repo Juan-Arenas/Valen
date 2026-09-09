@@ -11,20 +11,43 @@ function hashPassword(password) {
   return crypto.createHash('sha256').update(String(password)).digest('hex');
 }
 
+const DEFAULT_CATEGORIES = [
+  { id: 1, name: 'Cuidado Facial' },
+  { id: 2, name: 'Maquillaje' },
+  { id: 3, name: 'Cabello' },
+  { id: 4, name: 'Accesorios' },
+  { id: 5, name: 'Herramientas' },
+  { id: 6, name: 'Corporal' },
+];
+
+function getCategoryForPage(page) {
+  const p = Number(page) || 1;
+  if (p >= 2 && p <= 15) return 'Cuidado Facial';
+  if (p >= 16 && p <= 30) return 'Maquillaje';
+  if (p >= 31 && p <= 35) return 'Cabello';
+  if (p >= 36 && p <= 40) return 'Accesorios';
+  if (p >= 41 && p <= 47) return 'Herramientas';
+  if (p >= 48 && p <= 50) return 'Corporal';
+  return 'Cuidado Facial';
+}
+
 function loadInitialData() {
   const raw = fs.readFileSync(SOURCE_FILE, 'utf8');
   const productsRaw = JSON.parse(raw);
   const data = {
     products: [],
-    categories: [],
+    categories: DEFAULT_CATEGORIES.map(c => ({ ...c })),
     admin: {
       passwordHash: hashPassword(DEFAULT_PASSWORD),
     },
     nextProductId: 1,
-    nextCategoryId: 1,
+    nextCategoryId: 7,
   };
 
   const categoryMap = {};
+  data.categories.forEach(cat => {
+    categoryMap[cat.name.toLowerCase()] = cat.id;
+  });
 
   for (const item of productsRaw) {
     const name = String(item.name || '').trim();
@@ -32,7 +55,10 @@ function loadInitialData() {
     const image = String(item.image || '').trim();
     const page = Number(item.page || 1) || 1;
     const active = item.active !== false;
-    const categoryName = String(item.category || '').trim();
+    let categoryName = String(item.category || '').trim();
+    if (!categoryName) {
+      categoryName = getCategoryForPage(page);
+    }
     let categoryId = null;
 
     if (categoryName) {
@@ -69,7 +95,9 @@ function loadData() {
   if (fs.existsSync(TMP_FILE)) {
     try {
       const existing = JSON.parse(fs.readFileSync(TMP_FILE, 'utf8'));
-      return existing;
+      if (existing && existing.categories && existing.categories.length > 0) {
+        return existing;
+      }
     } catch (error) {
       return loadInitialData();
     }

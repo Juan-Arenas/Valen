@@ -27,6 +27,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const CATEGORIES_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/categories` : '/api/categories';
     let cart = [];
 
+    const CANONICAL_CATEGORY_ORDER = [
+        'Cuidado Facial',
+        'Maquillaje',
+        'Cabello',
+        'Accesorios',
+        'Herramientas',
+        'Corporal'
+    ];
+
+    const CATEGORY_ICONS = {
+        'cuidado facial': '🧴',
+        'maquillaje': '💄',
+        'cabello': '💇',
+        'accesorios': '🎀',
+        'herramientas': '🖌️',
+        'corporal': '🌸',
+        'sin categoría': '📦'
+    };
+
+    function getCategoryForPage(page) {
+        const p = Number(page) || 1;
+        if (p >= 2 && p <= 15) return 'Cuidado Facial';
+        if (p >= 16 && p <= 30) return 'Maquillaje';
+        if (p >= 31 && p <= 35) return 'Cabello';
+        if (p >= 36 && p <= 40) return 'Accesorios';
+        if (p >= 41 && p <= 47) return 'Herramientas';
+        if (p >= 48 && p <= 50) return 'Corporal';
+        return 'Cuidado Facial';
+    }
+
+    function getCategoryOrderIndex(catName) {
+        const idx = CANONICAL_CATEGORY_ORDER.findIndex(
+            c => c.toLowerCase() === String(catName || '').trim().toLowerCase()
+        );
+        return idx === -1 ? 999 : idx;
+    }
+
+    function sortCategoriesList(categories) {
+        return categories.slice().sort((a, b) => {
+            const nameA = typeof a === 'string' ? a : (a.name || '');
+            const nameB = typeof b === 'string' ? b : (b.name || '');
+            const idxA = getCategoryOrderIndex(nameA);
+            const idxB = getCategoryOrderIndex(nameB);
+            if (idxA !== idxB) return idxA - idxB;
+            return nameA.localeCompare(nameB, 'es', { sensitivity: 'base' });
+        });
+    }
+
     async function fetchJson(url, options = {}) {
         return fetch(url, { cache: 'no-store', ...options });
     }
@@ -96,6 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        products.forEach(p => {
+            if (!p.category) {
+                p.category = getCategoryForPage(p.page);
+            }
+        });
+
         allProducts = products;
         applyFilters();
     }
@@ -110,6 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.warn('Error al cargar categorías:', error);
             allCategories = [];
+        }
+        if (!allCategories || allCategories.length === 0) {
+            allCategories = CANONICAL_CATEGORY_ORDER.map((name, idx) => ({ id: idx + 1, name }));
+        } else {
+            allCategories = sortCategoriesList(allCategories);
         }
         renderCategoryFilters();
     }
@@ -131,7 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const pill = document.createElement('button');
             pill.type = 'button';
             pill.className = `category-pill${selectedCategoryId === category.id ? ' active' : ''}`;
-            pill.textContent = category.name;
+            const icon = CATEGORY_ICONS[category.name.toLowerCase()] || '';
+            pill.textContent = icon ? `${icon} ${category.name}` : category.name;
             pill.addEventListener('click', () => {
                 selectedCategoryId = category.id;
                 renderCategoryFilters();
@@ -147,7 +207,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .filter(product => product.active !== false)
             .filter(product => {
                 const matchesSearch = !query || product.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(query);
-                const matchesCategory = selectedCategoryId === null || product.category_id === selectedCategoryId;
+                const currentCatName = product.category || getCategoryForPage(product.page);
+                let matchesCategory = true;
+                if (selectedCategoryId !== null) {
+                    const selCat = allCategories.find(c => c.id === selectedCategoryId);
+                    matchesCategory = product.category_id === selectedCategoryId || (selCat && currentCatName.toLowerCase() === selCat.name.toLowerCase());
+                }
                 return matchesSearch && matchesCategory;
             });
         displayedCount = 0;
@@ -522,7 +587,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 adminCategoryMessage.textContent = 'Error cargando categorías.';
                 return;
             }
-            adminCategories = await response.json();
+            let cats = await response.json();
+            if (!cats || cats.length === 0) {
+                cats = CANONICAL_CATEGORY_ORDER.map((name, idx) => ({ id: idx + 1, name }));
+            }
+            adminCategories = sortCategoriesList(cats);
             populateCategorySelect();
             renderAdminCategoryList();
             renderAdminCategoryPills();
@@ -539,7 +608,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 adminProductMessage.textContent = 'Error cargando productos.';
                 return;
             }
-            adminProducts = await response.json();
+            const prods = await response.json();
+            prods.forEach(p => {
+                if (!p.category) {
+                    p.category = getCategoryForPage(p.page);
+                }
+            });
+            adminProducts = prods;
             renderAdminCategoryList();
             renderAdminCategoryPills();
             renderAdminProducts();
@@ -563,10 +638,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateCategorySelect() {
         adminCategorySelect.innerHTML = '<option value="">Seleccionar categoría</option>';
-        adminCategories.forEach(category => {
+        const sorted = sortCategoriesList(adminCategories);
+        sorted.forEach(category => {
             const option = document.createElement('option');
             option.value = category.id;
-            option.textContent = category.name;
+            const icon = CATEGORY_ICONS[category.name.toLowerCase()] || '';
+            option.textContent = icon ? `${icon} ${category.name}` : category.name;
             adminCategorySelect.appendChild(option);
         });
     }
@@ -580,12 +657,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        adminCategories.forEach(category => {
+        const sorted = sortCategoriesList(adminCategories);
+        sorted.forEach(category => {
             const count = adminProducts.filter(p => p.category_id === category.id || (p.category && p.category.toLowerCase() === category.name.toLowerCase())).length;
             const chip = document.createElement('div');
             chip.className = 'admin-category-chip';
+            const icon = CATEGORY_ICONS[category.name.toLowerCase()] || '🏷️';
             chip.innerHTML = `
-                <span>${category.name}</span>
+                <span>${icon} ${category.name}</span>
                 <span class="chip-count" title="${count} productos">${count}</span>
                 <button type="button" class="chip-delete" data-action="delete-category" data-id="${category.id}" title="Eliminar categoría">
                     <i class="fas fa-times"></i>
@@ -604,8 +683,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let uncategorizedCount = 0;
 
         adminProducts.forEach(product => {
-            const key = product.category || 'Sin categoría';
-            if (key === 'Sin categoría') {
+            const key = product.category || getCategoryForPage(product.page);
+            if (!key || key === 'Sin categoría') {
                 uncategorizedCount++;
             } else {
                 catCounts[key] = (catCounts[key] || 0) + 1;
@@ -624,14 +703,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         adminCategoryPills.appendChild(allPill);
 
-        // Category Pills
-        const sortedCategories = Object.keys(catCounts).sort((a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' }));
+        // Category Pills in canonical catalog order
+        const sortedCategories = sortCategoriesList(Object.keys(catCounts));
         
         sortedCategories.forEach(catName => {
             const pill = document.createElement('button');
             pill.type = 'button';
             pill.className = `admin-pill-btn ${adminSelectedCategory === catName ? 'active' : ''}`;
-            pill.innerHTML = `<span>${catName}</span><span class="pill-count">${catCounts[catName]}</span>`;
+            const icon = CATEGORY_ICONS[catName.toLowerCase()] || '🏷️';
+            pill.innerHTML = `<span>${icon} ${catName}</span><span class="pill-count">${catCounts[catName]}</span>`;
             pill.addEventListener('click', () => {
                 adminSelectedCategory = catName;
                 // Auto-expand this category
@@ -646,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const uncategorizedPill = document.createElement('button');
             uncategorizedPill.type = 'button';
             uncategorizedPill.className = `admin-pill-btn ${adminSelectedCategory === 'Sin categoría' ? 'active' : ''}`;
-            uncategorizedPill.innerHTML = `<span>Sin categoría</span><span class="pill-count">${uncategorizedCount}</span>`;
+            uncategorizedPill.innerHTML = `<span>📦 Sin categoría</span><span class="pill-count">${uncategorizedCount}</span>`;
             uncategorizedPill.addEventListener('click', () => {
                 adminSelectedCategory = 'Sin categoría';
                 adminCollapsedCategories.delete('Sin categoría');
@@ -668,7 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (adminSelectedCategory === 'Sin categoría') {
                 filtered = filtered.filter(p => !p.category || p.category.trim() === '' || p.category === 'Sin categoría');
             } else {
-                filtered = filtered.filter(p => p.category && p.category.toLowerCase() === adminSelectedCategory.toLowerCase());
+                filtered = filtered.filter(p => (p.category || getCategoryForPage(p.page)).toLowerCase() === adminSelectedCategory.toLowerCase());
             }
         }
 
@@ -676,7 +756,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const query = adminSearchQuery.toLowerCase().trim();
             filtered = filtered.filter(p => {
                 const nameMatch = p.name && p.name.toLowerCase().includes(query);
-                const categoryMatch = p.category && p.category.toLowerCase().includes(query);
+                const currentCat = p.category || getCategoryForPage(p.page);
+                const categoryMatch = currentCat && currentCat.toLowerCase().includes(query);
                 const idMatch = String(p.id).includes(query);
                 return nameMatch || categoryMatch || idMatch;
             });
@@ -696,22 +777,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // Group by category
         const grouped = {};
         filtered.forEach(product => {
-            const key = product.category || 'Sin categoría';
+            const key = product.category || getCategoryForPage(product.page);
             if (!grouped[key]) {
                 grouped[key] = [];
             }
             grouped[key].push(product);
         });
 
-        const sortedCategoryNames = Object.keys(grouped).sort((a, b) => {
-            if (a === 'Sin categoría') return 1;
-            if (b === 'Sin categoría') return -1;
-            return a.localeCompare(b, 'es', { sensitivity: 'base' });
-        });
+        // Sort categories in catalog canonical order (1: Cuidado Facial, 2: Maquillaje, 3: Cabello, etc.)
+        const sortedCategoryNames = sortCategoriesList(Object.keys(grouped));
 
         sortedCategoryNames.forEach(categoryName => {
             const categoryProducts = grouped[categoryName];
             const isCollapsed = adminCollapsedCategories.has(categoryName) && !adminSearchQuery;
+            const icon = CATEGORY_ICONS[categoryName.toLowerCase()] || '🏷️';
 
             const accordion = document.createElement('div');
             accordion.className = `admin-category-accordion ${isCollapsed ? 'collapsed' : ''}`;
@@ -721,7 +800,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="admin-accordion-header">
                     <div class="admin-accordion-title-wrap">
                         <div class="admin-accordion-icon">
-                            <i class="fas fa-folder-open"></i>
+                            ${icon}
                         </div>
                         <h4>${categoryName}</h4>
                         <span class="admin-accordion-count">${categoryProducts.length} ${categoryProducts.length === 1 ? 'producto' : 'productos'}</span>
