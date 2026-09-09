@@ -5,7 +5,7 @@
         "price": 100000,
         "image": "img/product_1.jpg",
         "page": 2,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -14,7 +14,7 @@
         "price": 6900,
         "image": "img/product_2.jpg",
         "page": 4,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -23,7 +23,7 @@
         "price": 21900,
         "image": "img/product_3.jpg",
         "page": 4,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -32,7 +32,7 @@
         "price": 22900,
         "image": "img/product_4.jpg",
         "page": 4,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -41,7 +41,7 @@
         "price": 7900,
         "image": "img/product_5.jpg",
         "page": 4,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -50,7 +50,7 @@
         "price": 1900,
         "image": "img/product_6.jpg",
         "page": 4,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -59,7 +59,7 @@
         "price": 8900,
         "image": "img/product_7.jpg",
         "page": 5,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -68,7 +68,7 @@
         "price": 5900,
         "image": "img/product_8.jpg",
         "page": 5,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -77,7 +77,7 @@
         "price": 1900,
         "image": "img/product_9.jpg",
         "page": 5,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -86,7 +86,7 @@
         "price": 54900,
         "image": "img/product_10.jpg",
         "page": 5,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -95,7 +95,7 @@
         "price": 7900,
         "image": "img/product_11.jpg",
         "page": 5,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -104,7 +104,7 @@
         "price": 6000,
         "image": "img/product_12.jpg",
         "page": 6,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -113,7 +113,7 @@
         "price": 25000,
         "image": "img/product_13.jpg",
         "page": 6,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -122,7 +122,7 @@
         "price": 15000,
         "image": "img/product_14.jpg",
         "page": 6,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -131,7 +131,7 @@
         "price": 10000,
         "image": "img/product_15.jpg",
         "page": 6,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -140,7 +140,7 @@
         "price": 6000,
         "image": "img/product_16.jpg",
         "page": 6,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -149,7 +149,7 @@
         "price": 10000,
         "image": "img/product_17.jpg",
         "page": 7,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -158,7 +158,7 @@
         "price": 5000,
         "image": "img/product_18.jpg",
         "page": 7,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -167,7 +167,7 @@
         "price": 19900,
         "image": "img/product_19.jpg",
         "page": 7,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -176,7 +176,7 @@
         "price": 19900,
         "image": "img/product_20.jpg",
         "page": 7,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -185,7 +185,7 @@
         "price": 10000,
         "image": "img/product_21.jpg",
         "page": 7,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -194,7 +194,7 @@
         "price": 10000,
         "image": "img/product_22.jpg",
         "page": 8,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -203,7 +203,7 @@
         "price": 5000,
         "image": "img/product_23.jpg",
         "page": 8,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -212,7 +212,7 @@
         "price": 4000,
         "image": "img/product_24.jpg",
         "page": 8,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -221,7 +221,7 @@
         "price": 4000,
         "image": "img/product_25.jpg",
         "page": 8,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -230,7 +230,7 @@
         "price": 9900,
         "image": "img/product_26.jpg",
         "page": 8,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -239,7 +239,7 @@
         "price": 12900,
         "image": "img/product_27.jpg",
         "page": 9,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -248,7 +248,7 @@
         "price": 9900,
         "image": "img/product_28.jpg",
         "page": 9,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -257,7 +257,7 @@
         "price": 14900,
         "image": "img/product_29.jpg",
         "page": 9,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -266,7 +266,7 @@
         "price": 14900,
         "image": "img/product_30.jpg",
         "page": 9,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -275,7 +275,7 @@
         "price": 9900,
         "image": "img/product_31.jpg",
         "page": 9,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -284,7 +284,7 @@
         "price": 1500,
         "image": "img/product_32.jpg",
         "page": 10,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -293,7 +293,7 @@
         "price": 3000,
         "image": "img/product_33.jpg",
         "page": 10,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -302,7 +302,7 @@
         "price": 9900,
         "image": "img/store_prod_4.jpg",
         "page": 10,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -311,7 +311,7 @@
         "price": 11900,
         "image": "img/product_35.jpg",
         "page": 10,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -320,7 +320,7 @@
         "price": 12900,
         "image": "img/product_36.jpg",
         "page": 10,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -329,7 +329,7 @@
         "price": 12900,
         "image": "img/product_37.jpg",
         "page": 11,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -338,7 +338,7 @@
         "price": 10000,
         "image": "img/product_38.jpg",
         "page": 11,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -347,7 +347,7 @@
         "price": 6900,
         "image": "img/product_39.jpg",
         "page": 11,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -356,7 +356,7 @@
         "price": 6000,
         "image": "img/product_40.jpg",
         "page": 11,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -365,7 +365,7 @@
         "price": 7500,
         "image": "img/product_41.jpg",
         "page": 11,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -374,7 +374,7 @@
         "price": 10000,
         "image": "img/product_42.jpg",
         "page": 12,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -383,7 +383,7 @@
         "price": 10000,
         "image": "img/store_prod_22.jpg",
         "page": 12,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -392,7 +392,7 @@
         "price": 10000,
         "image": "img/product_44.jpg",
         "page": 12,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -401,7 +401,7 @@
         "price": 10000,
         "image": "img/product_45.jpg",
         "page": 12,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -410,7 +410,7 @@
         "price": 29900,
         "image": "img/product_46.jpg",
         "page": 12,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -419,7 +419,7 @@
         "price": 13900,
         "image": "img/product_47.jpg",
         "page": 13,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -428,7 +428,7 @@
         "price": 10000,
         "image": "img/product_48.jpg",
         "page": 13,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -437,7 +437,7 @@
         "price": 7900,
         "image": "img/product_49.jpg",
         "page": 13,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -446,7 +446,7 @@
         "price": 8900,
         "image": "img/product_50.jpg",
         "page": 13,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -455,7 +455,7 @@
         "price": 10000,
         "image": "img/product_51.jpg",
         "page": 13,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -464,7 +464,7 @@
         "price": 10000,
         "image": "img/product_52.jpg",
         "page": 14,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -473,7 +473,7 @@
         "price": 7900,
         "image": "img/product_53.jpg",
         "page": 14,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -482,7 +482,7 @@
         "price": 7900,
         "image": "img/product_54.jpg",
         "page": 14,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -491,7 +491,7 @@
         "price": 8900,
         "image": "img/product_55.jpg",
         "page": 14,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -500,7 +500,7 @@
         "price": 2000,
         "image": "img/product_56.jpg",
         "page": 14,
-        "category": "Cuidado Facial",
+        "category": "Cuidado Facial y Corporal",
         "category_id": 1
     },
     {
@@ -1139,7 +1139,7 @@
         "price": 12000,
         "image": "img/product_127.jpg",
         "page": 31,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1148,7 +1148,7 @@
         "price": 13000,
         "image": "img/product_128.jpg",
         "page": 31,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1157,7 +1157,7 @@
         "price": 16000,
         "image": "img/product_129.jpg",
         "page": 31,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1166,7 +1166,7 @@
         "price": 17000,
         "image": "img/product_130.jpg",
         "page": 31,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1175,7 +1175,7 @@
         "price": 16000,
         "image": "img/product_131.jpg",
         "page": 31,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1184,7 +1184,7 @@
         "price": 16000,
         "image": "img/product_132.jpg",
         "page": 32,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1193,7 +1193,7 @@
         "price": 17000,
         "image": "img/product_133.jpg",
         "page": 32,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1202,7 +1202,7 @@
         "price": 17000,
         "image": "img/product_134.jpg",
         "page": 32,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1211,7 +1211,7 @@
         "price": 17000,
         "image": "img/product_135.jpg",
         "page": 32,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1220,7 +1220,7 @@
         "price": 16000,
         "image": "img/product_136.jpg",
         "page": 32,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1229,7 +1229,7 @@
         "price": 16000,
         "image": "img/product_137.jpg",
         "page": 33,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1238,7 +1238,7 @@
         "price": 17000,
         "image": "img/product_138.jpg",
         "page": 33,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1247,7 +1247,7 @@
         "price": 16000,
         "image": "img/product_139.jpg",
         "page": 33,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1256,7 +1256,7 @@
         "price": 16000,
         "image": "img/product_140.jpg",
         "page": 33,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1265,7 +1265,7 @@
         "price": 17000,
         "image": "img/product_141.jpg",
         "page": 33,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1274,7 +1274,7 @@
         "price": 10000,
         "image": "img/product_142.jpg",
         "page": 34,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1283,7 +1283,7 @@
         "price": 11000,
         "image": "img/product_143.jpg",
         "page": 34,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1292,7 +1292,7 @@
         "price": 15000,
         "image": "img/product_144.jpg",
         "page": 34,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1301,7 +1301,7 @@
         "price": 6000,
         "image": "img/product_145.jpg",
         "page": 34,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1310,7 +1310,7 @@
         "price": 3000,
         "image": "img/product_146.jpg",
         "page": 34,
-        "category": "Cabello",
+        "category": "Cabello y Ducha",
         "category_id": 3
     },
     {
@@ -1499,8 +1499,8 @@
         "price": 8000,
         "image": "img/product_167.jpg",
         "page": 41,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 168,
@@ -1508,8 +1508,8 @@
         "price": 9000,
         "image": "img/product_168.jpg",
         "page": 41,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 169,
@@ -1517,8 +1517,8 @@
         "price": 1000,
         "image": "img/product_169.jpg",
         "page": 41,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 170,
@@ -1526,8 +1526,8 @@
         "price": 5000,
         "image": "img/product_170.jpg",
         "page": 41,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 171,
@@ -1535,8 +1535,8 @@
         "price": 8000,
         "image": "img/product_171.jpg",
         "page": 41,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 172,
@@ -1544,8 +1544,8 @@
         "price": 3000,
         "image": "img/product_172.jpg",
         "page": 42,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 173,
@@ -1553,8 +1553,8 @@
         "price": 3000,
         "image": "img/product_173.jpg",
         "page": 42,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 174,
@@ -1562,8 +1562,8 @@
         "price": 5500,
         "image": "img/product_174.jpg",
         "page": 42,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 175,
@@ -1571,8 +1571,8 @@
         "price": 6000,
         "image": "img/product_175.jpg",
         "page": 42,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 176,
@@ -1580,8 +1580,8 @@
         "price": 5000,
         "image": "img/product_176.jpg",
         "page": 42,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 177,
@@ -1589,8 +1589,8 @@
         "price": 3000,
         "image": "img/store_prod_49.jpg",
         "page": 43,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 178,
@@ -1598,8 +1598,8 @@
         "price": 11000,
         "image": "img/product_178.jpg",
         "page": 43,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 179,
@@ -1607,8 +1607,8 @@
         "price": 20000,
         "image": "img/product_179.jpg",
         "page": 43,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 180,
@@ -1616,8 +1616,8 @@
         "price": 6000,
         "image": "img/store_prod_58.jpg",
         "page": 43,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 181,
@@ -1625,8 +1625,8 @@
         "price": 6000,
         "image": "img/product_181.jpg",
         "page": 43,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 182,
@@ -1634,8 +1634,8 @@
         "price": 12000,
         "image": "img/store_prod_56.jpg",
         "page": 44,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 183,
@@ -1643,8 +1643,8 @@
         "price": 7000,
         "image": "img/product_183.jpg",
         "page": 44,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 184,
@@ -1652,8 +1652,8 @@
         "price": 8000,
         "image": "img/product_184.jpg",
         "page": 44,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 185,
@@ -1661,8 +1661,8 @@
         "price": 6000,
         "image": "img/product_185.jpg",
         "page": 44,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 186,
@@ -1670,8 +1670,8 @@
         "price": 6000,
         "image": "img/product_186.jpg",
         "page": 44,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 187,
@@ -1679,8 +1679,8 @@
         "price": 6000,
         "image": "img/product_187.jpg",
         "page": 45,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 188,
@@ -1688,8 +1688,8 @@
         "price": 3000,
         "image": "img/product_188.jpg",
         "page": 45,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 189,
@@ -1697,8 +1697,8 @@
         "price": 6000,
         "image": "img/product_189.jpg",
         "page": 45,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 190,
@@ -1706,8 +1706,8 @@
         "price": 12000,
         "image": "img/product_190.jpg",
         "page": 45,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 191,
@@ -1715,8 +1715,8 @@
         "price": 5000,
         "image": "img/product_191.jpg",
         "page": 45,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 192,
@@ -1724,8 +1724,8 @@
         "price": 16000,
         "image": "img/product_192.jpg",
         "page": 46,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 193,
@@ -1733,8 +1733,8 @@
         "price": 8000,
         "image": "img/product_193.jpg",
         "page": 46,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 194,
@@ -1742,8 +1742,8 @@
         "price": 5000,
         "image": "img/product_194.jpg",
         "page": 46,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 195,
@@ -1751,8 +1751,8 @@
         "price": 6000,
         "image": "img/product_195.jpg",
         "page": 46,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 196,
@@ -1760,8 +1760,8 @@
         "price": 5000,
         "image": "img/product_196.jpg",
         "page": 46,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 197,
@@ -1769,8 +1769,8 @@
         "price": 5000,
         "image": "img/product_197.jpg",
         "page": 47,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 198,
@@ -1778,8 +1778,8 @@
         "price": 22000,
         "image": "img/product_198.jpg",
         "page": 47,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 199,
@@ -1787,8 +1787,8 @@
         "price": 5000,
         "image": "img/product_199.jpg",
         "page": 47,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 200,
@@ -1796,8 +1796,8 @@
         "price": 5000,
         "image": "img/product_200.jpg",
         "page": 47,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 201,
@@ -1805,8 +1805,8 @@
         "price": 22000,
         "image": "img/product_201.jpg",
         "page": 47,
-        "category": "Herramientas",
-        "category_id": 5
+        "category": "Accesorios",
+        "category_id": 4
     },
     {
         "id": 202,
@@ -1814,8 +1814,8 @@
         "price": 11000,
         "image": "img/product_202.jpg",
         "page": 48,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 203,
@@ -1823,8 +1823,8 @@
         "price": 12000,
         "image": "img/product_203.jpg",
         "page": 48,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 204,
@@ -1832,8 +1832,8 @@
         "price": 25000,
         "image": "img/product_204.jpg",
         "page": 48,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 205,
@@ -1841,8 +1841,8 @@
         "price": 25000,
         "image": "img/product_205.jpg",
         "page": 48,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 206,
@@ -1850,8 +1850,8 @@
         "price": 25000,
         "image": "img/product_206.jpg",
         "page": 48,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 207,
@@ -1859,8 +1859,8 @@
         "price": 25000,
         "image": "img/product_207.jpg",
         "page": 49,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 208,
@@ -1868,8 +1868,8 @@
         "price": 15000,
         "image": "img/product_208.jpg",
         "page": 49,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 209,
@@ -1877,8 +1877,8 @@
         "price": 15000,
         "image": "img/product_209.jpg",
         "page": 49,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 210,
@@ -1886,8 +1886,8 @@
         "price": 23000,
         "image": "img/product_210.jpg",
         "page": 49,
-        "category": "Corporal",
-        "category_id": 6
+        "category": "Cuidado Facial y Corporal",
+        "category_id": 1
     },
     {
         "id": 211,
@@ -1896,7 +1896,7 @@
         "image": "img/recovered_1.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1906,7 +1906,7 @@
         "image": "img/recovered_2.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1916,7 +1916,7 @@
         "image": "img/recovered_3.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1926,7 +1926,7 @@
         "image": "img/recovered_4.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1936,7 +1936,7 @@
         "image": "img/recovered_5.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1946,7 +1946,7 @@
         "image": "img/recovered_6.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1956,7 +1956,7 @@
         "image": "img/recovered_7.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1966,7 +1966,7 @@
         "image": "img/recovered_8.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1976,7 +1976,7 @@
         "image": "img/recovered_9.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1986,7 +1986,7 @@
         "image": "img/recovered_10.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -1996,7 +1996,7 @@
         "image": "img/recovered_11.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2006,7 +2006,7 @@
         "image": "img/recovered_12.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2016,7 +2016,7 @@
         "image": "img/recovered_13.jpg",
         "page": 51,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2026,7 +2026,7 @@
         "image": "img/store_prod_1.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2046,8 +2046,8 @@
         "image": "img/store_prod_3.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 227,
@@ -2057,7 +2057,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 228,
@@ -2066,7 +2066,7 @@
         "image": "img/store_prod_9.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2087,7 +2087,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 231,
@@ -2097,7 +2097,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 232,
@@ -2116,8 +2116,8 @@
         "image": "img/store_prod_14.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 234,
@@ -2126,7 +2126,7 @@
         "image": "img/store_prod_15.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2146,7 +2146,7 @@
         "image": "img/store_prod_17.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2176,7 +2176,7 @@
         "image": "img/store_prod_21.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2187,7 +2187,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 241,
@@ -2197,7 +2197,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 242,
@@ -2207,7 +2207,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 243,
@@ -2216,8 +2216,8 @@
         "image": "img/store_prod_27.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 244,
@@ -2226,8 +2226,8 @@
         "image": "img/store_prod_28.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 245,
@@ -2236,8 +2236,8 @@
         "image": "img/store_prod_29.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 246,
@@ -2246,8 +2246,8 @@
         "image": "img/store_prod_30.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 247,
@@ -2256,8 +2256,8 @@
         "image": "img/store_prod_31.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 248,
@@ -2277,7 +2277,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 250,
@@ -2296,7 +2296,7 @@
         "image": "img/store_prod_37.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2336,7 +2336,7 @@
         "image": "img/store_prod_43.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2367,7 +2367,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 259,
@@ -2376,7 +2376,7 @@
         "image": "img/store_prod_48.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2397,7 +2397,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 262,
@@ -2407,7 +2407,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 263,
@@ -2416,8 +2416,8 @@
         "image": "img/store_prod_57.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 264,
@@ -2426,8 +2426,8 @@
         "image": "img/store_prod_59.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 265,
@@ -2446,8 +2446,8 @@
         "image": "img/store_prod_64.jpg",
         "page": 52,
         "active": true,
-        "category_id": 5,
-        "category": "Herramientas"
+        "category_id": 4,
+        "category": "Accesorios"
     },
     {
         "id": 267,
@@ -2466,8 +2466,8 @@
         "image": "img/store_prod_66.jpg",
         "page": 52,
         "active": true,
-        "category_id": 6,
-        "category": "Corporal"
+        "category_id": 1,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 269,
@@ -2476,8 +2476,8 @@
         "image": "img/store_prod_67.jpg",
         "page": 52,
         "active": true,
-        "category_id": 6,
-        "category": "Corporal"
+        "category_id": 1,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 270,
@@ -2486,7 +2486,7 @@
         "image": "img/store_prod_68.jpg",
         "page": 52,
         "active": true,
-        "category_id": 7,
+        "category_id": 5,
         "category": "Bloomshell"
     },
     {
@@ -2497,7 +2497,7 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 272,
@@ -2507,6 +2507,6 @@
         "page": 52,
         "active": true,
         "category_id": 1,
-        "category": "Cuidado Facial"
+        "category": "Cuidado Facial y Corporal"
     }
 ]

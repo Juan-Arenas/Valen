@@ -12,25 +12,21 @@ function hashPassword(password) {
 }
 
 const DEFAULT_CATEGORIES = [
-  { id: 1, name: 'Cuidado Facial' },
+  { id: 1, name: 'Cuidado Facial y Corporal' },
   { id: 2, name: 'Maquillaje' },
-  { id: 3, name: 'Cabello' },
+  { id: 3, name: 'Cabello y Ducha' },
   { id: 4, name: 'Accesorios' },
-  { id: 5, name: 'Herramientas' },
-  { id: 6, name: 'Corporal' },
-  { id: 7, name: 'Bloomshell' },
+  { id: 5, name: 'Bloomshell' },
 ];
 
 function getCategoryForPage(page) {
   const p = Number(page) || 1;
-  if (p >= 2 && p <= 15) return 'Cuidado Facial';
+  if ((p >= 2 && p <= 15) || (p >= 48 && p <= 50)) return 'Cuidado Facial y Corporal';
   if (p >= 16 && p <= 30) return 'Maquillaje';
-  if (p >= 31 && p <= 35) return 'Cabello';
-  if (p >= 36 && p <= 40) return 'Accesorios';
-  if (p >= 41 && p <= 47) return 'Herramientas';
-  if (p >= 48 && p <= 50) return 'Corporal';
+  if (p >= 31 && p <= 35) return 'Cabello y Ducha';
+  if (p >= 36 && p <= 47) return 'Accesorios';
   if (p >= 51) return 'Bloomshell';
-  return 'Cuidado Facial';
+  return 'Cuidado Facial y Corporal';
 }
 
 function loadInitialData() {
@@ -43,7 +39,7 @@ function loadInitialData() {
       passwordHash: hashPassword(DEFAULT_PASSWORD),
     },
     nextProductId: 1,
-    nextCategoryId: 8,
+    nextCategoryId: 6,
   };
 
   const categoryMap = {};

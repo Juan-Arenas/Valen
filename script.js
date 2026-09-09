@@ -28,36 +28,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let cart = [];
 
     const CANONICAL_CATEGORY_ORDER = [
-        'Cuidado Facial',
+        'Cuidado Facial y Corporal',
         'Maquillaje',
-        'Cabello',
+        'Cabello y Ducha',
         'Accesorios',
-        'Herramientas',
-        'Corporal',
         'Bloomshell'
     ];
 
-    const CATEGORY_ICONS = {
-        'cuidado facial': '🧴',
-        'maquillaje': '💄',
-        'cabello': '💇',
-        'accesorios': '🎀',
-        'herramientas': '🖌️',
-        'corporal': '🌸',
-        'bloomshell': '✨',
-        'sin categoría': '📦'
-    };
-
     function getCategoryForPage(page) {
         const p = Number(page) || 1;
-        if (p >= 2 && p <= 15) return 'Cuidado Facial';
+        if ((p >= 2 && p <= 15) || (p >= 48 && p <= 50)) return 'Cuidado Facial y Corporal';
         if (p >= 16 && p <= 30) return 'Maquillaje';
-        if (p >= 31 && p <= 35) return 'Cabello';
-        if (p >= 36 && p <= 40) return 'Accesorios';
-        if (p >= 41 && p <= 47) return 'Herramientas';
-        if (p >= 48 && p <= 50) return 'Corporal';
+        if (p >= 31 && p <= 35) return 'Cabello y Ducha';
+        if (p >= 36 && p <= 47) return 'Accesorios';
         if (p >= 51) return 'Bloomshell';
-        return 'Cuidado Facial';
+        return 'Cuidado Facial y Corporal';
     }
 
     function getCategoryOrderIndex(catName) {
@@ -746,8 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sorted.forEach(category => {
             const option = document.createElement('option');
             option.value = category.id;
-            const icon = CATEGORY_ICONS[category.name.toLowerCase()] || '';
-            option.textContent = icon ? `${icon} ${category.name}` : category.name;
+            option.textContent = category.name;
             adminCategorySelect.appendChild(option);
         });
     }
@@ -766,9 +750,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const count = adminProducts.filter(p => p.category_id === category.id || (p.category && p.category.toLowerCase() === category.name.toLowerCase())).length;
             const chip = document.createElement('div');
             chip.className = 'admin-category-chip';
-            const icon = CATEGORY_ICONS[category.name.toLowerCase()] || '🏷️';
             chip.innerHTML = `
-                <span>${icon} ${category.name}</span>
+                <span>${category.name}</span>
                 <span class="chip-count" title="${count} productos">${count}</span>
                 <button type="button" class="chip-delete" data-action="delete-category" data-id="${category.id}" title="Eliminar categoría">
                     <i class="fas fa-times"></i>
@@ -799,7 +782,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allPill = document.createElement('button');
         allPill.type = 'button';
         allPill.className = `admin-pill-btn ${adminSelectedCategory === 'all' ? 'active' : ''}`;
-        allPill.innerHTML = `<span>✨ Todas</span><span class="pill-count">${adminProducts.length}</span>`;
+        allPill.innerHTML = `<span>Todas</span><span class="pill-count">${adminProducts.length}</span>`;
         allPill.addEventListener('click', () => {
             adminSelectedCategory = 'all';
             renderAdminCategoryPills();
@@ -814,8 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pill = document.createElement('button');
             pill.type = 'button';
             pill.className = `admin-pill-btn ${adminSelectedCategory === catName ? 'active' : ''}`;
-            const icon = CATEGORY_ICONS[catName.toLowerCase()] || '🏷️';
-            pill.innerHTML = `<span>${icon} ${catName}</span><span class="pill-count">${catCounts[catName]}</span>`;
+            pill.innerHTML = `<span>${catName}</span><span class="pill-count">${catCounts[catName]}</span>`;
             pill.addEventListener('click', () => {
                 adminSelectedCategory = catName;
                 // Auto-expand this category
@@ -830,7 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const uncategorizedPill = document.createElement('button');
             uncategorizedPill.type = 'button';
             uncategorizedPill.className = `admin-pill-btn ${adminSelectedCategory === 'Sin categoría' ? 'active' : ''}`;
-            uncategorizedPill.innerHTML = `<span>📦 Sin categoría</span><span class="pill-count">${uncategorizedCount}</span>`;
+            uncategorizedPill.innerHTML = `<span>Sin categoría</span><span class="pill-count">${uncategorizedCount}</span>`;
             uncategorizedPill.addEventListener('click', () => {
                 adminSelectedCategory = 'Sin categoría';
                 adminCollapsedCategories.delete('Sin categoría');
@@ -894,7 +876,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sortedCategoryNames.forEach(categoryName => {
             const categoryProducts = grouped[categoryName];
             const isCollapsed = adminCollapsedCategories.has(categoryName) && !adminSearchQuery;
-            const icon = CATEGORY_ICONS[categoryName.toLowerCase()] || '🏷️';
 
             const accordion = document.createElement('div');
             accordion.className = `admin-category-accordion ${isCollapsed ? 'collapsed' : ''}`;
@@ -904,7 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="admin-accordion-header">
                     <div class="admin-accordion-title-wrap">
                         <div class="admin-accordion-icon">
-                            ${icon}
+                            <i class="fas fa-folder"></i>
                         </div>
                         <h4>${categoryName}</h4>
                         <span class="admin-accordion-count">${categoryProducts.length} ${categoryProducts.length === 1 ? 'producto' : 'productos'}</span>
