@@ -187,33 +187,43 @@
             <div class="admin-panel-header">
                 <div>
                     <h2>Panel Administrativo</h2>
-                    <p class="admin-subtitle">Gestiona productos, categorías y contraseña secreta.</p>
+                    <p class="admin-subtitle">Gestiona productos, categorías organizadas y seguridad.</p>
+                </div>
+                <div class="admin-header-stats">
+                    <span class="admin-stat-pill" id="admin-header-product-stat"><i class="fas fa-boxes"></i> 0 Productos</span>
+                    <span class="admin-stat-pill" id="admin-header-category-stat"><i class="fas fa-tags"></i> 0 Categorías</span>
                 </div>
             </div>
             <div class="admin-panel-body">
                 <section class="admin-section admin-grid-two">
-                    <div class="admin-card">
-                        <h3>Agregar nuevo producto</h3>
+                    <div class="admin-card" id="admin-product-card-form">
+                        <div class="admin-card-header">
+                            <h3 id="admin-form-heading"><i class="fas fa-plus-circle"></i> Agregar producto</h3>
+                        </div>
                         <button id="admin-product-toggle" class="btn btn-primary admin-toggle-btn">
-                            <i class="fas fa-plus"></i> Agregar producto
+                            <i class="fas fa-plus"></i> Abrir formulario
                         </button>
                         <div id="admin-product-panel" class="hidden">
                             <form id="admin-product-form" class="admin-form">
                                 <div class="form-group">
-                                    <label for="admin-product-name">Nombre del producto</label>
-                                    <input type="text" id="admin-product-name" required>
+                                    <label for="admin-product-name">Nombre del producto *</label>
+                                    <input type="text" id="admin-product-name" placeholder="Ej. Serum Ácido Hialurónico Bioaqua" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="admin-product-price">Precio</label>
-                                    <input type="number" id="admin-product-price" min="0" required>
+                                    <label for="admin-product-price">Precio ($ COP) *</label>
+                                    <input type="number" id="admin-product-price" min="0" placeholder="Ej. 15000" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="admin-product-image">Imagen</label>
+                                    <label for="admin-product-image">Foto del producto</label>
                                     <input type="file" id="admin-product-image" accept="image/*">
-                                    <small>Selecciona una imagen desde tu galería. Si editas el producto y no eliges una nueva imagen, se conservará la actual.</small>
+                                    <div id="admin-image-preview-wrap" class="admin-image-preview-wrap hidden">
+                                        <img id="admin-image-preview-img" src="" alt="Vista previa">
+                                        <span id="admin-image-preview-text">Imagen actual</span>
+                                    </div>
+                                    <small>Selecciona una imagen de tu galería. Si estás editando y no eliges una nueva, se conservará la actual.</small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="admin-product-page">Página / orden</label>
+                                    <label for="admin-product-page">Página / Posición</label>
                                     <input type="number" id="admin-product-page" min="1" value="1">
                                 </div>
                                 <div class="form-group">
@@ -222,52 +232,96 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="admin-product-category-new">O crea una categoría nueva</label>
-                                    <input type="text" id="admin-product-category-new" placeholder="Nombre categoría nueva">
+                                    <input type="text" id="admin-product-category-new" placeholder="Ej. Cuidado Facial">
                                 </div>
                                 <div class="form-group form-group-inline">
-                                    <label>
+                                    <label class="admin-checkbox-label">
                                         <input type="checkbox" id="admin-product-active" checked>
-                                        Producto activo
+                                        <span>Producto activo (visible en catálogo)</span>
                                     </label>
                                 </div>
                                 <div class="admin-form-actions">
-                                    <button class="btn btn-primary" type="submit">Guardar producto</button>
-                                    <button class="btn btn-secondary" type="button" id="admin-product-cancel">Cancelar</button>
+                                    <button class="btn btn-primary" type="submit" id="admin-product-submit-btn">
+                                        <i class="fas fa-save"></i> Guardar producto
+                                    </button>
+                                    <button class="btn btn-secondary" type="button" id="admin-product-cancel">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </button>
                                 </div>
                                 <p class="admin-message" id="admin-product-message"></p>
                             </form>
                         </div>
                     </div>
                     <div class="admin-card">
-                        <h3>Categorías</h3>
+                        <div class="admin-card-header">
+                            <h3><i class="fas fa-tags"></i> Categorías</h3>
+                        </div>
                         <form id="admin-category-form" class="admin-form">
                             <div class="form-group">
-                                <label for="admin-new-category">Nombre de categoría</label>
-                                <input type="text" id="admin-new-category" placeholder="Nueva categoría" required>
+                                <label for="admin-new-category">Nueva categoría</label>
+                                <div class="admin-input-btn-group">
+                                    <input type="text" id="admin-new-category" placeholder="Nombre de categoría" required>
+                                    <button class="btn btn-primary" type="submit"><i class="fas fa-plus"></i></button>
+                                </div>
                             </div>
-                            <button class="btn btn-primary" type="submit">Agregar categoría</button>
                             <p class="admin-message" id="admin-category-message"></p>
                         </form>
-                        <div id="admin-category-list" class="admin-list"></div>
+                        <div class="admin-categories-wrapper">
+                            <label>Categorías existentes:</label>
+                            <div id="admin-category-list" class="admin-category-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="admin-section admin-products-section">
+                    <div class="admin-products-header-bar">
+                        <div class="admin-products-title-group">
+                            <h3><i class="fas fa-boxes"></i> Catálogo de Productos</h3>
+                            <span class="admin-total-badge" id="admin-total-products-badge">0 productos</span>
+                        </div>
+                        <div class="admin-products-controls">
+                            <div class="admin-search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="admin-product-search" placeholder="Buscar por nombre o ID...">
+                                <button type="button" id="admin-search-clear" class="admin-search-clear hidden" title="Limpiar">&times;</button>
+                            </div>
+                            <div class="admin-toggle-all-btns">
+                                <button type="button" class="admin-btn-action" id="admin-expand-all" title="Expandir todas las categorías">
+                                    <i class="fas fa-expand-arrows-alt"></i> Expandir todo
+                                </button>
+                                <button type="button" class="admin-btn-action" id="admin-collapse-all" title="Colapsar todas las categorías">
+                                    <i class="fas fa-compress-arrows-alt"></i> Colapsar todo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Pills Filter Bar -->
+                    <div class="admin-pills-container">
+                        <label class="admin-pills-label"><i class="fas fa-filter"></i> Filtrar por categoría:</label>
+                        <div class="admin-category-pills" id="admin-category-pills">
+                            <!-- Populated dynamically by script.js -->
+                        </div>
+                    </div>
+
+                    <div id="admin-product-list" class="admin-product-list">
+                        <!-- Populated dynamically by script.js as category accordions -->
                     </div>
                 </section>
 
                 <section class="admin-section">
-                    <h3>Productos</h3>
-                    <div id="admin-product-list" class="admin-product-list"></div>
-                </section>
-
-                <section class="admin-section">
                     <div class="admin-card admin-card-fullwidth">
-                        <h3>Cambiar contraseña del panel</h3>
-                        <form id="admin-change-password-form" class="admin-form">
+                        <div class="admin-card-header">
+                            <h3><i class="fas fa-key"></i> Cambiar PIN de acceso</h3>
+                        </div>
+                        <form id="admin-change-password-form" class="admin-form admin-password-inline-form">
                             <div class="form-group">
-                                <label for="admin-new-password">Nueva contraseña</label>
-                                <input type="password" id="admin-new-password" required>
+                                <label for="admin-new-password">Nuevo PIN (4 dígitos)</label>
+                                <input type="password" id="admin-new-password" maxlength="10" placeholder="Ej. 2006" required>
                             </div>
-                            <button class="btn btn-primary" type="submit">Actualizar contraseña</button>
-                            <p class="admin-message" id="admin-password-message"></p>
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-lock"></i> Actualizar PIN</button>
                         </form>
+                        <p class="admin-message" id="admin-password-message"></p>
                     </div>
                 </section>
             </div>
