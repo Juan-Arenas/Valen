@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valen Makeup | Belleza a tu alcance</title>
+    <link rel="icon" type="image/jpeg" href="Logo.jpeg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo" id="site-logo">
+                <img src="Logo.jpeg" alt="Valen Makeup Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1 class="store-name">VALEN MAKEUP</h1>
+                    <span class="tagline">Belleza que tu cuerpo merece</span>
+                </div>
+            </div>
+            <nav class="navbar">
+                <ul class="nav-menu">
+                    <li><a href="#" class="active">Inicio</a></li>
+                    <li><a href="#catalogo">Catálogo</a></li>
+                    <li><a href="#informacion">Info Envíos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#carrito" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span
+                                class="cart-count">0</span></a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h2>Cosméticos & Cuidado Personal</h2>
+            <p>Maquillaje, cuidado capilar y accesorios de alta calidad a precios increíbles</p>
+            <a href="#catalogo" class="btn btn-primary">Explorar Catálogo</a>
+        </div>
+    </section>
+
+    <section id="catalogo" class="catalog-section">
+        <div class="container">
+            <h2 class="section-title">Nuestro Catálogo</h2>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Buscar productos... (ej. Labial, Crema, Bioaqua)">
+                </div>
+                <div class="category-filters" id="category-filters"></div>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be dynamically loaded here via script.js -->
+            </div>
+
+            <div class="loading-trigger" id="loading-trigger">
+                <div class="spinner"></div>
+                <p>Cargando más productos...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="informacion" class="info-section">
+        <div class="container">
+            <h2 class="section-title text-light">Información Importante</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Información Envíos 📦</h3>
+                    <p><strong>Envíos a nivel nacional:</strong> El valor del envío lo asume el cliente y varía según la
+                        transportadora, tamaño y peso. Entrega entre 1 y 3 días hábiles.</p>
+                    <p><strong>Domicilios locales:</strong> Costo según distancia/sector. En Pereira, Dosquebradas y
+                        Santa Rosa de Cabal, ¡entrega el mismo día o al día siguiente!</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Formas de Pago 💰</h3>
+                    <p><strong>Local:</strong> Pago contra entrega en efectivo, Nequi o transferencia Bancolombia al
+                        recibir tu pedido.</p>
+                    <p><strong>Envíos nacionales:</strong> Los pagos deben realizarse de forma anticipada antes de
+                        despachar la mercancía.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon-wrapper">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Garantía y Novedades</h3>
+                    <p>No realizamos cambios ni devoluciones de dinero. Tienes <strong>24 horas</strong> después de
+                        recibir para reportar cualquier novedad.</p>
+                    <p><strong>Productos electrónicos:</strong> Cuentan con 8 días de garantía única y exclusivamente
+                        por defectos de fábrica.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>VALEN MAKEUP</h2>
+                    <p>Belleza que tu cuerpo merece</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces</h3>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#catalogo">Catálogo</a></li>
+                        <li><a href="#informacion">Información</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Contacto & Redes</h3>
+                    <div class="social-icons">
+                        <a href="https://wa.me/573002525489" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <p class="whatsapp-number"><i class="fas fa-phone-alt"></i> +57 300 252 5489</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Carrito de Compras</h2>
+            <div id="cart-items">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-total">
+                <div class="total-row">
+                    <span>Total:</span>
+                    <span id="cart-total-price">$0</span>
+                </div>
+                <button class="btn btn-checkout checkout-btn" id="btn-checkout">
+                    <i class="fab fa-whatsapp"></i> Enviar pedido a WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-password-modal" class="modal admin-hidden-modal">
+        <div class="modal-content admin-modal-content">
+            <span class="close admin-close">&times;</span>
+            <h2>Acceso administrativo</h2>
+            <p>Ingresa la contraseña secreta para abrir el panel.</p>
+            <form id="admin-login-form" class="admin-form">
+                <div class="form-group">
+                    <label>PIN de acceso</label>
+                    <div class="pin-input-group" id="admin-pin-group">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-1" class="pin-digit" autocomplete="one-time-code">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-2" class="pin-digit" autocomplete="one-time-code">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-3" class="pin-digit" autocomplete="one-time-code">
+                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-4" class="pin-digit" autocomplete="one-time-code">
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Entrar</button>
+                <p class="admin-message" id="admin-login-message"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="modal admin-panel">
+        <div class="modal-content admin-panel-content">
+            <span class="close admin-close" id="admin-panel-close">&times;</span>
+            <div class="admin-panel-header">
+                <div>
+                    <h2>Panel Administrativo</h2>
+                    <p class="admin-subtitle">Gestiona productos, categorías y contraseña secreta.</p>
+                </div>
+            </div>
+            <div class="admin-panel-body">
+                <section class="admin-section admin-grid-two">
+                    <div class="admin-card">
+                        <h3>Agregar nuevo producto</h3>
+                        <button id="admin-product-toggle" class="btn btn-primary admin-toggle-btn">
+                            <i class="fas fa-plus"></i> Agregar producto
+                        </button>
+                        <div id="admin-product-panel" class="hidden">
+                            <form id="admin-product-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="admin-product-name">Nombre del producto</label>
+                                    <input type="text" id="admin-product-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-product-price">Precio</label>
+                                    <input type="number" id="admin-product-price" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-product-image">Imagen</label>
+                                    <input type="file" id="admin-product-image" accept="image/*">
+                                    <small>Selecciona una imagen desde tu galería. Si editas el producto y no eliges una nueva imagen, se conservará la actual.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-product-page">Página / orden</label>
+                                    <input type="number" id="admin-product-page" min="1" value="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-product-category">Categoría</label>
+                                    <select id="admin-product-category"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-product-category-new">O crea una categoría nueva</label>
+                                    <input type="text" id="admin-product-category-new" placeholder="Nombre categoría nueva">
+                                </div>
+                                <div class="form-group form-group-inline">
+                                    <label>
+                                        <input type="checkbox" id="admin-product-active" checked>
+                                        Producto activo
+                                    </label>
+                                </div>
+                                <div class="admin-form-actions">
+                                    <button class="btn btn-primary" type="submit">Guardar producto</button>
+                                    <button class="btn btn-secondary" type="button" id="admin-product-cancel">Cancelar</button>
+                                </div>
+                                <p class="admin-message" id="admin-product-message"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="admin-card">
+                        <h3>Categorías</h3>
+                        <form id="admin-category-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="admin-new-category">Nombre de categoría</label>
+                                <input type="text" id="admin-new-category" placeholder="Nueva categoría" required>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Agregar categoría</button>
+                            <p class="admin-message" id="admin-category-message"></p>
+                        </form>
+                        <div id="admin-category-list" class="admin-list"></div>
+                    </div>
+                </section>
+
+                <section class="admin-section">
+                    <h3>Productos</h3>
+                    <div id="admin-product-list" class="admin-product-list"></div>
+                </section>
+
+                <section class="admin-section">
+                    <div class="admin-card admin-card-fullwidth">
+                        <h3>Cambiar contraseña del panel</h3>
+                        <form id="admin-change-password-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="admin-new-password">Nueva contraseña</label>
+                                <input type="password" id="admin-new-password" required>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Actualizar contraseña</button>
+                            <p class="admin-message" id="admin-password-message"></p>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.API_BASE_URL = 'https://valen-makeup.onrender.com';
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -3,7 +3,7 @@ const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 
-const TMP_FILE = path.join(os.tmpdir(), 'valen_makeup_data.json');
+const TMP_FILE = path.join(os.tmpdir(), 'valen_makeup_data_v5.json');
 const SOURCE_FILE = path.join(process.cwd(), 'extracted_products.json');
 const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || '2006';
 
@@ -18,6 +18,34 @@ const DEFAULT_CATEGORIES = [
   { id: 4, name: 'Accesorios' },
   { id: 5, name: 'Bloomshell' },
 ];
+
+function stripEmojis(str) {
+  return String(str || '')
+    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FAFF}\u{200D}\u{FE0F}]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeCategoryName(name) {
+  const clean = stripEmojis(name);
+  const lower = clean.toLowerCase();
+  if (lower === 'cuidado facial' || lower === 'corporal' || lower === 'cuidado corporal' || lower === 'cuidado facial y corporal') {
+    return 'Cuidado Facial y Corporal';
+  }
+  if (lower === 'maquillaje') {
+    return 'Maquillaje';
+  }
+  if (lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') {
+    return 'Cabello y Ducha';
+  }
+  if (lower === 'accesorios' || lower === 'herramientas') {
+    return 'Accesorios';
+  }
+  if (lower === 'bloomshell') {
+    return 'Bloomshell';
+  }
+  return clean;
+}
 
 function getCategoryForPage(page) {
   const p = Number(page) || 1;
@@ -53,7 +81,7 @@ function loadInitialData() {
     const image = String(item.image || '').trim();
     const page = Number(item.page || 1) || 1;
     const active = item.active !== false;
-    let categoryName = String(item.category || '').trim();
+    let categoryName = normalizeCategoryName(item.category || '');
     if (!categoryName) {
       categoryName = getCategoryForPage(page);
     }
@@ -90,17 +118,54 @@ function loadInitialData() {
 }
 
 function loadData() {
+  let data = null;
   if (fs.existsSync(TMP_FILE)) {
     try {
-      const existing = JSON.parse(fs.readFileSync(TMP_FILE, 'utf8'));
-      if (existing && existing.categories && existing.categories.length > 0) {
-        return existing;
-      }
+      data = JSON.parse(fs.readFileSync(TMP_FILE, 'utf8'));
     } catch (error) {
-      return loadInitialData();
+      data = null;
     }
   }
-  return loadInitialData();
+
+  if (!data || !data.products || data.products.length === 0 || !data.categories || data.categories.length === 0) {
+    return loadInitialData();
+  }
+
+  // Ensure clean categories without emojis
+  const cleanedCats = [];
+  const catMap = new Map();
+  for (const cat of data.categories) {
+    const cleanName = normalizeCategoryName(cat.name);
+    if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !catMap.has(cleanName.toLowerCase())) {
+      catMap.set(cleanName.toLowerCase(), { id: cat.id, name: cleanName });
+      cleanedCats.push({ id: cat.id, name: cleanName });
+    }
+  }
+
+  for (const defCat of DEFAULT_CATEGORIES) {
+    if (!catMap.has(defCat.name.toLowerCase())) {
+      cleanedCats.push({ ...defCat });
+      catMap.set(defCat.name.toLowerCase(), { ...defCat });
+    }
+  }
+
+  data.categories = cleanedCats;
+
+  // Clean products category references
+  data.products.forEach(p => {
+    if (p.category) {
+      p.category = normalizeCategoryName(p.category);
+    } else {
+      p.category = getCategoryForPage(p.page);
+    }
+    const foundCat = data.categories.find(c => c.name.toLowerCase() === (p.category || '').toLowerCase());
+    if (foundCat) {
+      p.category_id = foundCat.id;
+      p.category = foundCat.name;
+    }
+  });
+
+  return data;
 }
 
 function saveData(data) {
@@ -149,10 +214,6 @@ function requireAdmin(req, data, payload, res) {
     return false;
   }
   return true;
-}
-
-function normalizeCategoryName(name) {
-  return String(name || '').trim();
 }
 
 function findCategoryById(data, categoryId) {

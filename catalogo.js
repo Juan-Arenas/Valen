@@ -1,0 +1,318 @@
+const INLINE_PRODUCTS = [{"id": 1, "name": "Producto de Maquillaje", "price": 100000, "image": "img/product_1.jpg", "page": 2, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 2, "name": "Kit extractores de espinillas y puntos negros", "price": 6900, "image": "img/product_2.jpg", "page": 4, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 3, "name": "Kit viajero Ácido Salicilico Skincare Bioaqua", "price": 21900, "image": "img/product_3.jpg", "page": 4, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 4, "name": "Kit anti acné Bioaqua en caja x3 productos", "price": 22900, "image": "img/product_4.jpg", "page": 4, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 5, "name": "Protector solar Bioaqua Vitamina C", "price": 7900, "image": "img/product_5.jpg", "page": 4, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 6, "name": "Velo Tea Control grasa Bioaqua", "price": 1900, "image": "img/product_6.jpg", "page": 4, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 7, "name": "Jabón de arroz en barra Bioaqua", "price": 8900, "image": "img/product_7.jpg", "page": 5, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 8, "name": "Mascarilla de carbón puntos negros", "price": 5900, "image": "img/product_8.jpg", "page": 5, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 9, "name": "Colageno de ojeras", "price": 1900, "image": "img/product_9.jpg", "page": 5, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 10, "name": "Kit truly íntimo aroma delicioso hidratante", "price": 54900, "image": "img/product_10.jpg", "page": 5, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 11, "name": "Molde de hielo facial", "price": 7900, "image": "img/product_11.jpg", "page": 5, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 12, "name": "Contorno de ojos antioxidante UVA Sadoer", "price": 6000, "image": "img/product_12.jpg", "page": 6, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 13, "name": "Gel limpiador facial Lula Ceramidas", "price": 25000, "image": "img/product_13.jpg", "page": 6, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 14, "name": "Tónico facial agua de rosas Purpure 120ml", "price": 15000, "image": "img/product_14.jpg", "page": 6, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 15, "name": "tonico facial acido hialuronico Bioaqua", "price": 10000, "image": "img/product_15.jpg", "page": 6, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 16, "name": "Contorno de ojos hidratante Colageno Bioaqua", "price": 6000, "image": "img/product_16.jpg", "page": 6, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 17, "name": "Crema facial hidratante Colageno Bioaqua", "price": 10000, "image": "img/product_17.jpg", "page": 7, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 18, "name": "Serum ácido Hialurónico Bioaqua", "price": 5000, "image": "img/product_18.jpg", "page": 7, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 19, "name": "Hidratante facial con perlas Lula (atenea)", "price": 19900, "image": "img/product_19.jpg", "page": 7, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 20, "name": "Desmaquillante Lula (Atenea)", "price": 19900, "image": "img/product_20.jpg", "page": 7, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 21, "name": "Jabón anti acné bioaqua", "price": 10000, "image": "img/product_21.jpg", "page": 7, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 22, "name": "Protector solar Centella Asiática Bioaqua", "price": 10000, "image": "img/product_22.jpg", "page": 8, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 23, "name": "Piedra guasha masajeador facial", "price": 5000, "image": "img/product_23.jpg", "page": 8, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 24, "name": "Dúo de Colageno ojos y labios Bioaqua", "price": 4000, "image": "img/product_24.jpg", "page": 8, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 25, "name": "Pañitos húmedos desmaquillantes", "price": 4000, "image": "img/product_25.jpg", "page": 8, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 26, "name": "Agua de rosas mediana 125ml", "price": 9900, "image": "img/product_26.jpg", "page": 8, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 27, "name": "gel exfoliantes de arroz bioaqua", "price": 12900, "image": "img/product_27.jpg", "page": 9, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 28, "name": "gel de arroz bioaqua 300g gel blanco", "price": 9900, "image": "img/product_28.jpg", "page": 9, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 29, "name": "desmaquillante de arroz bioaqua 300ml", "price": 14900, "image": "img/product_29.jpg", "page": 9, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 30, "name": "Mascarilla de arcilla blanqueadora en sobrecito bioaqua", "price": 14900, "image": "img/product_30.jpg", "page": 9, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 31, "name": "agua micelar vitamina c", "price": 9900, "image": "img/product_31.jpg", "page": 9, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 32, "name": "mascarilla comprimida", "price": 1500, "image": "img/product_32.jpg", "page": 10, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 33, "name": "pañitos desmaquillantes", "price": 3000, "image": "img/product_33.jpg", "page": 10, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 34, "name": "Bloom Bubbles parches para el acne bye bye granos Bloomshell", "price": 9900, "image": "img/store_prod_4.jpg", "page": 10, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 35, "name": "Protector solar rosas Con Color Karité", "price": 11900, "image": "img/product_35.jpg", "page": 10, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 36, "name": "Jabón Azufre facial Purpure en barra", "price": 12900, "image": "img/product_36.jpg", "page": 10, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 37, "name": "Jabón Detox facial Purpure carbón activado en barra", "price": 12900, "image": "img/product_37.jpg", "page": 11, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 38, "name": "Exfoliante hidratante gel facial 200ml Aguacate", "price": 10000, "image": "img/product_38.jpg", "page": 11, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 39, "name": "Pañitos húmedos en lata", "price": 6900, "image": "img/product_39.jpg", "page": 11, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 40, "name": "Crema de manos hidratante Labubu", "price": 6000, "image": "img/product_40.jpg", "page": 11, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 41, "name": "Protector solar en barra", "price": 7500, "image": "img/product_41.jpg", "page": 11, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 42, "name": "Protector solar ácido Hialurónico", "price": 10000, "image": "img/product_42.jpg", "page": 12, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 43, "name": "Jabón ácido Hialurónico bioaqua", "price": 10000, "image": "img/store_prod_22.jpg", "page": 12, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 44, "name": "Jabón facial rosas bioaqua Combo de arroz bioaqua x5 productos", "price": 10000, "image": "img/product_44.jpg", "page": 12, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 45, "name": "Crema hidratante con dispensador arroz bioaqua", "price": 10000, "image": "img/product_45.jpg", "page": 12, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 46, "name": "Producto de Maquillaje", "price": 29900, "image": "img/product_46.jpg", "page": 12, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 47, "name": "Espuma facial ácido Hialurónico Ushas", "price": 13900, "image": "img/product_47.jpg", "page": 13, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 48, "name": "Espuma limpiadora", "price": 10000, "image": "img/product_48.jpg", "page": 13, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 49, "name": "desmaquillante en barra", "price": 7900, "image": "img/product_49.jpg", "page": 13, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 50, "name": "Jabón facial blanqueador Nicotinamida manchas y pecas", "price": 8900, "image": "img/product_50.jpg", "page": 13, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 51, "name": "rodillo jade", "price": 10000, "image": "img/product_51.jpg", "page": 13, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 52, "name": "Protector solar Aloe Vera Bioaqua", "price": 10000, "image": "img/product_52.jpg", "page": 14, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 53, "name": "Protector solar vokali", "price": 7900, "image": "img/product_53.jpg", "page": 14, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 54, "name": "protector solar", "price": 7900, "image": "img/product_54.jpg", "page": 14, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 55, "name": "Parches anti acné (figuras)", "price": 8900, "image": "img/product_55.jpg", "page": 14, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 56, "name": "Parches estrellita acné color surtido (color aleatorio)", "price": 2000, "image": "img/product_56.jpg", "page": 14, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 57, "name": "Rubor Candy Love Purpure", "price": 12000, "image": "img/store_prod_50.jpg", "page": 16, "category": "Maquillaje", "category_id": 2}, {"id": 58, "name": "Rubor en barra con aplicador", "price": 9000, "image": "img/product_58.jpg", "page": 16, "category": "Maquillaje", "category_id": 2}, {"id": 59, "name": "polvo compacto", "price": 10000, "image": "img/product_59.jpg", "page": 16, "category": "Maquillaje", "category_id": 2}, {"id": 60, "name": "Tinta de labios aplicador grueso", "price": 6000, "image": "img/product_60.jpg", "page": 16, "category": "Maquillaje", "category_id": 2}, {"id": 61, "name": "Gloss roll on brillo labial lip oil surtido", "price": 3000, "image": "img/product_61.jpg", "page": 16, "category": "Maquillaje", "category_id": 2}, {"id": 62, "name": "Gloss aroma miel hidratante", "price": 3000, "image": "img/product_62.jpg", "page": 17, "category": "Maquillaje", "category_id": 2}, {"id": 63, "name": "Lápiz delineador de labios karite surtido", "price": 3000, "image": "img/product_63.jpg", "page": 17, "category": "Maquillaje", "category_id": 2}, {"id": 64, "name": "Tinta de labios esmalte Stitch surtida", "price": 5000, "image": "img/product_64.jpg", "page": 17, "category": "Maquillaje", "category_id": 2}, {"id": 65, "name": "Tinta de labios botella de Vino surtida", "price": 5000, "image": "img/product_65.jpg", "page": 17, "category": "Maquillaje", "category_id": 2}, {"id": 66, "name": "Tinta de labios Lazy tape", "price": 5000, "image": "img/product_66.jpg", "page": 17, "category": "Maquillaje", "category_id": 2}, {"id": 67, "name": "Papel absorbe grasa con polvo suelto natural y espejo Bloomshell", "price": 19000, "image": "img/product_67.jpg", "page": 18, "category": "Maquillaje", "category_id": 2}, {"id": 68, "name": "Tinta café Bloomshell con llavero Bloom Latte Kiss", "price": 24000, "image": "img/product_68.jpg", "page": 18, "category": "Maquillaje", "category_id": 2}, {"id": 69, "name": "Primer facial leche esencial", "price": 7000, "image": "img/product_69.jpg", "page": 18, "category": "Maquillaje", "category_id": 2}, {"id": 70, "name": "Laminador de cejas Bloomshell gel fijador de", "price": 16000, "image": "img/product_70.jpg", "page": 18, "category": "Maquillaje", "category_id": 2}, {"id": 71, "name": "Lápiz doble blanco y negro unidad", "price": 3000, "image": "img/product_71.jpg", "page": 18, "category": "Maquillaje", "category_id": 2}, {"id": 72, "name": "Base líquida de maquillaje surtida", "price": 6000, "image": "img/product_72.jpg", "page": 19, "category": "Maquillaje", "category_id": 2}, {"id": 73, "name": "Lápiz retráctil de cejas con brocha", "price": 6000, "image": "img/product_73.jpg", "page": 19, "category": "Maquillaje", "category_id": 2}, {"id": 74, "name": "Rubor cremoso multi usos labios o mejillas surtido", "price": 5000, "image": "img/product_74.jpg", "page": 19, "category": "Maquillaje", "category_id": 2}, {"id": 75, "name": "Rubor en barra surtido", "price": 8000, "image": "img/product_75.jpg", "page": 19, "category": "Maquillaje", "category_id": 2}, {"id": 76, "name": "Iluminador en barra surtido", "price": 6000, "image": "img/product_76.jpg", "page": 19, "category": "Maquillaje", "category_id": 2}, {"id": 77, "name": "Kit de labios Glitter set x3 productos", "price": 5000, "image": "img/product_77.jpg", "page": 20, "category": "Maquillaje", "category_id": 2}, {"id": 78, "name": "Delineador negro plumón 36h eyeliner plumón y sello", "price": 5000, "image": "img/product_78.jpg", "page": 20, "category": "Maquillaje", "category_id": 2}, {"id": 79, "name": "Pestañina Prosa Café", "price": 20000, "image": "img/product_79.jpg", "page": 20, "category": "Maquillaje", "category_id": 2}, {"id": 80, "name": "Delineador negro líquido pincel Prosa resistente", "price": 20000, "image": "img/product_80.jpg", "page": 20, "category": "Maquillaje", "category_id": 2}, {"id": 81, "name": "Polvo base cushion 2 en 1", "price": 10000, "image": "img/product_81.jpg", "page": 20, "category": "Maquillaje", "category_id": 2}, {"id": 82, "name": "Llavero Dúo mimosa + mini shell tint Bloomshell", "price": 25000, "image": "img/product_82.jpg", "page": 21, "category": "Maquillaje", "category_id": 2}, {"id": 83, "name": "Llavero Dúo nude + mini gloss hidratante Bloomshell", "price": 25000, "image": "img/product_83.jpg", "page": 21, "category": "Maquillaje", "category_id": 2}, {"id": 84, "name": "Brillo hidratante mágico strawberry Purpure en barra", "price": 7000, "image": "img/product_84.jpg", "page": 21, "category": "Maquillaje", "category_id": 2}, {"id": 85, "name": "Bloom Black Bloomshell lápiz cremoso negro", "price": 9000, "image": "img/product_85.jpg", "page": 21, "category": "Maquillaje", "category_id": 2}, {"id": 86, "name": "Rubor luminoso compacto Blush Purpure", "price": 15000, "image": "img/product_86.jpg", "page": 21, "category": "Maquillaje", "category_id": 2}, {"id": 87, "name": "Dúo rubor e iluminador Purpure", "price": 12000, "image": "img/product_87.jpg", "page": 22, "category": "Maquillaje", "category_id": 2}, {"id": 88, "name": "Gel de cejas Diamond Purpure", "price": 12000, "image": "img/product_88.jpg", "page": 22, "category": "Maquillaje", "category_id": 2}, {"id": 89, "name": "Iluminador Lula (atenea)", "price": 15000, "image": "img/product_89.jpg", "page": 22, "category": "Maquillaje", "category_id": 2}, {"id": 90, "name": "Beauty blender esponja surtida biselada", "price": 3000, "image": "img/product_90.jpg", "page": 22, "category": "Maquillaje", "category_id": 2}, {"id": 91, "name": "Polvo suelto banana Lula (atenea)", "price": 13500, "image": "img/product_91.jpg", "page": 22, "category": "Maquillaje", "category_id": 2}, {"id": 92, "name": "Paleta de sombras corazones", "price": 12000, "image": "img/product_92.jpg", "page": 23, "category": "Maquillaje", "category_id": 2}, {"id": 93, "name": "Paleta de sombras Hudamoji corazones", "price": 10000, "image": "img/product_93.jpg", "page": 23, "category": "Maquillaje", "category_id": 2}, {"id": 94, "name": "Gloss aplicador grueso magic", "price": 6500, "image": "img/product_94.jpg", "page": 23, "category": "Maquillaje", "category_id": 2}, {"id": 95, "name": "Paleta de maquillaje Helado", "price": 15000, "image": "img/product_95.jpg", "page": 23, "category": "Maquillaje", "category_id": 2}, {"id": 96, "name": "Gloss aplicador grueso tipo Dior surtido", "price": 8000, "image": "img/product_96.jpg", "page": 23, "category": "Maquillaje", "category_id": 2}, {"id": 97, "name": "Gel de cejas Karité", "price": 5500, "image": "img/product_97.jpg", "page": 24, "category": "Maquillaje", "category_id": 2}, {"id": 98, "name": "Gloss espiral ice cream con llavero surtido", "price": 8000, "image": "img/product_98.jpg", "page": 24, "category": "Maquillaje", "category_id": 2}, {"id": 99, "name": "Tratamiento fortalecedor de pestañas arroz Pestañina transparente ácido Hialurónico", "price": 6500, "image": "img/product_99.jpg", "page": 24, "category": "Maquillaje", "category_id": 2}, {"id": 100, "name": "Polvo en gel matificante control grasa Karité", "price": 12000, "image": "img/product_100.jpg", "page": 24, "category": "Maquillaje", "category_id": 2}, {"id": 101, "name": "Lápiz de cejas retráctil con cepillo", "price": 5000, "image": "img/product_101.jpg", "page": 24, "category": "Maquillaje", "category_id": 2}, {"id": 102, "name": "Rubor con aplicador blush surtido con destellos", "price": 13000, "image": "img/product_102.jpg", "page": 25, "category": "Maquillaje", "category_id": 2}, {"id": 103, "name": "Base tipo tinta Buena cobertura Kiss Beauty", "price": 7000, "image": "img/product_103.jpg", "page": 25, "category": "Maquillaje", "category_id": 2}, {"id": 104, "name": "Pestañina económica miss ever", "price": 6500, "image": "img/product_104.jpg", "page": 25, "category": "Maquillaje", "category_id": 2}, {"id": 105, "name": "Rubor cremoso 2 en 1 surtido", "price": 11000, "image": "img/product_105.jpg", "page": 25, "category": "Maquillaje", "category_id": 2}, {"id": 106, "name": "Lip balm strawberry llavero fresita", "price": 5000, "image": "img/product_106.jpg", "page": 25, "category": "Maquillaje", "category_id": 2}, {"id": 107, "name": "Base líquida For me surtida", "price": 6000, "image": "img/product_107.jpg", "page": 26, "category": "Maquillaje", "category_id": 2}, {"id": 108, "name": "Base líquida Fit surtida", "price": 6000, "image": "img/product_108.jpg", "page": 26, "category": "Maquillaje", "category_id": 2}, {"id": 109, "name": "Corrector líquido fitme surtido con aplicador", "price": 8000, "image": "img/product_109.jpg", "page": 26, "category": "Maquillaje", "category_id": 2}, {"id": 110, "name": "Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida", "price": 6500, "image": "img/product_110.jpg", "page": 26, "category": "Maquillaje", "category_id": 2}, {"id": 111, "name": "Paleta de sombras 18 tonos New Nude", "price": 15000, "image": "img/product_111.jpg", "page": 26, "category": "Maquillaje", "category_id": 2}, {"id": 112, "name": "Fijador de maquillaje cherry", "price": 12000, "image": "img/product_112.jpg", "page": 27, "category": "Maquillaje", "category_id": 2}, {"id": 113, "name": "Kit de primer + fijador de maquillaje Arroz", "price": 6000, "image": "img/product_113.jpg", "page": 27, "category": "Maquillaje", "category_id": 2}, {"id": 114, "name": "Rubor en perlas tonos surtidos rubor granulado o iluminador", "price": 7000, "image": "img/product_114.jpg", "page": 27, "category": "Maquillaje", "category_id": 2}, {"id": 115, "name": "Corrector de ojeras super stay Gant Beauty", "price": 8500, "image": "img/product_115.jpg", "page": 27, "category": "Maquillaje", "category_id": 2}, {"id": 116, "name": "Gloss purpure Lip Gloss Glow", "price": 15000, "image": "img/product_116.jpg", "page": 27, "category": "Maquillaje", "category_id": 2}, {"id": 117, "name": "Fijador de maquillaje Purpure 160ml", "price": 13000, "image": "img/product_117.jpg", "page": 28, "category": "Maquillaje", "category_id": 2}, {"id": 118, "name": "Gloss Voluminizador con color Purpure", "price": 23000, "image": "img/product_118.jpg", "page": 28, "category": "Maquillaje", "category_id": 2}, {"id": 119, "name": "Fijador de maquillaje en Spray", "price": 10000, "image": "img/product_119.jpg", "page": 28, "category": "Maquillaje", "category_id": 2}, {"id": 120, "name": "Lip gloss huellita con destellos aplicador Jumbo Magic", "price": 7000, "image": "img/product_120.jpg", "page": 28, "category": "Maquillaje", "category_id": 2}, {"id": 121, "name": "Primer vitamina c", "price": 6500, "image": "img/product_121.jpg", "page": 28, "category": "Maquillaje", "category_id": 2}, {"id": 122, "name": "Pestañina prosa", "price": 3500, "image": "img/product_122.jpg", "page": 29, "category": "Maquillaje", "category_id": 2}, {"id": 123, "name": "Lápiz de cejas", "price": 19000, "image": "img/product_123.jpg", "page": 29, "category": "Maquillaje", "category_id": 2}, {"id": 124, "name": "Base skin cover Mocmallure", "price": 10000, "image": "img/product_124.jpg", "page": 29, "category": "Maquillaje", "category_id": 2}, {"id": 125, "name": "Iluminador Candy Love Purpure", "price": 11500, "image": "img/store_prod_20.jpg", "page": 29, "category": "Maquillaje", "category_id": 2}, {"id": 126, "name": "Dúo contorno y rubor en barra Purpure", "price": 13000, "image": "img/product_126.jpg", "page": 29, "category": "Maquillaje", "category_id": 2}, {"id": 127, "name": "Perfume capilar de hadas con shimmer surtido", "price": 12000, "image": "img/product_127.jpg", "page": 31, "category": "Cabello y Ducha", "category_id": 3}, {"id": 128, "name": "Aceite capilar arroz bioaqua", "price": 13000, "image": "img/product_128.jpg", "page": 31, "category": "Cabello y Ducha", "category_id": 3}, {"id": 129, "name": "Shampoo de rizos kids Exotic Sin sal", "price": 16000, "image": "img/product_129.jpg", "page": 31, "category": "Cabello y Ducha", "category_id": 3}, {"id": 130, "name": "Tratamiento de rizos kids Exotic", "price": 17000, "image": "img/product_130.jpg", "page": 31, "category": "Cabello y Ducha", "category_id": 3}, {"id": 131, "name": "Acondicionador Rizos Exotic", "price": 16000, "image": "img/product_131.jpg", "page": 31, "category": "Cabello y Ducha", "category_id": 3}, {"id": 132, "name": "Shampoo rizos 1.000ml Exotic", "price": 16000, "image": "img/product_132.jpg", "page": 32, "category": "Cabello y Ducha", "category_id": 3}, {"id": 133, "name": "Tratamiento capilar rizos more curls exotic 1.000ml", "price": 17000, "image": "img/product_133.jpg", "page": 32, "category": "Cabello y Ducha", "category_id": 3}, {"id": 134, "name": "Tratamiento capilar Melancia 3en1 para cabello seco y dañado", "price": 17000, "image": "img/product_134.jpg", "page": 32, "category": "Cabello y Ducha", "category_id": 3}, {"id": 135, "name": "Tratamiento capilar coco Exotic 1.000ml", "price": 17000, "image": "img/product_135.jpg", "page": 32, "category": "Cabello y Ducha", "category_id": 3}, {"id": 136, "name": "Shampoo de coco ml Exotic", "price": 16000, "image": "img/product_136.jpg", "page": 32, "category": "Cabello y Ducha", "category_id": 3}, {"id": 137, "name": "Shampoo Repolarizacion intensiva exotic", "price": 16000, "image": "img/product_137.jpg", "page": 33, "category": "Cabello y Ducha", "category_id": 3}, {"id": 138, "name": "Tratamiento Repolarizacion intensiva exotic", "price": 17000, "image": "img/product_138.jpg", "page": 33, "category": "Cabello y Ducha", "category_id": 3}, {"id": 139, "name": "Shampoo de cebolla 1.000ml Exotic", "price": 16000, "image": "img/product_139.jpg", "page": 33, "category": "Cabello y Ducha", "category_id": 3}, {"id": 140, "name": "Acondicionador de cebolla Exotic", "price": 16000, "image": "img/product_140.jpg", "page": 33, "category": "Cabello y Ducha", "category_id": 3}, {"id": 141, "name": "Tratamiento capilar de cebolla Exotic", "price": 17000, "image": "img/product_141.jpg", "page": 33, "category": "Cabello y Ducha", "category_id": 3}, {"id": 142, "name": "Óleo premium Cebolla aceite capilar crecimiento", "price": 10000, "image": "img/product_142.jpg", "page": 34, "category": "Cabello y Ducha", "category_id": 3}, {"id": 143, "name": "Óleo Romero aceite capilar crecimiento", "price": 11000, "image": "img/product_143.jpg", "page": 34, "category": "Cabello y Ducha", "category_id": 3}, {"id": 144, "name": "Tratamiento capilar 500g Coco recuperación y brillo", "price": 15000, "image": "img/product_144.jpg", "page": 34, "category": "Cabello y Ducha", "category_id": 3}, {"id": 145, "name": "Cepillo masajeador capilar para e shampoo o tratamientos", "price": 6000, "image": "img/product_145.jpg", "page": 34, "category": "Cabello y Ducha", "category_id": 3}, {"id": 146, "name": "Set x3 gorro ducha", "price": 3000, "image": "img/product_146.jpg", "page": 34, "category": "Cabello y Ducha", "category_id": 3}, {"id": 147, "name": "Scrunchie satin bamba cabello moña anti quiebre", "price": 4000, "image": "img/store_prod_52.jpg", "page": 36, "category": "Accesorios", "category_id": 4}, {"id": 148, "name": "Set mini ganchos más moñitas", "price": 5000, "image": "img/store_prod_62.jpg", "page": 36, "category": "Accesorios", "category_id": 4}, {"id": 149, "name": "Kit cauchos y moñas", "price": 3000, "image": "img/product_149.jpg", "page": 36, "category": "Accesorios", "category_id": 4}, {"id": 150, "name": "Cartón animado moñas y pinzas surtido", "price": 4000, "image": "img/product_150.jpg", "page": 36, "category": "Accesorios", "category_id": 4}, {"id": 151, "name": "Cera moldeadora de cabello hello kitty kuromi surtido", "price": 7000, "image": "img/product_151.jpg", "page": 36, "category": "Accesorios", "category_id": 4}, {"id": 152, "name": "Kit de moñas y mini pinzas para el cabello en cajita", "price": 6000, "image": "img/product_152.jpg", "page": 37, "category": "Accesorios", "category_id": 4}, {"id": 153, "name": "Ondas sin calor tubo de seda más scrunchies", "price": 11000, "image": "img/store_prod_41.jpg", "page": 37, "category": "Accesorios", "category_id": 4}, {"id": 154, "name": "Bloom Hair curl pro Cepillo definidor de rizos Bloomshell", "price": 15000, "image": "img/product_154.jpg", "page": 37, "category": "Accesorios", "category_id": 4}, {"id": 155, "name": "Set x3 pinzas Flor color surtido 1 grande 2 pequeñas", "price": 7000, "image": "img/product_155.jpg", "page": 37, "category": "Accesorios", "category_id": 4}, {"id": 156, "name": "Cepillo pulidor de cabello color surtido", "price": 5000, "image": "img/product_156.jpg", "page": 37, "category": "Accesorios", "category_id": 4}, {"id": 157, "name": "Cepillo desenredante anti frizz color surtido", "price": 10000, "image": "img/product_157.jpg", "page": 38, "category": "Accesorios", "category_id": 4}, {"id": 158, "name": "Kit balaca puffy más muñequeras", "price": 12000, "image": "img/product_158.jpg", "page": 38, "category": "Accesorios", "category_id": 4}, {"id": 159, "name": "Gorrito de cabello micro fibra", "price": 12000, "image": "img/product_159.jpg", "page": 38, "category": "Accesorios", "category_id": 4}, {"id": 160, "name": "Toalla de cabello de micro fibra", "price": 11000, "image": "img/product_160.jpg", "page": 38, "category": "Accesorios", "category_id": 4}, {"id": 161, "name": "Cepillo masajeador capilar shampoo", "price": 8000, "image": "img/product_161.jpg", "page": 38, "category": "Accesorios", "category_id": 4}, {"id": 162, "name": "Cepillo de cabello Sanrio", "price": 9000, "image": "img/product_162.jpg", "page": 39, "category": "Accesorios", "category_id": 4}, {"id": 163, "name": "Cepillo de cabello garrita", "price": 9000, "image": "img/product_163.jpg", "page": 39, "category": "Accesorios", "category_id": 4}, {"id": 164, "name": "Balaca elástica", "price": 3000, "image": "img/product_164.jpg", "page": 39, "category": "Accesorios", "category_id": 4}, {"id": 165, "name": "Gorrito para dormir satin surtido", "price": 8000, "image": "img/product_165.jpg", "page": 39, "category": "Accesorios", "category_id": 4}, {"id": 166, "name": "Cartón x4 pinzas", "price": 5000, "image": "img/product_166.jpg", "page": 39, "category": "Accesorios", "category_id": 4}, {"id": 167, "name": "Encrespador de pestañas", "price": 8000, "image": "img/product_167.jpg", "page": 41, "category": "Accesorios", "category_id": 4}, {"id": 168, "name": "Brocha para corrector", "price": 9000, "image": "img/product_168.jpg", "page": 41, "category": "Accesorios", "category_id": 4}, {"id": 169, "name": "Borla mini de precisión borla para el dedo", "price": 1000, "image": "img/product_169.jpg", "page": 41, "category": "Accesorios", "category_id": 4}, {"id": 170, "name": "Encrespador de pestañas económic", "price": 5000, "image": "img/product_170.jpg", "page": 41, "category": "Accesorios", "category_id": 4}, {"id": 171, "name": "Pomos de algodón desmaquillantes", "price": 8000, "image": "img/product_171.jpg", "page": 41, "category": "Accesorios", "category_id": 4}, {"id": 172, "name": "Brocha doble de cejas", "price": 3000, "image": "img/product_172.jpg", "page": 42, "category": "Accesorios", "category_id": 4}, {"id": 173, "name": "Set x3 perfiladores", "price": 3000, "image": "img/product_173.jpg", "page": 42, "category": "Accesorios", "category_id": 4}, {"id": 174, "name": "Brocha doble para cejas laminadas orgánicas", "price": 5500, "image": "img/product_174.jpg", "page": 42, "category": "Accesorios", "category_id": 4}, {"id": 175, "name": "Papel absorbe grasa x100 Carbón", "price": 6000, "image": "img/product_175.jpg", "page": 42, "category": "Accesorios", "category_id": 4}, {"id": 176, "name": "Brocha de cejas + perfilador", "price": 5000, "image": "img/product_176.jpg", "page": 42, "category": "Accesorios", "category_id": 4}, {"id": 177, "name": "Repuestos encrespador", "price": 3000, "image": "img/store_prod_49.jpg", "page": 43, "category": "Accesorios", "category_id": 4}, {"id": 178, "name": "Beauty blender grande Big Blender Bloomshell", "price": 11000, "image": "img/product_178.jpg", "page": 43, "category": "Accesorios", "category_id": 4}, {"id": 179, "name": "Organizador viajero de colgar surtido", "price": 20000, "image": "img/product_179.jpg", "page": 43, "category": "Accesorios", "category_id": 4}, {"id": 180, "name": "Set de brochas viajeras surtidas", "price": 6000, "image": "img/store_prod_58.jpg", "page": 43, "category": "Accesorios", "category_id": 4}, {"id": 181, "name": "Brocha para base pequeña viral TikTok", "price": 6000, "image": "img/product_181.jpg", "page": 43, "category": "Accesorios", "category_id": 4}, {"id": 182, "name": "Set de brochas sirena", "price": 12000, "image": "img/store_prod_56.jpg", "page": 44, "category": "Accesorios", "category_id": 4}, {"id": 183, "name": "Paquete x9 mini borlas para el maquillaje borla para el dedo", "price": 7000, "image": "img/product_183.jpg", "page": 44, "category": "Accesorios", "category_id": 4}, {"id": 184, "name": "Brocha de rostro", "price": 8000, "image": "img/product_184.jpg", "page": 44, "category": "Accesorios", "category_id": 4}, {"id": 185, "name": "Brocha de ojos difuminadora", "price": 6000, "image": "img/product_185.jpg", "page": 44, "category": "Accesorios", "category_id": 4}, {"id": 186, "name": "Papel de arroz absorbe grasa", "price": 6000, "image": "img/product_186.jpg", "page": 44, "category": "Accesorios", "category_id": 4}, {"id": 187, "name": "Papel absorbe grasa strawberry", "price": 6000, "image": "img/product_187.jpg", "page": 45, "category": "Accesorios", "category_id": 4}, {"id": 188, "name": "Plantilla multiusos molde delineador", "price": 3000, "image": "img/product_188.jpg", "page": 45, "category": "Accesorios", "category_id": 4}, {"id": 189, "name": "Toalla afelpada multiusos toalla desmaquillante o borla", "price": 6000, "image": "img/product_189.jpg", "page": 45, "category": "Accesorios", "category_id": 4}, {"id": 190, "name": "Kit de brochas kabuki pequeño", "price": 12000, "image": "img/product_190.jpg", "page": 45, "category": "Accesorios", "category_id": 4}, {"id": 191, "name": "Perfilador + Depilador", "price": 5000, "image": "img/product_191.jpg", "page": 45, "category": "Accesorios", "category_id": 4}, {"id": 192, "name": "Cosmetiquera tornasol", "price": 16000, "image": "img/product_192.jpg", "page": 46, "category": "Accesorios", "category_id": 4}, {"id": 193, "name": "Fijador de maquillarte spray sellante", "price": 8000, "image": "img/product_193.jpg", "page": 46, "category": "Accesorios", "category_id": 4}, {"id": 194, "name": "Cepillo cejas y pestañas paquete x10", "price": 5000, "image": "img/product_194.jpg", "page": 46, "category": "Accesorios", "category_id": 4}, {"id": 195, "name": "Paquete almohadilla lifting", "price": 6000, "image": "img/product_195.jpg", "page": 46, "category": "Accesorios", "category_id": 4}, {"id": 196, "name": "Aplicador desechable", "price": 5000, "image": "img/product_196.jpg", "page": 46, "category": "Accesorios", "category_id": 4}, {"id": 197, "name": "Pinza de pestañas perfumes y cremas", "price": 5000, "image": "img/product_197.jpg", "page": 47, "category": "Accesorios", "category_id": 4}, {"id": 198, "name": "Bling bling grapadora de Piedritas", "price": 22000, "image": "img/product_198.jpg", "page": 47, "category": "Accesorios", "category_id": 4}, {"id": 199, "name": "Producto de Maquillaje", "price": 5000, "image": "img/product_199.jpg", "page": 47, "category": "Accesorios", "category_id": 4}, {"id": 200, "name": "Producto de Maquillaje", "price": 5000, "image": "img/product_200.jpg", "page": 47, "category": "Accesorios", "category_id": 4}, {"id": 201, "name": "Producto de Maquillaje", "price": 22000, "image": "img/product_201.jpg", "page": 47, "category": "Accesorios", "category_id": 4}, {"id": 202, "name": "Mini mantequilla corporal shimmer Purpure 50gr -", "price": 11000, "image": "img/product_202.jpg", "page": 48, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 203, "name": "Shimmer corporal Splash aroma Purpure brilli brilli 55ml", "price": 12000, "image": "img/product_203.jpg", "page": 48, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 204, "name": "Crema serum íntimo Truly 50ml MORADO", "price": 25000, "image": "img/product_204.jpg", "page": 48, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 205, "name": "Aceite íntimo Truly 50ml morado", "price": 25000, "image": "img/product_205.jpg", "page": 48, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 206, "name": "Crema serum Unicorn Truly 50ml", "price": 25000, "image": "img/product_206.jpg", "page": 48, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 207, "name": "Aceite íntimo Truly 50ml", "price": 25000, "image": "img/product_207.jpg", "page": 49, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 208, "name": "Body Splash Purpure 140ml", "price": 15000, "image": "img/product_208.jpg", "page": 49, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 209, "name": "Brilli brilli Purpure shimmer con aroma Grande surtido", "price": 15000, "image": "img/product_209.jpg", "page": 49, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 210, "name": "Mantequilla Grande con shimmer Purpure 220ml", "price": 23000, "image": "img/product_210.jpg", "page": 49, "category": "Cuidado Facial y Corporal", "category_id": 1}, {"id": 211, "name": "Polvo suelto grande XL 03 natural Bloomshell 30g", "price": 31900, "image": "img/recovered_1.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 212, "name": "Polvo suelto grande XL 01 White Bloomshell 30g", "price": 31500, "image": "img/recovered_2.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 213, "name": "Bloom filter línea premium Polvo suelto Bloomshell", "price": 24500, "image": "img/recovered_3.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 214, "name": "Kit x 6 mini favoritos Bloomshell", "price": 18900, "image": "img/recovered_4.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 215, "name": "Set x 6 Bloomshell tus mini infaltables de labios", "price": 18900, "image": "img/recovered_5.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 216, "name": "Bloom glow Bloomshell iluminador / Blush", "price": 23900, "image": "img/recovered_6.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 217, "name": "Paleta Rubor velvet x3 Bloomshell Nueva presentación", "price": 29900, "image": "img/recovered_7.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 218, "name": "Kit amor y amistad Bloomshell edición limitada Kiss Love x4", "price": 104900, "image": "img/recovered_8.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 219, "name": "Primer Bloom poros invisibles Bloomshell", "price": 13900, "image": "img/recovered_9.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 220, "name": "Bloom lamination XL Laminador de cejas GRANDE Bloomshell Gel de cejas", "price": 18900, "image": "img/recovered_10.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 221, "name": "Bloom stop Bloomshell parches anti acné rosa", "price": 8500, "image": "img/recovered_11.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 222, "name": "Bloom Stickers para el celular, termo o accesorios - Bloomshell", "price": 3800, "image": "img/recovered_12.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 223, "name": "Set de brochas en cajita", "price": 5900, "image": "img/recovered_13.jpg", "page": 51, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 224, "name": "Base en barra Bloomshell", "price": 21900, "image": "img/store_prod_1.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 225, "name": "Base Purpure alta cobertura", "price": 25900, "image": "img/store_prod_2.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 226, "name": "Beauty Blender XL Bloomshell", "price": 7900, "image": "img/store_prod_3.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 227, "name": "Bloom serum Balance Bloomshell", "price": 41900, "image": "img/store_prod_6.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 228, "name": "Corrector Bloomshell", "price": 14900, "image": "img/store_prod_9.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 229, "name": "Corrector de ojeras Purpure", "price": 13500, "image": "img/store_prod_10.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 230, "name": "Crema anti acné Bioaqua", "price": 5800, "image": "img/store_prod_11.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 231, "name": "Crema facial retinol bioaqua", "price": 7900, "image": "img/store_prod_12.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 232, "name": "Crema vitamina C Bioaqua", "price": 6900, "image": "img/store_prod_13.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 233, "name": "Encrespador de pestañas económico", "price": 2900, "image": "img/store_prod_14.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 234, "name": "Gloss Bloom dúo Bloomshell", "price": 14500, "image": "img/store_prod_15.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 235, "name": "Gloss magic sirena", "price": 2500, "image": "img/store_prod_16.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 236, "name": "Gloss mimosa XL Bloomshell", "price": 18500, "image": "img/store_prod_17.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 237, "name": "Got2b original", "price": 20900, "image": "img/store_prod_18.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 238, "name": "Iluminador Boss Babe Purpure", "price": 11500, "image": "img/store_prod_19.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 239, "name": "Iluminador Cósmico Bloomshell tornasol", "price": 26900, "image": "img/store_prod_21.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 240, "name": "Jabón facial rosas bioaqua", "price": 5900, "image": "img/store_prod_23.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 241, "name": "Jabón Niacinamida bioaqua", "price": 5900, "image": "img/store_prod_24.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 242, "name": "Jabón retinol bioaqua", "price": 6900, "image": "img/store_prod_25.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 243, "name": "Kit de brochas Eclipse Lula (atenea) 10 pcs", "price": 39000, "image": "img/store_prod_27.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 244, "name": "Kit de brochas mármol surtidas", "price": 9900, "image": "img/store_prod_28.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 245, "name": "Kit de brochas Rosy Lula (atenea) 8 Pcs", "price": 41900, "image": "img/store_prod_29.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 246, "name": "Kit de brochas Sunshine Lula by Atenea profesional", "price": 37900, "image": "img/store_prod_30.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 247, "name": "Kit de brochas surtidas", "price": 4500, "image": "img/store_prod_31.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 248, "name": "Lip Balm Glossy Purpure", "price": 12900, "image": "img/store_prod_34.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 249, "name": "Mascarilla capilar arroz bioaqua", "price": 10500, "image": "img/store_prod_35.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 250, "name": "Mini Agenda argollada", "price": 200000, "image": "img/store_prod_36.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 251, "name": "MINI corrector Bloomshell viajero", "price": 10900, "image": "img/store_prod_37.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 252, "name": "Mini juego deportes", "price": 5900, "image": "img/store_prod_38.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 253, "name": "Mini juego rainbow ball", "price": 3900, "image": "img/store_prod_39.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 254, "name": "Mini pañitos húmedos kitty", "price": 190000, "image": "img/store_prod_40.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 255, "name": "Pañitos húmedos mini Bloomshell", "price": 190000, "image": "img/store_prod_43.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 256, "name": "Polvo suelto banana Purpure", "price": 10500, "image": "img/store_prod_44.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 257, "name": "Primer pore filter Purpure", "price": 15300, "image": "img/store_prod_46.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 258, "name": "Protector solar Retinol Bioaqua", "price": 5900, "image": "img/store_prod_47.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 259, "name": "Repuesto base Cushion Bloomshell", "price": 13500, "image": "img/store_prod_48.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 260, "name": "Rubor líquido Purpure", "price": 13500, "image": "img/store_prod_51.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 261, "name": "Serum Niacinamida bioaqua", "price": 4900, "image": "img/store_prod_53.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 262, "name": "Serum retinol bioaqua", "price": 4900, "image": "img/store_prod_54.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 263, "name": "Set de brochas suaves + cosmetiquera Trendy viajeras", "price": 29900, "image": "img/store_prod_57.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 264, "name": "Set de brochas", "price": 9500, "image": "img/store_prod_59.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 265, "name": "Set de uñas", "price": 7900, "image": "img/store_prod_61.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 266, "name": "Set x6 pinzas mariposa gancho mini", "price": 6900, "image": "img/store_prod_64.jpg", "page": 52, "active": true, "category_id": 4, "category": "Accesorios"}, {"id": 267, "name": "Sombras mini huellita", "price": 4000, "image": "img/store_prod_65.jpg", "page": 52, "active": true, "category_id": 2, "category": "Maquillaje"}, {"id": 268, "name": "Splash purpure 100ml", "price": 13900, "image": "img/store_prod_66.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 269, "name": "Splash Purpure 105ml", "price": 11900, "image": "img/store_prod_67.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 270, "name": "Tinta Bloom Bombón Bloomshell", "price": 12900, "image": "img/store_prod_68.jpg", "page": 52, "active": true, "category_id": 5, "category": "Bloomshell"}, {"id": 271, "name": "Tinta serum candy Purpure", "price": 6500, "image": "img/store_prod_69.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}, {"id": 272, "name": "Velo anti acné bioaqua", "price": 150000, "image": "img/store_prod_70.jpg", "page": 52, "active": true, "category_id": 1, "category": "Cuidado Facial y Corporal"}];
+
+/* ============================================
+   CATÁLOGO PROFESIONAL — VALEN MAKEUP
+   JavaScript: Tabs, búsqueda, modal, lazy load
+   ============================================ */
+
+// ===== CATEGORÍAS =====
+const CATEGORIES = [
+  {
+    id: 'all',
+    name: 'Todas',
+    filter: () => true
+  },
+  {
+    id: 'cuidado_facial_corporal',
+    name: 'Cuidado Facial y Corporal',
+    filter: (p) => (p.page >= 2 && p.page <= 15) || (p.page >= 48 && p.page <= 50) || (p.category && p.category.toLowerCase().includes('facial'))
+  },
+  {
+    id: 'maquillaje',
+    name: 'Maquillaje',
+    filter: (p) => (p.page >= 16 && p.page <= 30) || (p.category && p.category.toLowerCase() === 'maquillaje')
+  },
+  {
+    id: 'cabello_ducha',
+    name: 'Cabello y Ducha',
+    filter: (p) => (p.page >= 31 && p.page <= 35) || (p.category && p.category.toLowerCase().includes('cabello'))
+  },
+  {
+    id: 'accesorios',
+    name: 'Accesorios',
+    filter: (p) => (p.page >= 36 && p.page <= 47) || (p.category && p.category.toLowerCase() === 'accesorios')
+  },
+  {
+    id: 'bloomshell',
+    name: 'Bloomshell',
+    filter: (p) => p.page >= 51 || (p.category && p.category.toLowerCase() === 'bloomshell')
+  }
+];
+
+// ===== STATE =====
+let allProducts = [];
+let activeCategory = 'all';
+let searchQuery = '';
+
+// ===== FORMAT PRICE =====
+function formatPrice(price) {
+  return '$' + price.toLocaleString('es-CO');
+}
+
+// ===== GET CATEGORY FOR PRODUCT =====
+function getCategoryForProduct(product) {
+  for (const cat of CATEGORIES) {
+    if (cat.id !== 'all' && cat.filter(product)) {
+      return cat;
+    }
+  }
+  return CATEGORIES[0];
+}
+
+// ===== FILTER PRODUCTS =====
+function getFilteredProducts() {
+  let products = [...allProducts];
+
+  // Category filter
+  if (activeCategory !== 'all') {
+    const cat = CATEGORIES.find(c => c.id === activeCategory);
+    if (cat) {
+      products = products.filter(cat.filter);
+    }
+  }
+
+  // Search filter
+  if (searchQuery.trim()) {
+    const q = searchQuery.toLowerCase().trim();
+    products = products.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      formatPrice(p.price).includes(q)
+    );
+  }
+
+  return products;
+}
+
+// ===== RENDER TABS =====
+function renderTabs() {
+  const wrapper = document.getElementById('tabsWrapper');
+  wrapper.innerHTML = '';
+
+  CATEGORIES.forEach(cat => {
+    const count = cat.id === 'all'
+      ? allProducts.length
+      : allProducts.filter(cat.filter).length;
+
+    const btn = document.createElement('button');
+    btn.className = `tab-btn ${activeCategory === cat.id ? 'active' : ''}`;
+    btn.setAttribute('data-category', cat.id);
+    btn.innerHTML = `
+      <span>${cat.name}</span>
+      <span class="tab-count">${count}</span>
+    `;
+    btn.addEventListener('click', () => {
+      activeCategory = cat.id;
+      renderTabs();
+      renderProducts();
+    });
+    wrapper.appendChild(btn);
+  });
+}
+
+// ===== RENDER PRODUCTS =====
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  const filtered = getFilteredProducts();
+
+  // Update header
+  const activeCat = CATEGORIES.find(c => c.id === activeCategory);
+  document.getElementById('productsTitle').textContent =
+    activeCategory === 'all' ? 'Todos los productos' : activeCat.name;
+  document.getElementById('productsCount').textContent =
+    `${filtered.length} producto${filtered.length !== 1 ? 's' : ''}`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">No se encontraron productos</div>
+        <div class="empty-desc">Intenta con otra búsqueda o categoría</div>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = '';
+
+  filtered.forEach((product, index) => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.style.animationDelay = `${Math.min(index * 0.04, 0.8)}s`;
+
+    const cat = getCategoryForProduct(product);
+
+    card.innerHTML = `
+      <div class="card-image-wrapper">
+        <img
+          class="card-image"
+          src="${product.image}"
+          alt="${product.name}"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        />
+        <div class="card-overlay">
+          <button class="card-view-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Ver detalle
+          </button>
+        </div>
+        <span class="card-badge">${cat.icon} ${cat.name}</span>
+      </div>
+      <div class="card-info">
+        <div class="card-name">${product.name}</div>
+        <div class="card-price">${formatPrice(product.price)}</div>
+      </div>
+    `;
+
+    card.addEventListener('click', () => openModal(product));
+    grid.appendChild(card);
+  });
+}
+
+// ===== MODAL =====
+function openModal(product) {
+  const overlay = document.getElementById('modalOverlay');
+  const cat = getCategoryForProduct(product);
+
+  document.getElementById('modalImage').src = product.image;
+  document.getElementById('modalImage').alt = product.name;
+  document.getElementById('modalCategory').innerHTML = `${cat.icon} ${cat.name}`;
+  document.getElementById('modalName').textContent = product.name;
+  document.getElementById('modalPrice').textContent = formatPrice(product.price);
+  document.getElementById('modalPage').textContent = `Pág. ${product.page}`;
+  document.getElementById('modalId').textContent = `#${product.id}`;
+
+  // WhatsApp link
+  const whatsappMsg = encodeURIComponent(
+    `¡Hola! Me interesa el producto: *${product.name}* (${formatPrice(product.price)}). ¿Está disponible?`
+  );
+  document.getElementById('modalWhatsapp').href =
+    `https://wa.me/573103409000?text=${whatsappMsg}`;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===== SEARCH =====
+function setupSearch() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  let debounceTimer;
+
+  input.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      searchQuery = input.value;
+      clearBtn.classList.toggle('visible', searchQuery.length > 0);
+      renderProducts();
+    }, 200);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    searchQuery = '';
+    clearBtn.classList.remove('visible');
+    renderProducts();
+    input.focus();
+  });
+}
+
+// ===== SCROLL EFFECTS =====
+function setupScrollEffects() {
+  const header = document.querySelector('.catalog-header');
+  const scrollTopBtn = document.getElementById('scrollTop');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+
+    // Header shadow
+    header.classList.toggle('scrolled', scrollY > 50);
+
+    // Scroll to top button
+    scrollTopBtn.classList.toggle('visible', scrollY > 400);
+  }, { passive: true });
+
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ===== MODAL EVENTS =====
+function setupModal() {
+  const overlay = document.getElementById('modalOverlay');
+  const closeBtn = document.getElementById('modalClose');
+
+  closeBtn.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+// ===== ANIMATE STATS =====
+function animateStats() {
+  const statElements = document.querySelectorAll('.stat-value[data-target]');
+  statElements.forEach(el => {
+    const target = parseInt(el.getAttribute('data-target'));
+    const duration = 1500;
+    const step = target / (duration / 16);
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.floor(current) + '+';
+    }, 16);
+  });
+}
+
+// ===== INIT =====
+function init() {
+  try {
+    // Use inline product data (works on any protocol including file://)
+    allProducts = INLINE_PRODUCTS;
+
+    // Update stats
+    document.getElementById('statProducts').setAttribute('data-target', allProducts.length);
+    document.getElementById('statCategories').setAttribute('data-target', CATEGORIES.length - 1);
+
+    // Render
+    renderTabs();
+    renderProducts();
+    setupSearch();
+    setupScrollEffects();
+    setupModal();
+
+    // Animate after a short delay
+    setTimeout(animateStats, 300);
+
+  } catch (error) {
+    console.error('Error loading products:', error);
+    document.getElementById('productsGrid').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <div class="empty-title">Error al cargar productos</div>
+        <div class="empty-desc">Por favor recarga la página</div>
+      </div>
+    `;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+

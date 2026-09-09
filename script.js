@@ -35,6 +35,34 @@ document.addEventListener('DOMContentLoaded', () => {
         'Bloomshell'
     ];
 
+    function stripEmojis(str) {
+        return String(str || '')
+            .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FAFF}\u{200D}\u{FE0F}]/gu, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function normalizeCategoryName(name) {
+        const clean = stripEmojis(name);
+        const lower = clean.toLowerCase();
+        if (lower === 'cuidado facial' || lower === 'corporal' || lower === 'cuidado corporal' || lower === 'cuidado facial y corporal') {
+            return 'Cuidado Facial y Corporal';
+        }
+        if (lower === 'maquillaje') {
+            return 'Maquillaje';
+        }
+        if (lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') {
+            return 'Cabello y Ducha';
+        }
+        if (lower === 'accesorios' || lower === 'herramientas') {
+            return 'Accesorios';
+        }
+        if (lower === 'bloomshell') {
+            return 'Bloomshell';
+        }
+        return clean;
+    }
+
     function getCategoryForPage(page) {
         const p = Number(page) || 1;
         if ((p >= 2 && p <= 15) || (p >= 48 && p <= 50)) return 'Cuidado Facial y Corporal';
@@ -46,16 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getCategoryOrderIndex(catName) {
+        const normalized = normalizeCategoryName(catName);
         const idx = CANONICAL_CATEGORY_ORDER.findIndex(
-            c => c.toLowerCase() === String(catName || '').trim().toLowerCase()
+            c => c.toLowerCase() === normalized.toLowerCase()
         );
         return idx === -1 ? 999 : idx;
     }
 
     function sortCategoriesList(categories) {
         return categories.slice().sort((a, b) => {
-            const nameA = typeof a === 'string' ? a : (a.name || '');
-            const nameB = typeof b === 'string' ? b : (b.name || '');
+            const nameA = normalizeCategoryName(typeof a === 'string' ? a : (a.name || ''));
+            const nameB = normalizeCategoryName(typeof b === 'string' ? b : (b.name || ''));
             const idxA = getCategoryOrderIndex(nameA);
             const idxB = getCategoryOrderIndex(nameB);
             if (idxA !== idxB) return idxA - idxB;
@@ -163,7 +192,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function getCustomCategories() {
         try {
             const raw = localStorage.getItem('valen_custom_categories');
-            return raw ? JSON.parse(raw) : [];
+            const parsed = raw ? JSON.parse(raw) : [];
+            const cleaned = [];
+            const seen = new Set();
+            parsed.forEach(c => {
+                const cleanName = normalizeCategoryName(c && c.name ? c.name : c);
+                if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !seen.has(cleanName.toLowerCase())) {
+                    seen.add(cleanName.toLowerCase());
+                    cleaned.push({ id: (c && c.id) || Date.now(), name: cleanName });
+                }
+            });
+            return cleaned;
         } catch (e) {
             return [];
         }
@@ -171,9 +210,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveCustomCategory(category) {
         try {
+            const cleanName = normalizeCategoryName(category && category.name ? category.name : category);
+            if (!cleanName || cleanName.toLowerCase() === 'todas' || cleanName.toLowerCase() === 'todos') return;
             const cats = getCustomCategories();
-            if (!cats.some(c => c.name.toLowerCase() === category.name.toLowerCase())) {
-                cats.push(category);
+            if (!cats.some(c => c.name.toLowerCase() === cleanName.toLowerCase())) {
+                cats.push({ id: (category && category.id) || Date.now(), name: cleanName });
                 localStorage.setItem('valen_custom_categories', JSON.stringify(cats));
             }
         } catch (e) {}
@@ -184,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const editedMap = getEditedProductsMap();
         const customProducts = getCustomProducts();
 
-        let merged = baseProducts.filter(p => !deletedIds.has(Number(p.id))).map(p => {
+        let merged = (baseProducts || []).filter(p => !deletedIds.has(Number(p.id))).map(p => {
             if (editedMap[p.id]) {
                 return { ...p, ...editedMap[p.id] };
             }
@@ -199,9 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         merged.forEach(p => {
-            if (!p.category) {
-                p.category = getCategoryForPage(p.page);
-            }
+            p.category = normalizeCategoryName(p.category || getCategoryForPage(p.page));
         });
 
         return merged;
@@ -253,11 +292,26 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('Error al cargar categorías:', error);
             allCategories = [];
         }
-        if (!allCategories || allCategories.length === 0) {
-            allCategories = CANONICAL_CATEGORY_ORDER.map((name, idx) => ({ id: idx + 1, name }));
-        } else {
-            allCategories = sortCategoriesList(allCategories);
-        }
+
+        const cleaned = [];
+        const seen = new Set();
+        (allCategories || []).forEach(c => {
+            const cleanName = normalizeCategoryName(c.name);
+            if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !seen.has(cleanName.toLowerCase())) {
+                seen.add(cleanName.toLowerCase());
+                cleaned.push({ id: c.id, name: cleanName });
+            }
+        });
+
+        // Ensure canonical categories exist
+        CANONICAL_CATEGORY_ORDER.forEach((name, idx) => {
+            if (!seen.has(name.toLowerCase())) {
+                cleaned.push({ id: idx + 1, name });
+                seen.add(name.toLowerCase());
+            }
+        });
+
+        allCategories = sortCategoriesList(cleaned);
         renderCategoryFilters();
     }
 
@@ -278,8 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pill = document.createElement('button');
             pill.type = 'button';
             pill.className = `category-pill${selectedCategoryId === category.id ? ' active' : ''}`;
-            const icon = CATEGORY_ICONS[category.name.toLowerCase()] || '';
-            pill.textContent = icon ? `${icon} ${category.name}` : category.name;
+            pill.textContent = category.name;
             pill.addEventListener('click', () => {
                 selectedCategoryId = category.id;
                 renderCategoryFilters();
@@ -670,22 +723,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadAdminCategories() {
         try {
-            const response = await fetchJson(`${API_BASE_URL}/api/categories`);
-            if (!response.ok) {
-                adminCategoryMessage.textContent = 'Error cargando categorías.';
-                return;
+            let cats = [];
+            try {
+                const response = await fetchJson(`${API_BASE_URL}/api/categories`);
+                if (response.ok) {
+                    cats = await response.json();
+                }
+            } catch (err) {
+                console.warn('Backend categories load failed, using fallback:', err);
             }
-            let cats = await response.json();
-            if (!cats || cats.length === 0) {
-                cats = CANONICAL_CATEGORY_ORDER.map((name, idx) => ({ id: idx + 1, name }));
-            }
-            const customCats = getCustomCategories();
-            customCats.forEach(cc => {
-                if (!cats.some(c => c.name.toLowerCase() === cc.name.toLowerCase())) {
-                    cats.push(cc);
+
+            const cleaned = [];
+            const seen = new Set();
+            (cats || []).forEach(c => {
+                const cleanName = normalizeCategoryName(c && c.name ? c.name : c);
+                if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !seen.has(cleanName.toLowerCase())) {
+                    seen.add(cleanName.toLowerCase());
+                    cleaned.push({ id: c.id || Date.now(), name: cleanName });
                 }
             });
-            adminCategories = sortCategoriesList(cats);
+
+            const customCats = getCustomCategories();
+            customCats.forEach(cc => {
+                const cleanName = normalizeCategoryName(cc && cc.name ? cc.name : cc);
+                if (cleanName && !seen.has(cleanName.toLowerCase())) {
+                    seen.add(cleanName.toLowerCase());
+                    cleaned.push({ id: cc.id || Date.now(), name: cleanName });
+                }
+            });
+
+            CANONICAL_CATEGORY_ORDER.forEach((name, idx) => {
+                if (!seen.has(name.toLowerCase())) {
+                    cleaned.push({ id: idx + 1, name });
+                    seen.add(name.toLowerCase());
+                }
+            });
+
+            adminCategories = sortCategoriesList(cleaned);
             populateCategorySelect();
             renderAdminCategoryList();
             renderAdminCategoryPills();
