@@ -1,0 +1,562 @@
+[
+    {
+        "name": "Base en barra Bloomshell",
+        "price": 2190000,
+        "image": "img/store_prod_1.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-12-c444e32d50e596549b17504570844305-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/base-en-barra-bloomshell/"
+    },
+    {
+        "name": "Base Purpure alta cobertura",
+        "price": 2590000,
+        "image": "img/store_prod_2.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_5067-22c825cd352bdfde2e17848465993770-640-0.jpg",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/base-purpure-alta-cobertura-copia-h98pr/"
+    },
+    {
+        "name": "Beauty Blender XL Bloomshell",
+        "price": 790000,
+        "image": "img/store_prod_3.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_2744-513fcea3a0f90221e517836235550016-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/beauty-blender-xl-bloomshell-1r8o6/"
+    },
+    {
+        "name": "Bloom Bubbles parches para el acne bye bye granos Bloomshell",
+        "price": 790000,
+        "image": "img/store_prod_4.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_2326-854b12a0e2b43d9dca17889214010736-640-0.jpg",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/bloom-bubbles-parches-para-el-acne-bye-bye-granos-bloomshell-copia-1tkdy/"
+    },
+    {
+        "name": "Bloom glow Bloomshell iluminador / Blush",
+        "price": 2390000,
+        "image": "img/store_prod_5.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4174-35c4982eabccf7979b17888461110910-640-0.jpg",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/bloom-glow-bloomshell-iluminador-blush-1p3d1/"
+    },
+    {
+        "name": "Bloom serum Balance Bloomshell",
+        "price": 4190000,
+        "image": "img/store_prod_6.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_5575-b01b8ed703bb60aade17724853879337-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/bloom-serum-balance-bloomshell-1s6pz/"
+    },
+    {
+        "name": "Bloom Stickers para el celular, termo o accesorios - Bloomshell",
+        "price": 380000,
+        "image": "img/store_prod_7.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7899-a4c310d9c0d690121517889218205959-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/bloom-stickers-para-el-celular-termo-o-accesorios-bloomshell-1fxvu/"
+    },
+    {
+        "name": "Bloom stop Bloomshell parches anti acné rosa",
+        "price": 850000,
+        "image": "img/store_prod_8.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4167-5a90536c9959be6af817889214623420-640-0.jpg",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/bloom-stop-bloomshell-parches-anti-acne-rosa-7haei/"
+    },
+    {
+        "name": "Corrector Bloomshell",
+        "price": 1490000,
+        "image": "img/store_prod_9.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-26-f4577e112a79af48b017503079377857-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/corrector-bloomshell/"
+    },
+    {
+        "name": "Corrector de ojeras Purpure",
+        "price": 1350000,
+        "image": "img/store_prod_10.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_3780-eaca315fbc2b6ea95c17848441183867-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/corrector-de-ojeras-purpure-copia-3i64r/"
+    },
+    {
+        "name": "Crema anti acné Bioaqua",
+        "price": 580000,
+        "image": "img/store_prod_11.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-1-884070303008fb908f17560902628962-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/crema-anti-acne-bioaqua/"
+    },
+    {
+        "name": "Crema facial retinol bioaqua",
+        "price": 790000,
+        "image": "img/store_prod_12.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-59-ddb4d3803a1ddba4fc17629135865737-640-0.png",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/crema-facial-retinol-bioaqua-pxvxt/"
+    },
+    {
+        "name": "Crema vitamina C Bioaqua",
+        "price": 690000,
+        "image": "img/store_prod_13.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7032-446f5aae4255b766ea17629100526904-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/crema-vitamina-c-bioaqua-kwrlu/"
+    },
+    {
+        "name": "Encrespador de pestañas económico",
+        "price": 290000,
+        "image": "img/store_prod_14.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_1854-efa8b220249482408117833631482448-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/encrespador-de-pestanas-economico-1dweu/"
+    },
+    {
+        "name": "Gloss Bloom dúo Bloomshell",
+        "price": 1450000,
+        "image": "img/store_prod_15.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4165-c83b1ba49617f9d85517611825881778-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/gloss-bloom-duo-bloomshell/"
+    },
+    {
+        "name": "Gloss magic sirena",
+        "price": 250000,
+        "image": "img/store_prod_16.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-24-8f21430b42621db46e17500164121104-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/gloss-magic-sirena/"
+    },
+    {
+        "name": "Gloss mimosa XL Bloomshell",
+        "price": 1850000,
+        "image": "img/store_prod_17.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7627-bd5e91436a28a19f3517888039030358-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/gloss-mimosa-xl-bloomshell-1dpwm/"
+    },
+    {
+        "name": "Got2b original",
+        "price": 2090000,
+        "image": "img/store_prod_18.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-68-f3cd724be59f5c4fc117889219786154-640-0.png",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/got2b-original-sjcv5/"
+    },
+    {
+        "name": "Iluminador Boss Babe Purpure",
+        "price": 1150000,
+        "image": "img/store_prod_19.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_3898-c6183be757ae68f13517787836103664-640-0.jpg",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/iluminador-boss-babe-purpure-1dtwf/"
+    },
+    {
+        "name": "Iluminador Candy Love Purpure",
+        "price": 850000,
+        "image": "img/store_prod_20.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4213-cee123472c5987870e17611921710967-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/iluminador-candy-love-purpure/"
+    },
+    {
+        "name": "Iluminador Cósmico Bloomshell tornasol",
+        "price": 2690000,
+        "image": "img/store_prod_21.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-46-f406ecea1349aad0e117773221280453-640-0.png",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/iluminador-cosmico-bloomshell-tornasol-rywl8/"
+    },
+    {
+        "name": "Jabón ácido Hialurónico bioaqua",
+        "price": 690000,
+        "image": "img/store_prod_22.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-104-c9fa199653fbff410517501325791149-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/jabon-acido-hialuronico-bioaqua/"
+    },
+    {
+        "name": "Jabón facial rosas bioaqua",
+        "price": 590000,
+        "image": "img/store_prod_23.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-99-b37fe9291db6aed19a17501323084103-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/jabon-facial-rosas-bioaqua/"
+    },
+    {
+        "name": "Jabón Niacinamida bioaqua",
+        "price": 590000,
+        "image": "img/store_prod_24.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-5-db5d2d93274779bb9e17507296131564-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/jabon-niacinamida-bioaqua/"
+    },
+    {
+        "name": "Jabón retinol bioaqua",
+        "price": 690000,
+        "image": "img/store_prod_25.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-60-a6e866ab9f1044d5e617501295949533-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/jabon-retinol-bioaqua/"
+    },
+    {
+        "name": "Kit amor y amistad Bloomshell edición limitada Kiss Love x4",
+        "price": 10490000,
+        "image": "img/store_prod_26.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7802-38961aea5908b6205e17888908612941-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-amor-y-amistad-bloomshell-edicion-limitada-kiss-love-x4-16k07/"
+    },
+    {
+        "name": "Kit de brochas Eclipse Lula (atenea) 10 pcs",
+        "price": 3900000,
+        "image": "img/store_prod_27.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-10-9cf58291bf2f98afc717538519576496-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-de-brochas-eclipse-lula-atenea-10-pcs/"
+    },
+    {
+        "name": "Kit de brochas mármol surtidas",
+        "price": 990000,
+        "image": "img/store_prod_28.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7109-889fb5a31607fbbb1317889277352833-640-0.jpg",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-de-brochas-marmol-surtidas-14tzf/"
+    },
+    {
+        "name": "Kit de brochas Rosy Lula (atenea) 8 Pcs",
+        "price": 4190000,
+        "image": "img/store_prod_29.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-1-89168e52cd6594566c17853559196077-640-0.png",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-de-brochas-rosy-lula-atenea-8-pcs-5xiht/"
+    },
+    {
+        "name": "Kit de brochas Sunshine Lula by Atenea profesional",
+        "price": 3790000,
+        "image": "img/store_prod_30.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_2401-2022b860da89ce198517658694876714-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-de-brochas-sunshine-lula-by-atenea-profesional-ak8pn/"
+    },
+    {
+        "name": "Kit de brochas surtidas",
+        "price": 450000,
+        "image": "img/store_prod_31.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_6828-e51d2c7440d789304c17887989936585-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-de-brochas-surtidas-uy6p9/"
+    },
+    {
+        "name": "Kit x 6 mini favoritos Bloomshell",
+        "price": 1890000,
+        "image": "img/store_prod_32.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4090-b309adbd5888aebfce17888459205230-640-0.jpg",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/kit-x-6-mini-favoritos-bloomshell-h2fo4/"
+    },
+    {
+        "name": "Bloom lamination XL Laminador de cejas GRANDE Bloomshell Gel de cejas",
+        "price": 1890000,
+        "image": "img/store_prod_33.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7858-77f40b8c334821e12217889060662994-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/laminador-de-cejas-xl-bloomshell-tamano-grande-gel-de-cejas-1l1js/"
+    },
+    {
+        "name": "Lip Balm Glossy Purpure",
+        "price": 1290000,
+        "image": "img/store_prod_34.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_9901-66d7319e231af2a30317787837079381-640-0.jpg",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/lip-balm-glossy-purpure-mp5wn/"
+    },
+    {
+        "name": "Mascarilla capilar arroz bioaqua",
+        "price": 1050000,
+        "image": "img/store_prod_35.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-8-c1170028223a87fd3d17697296121603-640-0.png",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/mascarilla-capilar-arroz-bioaqua-1xqlf/"
+    },
+    {
+        "name": "Mini Agenda argollada",
+        "price": 200000,
+        "image": "img/store_prod_36.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_1466-43fe436f46d44994c617657331805286-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/mini-agenda-argollada-c2v6p/"
+    },
+    {
+        "name": "MINI corrector Bloomshell viajero",
+        "price": 1090000,
+        "image": "img/store_prod_37.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_2483-3c73fe31a9c1f2c37517833765304563-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/mini-corrector-bloomshell-viajero-1hstu/"
+    },
+    {
+        "name": "Mini juego deportes",
+        "price": 590000,
+        "image": "img/store_prod_38.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1000593127-d3298c183449771b5317501294990622-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/mini-juego-deportes/"
+    },
+    {
+        "name": "Mini juego rainbow ball",
+        "price": 390000,
+        "image": "img/store_prod_39.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1000593132-fb98d6364f099a301a17501312828064-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/mini-juego-rainbow-ball/"
+    },
+    {
+        "name": "Mini pañitos húmedos kitty",
+        "price": 190000,
+        "image": "img/store_prod_40.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_6520-f6d5b664dde831c62017570482335238-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/mini-panitos-humedos-kitty/"
+    },
+    {
+        "name": "Ondas sin calor tubo de seda más scrunchies",
+        "price": 890000,
+        "image": "img/store_prod_41.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_2707-d7e1548bb64c31d22a17835740483891-640-0.webp",
+        "category": "Accesorios",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/ondas-sin-calor-tubo-de-seda-mas-scrunchies-1yawc/"
+    },
+    {
+        "name": "Paleta Rubor velvet x3 Bloomshell Nueva presentación",
+        "price": 2990000,
+        "image": "img/store_prod_42.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7645-a980bc55caaee35d5a17888742747719-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/paleta-rubor-velvet-x3-bloomshell-nueva-presentacion-15iik/"
+    },
+    {
+        "name": "Pañitos húmedos mini Bloomshell",
+        "price": 190000,
+        "image": "img/store_prod_43.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4092-afa2dc18c1ff163f1517724844850423-640-0.png",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/panitos-humedos-mini-bloomshell-10z37/"
+    },
+    {
+        "name": "Polvo suelto banana Purpure",
+        "price": 1050000,
+        "image": "img/store_prod_44.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4665-031d58be417b4496c217787845620444-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/polvo-suelto-banana-purpure-1iqyb/"
+    },
+    {
+        "name": "Primer Bloom poros invisibles Bloomshell",
+        "price": 1390000,
+        "image": "img/store_prod_45.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7753-ab5e1ff20e50db1a8f17888911146362-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/primer-bloom-poros-invisibles-bloomshell-1yyau/"
+    },
+    {
+        "name": "Primer pore filter Purpure",
+        "price": 1530000,
+        "image": "img/store_prod_46.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_3609-0e36a461dee9b2e46d17848634533698-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/primer-pore-filter-purpure-wufka/"
+    },
+    {
+        "name": "Protector solar Retinol Bioaqua",
+        "price": 590000,
+        "image": "img/store_prod_47.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4593-0d4b7e41b505cc686217719604317836-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/protector-solar-retinol-bioaqua-11m5p/"
+    },
+    {
+        "name": "Repuesto base Cushion Bloomshell",
+        "price": 1350000,
+        "image": "img/store_prod_48.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_2529-b670bd6d7db2928bef17773905036891-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/repuesto-base-cushion-bloomshell-re7fn/"
+    },
+    {
+        "name": "Repuestos encrespador",
+        "price": 250000,
+        "image": "img/store_prod_49.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-2-1e28562be325a57d4817781025773928-640-0.png",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/repuestos-encrespador-lmy2g/"
+    },
+    {
+        "name": "Rubor Candy Love Purpure",
+        "price": 850000,
+        "image": "img/store_prod_50.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4202-ddf5ea23ff00db82ff17848467187823-640-0.jpg",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/rubor-candy-love-purpure-copia-1o6us/"
+    },
+    {
+        "name": "Rubor líquido Purpure",
+        "price": 1350000,
+        "image": "img/store_prod_51.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4930-4924867074e93290b117721326850671-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/rubor-liquido-purpure-1n924/"
+    },
+    {
+        "name": "Scrunchie satin bamba cabello moña anti quiebre",
+        "price": 220000,
+        "image": "img/store_prod_52.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-5-51081967c14a2a894817844447227000-640-0.png",
+        "category": "Cabello",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/scrunchie-satin-copia-5hs1u/"
+    },
+    {
+        "name": "Serum Niacinamida bioaqua",
+        "price": 490000,
+        "image": "img/store_prod_53.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-6-0e2dc769ccb0038ca017507294490037-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/serum-niacinamida-bioaqua/"
+    },
+    {
+        "name": "Serum retinol bioaqua",
+        "price": 490000,
+        "image": "img/store_prod_54.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-58-d08debb51a95ca72c517629136455245-640-0.png",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/serum-retinol-bioaqua-d6p5z/"
+    },
+    {
+        "name": "Set de brochas en cajita",
+        "price": 590000,
+        "image": "img/store_prod_55.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-3-1e59b0f61155f539f317889226581792-640-0.png",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-brochas-en-cajita-18p6y/"
+    },
+    {
+        "name": "Set de brochas sirena",
+        "price": 750000,
+        "image": "img/store_prod_56.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_0679-10ff8c794085de1a9517759337280698-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-brochas-sirena-1mg7l/"
+    },
+    {
+        "name": "Set de brochas suaves + cosmetiquera Trendy viajeras",
+        "price": 2990000,
+        "image": "img/store_prod_57.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-17-2e8fc6ddde635138dc17532929342365-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-brochas-suaves-cosmetiquera-trendy-viajeras/"
+    },
+    {
+        "name": "Set de brochas viajeras surtidas",
+        "price": 300000,
+        "image": "img/store_prod_58.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-5-b71752389ec4d4badc17762166099240-640-0.png",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-brochas-viajeras-surtidas-1k64r/"
+    },
+    {
+        "name": "Set de brochas",
+        "price": 950000,
+        "image": "img/store_prod_59.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-6-ba018d5206b4d24d2d17506345825618-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-brochas1/"
+    },
+    {
+        "name": "Set de brochas",
+        "price": 590000,
+        "image": "img/store_prod_60.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_6041-3a091e1458469456db17570493352112-640-0.webp",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-brochas2/"
+    },
+    {
+        "name": "Set de uñas",
+        "price": 790000,
+        "image": "img/store_prod_61.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1000607795-f03a0e7e06c736c2e117502725240836-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-de-unas/"
+    },
+    {
+        "name": "Set mini ganchos más moñitas",
+        "price": 350000,
+        "image": "img/store_prod_62.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_6667-172d8b845f86615ccc17844445170786-640-0.jpg",
+        "category": "Accesorios",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-mini-ganchos-mas-monitas-copia-u7jau/"
+    },
+    {
+        "name": "Set x 6 Bloomshell tus mini infaltables de labios",
+        "price": 1890000,
+        "image": "img/store_prod_63.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_1596-ddaa4cafb647d8dc7e17888459849700-640-0.jpg",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-x-6-bloomshell-tus-mini-infaltables-de-labios-1n8kd/"
+    },
+    {
+        "name": "Set x6 pinzas mariposa gancho mini",
+        "price": 690000,
+        "image": "img/store_prod_64.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_0260-77fe27dafb10b196fd17761282291999-640-0.jpg",
+        "category": "Herramientas",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/set-x6-pinzas-mariposa-gancho-mini-1jrwh/"
+    },
+    {
+        "name": "Sombras mini huellita",
+        "price": 400000,
+        "image": "img/store_prod_65.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-59-38beb9012e2ca2fe6f17533778303800-640-0.webp",
+        "category": "Maquillaje",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/sombras-mini-huellita/"
+    },
+    {
+        "name": "Splash purpure 100ml",
+        "price": 1390000,
+        "image": "img/store_prod_66.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_3827-1f4b9f00df38b95bbf17849117377024-640-0.webp",
+        "category": "Corporal",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/splash-purpure-100ml-1pgby/"
+    },
+    {
+        "name": "Splash Purpure 105ml",
+        "price": 1190000,
+        "image": "img/store_prod_67.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_3853-4ce9473d9234353a3917849137588298-640-0.webp",
+        "category": "Corporal",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/splash-purpure-105ml-d28v7/"
+    },
+    {
+        "name": "Tinta Bloom Bombón Bloomshell",
+        "price": 1290000,
+        "image": "img/store_prod_68.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_7640-66b009646730de16a017888049347737-640-0.webp",
+        "category": "Bloomshell",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/tinta-bloom-bombon-bloomshell-1cwe1/"
+    },
+    {
+        "name": "Tinta serum candy Purpure",
+        "price": 650000,
+        "image": "img/store_prod_69.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/img_4713-a28eb1563e70bb6e0217720588531367-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/tinta-serum-candy-purpure-s45n3/"
+    },
+    {
+        "name": "Velo anti acné bioaqua",
+        "price": 150000,
+        "image": "img/store_prod_70.jpg",
+        "image_url": "http://acdn-us.mitiendanube.com/stores/006/230/397/products/1-2-3-zip-18-7de5dd6ed31871368b17501265505543-640-0.webp",
+        "category": "Cuidado Facial",
+        "url": "https://prodigiosastore.mitiendanube.com/productos/velo-anti-acne-bioaqua/"
+    }
+]
