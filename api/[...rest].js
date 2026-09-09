@@ -179,8 +179,7 @@ function updateProductCategoryField(product, data) {
 }
 
 function removeUnusedCategories(data) {
-  const usedIds = new Set(data.products.filter((product) => product.category_id).map((product) => product.category_id));
-  data.categories = data.categories.filter((category) => usedIds.has(category.id));
+  // Never auto-remove categories; categories should only be deleted explicitly
 }
 
 function handleProducts(data, req, res, segments, payload) {

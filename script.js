@@ -113,6 +113,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function getDeletedProductIds() {
+        try {
+            const raw = localStorage.getItem('valen_deleted_ids');
+            return new Set(raw ? JSON.parse(raw) : []);
+        } catch (e) {
+            return new Set();
+        }
+    }
+
+    function saveDeletedProductId(id) {
+        try {
+            const deleted = getDeletedProductIds();
+            deleted.add(Number(id));
+            localStorage.setItem('valen_deleted_ids', JSON.stringify(Array.from(deleted)));
+        } catch (e) {}
+    }
+
     // Load Products from backend API or fallback to local JSON
     async function loadProducts() {
         let products = [];
@@ -143,6 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
         }
+
+        const deletedIds = getDeletedProductIds();
+        products = products.filter(p => !deletedIds.has(Number(p.id)));
 
         products.forEach(p => {
             if (!p.category) {
@@ -608,7 +628,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 adminProductMessage.textContent = 'Error cargando productos.';
                 return;
             }
-            const prods = await response.json();
+            let prods = await response.json();
+            const deletedIds = getDeletedProductIds();
+            prods = prods.filter(p => !deletedIds.has(Number(p.id)));
             prods.forEach(p => {
                 if (!p.category) {
                     p.category = getCategoryForPage(p.page);
@@ -1150,44 +1172,55 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetchJson(`${API_BASE_URL}/api/products/${productId}`, {
-            method: 'DELETE',
-            headers: {
-                'X-Admin-Password': adminPassword,
-            },
-        });
+        saveDeletedProductId(productId);
+        allProducts = allProducts.filter(p => p.id !== productId);
+        adminProducts = adminProducts.filter(p => p.id !== productId);
 
-        if (!response.ok) {
-            adminProductMessage.textContent = 'No se pudo eliminar el producto.';
-            return;
+        showNotification('Producto eliminado del catálogo');
+        renderAdminCategoryList();
+        renderAdminCategoryPills();
+        renderAdminProducts();
+        updateAdminStats();
+        applyFilters();
+
+        try {
+            await fetchJson(`${API_BASE_URL}/api/products/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-Admin-Password': adminPassword,
+                },
+            });
+        } catch (e) {
+            console.warn('Delete sync error:', e);
         }
-
-        showNotification('Producto eliminado');
-        await loadAdminProducts();
     }
 
     async function toggleProductState(productId, currentActive) {
         const newActive = !currentActive;
-        const response = await fetchJson(`${API_BASE_URL}/api/products/${productId}/state`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Admin-Password': adminPassword,
-            },
-            body: JSON.stringify({ active: newActive }),
-        });
-
-        if (!response.ok) {
-            showNotification('No se pudo cambiar el estado del producto');
-            return;
-        }
-
         const prod = adminProducts.find(p => p.id === productId);
         if (prod) {
             prod.active = newActive;
         }
+        const storeProd = allProducts.find(p => p.id === productId);
+        if (storeProd) {
+            storeProd.active = newActive;
+        }
         renderAdminProducts();
+        applyFilters();
         showNotification(newActive ? 'Producto visible en tienda' : 'Producto ocultado');
+
+        try {
+            await fetchJson(`${API_BASE_URL}/api/products/${productId}/state`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Password': adminPassword,
+                },
+                body: JSON.stringify({ active: newActive }),
+            });
+        } catch (e) {
+            console.warn('State toggle sync error:', e);
+        }
     }
 
     async function openProductForEdit(productId) {
