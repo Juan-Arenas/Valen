@@ -18,6 +18,7 @@ const DEFAULT_CATEGORIES = [
   { id: 4, name: 'Accesorios' },
   { id: 5, name: 'Herramientas' },
   { id: 6, name: 'Corporal' },
+  { id: 7, name: 'Bloomshell' },
 ];
 
 function getCategoryForPage(page) {
@@ -28,6 +29,7 @@ function getCategoryForPage(page) {
   if (p >= 36 && p <= 40) return 'Accesorios';
   if (p >= 41 && p <= 47) return 'Herramientas';
   if (p >= 48 && p <= 50) return 'Corporal';
+  if (p >= 51) return 'Bloomshell';
   return 'Cuidado Facial';
 }
 
@@ -41,7 +43,7 @@ function loadInitialData() {
       passwordHash: hashPassword(DEFAULT_PASSWORD),
     },
     nextProductId: 1,
-    nextCategoryId: 7,
+    nextCategoryId: 8,
   };
 
   const categoryMap = {};

@@ -1888,5 +1888,135 @@
         "page": 49,
         "category": "Corporal",
         "category_id": 6
+    },
+    {
+        "id": 211,
+        "name": "Polvo suelto grande XL 03 natural Bloomshell 30g",
+        "price": 31900,
+        "image": "img/recovered_1.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 212,
+        "name": "Polvo suelto grande XL 01 White Bloomshell 30g",
+        "price": 31500,
+        "image": "img/recovered_2.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 213,
+        "name": "Bloom filter línea premium Polvo suelto Bloomshell",
+        "price": 24500,
+        "image": "img/recovered_3.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 214,
+        "name": "Kit x 6 mini favoritos Bloomshell",
+        "price": 18900,
+        "image": "img/recovered_4.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 215,
+        "name": "Set x 6 Bloomshell tus mini infaltables de labios",
+        "price": 18900,
+        "image": "img/recovered_5.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 216,
+        "name": "Bloom glow Bloomshell iluminador / Blush",
+        "price": 23900,
+        "image": "img/recovered_6.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 217,
+        "name": "Paleta Rubor velvet x3 Bloomshell Nueva presentación",
+        "price": 29900,
+        "image": "img/recovered_7.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 218,
+        "name": "Kit amor y amistad Bloomshell edición limitada Kiss Love x4",
+        "price": 104900,
+        "image": "img/recovered_8.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 219,
+        "name": "Primer Bloom poros invisibles Bloomshell",
+        "price": 13900,
+        "image": "img/recovered_9.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 220,
+        "name": "Bloom lamination XL Laminador de cejas GRANDE Bloomshell Gel de cejas",
+        "price": 18900,
+        "image": "img/recovered_10.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 221,
+        "name": "Bloom stop Bloomshell parches anti acné rosa",
+        "price": 8500,
+        "image": "img/recovered_11.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 222,
+        "name": "Bloom Stickers para el celular, termo o accesorios - Bloomshell",
+        "price": 3800,
+        "image": "img/recovered_12.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
+    },
+    {
+        "id": 223,
+        "name": "Set de brochas en cajita",
+        "price": 5900,
+        "image": "img/recovered_13.jpg",
+        "page": 51,
+        "active": true,
+        "category_id": 7,
+        "category": "Bloomshell"
     }
 ]

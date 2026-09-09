@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Cabello',
         'Accesorios',
         'Herramientas',
-        'Corporal'
+        'Corporal',
+        'Bloomshell'
     ];
 
     const CATEGORY_ICONS = {
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'accesorios': '🎀',
         'herramientas': '🖌️',
         'corporal': '🌸',
+        'bloomshell': '✨',
         'sin categoría': '📦'
     };
 
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (p >= 36 && p <= 40) return 'Accesorios';
         if (p >= 41 && p <= 47) return 'Herramientas';
         if (p >= 48 && p <= 50) return 'Corporal';
+        if (p >= 51) return 'Bloomshell';
         return 'Cuidado Facial';
     }
 
