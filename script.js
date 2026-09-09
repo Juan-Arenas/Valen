@@ -127,7 +127,96 @@ document.addEventListener('DOMContentLoaded', () => {
             const deleted = getDeletedProductIds();
             deleted.add(Number(id));
             localStorage.setItem('valen_deleted_ids', JSON.stringify(Array.from(deleted)));
+            // Remove from custom products if present
+            const custom = getCustomProducts().filter(p => Number(p.id) !== Number(id));
+            localStorage.setItem('valen_custom_products', JSON.stringify(custom));
         } catch (e) {}
+    }
+
+    function getCustomProducts() {
+        try {
+            const raw = localStorage.getItem('valen_custom_products');
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveCustomProduct(product) {
+        try {
+            const custom = getCustomProducts();
+            const idx = custom.findIndex(p => Number(p.id) === Number(product.id));
+            if (idx >= 0) {
+                custom[idx] = product;
+            } else {
+                custom.push(product);
+            }
+            localStorage.setItem('valen_custom_products', JSON.stringify(custom));
+        } catch (e) {}
+    }
+
+    function getEditedProductsMap() {
+        try {
+            const raw = localStorage.getItem('valen_edited_products');
+            return raw ? JSON.parse(raw) : {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    function saveEditedProduct(product) {
+        try {
+            const editedMap = getEditedProductsMap();
+            editedMap[product.id] = product;
+            localStorage.setItem('valen_edited_products', JSON.stringify(editedMap));
+        } catch (e) {}
+    }
+
+    function getCustomCategories() {
+        try {
+            const raw = localStorage.getItem('valen_custom_categories');
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveCustomCategory(category) {
+        try {
+            const cats = getCustomCategories();
+            if (!cats.some(c => c.name.toLowerCase() === category.name.toLowerCase())) {
+                cats.push(category);
+                localStorage.setItem('valen_custom_categories', JSON.stringify(cats));
+            }
+        } catch (e) {}
+    }
+
+    function mergeProductsWithLocalData(baseProducts) {
+        const deletedIds = getDeletedProductIds();
+        const editedMap = getEditedProductsMap();
+        const customProducts = getCustomProducts();
+
+        let merged = baseProducts.filter(p => !deletedIds.has(Number(p.id))).map(p => {
+            if (editedMap[p.id]) {
+                return { ...p, ...editedMap[p.id] };
+            }
+            return p;
+        });
+
+        // Add custom products not deleted
+        customProducts.forEach(cp => {
+            if (!deletedIds.has(Number(cp.id)) && !merged.some(p => Number(p.id) === Number(cp.id))) {
+                merged.push(cp);
+            }
+        });
+
+        merged.forEach(p => {
+            if (!p.category) {
+                p.category = getCategoryForPage(p.page);
+            }
+        });
+
+        return merged;
     }
 
     // Load Products from backend API or fallback to local JSON
@@ -161,16 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const deletedIds = getDeletedProductIds();
-        products = products.filter(p => !deletedIds.has(Number(p.id)));
-
-        products.forEach(p => {
-            if (!p.category) {
-                p.category = getCategoryForPage(p.page);
-            }
-        });
-
-        allProducts = products;
+        allProducts = mergeProductsWithLocalData(products);
         applyFilters();
     }
 
@@ -611,6 +691,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!cats || cats.length === 0) {
                 cats = CANONICAL_CATEGORY_ORDER.map((name, idx) => ({ id: idx + 1, name }));
             }
+            const customCats = getCustomCategories();
+            customCats.forEach(cc => {
+                if (!cats.some(c => c.name.toLowerCase() === cc.name.toLowerCase())) {
+                    cats.push(cc);
+                }
+            });
             adminCategories = sortCategoriesList(cats);
             populateCategorySelect();
             renderAdminCategoryList();
@@ -629,14 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             let prods = await response.json();
-            const deletedIds = getDeletedProductIds();
-            prods = prods.filter(p => !deletedIds.has(Number(p.id)));
-            prods.forEach(p => {
-                if (!p.category) {
-                    p.category = getCategoryForPage(p.page);
-                }
-            });
-            adminProducts = prods;
+            adminProducts = mergeProductsWithLocalData(prods);
             renderAdminCategoryList();
             renderAdminCategoryPills();
             renderAdminProducts();
@@ -978,6 +1057,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('admin-new-category').value = '';
         adminCategoryMessage.textContent = 'Categoría creada correctamente.';
+        try {
+            const catObj = await response.json();
+            if (catObj && catObj.name) {
+                saveCustomCategory(catObj);
+            }
+        } catch (e) {
+            saveCustomCategory({ id: Date.now(), name: categoryName });
+        }
         await loadAdminCategories();
     });
 
@@ -1055,13 +1142,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const category = await categoryResponse.json();
             payload.category_id = category.id;
+            payload.category = category.name;
+            saveCustomCategory(category);
         } else if (categoryId) {
             payload.category_id = parseInt(categoryId, 10);
+            const foundCat = adminCategories.find(c => c.id === payload.category_id);
+            if (foundCat) payload.category = foundCat.name;
         } else if (adminProductForm.dataset.editing) {
             payload.category_id = null;
         }
 
         const isEditing = Boolean(adminProductForm.dataset.editing);
+        const editingId = isEditing ? Number(adminProductForm.dataset.editing) : null;
         const url = isEditing ? `${API_BASE_URL}/api/products/${adminProductForm.dataset.editing}` : `${API_BASE_URL}/api/products`;
         const method = isEditing ? 'PATCH' : 'POST';
 
@@ -1096,6 +1188,21 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        try {
+            const savedItem = await response.json();
+            if (isEditing) {
+                saveEditedProduct({ ...payload, id: editingId, ...savedItem });
+            } else {
+                saveCustomProduct(savedItem);
+            }
+        } catch (e) {
+            if (isEditing) {
+                saveEditedProduct({ ...payload, id: editingId });
+            } else {
+                saveCustomProduct({ ...payload, id: Date.now() });
+            }
+        }
+
         if (isEditing) {
             delete adminProductForm.dataset.editing;
             adminProductMessage.textContent = 'Producto actualizado correctamente.';
@@ -1110,6 +1217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideAdminProductPanel();
         showNotification('Producto guardado correctamente');
         await loadAdminData();
+        await loadProducts();
     });
 
     adminChangePasswordForm.addEventListener('submit', async (event) => {
