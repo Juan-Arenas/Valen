@@ -4,329 +4,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valen Makeup | Belleza a tu alcance</title>
-    <link rel="icon" type="image/jpeg" href="Logo.jpeg">
-    <link rel="stylesheet" href="styles.css">
+    <title>Valen Makeup | Catálogo & Tienda Oficial ✨</title>
+    <meta name="description" content="Valen Makeup - Catálogo de maquillaje, cuidado facial, skincare, cabello y accesorios. Envíos nacionales en Colombia.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/jpeg" href="Logo.jpeg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <!-- Top Quick Announcement Bar -->
+    <div class="announcement-bar">
+        <span>✨ Envíos a toda Colombia 🇨🇴</span>
+        <span>•</span>
+        <span>💖 Pagos contra entrega, Nequi & Bancolombia</span>
+        <span>•</span>
+        <span>🛍️ WhatsApp: +57 300 252 5489</span>
+    </div>
+
+    <!-- Header / Navbar -->
     <header class="header">
         <div class="container">
-            <div class="logo" id="site-logo">
-                <img src="Logo.jpeg" alt="Valen Makeup Logo" class="logo-img">
+            <div class="logo" id="site-logo" title="Toca 3 veces para panel de administración">
+                <div class="logo-avatar-wrap">
+                    <img src="Logo.jpeg" alt="Valen Makeup Logo" class="logo-img" onerror="this.src='favicon.ico'">
+                </div>
                 <div class="logo-text">
                     <h1 class="store-name">VALEN MAKEUP</h1>
-                    <span class="tagline">Belleza que tu cuerpo merece</span>
+                    <span class="tagline">Belleza que tu cuerpo merece ✨</span>
                 </div>
             </div>
+
             <nav class="navbar">
-                <ul class="nav-menu">
-                    <li><a href="#" class="active">Inicio</a></li>
-                    <li><a href="#catalogo">Catálogo</a></li>
-                    <li><a href="#informacion">Info Envíos</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                    <li><a href="#carrito" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span
-                                class="cart-count">0</span></a></li>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#catalogo" class="active"><i class="fas fa-sparkles"></i> Catálogo</a></li>
+                    <li><a href="#como-pedir"><i class="fas fa-clipboard-list"></i> Cómo Pedir</a></li>
+                    <li><a href="#contacto"><i class="fab fa-whatsapp"></i> Contacto</a></li>
+                    <li>
+                        <a href="#carrito" class="cart-icon-btn cart-icon" id="header-cart-btn">
+                            <i class="fas fa-shopping-bag"></i> Carrito
+                            <span class="cart-badge cart-count" id="header-cart-count">0</span>
+                        </a>
+                    </li>
                 </ul>
-                <div class="hamburger">
+
+                <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
-                </div>
+                </button>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h2>Cosméticos & Cuidado Personal</h2>
-            <p>Maquillaje, cuidado capilar y accesorios de alta calidad a precios increíbles</p>
-            <a href="#catalogo" class="btn btn-primary">Explorar Catálogo</a>
-        </div>
-    </section>
-
-    <section id="catalogo" class="catalog-section">
+    <!-- Main Catalog Section (Directly at the Top) -->
+    <main id="catalogo" class="catalog-section">
         <div class="container">
-            <h2 class="section-title">Nuestro Catálogo</h2>
+            <div class="catalog-header-bar">
+                <h2 class="catalog-title">Catálogo Oficial Valen Makeup</h2>
+                <p class="catalog-subtitle">Explora nuestra colección completa de maquillaje, cuidado facial y accesorios</p>
+            </div>
 
-            <div class="search-container">
+            <!-- Sticky Search & Filter Bar -->
+            <div class="search-filter-wrapper">
                 <div class="search-box">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-input" placeholder="Buscar productos... (ej. Labial, Crema, Bioaqua)">
+                    <input type="text" id="search-input" class="search-input" placeholder="Buscar productos... (ej. Labial, Bioaqua, Serum, Brocha, Polvo)">
+                    <button type="button" id="search-clear-btn" class="search-clear-btn hidden" aria-label="Limpiar">&times;</button>
                 </div>
-                <div class="category-filters" id="category-filters"></div>
+
+                <div class="category-filters" id="category-filters">
+                    <!-- Populated dynamically by script.js -->
+                </div>
             </div>
 
+            <!-- Catalog Status Row -->
+            <div class="catalog-stats-row">
+                <span class="catalog-counter-text" id="catalog-count-text">Cargando productos...</span>
+            </div>
+
+            <!-- Products Grid -->
             <div class="products-grid" id="products-grid">
-                <!-- Products will be dynamically loaded here via script.js -->
+                <!-- Products loaded dynamically via script.js -->
             </div>
 
+            <!-- Loading Spinner -->
             <div class="loading-trigger" id="loading-trigger">
                 <div class="spinner"></div>
-                <p>Cargando más productos...</p>
+                <p style="color: var(--text-muted); font-weight: 600; font-size: 0.88rem;">Cargando catálogo de productos...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Order Instructions Section (Image 2 Inspired) -->
+    <section id="como-pedir" class="order-info-section">
+        <div class="container">
+            <div class="order-info-card">
+                <div class="order-info-header">
+                    <h3 class="order-info-title">💖 Para agendar tu pedido envíame la siguiente información:</h3>
+                    <p class="order-info-subtitle">Agrega tus productos al carrito y envíanos los siguientes datos por WhatsApp para despachar de inmediato</p>
+                </div>
+
+                <div class="order-steps-grid">
+                    <div class="order-step-item">
+                        <div class="order-step-icon"><i class="fas fa-user"></i></div>
+                        <div class="order-step-text">
+                            <h4>• Nombre completo</h4>
+                            <p>Tu nombre para identificar y personalizar tu paquete.</p>
+                        </div>
+                    </div>
+
+                    <div class="order-step-item">
+                        <div class="order-step-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div class="order-step-text">
+                            <h4>• Número de teléfono</h4>
+                            <p>Para confirmar tu despacho y enviarte la guía de transporte.</p>
+                        </div>
+                    </div>
+
+                    <div class="order-step-item">
+                        <div class="order-step-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="order-step-text">
+                            <h4>• Dirección de entrega</h4>
+                            <p>Dirección, barrio, ciudad (y ubicación en tiempo real si te queda fácil).</p>
+                        </div>
+                    </div>
+
+                    <div class="order-step-item">
+                        <div class="order-step-icon"><i class="fas fa-credit-card"></i></div>
+                        <div class="order-step-text">
+                            <h4>• Formas de pago</h4>
+                            <p>Contra entrega en efectivo, Nequi o transferencia Bancolombia.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="informacion" class="info-section">
-        <div class="container">
-            <h2 class="section-title text-light">Información Importante</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-icon-wrapper">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3>Información Envíos 📦</h3>
-                    <p><strong>Envíos a nivel nacional:</strong> El valor del envío lo asume el cliente y varía según la
-                        transportadora, tamaño y peso. Entrega entre 1 y 3 días hábiles.</p>
-                    <p><strong>Domicilios locales:</strong> Costo según distancia/sector. En Pereira, Dosquebradas y
-                        Santa Rosa de Cabal, ¡entrega el mismo día o al día siguiente!</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon-wrapper">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <h3>Formas de Pago 💰</h3>
-                    <p><strong>Local:</strong> Pago contra entrega en efectivo, Nequi o transferencia Bancolombia al
-                        recibir tu pedido.</p>
-                    <p><strong>Envíos nacionales:</strong> Los pagos deben realizarse de forma anticipada antes de
-                        despachar la mercancía.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon-wrapper">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <h3>Garantía y Novedades</h3>
-                    <p>No realizamos cambios ni devoluciones de dinero. Tienes <strong>24 horas</strong> después de
-                        recibir para reportar cualquier novedad.</p>
-                    <p><strong>Productos electrónicos:</strong> Cuentan con 8 días de garantía única y exclusivamente
-                        por defectos de fábrica.</p>
-                </div>
+    <!-- Floating Bottom Cart Bar for Quick Mobile Access -->
+    <div class="floating-bottom-bar" id="floating-cart-bar">
+        <div class="floating-bottom-info">
+            <div class="floating-cart-icon">
+                <span id="floating-cart-count">0</span>
+            </div>
+            <div>
+                <div style="font-size: 0.72rem; opacity: 0.9; text-transform: uppercase;">Total en Carrito</div>
+                <div style="font-size: 1.05rem; font-weight: 900;" id="floating-cart-total">$0</div>
             </div>
         </div>
-    </section>
-
-    <footer id="contacto" class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h2>VALEN MAKEUP</h2>
-                    <p>Belleza que tu cuerpo merece</p>
-                </div>
-                <div class="footer-links">
-                    <h3>Enlaces</h3>
-                    <ul>
-                        <li><a href="#">Inicio</a></li>
-                        <li><a href="#catalogo">Catálogo</a></li>
-                        <li><a href="#informacion">Información</a></li>
-                    </ul>
-                </div>
-                <div class="footer-social">
-                    <h3>Contacto & Redes</h3>
-                    <div class="social-icons">
-                        <a href="https://wa.me/573002525489" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    </div>
-                    <p class="whatsapp-number"><i class="fas fa-phone-alt"></i> +57 300 252 5489</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-            </div>
-        </div>
-    </footer>
-
-    <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Carrito de Compras</h2>
-            <div id="cart-items">
-                <!-- Cart items will be loaded here -->
-            </div>
-            <div class="cart-total">
-                <div class="total-row">
-                    <span>Total:</span>
-                    <span id="cart-total-price">$0</span>
-                </div>
-                <button class="btn btn-checkout checkout-btn" id="btn-checkout">
-                    <i class="fab fa-whatsapp"></i> Enviar pedido a WhatsApp
-                </button>
-            </div>
+        <div class="floating-bottom-action">
+            <span>Ver Carrito / Pedir</span>
+            <i class="fas fa-chevron-right"></i>
         </div>
     </div>
 
-    <div id="admin-password-modal" class="modal admin-hidden-modal">
-        <div class="modal-content admin-modal-content">
-            <span class="close admin-close">&times;</span>
-            <h2>Acceso administrativo</h2>
-            <p>Ingresa la contraseña secreta para abrir el panel.</p>
-            <form id="admin-login-form" class="admin-form">
-                <div class="form-group">
-                    <label>PIN de acceso</label>
-                    <div class="pin-input-group" id="admin-pin-group">
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-1" class="pin-digit" autocomplete="one-time-code">
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-2" class="pin-digit" autocomplete="one-time-code">
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-3" class="pin-digit" autocomplete="one-time-code">
-                        <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-4" class="pin-digit" autocomplete="one-time-code">
+    <!-- Shopping Cart Modal / Checkout Drawer -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-shopping-bag" style="color: var(--bratz-pink);"></i> Tu Carrito de Compras</h3>
+                <button class="modal-close-btn close" id="cart-close-btn">&times;</button>
+            </div>
+
+            <div class="cart-items-wrapper" id="cart-items">
+                <!-- Cart items loaded dynamically -->
+            </div>
+
+            <!-- Customer Details for WhatsApp Message -->
+            <div class="checkout-form-section">
+                <h4><i class="fas fa-id-card"></i> Datos para tu pedido en WhatsApp:</h4>
+                <div class="checkout-inputs-grid">
+                    <div class="checkout-field">
+                        <input type="text" id="checkout-customer-name" placeholder="Tu Nombre completo *" required>
+                    </div>
+                    <div class="checkout-field">
+                        <input type="tel" id="checkout-customer-phone" placeholder="Número de WhatsApp">
+                    </div>
+                    <div class="checkout-field full-width">
+                        <input type="text" id="checkout-customer-address" placeholder="Dirección, Barrio y Ciudad *" required>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Entrar</button>
-                <p class="admin-message" id="admin-login-message"></p>
+            </div>
+
+            <div class="cart-total-box">
+                <div class="cart-total-row">
+                    <span class="cart-total-label">Total a Pagar:</span>
+                    <span class="cart-total-price" id="cart-total-price">$0</span>
+                </div>
+            </div>
+
+            <button class="btn-whatsapp-checkout" id="btn-checkout">
+                <i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Thank You Modal -->
+    <div id="thankyou-modal" class="modal">
+        <div class="modal-content thankyou-modal-content">
+            <button class="modal-close-btn" id="thankyou-close-btn">&times;</button>
+            <img src="img/bratz_thankyou.jpg" alt="Gracias por tu compra" class="thankyou-image" onerror="this.src='Logo.jpeg'">
+            <h3 class="thankyou-title">¡Gracias por tu compra! 💖</h3>
+            <p class="thankyou-desc">Tu pedido ha sido enviado a WhatsApp. ¡Tu apoyo hace crecer este sueño! ✨</p>
+            <button class="btn btn-primary" id="thankyou-ok-btn" style="width: 100%;">
+                <i class="fas fa-heart"></i> Continuar viendo productos
+            </button>
+        </div>
+    </div>
+
+    <!-- Admin Authentication Modal -->
+    <div id="admin-password-modal" class="modal">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
+            <div class="modal-header">
+                <h3 class="modal-title" style="margin: 0 auto;"><i class="fas fa-shield-halved" style="color: var(--bratz-pink);"></i> Acceso Administrativo</h3>
+                <button class="modal-close-btn admin-close">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 12px;">Ingresa el PIN de 4 dígitos para gestionar el catálogo:</p>
+            
+            <form id="admin-login-form" class="admin-form">
+                <div class="pin-input-group" id="admin-pin-group">
+                    <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-1" class="pin-digit" autocomplete="off">
+                    <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-2" class="pin-digit" autocomplete="off">
+                    <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-3" class="pin-digit" autocomplete="off">
+                    <input type="password" inputmode="numeric" pattern="[0-9]*" maxlength="1" id="admin-pin-input-4" class="pin-digit" autocomplete="off">
+                </div>
+                <button class="btn-primary" type="submit" style="width: 100%; margin-top: 10px;">
+                    <i class="fas fa-key"></i> Entrar al Panel
+                </button>
+                <p class="admin-message" id="admin-login-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
             </form>
         </div>
     </div>
 
-    <div id="admin-panel" class="modal admin-panel">
+    <!-- Admin Management Panel -->
+    <div id="admin-panel" class="modal">
         <div class="modal-content admin-panel-content">
-            <span class="close admin-close" id="admin-panel-close">&times;</span>
             <div class="admin-panel-header">
                 <div>
-                    <h2>Panel Administrativo</h2>
-                    <p class="admin-subtitle">Gestiona productos, categorías organizadas y seguridad.</p>
+                    <h2><i class="fas fa-boxes-stacked" style="color: var(--bratz-pink);"></i> Panel Administrativo</h2>
+                    <p class="admin-subtitle">Los cambios se guardan directamente en la base de datos y se reflejan para todos los clientes en tiempo real.</p>
                 </div>
                 <div class="admin-header-stats">
-                    <span class="admin-stat-pill" id="admin-header-product-stat"><i class="fas fa-boxes"></i> 0 Productos</span>
-                    <span class="admin-stat-pill" id="admin-header-category-stat"><i class="fas fa-tags"></i> 0 Categorías</span>
+                    <span class="admin-stat-pill" id="admin-header-product-stat">0 Productos</span>
+                    <span class="admin-stat-pill" id="admin-header-category-stat">0 Categorías</span>
+                </div>
+                <button class="modal-close-btn admin-close" id="admin-panel-close">&times;</button>
+            </div>
+
+            <div class="admin-grid-two">
+                <!-- Add / Edit Product Card -->
+                <div class="admin-card" id="admin-product-card-form">
+                    <div class="admin-card-header">
+                        <h3 id="admin-form-heading"><i class="fas fa-plus-circle" style="color: var(--bratz-pink);"></i> Agregar Producto</h3>
+                    </div>
+                    
+                    <button id="admin-product-toggle" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
+                        <i class="fas fa-plus"></i> Abrir Formulario
+                    </button>
+
+                    <div id="admin-product-panel" class="hidden">
+                        <form id="admin-product-form" class="admin-form">
+                            <div class="form-group">
+                                <label for="admin-product-name">Nombre del Producto *</label>
+                                <input type="text" id="admin-product-name" placeholder="Ej. Labial Matte Bioaqua Pink" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-product-price">Precio ($ COP) *</label>
+                                <input type="number" id="admin-product-price" min="0" placeholder="Ej. 18000" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-product-image">Foto del Producto (Galería o Archivo)</label>
+                                <input type="file" id="admin-product-image" accept="image/*">
+                                <div id="admin-image-preview-wrap" class="admin-image-preview-wrap hidden">
+                                    <img id="admin-image-preview-img" src="" alt="Vista previa">
+                                    <span id="admin-image-preview-text" style="font-size: 0.8rem; font-weight: 600;">Imagen seleccionada</span>
+                                </div>
+                                <small>Selecciona una imagen de tu dispositivo.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-product-category">Categoría</label>
+                                <select id="admin-product-category"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-product-category-new">O crea una categoría nueva</label>
+                                <input type="text" id="admin-product-category-new" placeholder="Ej. Cuidado Facial">
+                            </div>
+
+                            <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="admin-product-active" checked>
+                                <label for="admin-product-active" style="margin: 0; cursor: pointer;">Producto activo (visible en el catálogo)</label>
+                            </div>
+
+                            <div class="admin-form-actions">
+                                <button class="btn-primary" type="submit" id="admin-product-submit-btn">
+                                    <i class="fas fa-save"></i> Guardar en Base de Datos
+                                </button>
+                                <button class="btn-secondary" type="button" id="admin-product-cancel">
+                                    <i class="fas fa-times"></i> Cancelar
+                                </button>
+                            </div>
+                            <p class="admin-message" id="admin-product-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Categories Manager -->
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3><i class="fas fa-tags" style="color: var(--bratz-pink);"></i> Categorías</h3>
+                    </div>
+                    <form id="admin-category-form" class="admin-form">
+                        <div class="form-group">
+                            <label for="admin-new-category">Nueva categoría:</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="admin-new-category" placeholder="Nombre de categoría" required>
+                                <button class="btn-primary" type="submit"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Categorías actuales:</label>
+                    <div id="admin-category-list" class="admin-category-list"></div>
                 </div>
             </div>
-            <div class="admin-panel-body">
-                <section class="admin-section admin-grid-two">
-                    <div class="admin-card" id="admin-product-card-form">
-                        <div class="admin-card-header">
-                            <h3 id="admin-form-heading"><i class="fas fa-plus-circle"></i> Agregar producto</h3>
-                        </div>
-                        <button id="admin-product-toggle" class="btn btn-primary admin-toggle-btn">
-                            <i class="fas fa-plus"></i> Abrir formulario
-                        </button>
-                        <div id="admin-product-panel" class="hidden">
-                            <form id="admin-product-form" class="admin-form">
-                                <div class="form-group">
-                                    <label for="admin-product-name">Nombre del producto *</label>
-                                    <input type="text" id="admin-product-name" placeholder="Ej. Serum Ácido Hialurónico Bioaqua" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-product-price">Precio ($ COP) *</label>
-                                    <input type="number" id="admin-product-price" min="0" placeholder="Ej. 15000" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-product-image">Foto del producto</label>
-                                    <input type="file" id="admin-product-image" accept="image/*">
-                                    <div id="admin-image-preview-wrap" class="admin-image-preview-wrap hidden">
-                                        <img id="admin-image-preview-img" src="" alt="Vista previa">
-                                        <span id="admin-image-preview-text">Imagen actual</span>
-                                    </div>
-                                    <small>Selecciona una imagen de tu galería. Si estás editando y no eliges una nueva, se conservará la actual.</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-product-page">Página / Posición</label>
-                                    <input type="number" id="admin-product-page" min="1" value="1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-product-category">Categoría</label>
-                                    <select id="admin-product-category"></select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="admin-product-category-new">O crea una categoría nueva</label>
-                                    <input type="text" id="admin-product-category-new" placeholder="Ej. Cuidado Facial">
-                                </div>
-                                <div class="form-group form-group-inline">
-                                    <label class="admin-checkbox-label">
-                                        <input type="checkbox" id="admin-product-active" checked>
-                                        <span>Producto activo (visible en catálogo)</span>
-                                    </label>
-                                </div>
-                                <div class="admin-form-actions">
-                                    <button class="btn btn-primary" type="submit" id="admin-product-submit-btn">
-                                        <i class="fas fa-save"></i> Guardar producto
-                                    </button>
-                                    <button class="btn btn-secondary" type="button" id="admin-product-cancel">
-                                        <i class="fas fa-times"></i> Cancelar
-                                    </button>
-                                </div>
-                                <p class="admin-message" id="admin-product-message"></p>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="admin-card">
-                        <div class="admin-card-header">
-                            <h3><i class="fas fa-tags"></i> Categorías</h3>
-                        </div>
-                        <form id="admin-category-form" class="admin-form">
-                            <div class="form-group">
-                                <label for="admin-new-category">Nueva categoría</label>
-                                <div class="admin-input-btn-group">
-                                    <input type="text" id="admin-new-category" placeholder="Nombre de categoría" required>
-                                    <button class="btn btn-primary" type="submit"><i class="fas fa-plus"></i></button>
-                                </div>
-                            </div>
-                            <p class="admin-message" id="admin-category-message"></p>
-                        </form>
-                        <div class="admin-categories-wrapper">
-                            <label>Categorías existentes:</label>
-                            <div id="admin-category-list" class="admin-category-list"></div>
-                        </div>
-                    </div>
-                </section>
 
-                <section class="admin-section admin-products-section">
-                    <div class="admin-products-header-bar">
-                        <div class="admin-products-title-group">
-                            <h3><i class="fas fa-boxes"></i> Catálogo de Productos</h3>
-                            <span class="admin-total-badge" id="admin-total-products-badge">0 productos</span>
-                        </div>
-                        <div class="admin-products-controls">
-                            <div class="admin-search-box">
-                                <i class="fas fa-search"></i>
-                                <input type="text" id="admin-product-search" placeholder="Buscar por nombre o ID...">
-                                <button type="button" id="admin-search-clear" class="admin-search-clear hidden" title="Limpiar">&times;</button>
-                            </div>
-                            <div class="admin-toggle-all-btns">
-                                <button type="button" class="admin-btn-action" id="admin-expand-all" title="Expandir todas las categorías">
-                                    <i class="fas fa-expand-arrows-alt"></i> Expandir todo
-                                </button>
-                                <button type="button" class="admin-btn-action" id="admin-collapse-all" title="Colapsar todas las categorías">
-                                    <i class="fas fa-compress-arrows-alt"></i> Colapsar todo
-                                </button>
-                            </div>
-                        </div>
+            <!-- Product Inventory List -->
+            <div class="admin-products-section">
+                <div class="admin-products-header-bar">
+                    <div>
+                        <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);"><i class="fas fa-boxes"></i> Inventario de Productos</h3>
+                        <span id="admin-total-products-badge" style="color: var(--text-muted); font-size: 0.8rem; font-weight: 600;">0 productos</span>
                     </div>
 
-                    <!-- Category Pills Filter Bar -->
-                    <div class="admin-pills-container">
-                        <label class="admin-pills-label"><i class="fas fa-filter"></i> Filtrar por categoría:</label>
-                        <div class="admin-category-pills" id="admin-category-pills">
-                            <!-- Populated dynamically by script.js -->
-                        </div>
+                    <div class="admin-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="admin-product-search" placeholder="Buscar en inventario...">
                     </div>
+                </div>
 
-                    <div id="admin-product-list" class="admin-product-list">
-                        <!-- Populated dynamically by script.js as category accordions -->
-                    </div>
-                </section>
+                <div class="admin-pills-container" id="admin-category-pills" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px;">
+                    <!-- Category pills in admin -->
+                </div>
 
-                <section class="admin-section">
-                    <div class="admin-card admin-card-fullwidth">
-                        <div class="admin-card-header">
-                            <h3><i class="fas fa-key"></i> Cambiar PIN de acceso</h3>
-                        </div>
-                        <form id="admin-change-password-form" class="admin-form admin-password-inline-form">
-                            <div class="form-group">
-                                <label for="admin-new-password">Nuevo PIN (4 dígitos)</label>
-                                <input type="password" id="admin-new-password" maxlength="10" placeholder="Ej. 2006" required>
-                            </div>
-                            <button class="btn btn-primary" type="submit"><i class="fas fa-lock"></i> Actualizar PIN</button>
-                        </form>
-                        <p class="admin-message" id="admin-password-message"></p>
+                <div class="admin-prods-grid" id="admin-product-list">
+                    <!-- Populated dynamically by script.js -->
+                </div>
+            </div>
+
+            <!-- Change PIN Section -->
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3><i class="fas fa-key" style="color: var(--bratz-pink);"></i> Cambiar PIN de Acceso</h3>
+                </div>
+                <form id="admin-change-password-form" class="admin-form" style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+                    <div class="form-group" style="margin-bottom: 0; flex-grow: 1; max-width: 220px;">
+                        <label for="admin-new-password">Nuevo PIN (4 dígitos):</label>
+                        <input type="password" id="admin-new-password" maxlength="10" placeholder="Ej. 2026" required>
                     </div>
-                </section>
+                    <button class="btn-primary" type="submit"><i class="fas fa-lock"></i> Actualizar PIN</button>
+                </form>
+                <p class="admin-message" id="admin-password-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer id="contacto" class="footer-bratz">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2>VALEN MAKEUP ✨</h2>
+                    <p>Belleza y cosméticos de alta calidad a precios increíbles. Resalta tu brillo todos los días.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Enlaces</h3>
+                    <ul class="footer-links-list">
+                        <li><a href="#catalogo"><i class="fas fa-angle-right"></i> Catálogo de Productos</a></li>
+                        <li><a href="#como-pedir"><i class="fas fa-angle-right"></i> Información para Pedidos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contacto & Pedidos</h3>
+                    <div class="footer-social-icons">
+                        <a href="https://wa.me/573002525489" target="_blank" class="social-icon-btn" title="WhatsApp Oficial">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="social-icon-btn" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" class="social-icon-btn" title="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                    <p style="color: var(--text-main); font-size: 0.9rem; font-weight: 700;">
+                        <i class="fas fa-phone-alt" style="color: var(--bratz-pink);"></i> +57 300 252 5489
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar">
+                <p>&copy; 2026 Valen Makeup. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         window.API_BASE_URL = '';

@@ -21,19 +21,44 @@ BASE_DIR = Path(__file__).resolve().parent
 DB_FILE = BASE_DIR / "catalog.db"
 JSON_SOURCE = BASE_DIR / "extracted_products.json"
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
-USE_POSTGRES = bool(DATABASE_URL)
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "2006").strip() or "2006"
+
+# Dynamic flag to track if PostgreSQL is currently working
+_POSTGRES_ACTIVE = False
+
+
+def _check_postgres_working() -> bool:
+    global _POSTGRES_ACTIVE
+    if not DATABASE_URL or psycopg is None:
+        _POSTGRES_ACTIVE = False
+        return False
+    try:
+        conn = psycopg.connect(DATABASE_URL, connect_timeout=3)
+        conn.close()
+        _POSTGRES_ACTIVE = True
+        return True
+    except Exception as e:
+        print(f"[db.py] PostgreSQL unavailable ({e}). Falling back to local SQLite.")
+        _POSTGRES_ACTIVE = False
+        return False
+
+
+# Check on startup
+_check_postgres_working()
 
 
 def get_database_backend() -> str:
-    return "postgres" if USE_POSTGRES else "sqlite"
+    return "postgres" if _POSTGRES_ACTIVE else "sqlite"
 
 
 def _get_connection():
-    if USE_POSTGRES:
-        if psycopg is None:
-            raise RuntimeError("psycopg[binary] is required when DATABASE_URL is set.")
-        return psycopg.connect(DATABASE_URL, row_factory=dict_row)
+    global _POSTGRES_ACTIVE
+    if _POSTGRES_ACTIVE:
+        try:
+            return psycopg.connect(DATABASE_URL, row_factory=dict_row)
+        except Exception as e:
+            print(f"[db.py] Error connecting to PostgreSQL ({e}), falling back to SQLite.")
+            _POSTGRES_ACTIVE = False
 
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
@@ -41,15 +66,15 @@ def _get_connection():
 
 
 def _placeholder() -> str:
-    return "%s" if USE_POSTGRES else "?"
+    return "%s" if _POSTGRES_ACTIVE else "?"
 
 
 def _active_true() -> Any:
-    return True if USE_POSTGRES else 1
+    return True if _POSTGRES_ACTIVE else 1
 
 
 def _active_false() -> Any:
-    return False if USE_POSTGRES else 0
+    return False if _POSTGRES_ACTIVE else 0
 
 
 def _hash_password(password: str) -> str:
@@ -81,7 +106,7 @@ def _category_from_row(row) -> Dict[str, Any]:
 
 
 def _execute_schema_updates(cursor):
-    if USE_POSTGRES:
+    if _POSTGRES_ACTIVE:
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS categories (
@@ -147,7 +172,7 @@ def _execute_schema_updates(cursor):
 
 
 def _column_exists(cursor, table_name: str, column_name: str) -> bool:
-    if USE_POSTGRES:
+    if _POSTGRES_ACTIVE:
         cursor.execute(
             "SELECT column_name FROM information_schema.columns WHERE table_name = %s AND column_name = %s",
             (table_name, column_name),
@@ -159,22 +184,28 @@ def _column_exists(cursor, table_name: str, column_name: str) -> bool:
     return any(row[1] == column_name for row in rows)
 
 
-def init_db() -> None:
-    if not USE_POSTGRES:
-        hosting_env = any(
-            os.environ.get(name)
-            for name in ("RENDER", "FLY_APP_NAME", "HEROKU_APP_NAME", "RAILWAY_PUBLIC_DOMAIN")
-        )
-        if hosting_env:
-            print("WARNING: DATABASE_URL no está configurada; usando SQLite local. Los cambios no se compartirán entre instancias.")
+def _row_first_val(row) -> int:
+    if row is None:
+        return 0
+    if isinstance(row, (tuple, list)):
+        return int(row[0])
+    if isinstance(row, dict):
+        return int(row.get("count") or next(iter(row.values()), 0))
+    try:
+        return int(row[0])
+    except Exception:
+        return 0
 
+
+def init_db() -> None:
     conn = _get_connection()
     cursor = conn.cursor()
     _execute_schema_updates(cursor)
     conn.commit()
 
+    # Admin password initialization
     row = cursor.execute("SELECT COUNT(*) FROM admin").fetchone()
-    admin_count = row[0] if isinstance(row, tuple) else row.get("count") if isinstance(row, dict) else next(iter(row.values()), 0)
+    admin_count = _row_first_val(row)
     if admin_count == 0:
         cursor.execute(
             f"INSERT INTO admin (role, password_hash) VALUES ({_placeholder()}, {_placeholder()})",
@@ -182,12 +213,13 @@ def init_db() -> None:
         )
         conn.commit()
 
+    # Product initialization
     row = cursor.execute("SELECT COUNT(*) FROM products").fetchone()
-    product_count = row[0] if isinstance(row, tuple) else row.get("count") if isinstance(row, dict) else next(iter(row.values()), 0)
+    product_count = _row_first_val(row)
     if product_count == 0:
         _seed_from_json(conn)
 
-    if USE_POSTGRES:
+    if _POSTGRES_ACTIVE:
         _sync_postgres_sequence(cursor, "products")
         _sync_postgres_sequence(cursor, "categories")
 
@@ -207,7 +239,7 @@ def _ensure_category(conn, name: str) -> Optional[int]:
     existing = cursor.fetchone()
     if existing:
         return existing[0] if not isinstance(existing, dict) else existing["id"]
-    if USE_POSTGRES:
+    if _POSTGRES_ACTIVE:
         cursor.execute(
             f"INSERT INTO categories (name) VALUES ({placeholder}) RETURNING id",
             (name.strip(),),
@@ -260,17 +292,32 @@ def _seed_from_json(conn) -> None:
 
 
 def _sync_postgres_sequence(cursor, table_name: str, column_name: str = "id") -> None:
-    cursor.execute(f"SELECT MAX({column_name}) AS max_id FROM {table_name}")
-    row = cursor.fetchone()
-    max_id = None
-    if row:
-        max_id = row[0] if isinstance(row, tuple) else row.get("max_id")
-    if max_id is None:
+    if not _POSTGRES_ACTIVE:
         return
-    cursor.execute(
-        "SELECT setval(pg_get_serial_sequence(%s, %s), %s, true)",
-        (table_name, column_name, max_id),
-    )
+    try:
+        cursor.execute(f"SELECT MAX({column_name}) AS max_id FROM {table_name}")
+        row = cursor.fetchone()
+        max_id = None
+        if row:
+            max_id = row[0] if isinstance(row, tuple) else row.get("max_id")
+        if max_id is None:
+            return
+        cursor.execute(
+            "SELECT setval(pg_get_serial_sequence(%s, %s), %s, true)",
+            (table_name, column_name, max_id),
+        )
+    except Exception:
+        pass
+
+
+def _sync_to_json_file():
+    """Sync all products to extracted_products.json so all consumers stay updated."""
+    try:
+        all_prods = get_products(active_only=False)
+        with JSON_SOURCE.open("w", encoding="utf-8") as f:
+            json.dump(all_prods, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        print(f"[db.py] Warning: could not sync to JSON: {e}")
 
 
 def get_categories() -> List[Dict[str, Any]]:
@@ -313,7 +360,7 @@ def create_category(name: str) -> int:
         return existing_id
 
     placeholder = _placeholder()
-    if USE_POSTGRES:
+    if _POSTGRES_ACTIVE:
         cursor.execute(
             f"INSERT INTO categories (name) VALUES ({placeholder}) RETURNING id",
             (name.strip(),),
@@ -340,6 +387,7 @@ def update_category(category_id: int, name: str) -> bool:
     changed = cursor.rowcount > 0
     conn.commit()
     conn.close()
+    _sync_to_json_file()
     return changed
 
 
@@ -350,6 +398,7 @@ def delete_category(category_id: int) -> bool:
     deleted = cursor.rowcount > 0
     conn.commit()
     conn.close()
+    _sync_to_json_file()
     return deleted
 
 
@@ -365,7 +414,7 @@ def get_products(active_only: bool = True, category_id: Optional[int] = None) ->
         params.append(category_id)
 
     if active_only:
-        if USE_POSTGRES:
+        if _POSTGRES_ACTIVE:
             cursor.execute(
                 f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.active = TRUE {category_filter} ORDER BY p.id ASC",
                 tuple(params),
@@ -411,7 +460,7 @@ def create_product(
     placeholder = _placeholder()
     active_value = _active_true() if active else _active_false()
 
-    if USE_POSTGRES:
+    if _POSTGRES_ACTIVE:
         cursor.execute(
             f"INSERT INTO products (name, price, image, page, active, category_id) VALUES ({placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}) RETURNING id",
             (name.strip(), price, image.strip(), page, active_value, category_id),
@@ -426,6 +475,7 @@ def create_product(
 
     conn.commit()
     conn.close()
+    _sync_to_json_file()
     return product_id
 
 
@@ -443,7 +493,7 @@ def update_product(product_id: int, **fields: Any) -> bool:
         if key == "active":
             value = _active_true() if bool(value) else _active_false()
         if key == "category_id" and value is None:
-            updates.append(f"category_id = NULL")
+            updates.append("category_id = NULL")
             continue
         updates.append(f"{key} = {placeholder}")
         values.append(value)
@@ -458,6 +508,7 @@ def update_product(product_id: int, **fields: Any) -> bool:
     changed = cursor.rowcount > 0
     conn.commit()
     conn.close()
+    _sync_to_json_file()
     return changed
 
 
@@ -468,27 +519,11 @@ def set_product_state(product_id: int, active: bool) -> bool:
 def delete_product(product_id: int) -> bool:
     conn = _get_connection()
     cursor = conn.cursor()
-    cursor.execute(f"SELECT image FROM products WHERE id = {_placeholder()}", (product_id,))
-    row = cursor.fetchone()
-    if not row:
-        conn.close()
-        return False
-
-    image_path = row["image"]
-    if image_path and not image_path.lower().startswith(("http://", "https://")):
-        local_path = Path(image_path)
-        if not local_path.is_absolute():
-            local_path = BASE_DIR / local_path
-        try:
-            if local_path.exists() and local_path.is_file():
-                local_path.unlink()
-        except OSError:
-            pass
-
     cursor.execute(f"DELETE FROM products WHERE id = {_placeholder()}", (product_id,))
     deleted = cursor.rowcount > 0
     conn.commit()
     conn.close()
+    _sync_to_json_file()
     return deleted
 
 

@@ -1,33 +1,96 @@
+/**
+ * VALEN MAKEUP - SCRIPT PRINCIPAL & GESTIÓN DE CATÁLOGO (ESTILO LAS BRATZ)
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    const cartIcon = document.querySelector('.cart-icon');
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const navMenu = document.getElementById('nav-menu');
+    const headerCartBtn = document.getElementById('header-cart-btn');
+    const headerCartCount = document.getElementById('header-cart-count');
+    const navAdminBtn = document.getElementById('nav-admin-btn');
+    const siteLogo = document.getElementById('site-logo');
+
+    // Catalog & Filter Elements
+    const searchInput = document.getElementById('search-input');
+    const searchClearBtn = document.getElementById('search-clear-btn');
+    const categoryFilters = document.getElementById('category-filters');
+    const productsGrid = document.getElementById('products-grid');
+    const loadingTrigger = document.getElementById('loading-trigger');
+    const catalogCountText = document.getElementById('catalog-count-text');
+    const heroTotalProds = document.getElementById('hero-total-prods');
+
+    // Cart Modal Elements
     const cartModal = document.getElementById('cart-modal');
-    const closeModal = document.querySelector('.close');
+    const cartCloseBtn = document.getElementById('cart-close-btn');
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalPrice = document.getElementById('cart-total-price');
-    const cartCount = document.querySelector('.cart-count');
-    const productsGrid = document.getElementById('products-grid');
-    const searchInput = document.getElementById('search-input');
-    const categoryFilters = document.getElementById('category-filters');
-    const loadingTrigger = document.getElementById('loading-trigger');
+    const checkoutCustomerName = document.getElementById('checkout-customer-name');
+    const checkoutCustomerPhone = document.getElementById('checkout-customer-phone');
+    const checkoutCustomerAddress = document.getElementById('checkout-customer-address');
     const btnCheckout = document.getElementById('btn-checkout');
 
-    // Global App State
+    // Thank You Modal Elements
+    const thankyouModal = document.getElementById('thankyou-modal');
+    const thankyouCloseBtn = document.getElementById('thankyou-close-btn');
+    const thankyouOkBtn = document.getElementById('thankyou-ok-btn');
+
+    // Admin Modal Elements
+    const adminPasswordModal = document.getElementById('admin-password-modal');
+    const adminPanel = document.getElementById('admin-panel');
+    const adminLoginForm = document.getElementById('admin-login-form');
+    const adminLoginMessage = document.getElementById('admin-login-message');
+    const adminCloseButtons = document.querySelectorAll('.admin-close');
+    const adminPinInputs = [
+        document.getElementById('admin-pin-input-1'),
+        document.getElementById('admin-pin-input-2'),
+        document.getElementById('admin-pin-input-3'),
+        document.getElementById('admin-pin-input-4'),
+    ];
+
+    // Admin Form Elements
+    const adminProductForm = document.getElementById('admin-product-form');
+    const adminProductPanel = document.getElementById('admin-product-panel');
+    const adminProductToggle = document.getElementById('admin-product-toggle');
+    const adminProductCancel = document.getElementById('admin-product-cancel');
+    const adminFormHeading = document.getElementById('admin-form-heading');
+    const adminProductSubmitBtn = document.getElementById('admin-product-submit-btn');
+    const adminProductImageInput = document.getElementById('admin-product-image');
+    const adminImagePreviewWrap = document.getElementById('admin-image-preview-wrap');
+    const adminImagePreviewImg = document.getElementById('admin-image-preview-img');
+    const adminImagePreviewText = document.getElementById('admin-image-preview-text');
+    const adminProductMessage = document.getElementById('admin-product-message');
+    const adminCategorySelect = document.getElementById('admin-product-category');
+
+    // Admin Category & Inventory Elements
+    const adminCategoryForm = document.getElementById('admin-category-form');
+    const adminCategoryList = document.getElementById('admin-category-list');
+    const adminCategoryMessage = document.getElementById('admin-category-message');
+    const adminProductSearch = document.getElementById('admin-product-search');
+    const adminCategoryPills = document.getElementById('admin-category-pills');
+    const adminProductList = document.getElementById('admin-product-list');
+    const adminHeaderProductStat = document.getElementById('admin-header-product-stat');
+    const adminHeaderCategoryStat = document.getElementById('admin-header-category-stat');
+    const adminTotalProductsBadge = document.getElementById('admin-total-products-badge');
+    const adminChangePasswordForm = document.getElementById('admin-change-password-form');
+    const adminPasswordMessage = document.getElementById('admin-password-message');
+
+    // Global State
     let allProducts = [];
     let filteredProducts = [];
-    let displayedCount = 0;
     let allCategories = [];
-    let selectedCategoryId = null;
-    const ITEMS_PER_PAGE = Infinity;
-    const API_BASE_URL = (window.API_BASE_URL || '').replace(/\/$/, '');
-    const PRODUCTS_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/products` : '/api/products';
-    const CATEGORIES_API_URL = API_BASE_URL ? `${API_BASE_URL}/api/categories` : '/api/categories';
+    let selectedCategory = 'all';
     let cart = [];
+    let adminPassword = '';
+    let adminProducts = [];
+    let adminCategories = [];
+    let adminSelectedCat = 'all';
+    let adminSearchQuery = '';
 
-    const CANONICAL_CATEGORY_ORDER = [
+    const WHATSAPP_NUMBER = '573002525489';
+    const API_BASE_URL = (window.API_BASE_URL || '').replace(/\/$/, '');
+
+    const CANONICAL_CATEGORIES = [
         'Cuidado Facial y Corporal',
         'Maquillaje',
         'Cabello y Ducha',
@@ -35,67 +98,56 @@ document.addEventListener('DOMContentLoaded', () => {
         'Bloomshell'
     ];
 
-    function stripEmojis(str) {
-        return String(str || '')
-            .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FAFF}\u{200D}\u{FE0F}]/gu, '')
-            .replace(/\s+/g, ' ')
-            .trim();
+    // ==========================================
+    // SPARKLE BACKGROUND GENERATOR
+    // ==========================================
+    function initSparkles() {
+        const bg = document.getElementById('sparkle-bg');
+        if (!bg) return;
+        bg.innerHTML = '';
+        const count = window.innerWidth < 768 ? 15 : 30;
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'sparkle-dot';
+            const size = Math.random() * 4 + 2;
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.left = `${Math.random() * 100}%`;
+            dot.style.top = `${Math.random() * 100}%`;
+            dot.style.animationDelay = `${Math.random() * 5}s`;
+            dot.style.animationDuration = `${Math.random() * 3 + 3}s`;
+            bg.appendChild(dot);
+        }
     }
+    initSparkles();
+    window.addEventListener('resize', initSparkles);
 
+    // ==========================================
+    // HELPERS & NETWORKING
+    // ==========================================
     function normalizeCategoryName(name) {
-        const clean = stripEmojis(name);
+        if (!name) return 'Maquillaje';
+        const clean = String(name).replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FAFF}\u{200D}\u{FE0F}]/gu, '').replace(/\s+/g, ' ').trim();
         const lower = clean.toLowerCase();
         if (lower === 'cuidado facial' || lower === 'corporal' || lower === 'cuidado corporal' || lower === 'cuidado facial y corporal') {
             return 'Cuidado Facial y Corporal';
         }
-        if (lower === 'maquillaje') {
-            return 'Maquillaje';
-        }
-        if (lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') {
-            return 'Cabello y Ducha';
-        }
-        if (lower === 'accesorios' || lower === 'herramientas') {
-            return 'Accesorios';
-        }
-        if (lower === 'bloomshell') {
-            return 'Bloomshell';
-        }
+        if (lower === 'maquillaje') return 'Maquillaje';
+        if (lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') return 'Cabello y Ducha';
+        if (lower === 'accesorios' || lower === 'herramientas') return 'Accesorios';
+        if (lower === 'bloomshell') return 'Bloomshell';
         return clean;
     }
 
-    function getCategoryForPage(page) {
-        const p = Number(page) || 1;
-        if ((p >= 2 && p <= 15) || (p >= 48 && p <= 50)) return 'Cuidado Facial y Corporal';
-        if (p >= 16 && p <= 30) return 'Maquillaje';
-        if (p >= 31 && p <= 35) return 'Cabello y Ducha';
-        if (p >= 36 && p <= 47) return 'Accesorios';
-        if (p >= 51) return 'Bloomshell';
-        return 'Cuidado Facial y Corporal';
+    function formatPrice(val) {
+        return `$${Number(val || 0).toLocaleString('es-CO')}`;
     }
 
-    function getCategoryOrderIndex(catName) {
-        const normalized = normalizeCategoryName(catName);
-        const idx = CANONICAL_CATEGORY_ORDER.findIndex(
-            c => c.toLowerCase() === normalized.toLowerCase()
-        );
-        return idx === -1 ? 999 : idx;
-    }
-
-    function sortCategoriesList(categories) {
-        return categories.slice().sort((a, b) => {
-            const nameA = normalizeCategoryName(typeof a === 'string' ? a : (a.name || ''));
-            const nameB = normalizeCategoryName(typeof b === 'string' ? b : (b.name || ''));
-            const idxA = getCategoryOrderIndex(nameA);
-            const idxB = getCategoryOrderIndex(nameB);
-            if (idxA !== idxB) return idxA - idxB;
-            return nameA.localeCompare(nameB, 'es', { sensitivity: 'base' });
-        });
-    }
-
-    async function fetchJson(url, options = {}) {
+    async function fetchApi(endpoint, options = {}) {
+        const url = `${API_BASE_URL}${endpoint}`;
         const sep = url.includes('?') ? '&' : '?';
-        const bustUrl = `${url}${sep}_t=${Date.now()}`;
-        return fetch(bustUrl, {
+        const finalUrl = `${url}${sep}_t=${Date.now()}`;
+        return fetch(finalUrl, {
             cache: 'no-store',
             headers: {
                 'Pragma': 'no-cache',
@@ -106,281 +158,167 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // WhatsApp Number Config (Pre-filled from catalog header)
-    const WHATSAPP_NUMBER = '573002525489'; 
+    // Floating Notification Toast
+    function showNotification(message, icon = '💖') {
+        const existing = document.querySelector('.floating-notification');
+        if (existing) existing.remove();
 
-    // Initialize Hamburger Toggle
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+        const toast = document.createElement('div');
+        toast.className = 'floating-notification';
+        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+        document.body.appendChild(toast);
 
-    // Close Menu on Link Click
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+        setTimeout(() => {
+            toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(15px)';
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+
+    // ==========================================
+    // HAMBURGER & NAV
+    // ==========================================
+    if (hamburgerBtn && navMenu) {
+        hamburgerBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
         });
-    });
 
-    // Cart Modal Event Listeners
-    cartIcon.addEventListener('click', (e) => {
-        e.preventDefault();
-        cartModal.classList.add('active');
-        renderCart();
-    });
-
-    closeModal.addEventListener('click', () => {
-        cartModal.classList.remove('active');
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === cartModal) {
-            cartModal.classList.remove('active');
-        }
-    });
-
-    function getDeletedProductIds() {
-        try {
-            const raw = localStorage.getItem('valen_deleted_ids');
-            return new Set(raw ? JSON.parse(raw) : []);
-        } catch (e) {
-            return new Set();
-        }
-    }
-
-    function saveDeletedProductId(id) {
-        try {
-            const deleted = getDeletedProductIds();
-            deleted.add(Number(id));
-            localStorage.setItem('valen_deleted_ids', JSON.stringify(Array.from(deleted)));
-            // Remove from custom products if present
-            const custom = getCustomProducts().filter(p => Number(p.id) !== Number(id));
-            localStorage.setItem('valen_custom_products', JSON.stringify(custom));
-        } catch (e) {}
-    }
-
-    function getCustomProducts() {
-        try {
-            const raw = localStorage.getItem('valen_custom_products');
-            return raw ? JSON.parse(raw) : [];
-        } catch (e) {
-            return [];
-        }
-    }
-
-    function saveCustomProduct(product) {
-        try {
-            const custom = getCustomProducts();
-            const idx = custom.findIndex(p => Number(p.id) === Number(product.id));
-            if (idx >= 0) {
-                custom[idx] = product;
-            } else {
-                custom.push(product);
-            }
-            localStorage.setItem('valen_custom_products', JSON.stringify(custom));
-        } catch (e) {}
-    }
-
-    function getEditedProductsMap() {
-        try {
-            const raw = localStorage.getItem('valen_edited_products');
-            return raw ? JSON.parse(raw) : {};
-        } catch (e) {
-            return {};
-        }
-    }
-
-    function saveEditedProduct(product) {
-        try {
-            const editedMap = getEditedProductsMap();
-            editedMap[product.id] = product;
-            localStorage.setItem('valen_edited_products', JSON.stringify(editedMap));
-        } catch (e) {}
-    }
-
-    function getCustomCategories() {
-        try {
-            const raw = localStorage.getItem('valen_custom_categories');
-            const parsed = raw ? JSON.parse(raw) : [];
-            const cleaned = [];
-            const seen = new Set();
-            parsed.forEach(c => {
-                const cleanName = normalizeCategoryName(c && c.name ? c.name : c);
-                if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !seen.has(cleanName.toLowerCase())) {
-                    seen.add(cleanName.toLowerCase());
-                    cleaned.push({ id: (c && c.id) || Date.now(), name: cleanName });
-                }
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
             });
-            return cleaned;
+        });
+    }
+
+    // ==========================================
+    // CATALOG LOADING & RENDERING
+    // ==========================================
+    async function loadCatalog() {
+        if (loadingTrigger) loadingTrigger.style.display = 'block';
+        try {
+            const res = await fetchApi('/api/products');
+            if (res.ok) {
+                allProducts = await res.json();
+            } else {
+                throw new Error('Fallback to extracted JSON');
+            }
         } catch (e) {
-            return [];
-        }
-    }
-
-    function saveCustomCategory(category) {
-        try {
-            const cleanName = normalizeCategoryName(category && category.name ? category.name : category);
-            if (!cleanName || cleanName.toLowerCase() === 'todas' || cleanName.toLowerCase() === 'todos') return;
-            const cats = getCustomCategories();
-            if (!cats.some(c => c.name.toLowerCase() === cleanName.toLowerCase())) {
-                cats.push({ id: (category && category.id) || Date.now(), name: cleanName });
-                localStorage.setItem('valen_custom_categories', JSON.stringify(cats));
-            }
-        } catch (e) {}
-    }
-
-    function mergeProductsWithLocalData(baseProducts) {
-        const deletedIds = getDeletedProductIds();
-        const editedMap = getEditedProductsMap();
-        const customProducts = getCustomProducts();
-
-        let merged = (baseProducts || []).filter(p => !deletedIds.has(Number(p.id))).map(p => {
-            if (editedMap[p.id]) {
-                return { ...p, ...editedMap[p.id] };
-            }
-            return p;
-        });
-
-        // Add custom products not deleted
-        customProducts.forEach(cp => {
-            if (!deletedIds.has(Number(cp.id)) && !merged.some(p => Number(p.id) === Number(cp.id))) {
-                merged.push(cp);
-            }
-        });
-
-        merged.forEach(p => {
-            p.category = normalizeCategoryName(p.category || getCategoryForPage(p.page));
-        });
-
-        return merged;
-    }
-
-    // Load Products from backend API or fallback to local JSON
-    async function loadProducts() {
-        let products = [];
-        try {
-            const response = await fetchJson(PRODUCTS_API_URL);
-            if (!response.ok) {
-                throw new Error('Error al cargar el catálogo desde la API');
-            }
-            products = await response.json();
-        } catch (apiError) {
-            console.warn('No se pudo cargar desde la API, intentando fallback a JSON local:', apiError);
             try {
-                const response = await fetchJson('extracted_products.json');
-                if (!response.ok) {
-                    throw new Error('Error al cargar el catálogo desde JSON local');
-                }
-                products = await response.json();
-            } catch (jsonError) {
-                console.error('Error:', jsonError);
-                productsGrid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--primary-pink);">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
-                        <h3>No pudimos cargar los productos en este momento.</h3>
-                        <p>Por favor, recarga la página o inténtalo más tarde.</p>
-                    </div>
-                `;
-                loadingTrigger.style.display = 'none';
-                return;
+                const res = await fetchApi('/extracted_products.json');
+                allProducts = await res.json();
+            } catch (err) {
+                allProducts = [];
             }
         }
 
-        allProducts = mergeProductsWithLocalData(products);
+        // Clean & ensure categories
+        allProducts = (allProducts || []).map(p => ({
+            ...p,
+            category: normalizeCategoryName(p.category)
+        }));
+
+        if (heroTotalProds) {
+            heroTotalProds.textContent = `${allProducts.length}+`;
+        }
+
+        await loadCategories();
         applyFilters();
     }
 
     async function loadCategories() {
         try {
-            const response = await fetchJson(CATEGORIES_API_URL);
-            if (!response.ok) {
-                throw new Error('No se pudo cargar las categorías');
+            const res = await fetchApi('/api/categories');
+            if (res.ok) {
+                allCategories = await res.json();
+            } else {
+                allCategories = [];
             }
-            allCategories = await response.json();
-        } catch (error) {
-            console.warn('Error al cargar categorías:', error);
+        } catch (e) {
             allCategories = [];
         }
 
-        const cleaned = [];
-        const seen = new Set();
-        (allCategories || []).forEach(c => {
-            const cleanName = normalizeCategoryName(c.name);
-            if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !seen.has(cleanName.toLowerCase())) {
-                seen.add(cleanName.toLowerCase());
-                cleaned.push({ id: c.id, name: cleanName });
+        // Merge with canonical categories
+        const catMap = new Map();
+        allCategories.forEach(c => catMap.set(normalizeCategoryName(c.name).toLowerCase(), c.name));
+        CANONICAL_CATEGORIES.forEach(c => {
+            if (!catMap.has(c.toLowerCase())) {
+                catMap.set(c.toLowerCase(), c);
             }
         });
 
-        // Ensure canonical categories exist
-        CANONICAL_CATEGORY_ORDER.forEach((name, idx) => {
-            if (!seen.has(name.toLowerCase())) {
-                cleaned.push({ id: idx + 1, name });
-                seen.add(name.toLowerCase());
-            }
-        });
-
-        allCategories = sortCategoriesList(cleaned);
-        renderCategoryFilters();
+        allCategories = Array.from(catMap.values());
+        renderCategoryFilterPills();
     }
 
-    function renderCategoryFilters() {
+    function renderCategoryFilterPills() {
+        if (!categoryFilters) return;
         categoryFilters.innerHTML = '';
-        const allOption = document.createElement('button');
-        allOption.type = 'button';
-        allOption.className = `category-pill${selectedCategoryId === null ? ' active' : ''}`;
-        allOption.textContent = 'Todas';
-        allOption.addEventListener('click', () => {
-            selectedCategoryId = null;
-            renderCategoryFilters();
+
+        // "Todas"
+        const allBtn = document.createElement('button');
+        allBtn.type = 'button';
+        allBtn.className = `category-pill ${selectedCategory === 'all' ? 'active' : ''}`;
+        allBtn.innerHTML = `💖 Todas`;
+        allBtn.addEventListener('click', () => {
+            selectedCategory = 'all';
+            renderCategoryFilterPills();
             applyFilters();
         });
-        categoryFilters.appendChild(allOption);
+        categoryFilters.appendChild(allBtn);
 
-        allCategories.forEach(category => {
-            const pill = document.createElement('button');
-            pill.type = 'button';
-            pill.className = `category-pill${selectedCategoryId === category.id ? ' active' : ''}`;
-            pill.textContent = category.name;
-            pill.addEventListener('click', () => {
-                selectedCategoryId = category.id;
-                renderCategoryFilters();
+        const categoryIcons = {
+            'Cuidado Facial y Corporal': '✨',
+            'Maquillaje': '💄',
+            'Cabello y Ducha': '💇‍♀️',
+            'Accesorios': '👑',
+            'Bloomshell': '🌸'
+        };
+
+        allCategories.forEach(catName => {
+            const icon = categoryIcons[catName] || '✨';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `category-pill ${selectedCategory.toLowerCase() === catName.toLowerCase() ? 'active' : ''}`;
+            btn.innerHTML = `${icon} ${catName}`;
+            btn.addEventListener('click', () => {
+                selectedCategory = catName;
+                renderCategoryFilterPills();
                 applyFilters();
             });
-            categoryFilters.appendChild(pill);
+            categoryFilters.appendChild(btn);
         });
     }
 
     function applyFilters() {
-        const query = searchInput.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        filteredProducts = allProducts
-            .filter(product => product.active !== false)
-            .filter(product => {
-                const matchesSearch = !query || product.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(query);
-                const currentCatName = product.category || getCategoryForPage(product.page);
-                let matchesCategory = true;
-                if (selectedCategoryId !== null) {
-                    const selCat = allCategories.find(c => c.id === selectedCategoryId);
-                    matchesCategory = product.category_id === selectedCategoryId || (selCat && currentCatName.toLowerCase() === selCat.name.toLowerCase());
-                }
-                return matchesSearch && matchesCategory;
-            });
-        displayedCount = 0;
-        productsGrid.innerHTML = '';
-        renderAllProducts();
+        const query = (searchInput ? searchInput.value : '').toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+        filteredProducts = allProducts.filter(p => p.active !== false).filter(p => {
+            const nameNorm = String(p.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const catNorm = normalizeCategoryName(p.category).toLowerCase();
+            const matchesSearch = !query || nameNorm.includes(query) || catNorm.includes(query);
+            const matchesCat = selectedCategory === 'all' || catNorm === selectedCategory.toLowerCase();
+            return matchesSearch && matchesCat;
+        });
+
+        renderProductsGrid();
     }
 
-    // Render all products at once (no pagination)
-    function renderAllProducts() {
-        loadingTrigger.style.display = 'none';
+    function renderProductsGrid() {
+        if (loadingTrigger) loadingTrigger.style.display = 'none';
+        if (!productsGrid) return;
+        productsGrid.innerHTML = '';
+
+        if (catalogCountText) {
+            catalogCountText.textContent = `Mostrando ${filteredProducts.length} de ${allProducts.length} productos`;
+        }
 
         if (filteredProducts.length === 0) {
             productsGrid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--dark-purple);">
-                    <i class="far fa-frown" style="font-size: 2.5rem; margin-bottom: 15px;"></i>
-                    <h3>No encontramos productos que coincidan con tu búsqueda.</h3>
-                    <p>Intenta buscando con palabras clave diferentes.</p>
+                <div class="catalog-empty-state">
+                    <i class="fas fa-heart-crack"></i>
+                    <h3>No encontramos productos que coincidan</h3>
+                    <p>Intenta con otra palabra clave o selecciona otra categoría.</p>
                 </div>
             `;
             return;
@@ -393,453 +331,385 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'product-card';
             card.innerHTML = `
                 <div class="product-image-container">
-                    <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    <img src="${product.image || 'Logo.jpeg'}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                    <span class="product-category-tag">${product.category || 'Maquillaje'}</span>
+                    ${product.page ? `<span class="product-page-tag">Pág. ${product.page}</span>` : ''}
                 </div>
                 <div class="product-info">
-                    <h3>${product.name}</h3>
-                    <div class="product-price">$${product.price.toLocaleString('es-CO')}</div>
+                    <h3 class="product-title" title="${product.name}">${product.name}</h3>
+                    <div class="product-price-row">
+                        <div class="product-price">${formatPrice(product.price)}</div>
+                    </div>
                     <button class="btn-add-cart" data-id="${product.id}">
-                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                        <i class="fas fa-shopping-bag"></i> Agregar al Carrito
                     </button>
                 </div>
             `;
+
+            const addBtn = card.querySelector('.btn-add-cart');
+            addBtn.addEventListener('click', () => {
+                addToCart(product);
+            });
+
             fragment.appendChild(card);
         });
 
         productsGrid.appendChild(fragment);
-
-        // Add event listeners to all buttons
-        productsGrid.querySelectorAll('.btn-add-cart').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const id = parseInt(btn.getAttribute('data-id'));
-                const prodObj = allProducts.find(p => p.id === id);
-                if (prodObj) {
-                    addToCart(prodObj);
-                }
-            });
-        });
-
-        displayedCount = filteredProducts.length;
     }
 
-    // Search Filtering
-    searchInput.addEventListener('input', () => {
-        applyFilters();
-    });
+    // Search events
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            if (searchClearBtn) {
+                if (searchInput.value.trim()) {
+                    searchClearBtn.classList.remove('hidden');
+                } else {
+                    searchClearBtn.classList.add('hidden');
+                }
+            }
+            applyFilters();
+        });
+    }
 
-    // Shopping Cart Operations
+    if (searchClearBtn) {
+        searchClearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchClearBtn.classList.add('hidden');
+            applyFilters();
+        });
+    }
+
+    // ==========================================
+    // SHOPPING CART & WHATSAPP CHECKOUT
+    // ==========================================
+    function loadSavedCart() {
+        try {
+            const raw = localStorage.getItem('valen_cart');
+            if (raw) cart = JSON.parse(raw);
+        } catch (e) {
+            cart = [];
+        }
+        updateCartUi();
+    }
+
+    function saveCart() {
+        try {
+            localStorage.setItem('valen_cart', JSON.stringify(cart));
+        } catch (e) {}
+        updateCartUi();
+    }
+
     function addToCart(product) {
-        const existingItem = cart.find(item => item.id === product.id);
-        if (existingItem) {
-            existingItem.quantity += 1;
+        const existing = cart.find(item => Number(item.id) === Number(product.id));
+        if (existing) {
+            existing.quantity = (existing.quantity || 1) + 1;
         } else {
             cart.push({ ...product, quantity: 1 });
         }
-        updateCartCount();
-        showNotification(`¡${product.name.slice(0, 20)}... agregado!`);
-        saveCartToLocalStorage();
+        saveCart();
+        showNotification(`¡${product.name.slice(0, 22)}... agregado!`, '🛍️');
     }
 
-    function updateCartCount() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartCount.textContent = totalItems;
-    }
+    const floatingCartBar = document.getElementById('floating-cart-bar');
+    const floatingCartCount = document.getElementById('floating-cart-count');
+    const floatingCartTotal = document.getElementById('floating-cart-total');
 
-    window.updateQuantity = function(id, change) {
-        const item = cart.find(item => item.id === id);
-        if (item) {
-            item.quantity += change;
-            if (item.quantity <= 0) {
-                cart = cart.filter(item => item.id !== id);
+    function updateCartUi() {
+        const totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const total = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+
+        if (headerCartCount) {
+            headerCartCount.textContent = totalCount;
+        }
+
+        if (floatingCartCount) {
+            floatingCartCount.textContent = totalCount;
+        }
+
+        if (floatingCartTotal) {
+            floatingCartTotal.textContent = formatPrice(total);
+        }
+
+        if (floatingCartBar) {
+            if (totalCount > 0) {
+                floatingCartBar.style.display = 'flex';
+            } else {
+                floatingCartBar.style.display = 'none';
             }
-            updateCartCount();
-            renderCart();
-            saveCartToLocalStorage();
-        }
-    };
-
-    function renderCart() {
-        if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p style="text-align: center; padding: 30px; opacity: 0.6;">El carrito está vacío</p>';
-            cartTotalPrice.textContent = '$0';
-            return;
         }
 
-        cartItemsContainer.innerHTML = '';
-        let total = 0;
-
-        cart.forEach(item => {
-            total += item.price * item.quantity;
-            const cartItem = document.createElement('div');
-            cartItem.className = 'cart-item';
-            cartItem.innerHTML = `
-                <img src="${item.image}" alt="${item.name}">
-                <div class="cart-item-details">
-                    <h4>${item.name}</h4>
-                    <p>$${item.price.toLocaleString('es-CO')}</p>
-                    <div class="quantity-control">
-                        <button onclick="updateQuantity(${item.id}, -1)">-</button>
-                        <span>${item.quantity}</span>
-                        <button onclick="updateQuantity(${item.id}, 1)">+</button>
+        if (cartItemsContainer) {
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 35px 20px; color: #a89bb4;">
+                        <i class="fas fa-bag-shopping" style="font-size: 2.2rem; margin-bottom: 10px; color: var(--bratz-pink);"></i>
+                        <p style="font-weight: 600;">Tu carrito está vacío</p>
                     </div>
-                </div>
-            `;
-            cartItemsContainer.appendChild(cartItem);
-        });
+                `;
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image || 'Logo.jpeg'}" alt="${item.name}" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <div class="cart-item-price">${formatPrice(item.price)}</div>
+                        </div>
+                        <div class="quantity-control">
+                            <button type="button" class="btn-qty-minus" data-id="${item.id}">-</button>
+                            <span>${item.quantity || 1}</span>
+                            <button type="button" class="btn-qty-plus" data-id="${item.id}">+</button>
+                        </div>
+                    </div>
+                `).join('');
 
-        cartTotalPrice.textContent = `$${total.toLocaleString('es-CO')}`;
+                cartItemsContainer.querySelectorAll('.btn-qty-minus').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = Number(btn.getAttribute('data-id'));
+                        const item = cart.find(i => Number(i.id) === id);
+                        if (item) {
+                            item.quantity -= 1;
+                            if (item.quantity <= 0) {
+                                cart = cart.filter(i => Number(i.id) !== id);
+                            }
+                            saveCart();
+                        }
+                    });
+                });
+
+                cartItemsContainer.querySelectorAll('.btn-qty-plus').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = Number(btn.getAttribute('data-id'));
+                        const item = cart.find(i => Number(i.id) === id);
+                        if (item) {
+                            item.quantity += 1;
+                            saveCart();
+                        }
+                    });
+                });
+            }
+        }
+
+        if (cartTotalPrice) {
+            cartTotalPrice.textContent = formatPrice(total);
+        }
     }
 
-    // Checkout via WhatsApp
-    btnCheckout.addEventListener('click', () => {
-        if (cart.length === 0) {
-            alert('Agrega productos al carrito antes de realizar tu pedido.');
-            return;
-        }
-
-        let total = 0;
-        let messageText = '✨ *PEDIDO NUEVO - VALEN MAKEUP* ✨\n';
-        messageText += 'Hola, me gustaría realizar la compra de los siguientes productos:\n\n';
-
-        cart.forEach((item, index) => {
-            const subtotal = item.price * item.quantity;
-            total += subtotal;
-            messageText += `*${index + 1}.* ${item.name}\n`;
-            messageText += `   *Cantidad:* ${item.quantity} x $${item.price.toLocaleString('es-CO')}\n`;
-            messageText += `   *Subtotal:* $${subtotal.toLocaleString('es-CO')}\n\n`;
+    if (floatingCartBar && cartModal) {
+        floatingCartBar.addEventListener('click', () => {
+            cartModal.classList.add('active');
         });
+    }
 
-        messageText += `--------------------------------------\n`;
-        messageText += `🛍️ *TOTAL ESTIMADO:* $${total.toLocaleString('es-CO')}\n\n`;
-        messageText += `📍 *Por favor indícame disponibilidad y costo del envío.*`;
+    if (headerCartBtn && cartModal) {
+        headerCartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            cartModal.classList.add('active');
+        });
+    }
 
-        const encodedMessage = encodeURIComponent(messageText);
-        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-        
-        window.open(whatsappUrl, '_blank');
-    });
+    if (cartCloseBtn && cartModal) {
+        cartCloseBtn.addEventListener('click', () => {
+            cartModal.classList.remove('active');
+        });
+    }
 
-    // Admin panel logic
-    const logoButton = document.getElementById('site-logo');
-    const adminPasswordModal = document.getElementById('admin-password-modal');
-    const adminPanel = document.getElementById('admin-panel');
-    const adminLoginForm = document.getElementById('admin-login-form');
-    const adminLoginMessage = document.getElementById('admin-login-message');
-    const adminPinInputs = [
-        document.getElementById('admin-pin-input-1'),
-        document.getElementById('admin-pin-input-2'),
-        document.getElementById('admin-pin-input-3'),
-        document.getElementById('admin-pin-input-4'),
-    ];
+    // Checkout button WhatsApp action
+    if (btnCheckout) {
+        btnCheckout.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío. Agrega productos para realizar tu pedido.');
+                return;
+            }
 
-    // Form DOM Elements
-    const adminProductForm = document.getElementById('admin-product-form');
-    const adminProductPanel = document.getElementById('admin-product-panel');
-    const adminProductToggle = document.getElementById('admin-product-toggle');
-    const adminProductCancel = document.getElementById('admin-product-cancel');
-    const adminFormHeading = document.getElementById('admin-form-heading');
-    const adminProductSubmitBtn = document.getElementById('admin-product-submit-btn');
-    const adminProductImageInput = document.getElementById('admin-product-image');
-    const adminImagePreviewWrap = document.getElementById('admin-image-preview-wrap');
-    const adminImagePreviewImg = document.getElementById('admin-image-preview-img');
-    const adminImagePreviewText = document.getElementById('admin-image-preview-text');
+            const name = (checkoutCustomerName ? checkoutCustomerName.value : '').trim();
+            const phone = (checkoutCustomerPhone ? checkoutCustomerPhone.value : '').trim();
+            const address = (checkoutCustomerAddress ? checkoutCustomerAddress.value : '').trim();
 
-    // Category DOM Elements
-    const adminCategoryForm = document.getElementById('admin-category-form');
-    const adminCategorySelect = document.getElementById('admin-product-category');
-    const adminCategoryList = document.getElementById('admin-category-list');
-    const adminCategoryMessage = document.getElementById('admin-category-message');
+            if (!name || !address) {
+                alert('Por favor ingresa tu Nombre y Dirección de entrega para coordinar tu pedido.');
+                if (!name && checkoutCustomerName) checkoutCustomerName.focus();
+                else if (checkoutCustomerAddress) checkoutCustomerAddress.focus();
+                return;
+            }
 
-    // Products View DOM Elements
-    const adminProductList = document.getElementById('admin-product-list');
-    const adminProductMessage = document.getElementById('admin-product-message');
-    const adminProductSearch = document.getElementById('admin-product-search');
-    const adminSearchClear = document.getElementById('admin-search-clear');
-    const adminCategoryPills = document.getElementById('admin-category-pills');
-    const adminExpandAll = document.getElementById('admin-expand-all');
-    const adminCollapseAll = document.getElementById('admin-collapse-all');
+            let total = 0;
+            let msg = `✨ *NUEVO PEDIDO - VALEN MAKEUP* ✨\n`;
+            msg += `👑 _Belleza & Glamour Estilo Bratz_\n\n`;
+            msg += `📋 *DATOS DEL CLIENTE:*\n`;
+            msg += `👤 *Nombre:* ${name}\n`;
+            if (phone) msg += `📱 *Teléfono:* ${phone}\n`;
+            msg += `📍 *Dirección:* ${address}\n\n`;
+            msg += `🛍️ *PRODUCTOS SELECCIONADOS:*\n`;
 
-    // Stats & Header Badges
-    const adminHeaderProductStat = document.getElementById('admin-header-product-stat');
-    const adminHeaderCategoryStat = document.getElementById('admin-header-category-stat');
-    const adminTotalProductsBadge = document.getElementById('admin-total-products-badge');
+            cart.forEach((item, idx) => {
+                const sub = (Number(item.price || 0)) * (item.quantity || 1);
+                total += sub;
+                msg += `*${idx + 1}.* ${item.name}\n`;
+                msg += `   └ Cantidad: ${item.quantity} x ${formatPrice(item.price)} = ${formatPrice(sub)}\n`;
+            });
 
-    // Password Form
-    const adminChangePasswordForm = document.getElementById('admin-change-password-form');
-    const adminPasswordMessage = document.getElementById('admin-password-message');
-    const adminCloseButtons = document.querySelectorAll('.admin-close');
+            msg += `\n---------------------------------\n`;
+            msg += `💰 *TOTAL ESTIMADO:* ${formatPrice(total)}\n`;
+            msg += `---------------------------------\n\n`;
+            msg += `🚚 *Por favor indícame disponibilidad y valor de envío.* ✨`;
 
-    // Admin State
-    let adminPassword = '';
-    let adminCategories = [];
-    let adminProducts = [];
-    let adminSelectedCategory = 'all';
-    let adminSearchQuery = '';
-    let adminCollapsedCategories = new Set();
+            const encoded = encodeURIComponent(msg);
+            const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
+            window.open(waUrl, '_blank');
 
-    let logoTapCount = 0;
+            // Close cart and show Thank You modal
+            if (cartModal) cartModal.classList.remove('active');
+            if (thankyouModal) thankyouModal.classList.add('active');
+        });
+    }
+
+    if (thankyouCloseBtn && thankyouModal) {
+        thankyouCloseBtn.addEventListener('click', () => thankyouModal.classList.remove('active'));
+    }
+    if (thankyouOkBtn && thankyouModal) {
+        thankyouOkBtn.addEventListener('click', () => thankyouModal.classList.remove('active'));
+    }
+
+    // ==========================================
+    // ADMIN PANEL & 3-TAP LOGO ACCESS
+    // ==========================================
+    let logoTaps = 0;
     let logoTapTimer = null;
 
-    logoButton.addEventListener('click', () => {
-        logoTapCount += 1;
-        if (logoTapTimer) {
-            clearTimeout(logoTapTimer);
-        }
-        logoTapTimer = setTimeout(() => {
-            logoTapCount = 0;
-        }, 1200);
+    function handleLogoTap(e) {
+        logoTaps += 1;
+        clearTimeout(logoTapTimer);
+        logoTapTimer = setTimeout(() => { logoTaps = 0; }, 1400);
 
-        if (logoTapCount >= 3) {
-            logoTapCount = 0;
-            openAdminLogin();
+        if (logoTaps >= 3) {
+            logoTaps = 0;
+            openAdminPinModal();
         }
-    });
+    }
 
-    function openAdminLogin() {
-        adminLoginMessage.textContent = '';
-        adminPinInputs.forEach(input => {
-            input.value = '';
+    if (siteLogo) {
+        siteLogo.addEventListener('click', handleLogoTap);
+    }
+
+    function openAdminPinModal() {
+        if (adminLoginMessage) adminLoginMessage.textContent = '';
+        adminPinInputs.forEach(input => { if (input) input.value = ''; });
+        if (adminPinInputs[0]) adminPinInputs[0].focus();
+        if (adminPasswordModal) adminPasswordModal.classList.add('active');
+    }
+
+    adminCloseButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (adminPasswordModal) adminPasswordModal.classList.remove('active');
+            if (adminPanel) adminPanel.classList.remove('active');
         });
-        adminPinInputs[0].focus();
-        adminPasswordModal.classList.add('active');
-    }
-
-    function closeAdminModals() {
-        adminPasswordModal.classList.remove('active');
-        adminPanel.classList.remove('active');
-    }
-
-    adminCloseButtons.forEach(button => {
-        button.addEventListener('click', closeAdminModals);
     });
 
-    window.addEventListener('click', (event) => {
-        if (event.target === adminPasswordModal || event.target === adminPanel) {
-            closeAdminModals();
-        }
+    window.addEventListener('click', (e) => {
+        if (e.target === adminPasswordModal) adminPasswordModal.classList.remove('active');
+        if (e.target === adminPanel) adminPanel.classList.remove('active');
+        if (e.target === cartModal) cartModal.classList.remove('active');
+        if (e.target === thankyouModal) thankyouModal.classList.remove('active');
     });
 
-    function showAdminProductPanel(isEditing = false, productName = '') {
-        adminProductPanel.classList.remove('hidden');
-        if (isEditing) {
-            adminProductToggle.innerHTML = '<i class="fas fa-edit"></i> Editando producto';
-            adminFormHeading.innerHTML = `<i class="fas fa-edit"></i> Editar: ${productName || 'Producto'}`;
-            adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar producto';
-        } else {
-            adminProductToggle.innerHTML = '<i class="fas fa-minus"></i> Ocultar formulario';
-            adminFormHeading.innerHTML = '<i class="fas fa-plus-circle"></i> Agregar producto';
-            adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar producto';
-        }
-    }
-
-    function hideAdminProductPanel() {
-        adminProductPanel.classList.add('hidden');
-        adminProductToggle.innerHTML = '<i class="fas fa-plus"></i> Abrir formulario';
-        adminFormHeading.innerHTML = '<i class="fas fa-plus-circle"></i> Agregar producto';
-        adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar producto';
-        if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
-    }
-
-    adminProductToggle.addEventListener('click', () => {
-        if (adminProductPanel.classList.contains('hidden')) {
-            showAdminProductPanel(Boolean(adminProductForm.dataset.editing));
-        } else {
-            hideAdminProductPanel();
-        }
-    });
-
-    adminProductCancel.addEventListener('click', () => {
-        adminProductForm.reset();
-        delete adminProductForm.dataset.editing;
-        if (adminProductImageInput) {
-            adminProductImageInput.removeAttribute('data-current-image');
-        }
-        adminProductMessage.textContent = '';
-        hideAdminProductPanel();
-    });
-
-    // Image preview when file selected
-    if (adminProductImageInput) {
-        adminProductImageInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    adminImagePreviewImg.src = event.target.result;
-                    adminImagePreviewText.textContent = 'Nueva imagen seleccionada';
-                    adminImagePreviewWrap.classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
+    // PIN auto-focus stepper
+    adminPinInputs.forEach((input, idx) => {
+        if (!input) return;
+        input.addEventListener('input', (e) => {
+            const val = e.target.value.replace(/\D/g, '');
+            e.target.value = val;
+            if (val && idx < adminPinInputs.length - 1) {
+                adminPinInputs[idx + 1].focus();
             }
         });
-    }
-
-    adminPinInputs.forEach((input, index) => {
-        input.addEventListener('input', (event) => {
-            const value = event.target.value.replace(/\D/g, '');
-            event.target.value = value;
-            if (value && index < adminPinInputs.length - 1) {
-                adminPinInputs[index + 1].focus();
-            }
-        });
-
-        input.addEventListener('keydown', (event) => {
-            if (event.key === 'Backspace' && !event.target.value && index > 0) {
-                adminPinInputs[index - 1].focus();
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+                adminPinInputs[idx - 1].focus();
             }
         });
     });
 
-    adminLoginForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        adminLoginMessage.textContent = '';
-        const password = adminPinInputs.map(input => input.value.trim()).join('');
-        if (password.length !== 4) {
-            adminLoginMessage.textContent = 'Ingresa el PIN de 4 dígitos.';
-            return;
-        }
+    // Submit PIN Login
+    if (adminLoginForm) {
+        adminLoginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (adminLoginMessage) adminLoginMessage.textContent = '';
+            const enteredPin = adminPinInputs.map(i => (i ? i.value : '')).join('').trim();
 
-        try {
-            const response = await fetchJson(`${API_BASE_URL}/api/admin/authenticate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ password }),
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) {
-                    adminLoginMessage.textContent = 'Contraseña incorrecta.';
-                } else {
-                    adminLoginMessage.textContent = 'No se pudo conectar con el backend administrativo.';
-                }
+            if (enteredPin.length < 4) {
+                if (adminLoginMessage) adminLoginMessage.textContent = 'Ingresa los 4 dígitos del PIN.';
                 return;
             }
 
-            adminPassword = password;
-            adminPasswordModal.classList.remove('active');
-            adminPanel.classList.add('active');
-            await loadAdminData();
-        } catch (error) {
-            adminLoginMessage.textContent = 'Error de conexión: el backend no está disponible.';
-            console.error('Admin login error:', error);
-        }
-    });
+            try {
+                const res = await fetchApi('/api/admin/authenticate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: enteredPin })
+                });
+
+                if (!res.ok) {
+                    if (adminLoginMessage) adminLoginMessage.textContent = 'PIN incorrecto. Intenta de nuevo.';
+                    return;
+                }
+
+                adminPassword = enteredPin;
+                if (adminPasswordModal) adminPasswordModal.classList.remove('active');
+                if (adminPanel) adminPanel.classList.add('active');
+                await loadAdminData();
+            } catch (err) {
+                if (adminLoginMessage) adminLoginMessage.textContent = 'Error al conectar con el servidor.';
+            }
+        });
+    }
 
     async function loadAdminData() {
-        await Promise.all([loadAdminCategories(), loadAdminProducts()]);
-    }
-
-    async function loadAdminCategories() {
         try {
-            let cats = [];
-            try {
-                const response = await fetchJson(`${API_BASE_URL}/api/categories`);
-                if (response.ok) {
-                    cats = await response.json();
-                }
-            } catch (err) {
-                console.warn('Backend categories load failed, using fallback:', err);
-            }
+            const [prodsRes, catsRes] = await Promise.all([
+                fetchApi('/api/products?active=false'),
+                fetchApi('/api/categories')
+            ]);
 
-            const cleaned = [];
-            const seen = new Set();
-            (cats || []).forEach(c => {
-                const cleanName = normalizeCategoryName(c && c.name ? c.name : c);
-                if (cleanName && cleanName.toLowerCase() !== 'todas' && cleanName.toLowerCase() !== 'todos' && !seen.has(cleanName.toLowerCase())) {
-                    seen.add(cleanName.toLowerCase());
-                    cleaned.push({ id: c.id || Date.now(), name: cleanName });
-                }
-            });
+            if (prodsRes.ok) adminProducts = await prodsRes.json();
+            if (catsRes.ok) adminCategories = await catsRes.json();
 
-            const customCats = getCustomCategories();
-            customCats.forEach(cc => {
-                const cleanName = normalizeCategoryName(cc && cc.name ? cc.name : cc);
-                if (cleanName && !seen.has(cleanName.toLowerCase())) {
-                    seen.add(cleanName.toLowerCase());
-                    cleaned.push({ id: cc.id || Date.now(), name: cleanName });
-                }
-            });
-
-            CANONICAL_CATEGORY_ORDER.forEach((name, idx) => {
-                if (!seen.has(name.toLowerCase())) {
-                    cleaned.push({ id: idx + 1, name });
-                    seen.add(name.toLowerCase());
-                }
-            });
-
-            adminCategories = sortCategoriesList(cleaned);
-            populateCategorySelect();
-            renderAdminCategoryList();
+            populateAdminCategorySelect();
+            renderAdminCategoryChips();
             renderAdminCategoryPills();
+            renderAdminProductsList();
             updateAdminStats();
-        } catch (error) {
-            console.error('Error loading categories:', error);
-        }
-    }
-
-    async function loadAdminProducts() {
-        try {
-            const response = await fetchJson(`${API_BASE_URL}/api/products?active=false`);
-            if (!response.ok) {
-                adminProductMessage.textContent = 'Error cargando productos.';
-                return;
-            }
-            let prods = await response.json();
-            adminProducts = mergeProductsWithLocalData(prods);
-            renderAdminCategoryList();
-            renderAdminCategoryPills();
-            renderAdminProducts();
-            updateAdminStats();
-        } catch (error) {
-            console.error('Error loading products:', error);
+        } catch (e) {
+            console.error('Error loading admin data:', e);
         }
     }
 
     function updateAdminStats() {
-        if (adminHeaderProductStat) {
-            adminHeaderProductStat.innerHTML = `<i class="fas fa-boxes"></i> ${adminProducts.length} Productos`;
-        }
-        if (adminHeaderCategoryStat) {
-            adminHeaderCategoryStat.innerHTML = `<i class="fas fa-tags"></i> ${adminCategories.length} Categorías`;
-        }
-        if (adminTotalProductsBadge) {
-            adminTotalProductsBadge.textContent = `${adminProducts.length} productos`;
-        }
+        if (adminHeaderProductStat) adminHeaderProductStat.innerHTML = `<i class="fas fa-boxes"></i> ${adminProducts.length} Productos`;
+        if (adminHeaderCategoryStat) adminHeaderCategoryStat.innerHTML = `<i class="fas fa-tags"></i> ${adminCategories.length} Categorías`;
+        if (adminTotalProductsBadge) adminTotalProductsBadge.textContent = `${adminProducts.length} productos en base de datos`;
     }
 
-    function populateCategorySelect() {
-        adminCategorySelect.innerHTML = '<option value="">Seleccionar categoría</option>';
-        const sorted = sortCategoriesList(adminCategories);
-        sorted.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.textContent = category.name;
-            adminCategorySelect.appendChild(option);
+    function populateAdminCategorySelect() {
+        if (!adminCategorySelect) return;
+        adminCategorySelect.innerHTML = '<option value="">Selecciona una categoría existente</option>';
+        adminCategories.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat.id || cat.name;
+            opt.textContent = cat.name;
+            adminCategorySelect.appendChild(opt);
         });
     }
 
-    function renderAdminCategoryList() {
+    function renderAdminCategoryChips() {
         if (!adminCategoryList) return;
         adminCategoryList.innerHTML = '';
-        
-        if (adminCategories.length === 0) {
-            adminCategoryList.innerHTML = '<span style="font-size:0.82rem; color:#9ca3af;">No hay categorías creadas.</span>';
-            return;
-        }
-
-        const sorted = sortCategoriesList(adminCategories);
-        sorted.forEach(category => {
-            const count = adminProducts.filter(p => p.category_id === category.id || (p.category && p.category.toLowerCase() === category.name.toLowerCase())).length;
+        adminCategories.forEach(cat => {
+            const count = adminProducts.filter(p => normalizeCategoryName(p.category).toLowerCase() === cat.name.toLowerCase()).length;
             const chip = document.createElement('div');
             chip.className = 'admin-category-chip';
             chip.innerHTML = `
-                <span>${category.name}</span>
-                <span class="chip-count" title="${count} productos">${count}</span>
-                <button type="button" class="chip-delete" data-action="delete-category" data-id="${category.id}" title="Eliminar categoría">
-                    <i class="fas fa-times"></i>
-                </button>
+                <span>${cat.name}</span>
+                <span class="chip-count">${count}</span>
             `;
             adminCategoryList.appendChild(chip);
         });
@@ -849,668 +719,342 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!adminCategoryPills) return;
         adminCategoryPills.innerHTML = '';
 
-        // Category counts
-        const catCounts = {};
-        let uncategorizedCount = 0;
-
-        adminProducts.forEach(product => {
-            const key = product.category || getCategoryForPage(product.page);
-            if (!key || key === 'Sin categoría') {
-                uncategorizedCount++;
-            } else {
-                catCounts[key] = (catCounts[key] || 0) + 1;
-            }
-        });
-
-        // "Todas" pill
         const allPill = document.createElement('button');
         allPill.type = 'button';
-        allPill.className = `admin-pill-btn ${adminSelectedCategory === 'all' ? 'active' : ''}`;
-        allPill.innerHTML = `<span>Todas</span><span class="pill-count">${adminProducts.length}</span>`;
+        allPill.className = `admin-pill-btn ${adminSelectedCat === 'all' ? 'active' : ''}`;
+        allPill.innerHTML = `<span>Todas</span> (${adminProducts.length})`;
         allPill.addEventListener('click', () => {
-            adminSelectedCategory = 'all';
+            adminSelectedCat = 'all';
             renderAdminCategoryPills();
-            renderAdminProducts();
+            renderAdminProductsList();
         });
         adminCategoryPills.appendChild(allPill);
 
-        // Category Pills in canonical catalog order
-        const sortedCategories = sortCategoriesList(Object.keys(catCounts));
-        
-        sortedCategories.forEach(catName => {
+        adminCategories.forEach(cat => {
+            const count = adminProducts.filter(p => normalizeCategoryName(p.category).toLowerCase() === cat.name.toLowerCase()).length;
             const pill = document.createElement('button');
             pill.type = 'button';
-            pill.className = `admin-pill-btn ${adminSelectedCategory === catName ? 'active' : ''}`;
-            pill.innerHTML = `<span>${catName}</span><span class="pill-count">${catCounts[catName]}</span>`;
+            pill.className = `admin-pill-btn ${adminSelectedCat.toLowerCase() === cat.name.toLowerCase() ? 'active' : ''}`;
+            pill.innerHTML = `<span>${cat.name}</span> (${count})`;
             pill.addEventListener('click', () => {
-                adminSelectedCategory = catName;
-                // Auto-expand this category
-                adminCollapsedCategories.delete(catName);
+                adminSelectedCat = cat.name;
                 renderAdminCategoryPills();
-                renderAdminProducts();
+                renderAdminProductsList();
             });
             adminCategoryPills.appendChild(pill);
         });
-
-        if (uncategorizedCount > 0) {
-            const uncategorizedPill = document.createElement('button');
-            uncategorizedPill.type = 'button';
-            uncategorizedPill.className = `admin-pill-btn ${adminSelectedCategory === 'Sin categoría' ? 'active' : ''}`;
-            uncategorizedPill.innerHTML = `<span>Sin categoría</span><span class="pill-count">${uncategorizedCount}</span>`;
-            uncategorizedPill.addEventListener('click', () => {
-                adminSelectedCategory = 'Sin categoría';
-                adminCollapsedCategories.delete('Sin categoría');
-                renderAdminCategoryPills();
-                renderAdminProducts();
-            });
-            adminCategoryPills.appendChild(uncategorizedPill);
-        }
     }
 
-    function renderAdminProducts() {
+    function renderAdminProductsList() {
         if (!adminProductList) return;
         adminProductList.innerHTML = '';
 
-        // Filter products based on search query and category filter
-        let filtered = adminProducts.slice();
-
-        if (adminSelectedCategory !== 'all') {
-            if (adminSelectedCategory === 'Sin categoría') {
-                filtered = filtered.filter(p => !p.category || p.category.trim() === '' || p.category === 'Sin categoría');
-            } else {
-                filtered = filtered.filter(p => (p.category || getCategoryForPage(p.page)).toLowerCase() === adminSelectedCategory.toLowerCase());
-            }
+        let list = adminProducts.slice();
+        if (adminSelectedCat !== 'all') {
+            list = list.filter(p => normalizeCategoryName(p.category).toLowerCase() === adminSelectedCat.toLowerCase());
         }
-
         if (adminSearchQuery) {
-            const query = adminSearchQuery.toLowerCase().trim();
-            filtered = filtered.filter(p => {
-                const nameMatch = p.name && p.name.toLowerCase().includes(query);
-                const currentCat = p.category || getCategoryForPage(p.page);
-                const categoryMatch = currentCat && currentCat.toLowerCase().includes(query);
-                const idMatch = String(p.id).includes(query);
-                return nameMatch || categoryMatch || idMatch;
-            });
+            const q = adminSearchQuery.toLowerCase();
+            list = list.filter(p => String(p.name || '').toLowerCase().includes(q) || String(p.id).includes(q));
         }
 
-        if (filtered.length === 0) {
-            adminProductList.innerHTML = `
-                <div class="admin-empty-state">
-                    <i class="fas fa-search"></i>
-                    <h4>No se encontraron productos</h4>
-                    <p>${adminSearchQuery ? `No hay productos que coincidan con "${adminSearchQuery}".` : 'No hay productos en esta categoría.'}</p>
-                </div>
-            `;
+        if (list.length === 0) {
+            adminProductList.innerHTML = `<p style="padding: 20px; color: #a99bb5; text-align: center; grid-column: 1/-1;">No hay productos que coincidan.</p>`;
             return;
         }
 
-        // Group by category
-        const grouped = {};
-        filtered.forEach(product => {
-            const key = product.category || getCategoryForPage(product.page);
-            if (!grouped[key]) {
-                grouped[key] = [];
-            }
-            grouped[key].push(product);
-        });
-
-        // Sort categories in catalog canonical order (1: Cuidado Facial, 2: Maquillaje, 3: Cabello, etc.)
-        const sortedCategoryNames = sortCategoriesList(Object.keys(grouped));
-
-        sortedCategoryNames.forEach(categoryName => {
-            const categoryProducts = grouped[categoryName];
-            const isCollapsed = adminCollapsedCategories.has(categoryName) && !adminSearchQuery;
-
-            const accordion = document.createElement('div');
-            accordion.className = `admin-category-accordion ${isCollapsed ? 'collapsed' : ''}`;
-            accordion.dataset.category = categoryName;
-
-            accordion.innerHTML = `
-                <div class="admin-accordion-header">
-                    <div class="admin-accordion-title-wrap">
-                        <div class="admin-accordion-icon">
-                            <i class="fas fa-folder"></i>
-                        </div>
-                        <h4>${categoryName}</h4>
-                        <span class="admin-accordion-count">${categoryProducts.length} ${categoryProducts.length === 1 ? 'producto' : 'productos'}</span>
+        list.forEach(p => {
+            const card = document.createElement('div');
+            card.className = `admin-prod-card ${p.active === false ? 'inactive-product' : ''}`;
+            card.innerHTML = `
+                <div class="admin-prod-card-main">
+                    <img src="${p.image || 'Logo.jpeg'}" class="admin-prod-thumb" alt="${p.name}" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                    <div class="admin-prod-info">
+                        <div class="admin-prod-name" title="${p.name}">#${p.id} - ${p.name}</div>
+                        <div class="admin-prod-price">${formatPrice(p.price)}</div>
+                        <small style="color: var(--bratz-light-pink); font-size: 0.72rem;">${p.category || 'Maquillaje'} ${p.active === false ? '• (Oculto)' : ''}</small>
                     </div>
-                    <i class="fas fa-chevron-down admin-accordion-chevron"></i>
                 </div>
-                <div class="admin-accordion-body">
-                    <div class="admin-prods-grid">
-                        ${categoryProducts.map(product => `
-                            <div class="admin-prod-card ${product.active ? '' : 'inactive-product'}" data-id="${product.id}">
-                                <div class="admin-prod-card-main">
-                                    <img src="${product.image || 'Logo.jpeg'}" alt="${product.name}" class="admin-prod-thumb" onerror="this.onerror=null;this.src='Logo.jpeg';">
-                                    <div class="admin-prod-info">
-                                        <div class="admin-prod-name" title="${product.name}">${product.name}</div>
-                                        <div class="admin-prod-price">$${Number(product.price || 0).toLocaleString('es-CO')}</div>
-                                        <div class="admin-prod-meta">
-                                            <span class="admin-tag admin-tag-page">Pág. ${product.page || 1}</span>
-                                            <span class="admin-tag ${product.active ? 'admin-tag-active' : 'admin-tag-inactive'}">
-                                                ${product.active ? 'Activo' : 'Inactivo'}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="admin-prod-actions">
-                                    <button type="button" class="admin-action-btn admin-action-edit" data-action="edit-product" data-id="${product.id}">
-                                        <i class="fas fa-pen"></i> Editar
-                                    </button>
-                                    <button type="button" class="admin-action-btn admin-action-toggle ${product.active ? 'to-inactive' : ''}" data-action="toggle-state" data-id="${product.id}" data-active="${product.active}">
-                                        <i class="fas ${product.active ? 'fa-eye-slash' : 'fa-eye'}"></i> ${product.active ? 'Ocultar' : 'Activar'}
-                                    </button>
-                                    <button type="button" class="admin-action-btn admin-action-delete" data-action="delete-product" data-id="${product.id}" title="Eliminar producto">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
+                <div class="admin-prod-actions">
+                    <button type="button" class="admin-action-btn admin-action-edit" data-id="${p.id}"><i class="fas fa-pen"></i> Editar</button>
+                    <button type="button" class="admin-action-btn admin-action-toggle ${p.active === false ? 'to-inactive' : ''}" data-id="${p.id}" data-active="${p.active !== false}">
+                        <i class="fas ${p.active === false ? 'fa-eye' : 'fa-eye-slash'}"></i> ${p.active === false ? 'Mostrar' : 'Ocultar'}
+                    </button>
+                    <button type="button" class="admin-action-btn admin-action-delete" data-id="${p.id}"><i class="fas fa-trash"></i></button>
                 </div>
             `;
 
-            // Toggle collapse/expand on header click
-            const header = accordion.querySelector('.admin-accordion-header');
-            header.addEventListener('click', () => {
-                accordion.classList.toggle('collapsed');
-                if (accordion.classList.contains('collapsed')) {
-                    adminCollapsedCategories.add(categoryName);
-                } else {
-                    adminCollapsedCategories.delete(categoryName);
-                }
-            });
+            card.querySelector('.admin-action-edit').addEventListener('click', () => openEditProduct(p.id));
+            card.querySelector('.admin-action-toggle').addEventListener('click', (e) => toggleProductState(p.id, p.active !== false));
+            card.querySelector('.admin-action-delete').addEventListener('click', () => deleteProduct(p.id));
 
-            adminProductList.appendChild(accordion);
+            adminProductList.appendChild(card);
         });
     }
 
-    // Search and controls in Admin
     if (adminProductSearch) {
         adminProductSearch.addEventListener('input', (e) => {
             adminSearchQuery = e.target.value.trim();
-            if (adminSearchClear) {
-                if (adminSearchQuery) {
-                    adminSearchClear.classList.remove('hidden');
-                } else {
-                    adminSearchClear.classList.add('hidden');
-                }
-            }
-            renderAdminProducts();
+            renderAdminProductsList();
         });
     }
 
-    if (adminSearchClear) {
-        adminSearchClear.addEventListener('click', () => {
-            adminProductSearch.value = '';
-            adminSearchQuery = '';
-            adminSearchClear.classList.add('hidden');
-            renderAdminProducts();
+    // Toggle Product Form Visibility
+    if (adminProductToggle && adminProductPanel) {
+        adminProductToggle.addEventListener('click', () => {
+            adminProductPanel.classList.toggle('hidden');
         });
     }
 
-    if (adminExpandAll) {
-        adminExpandAll.addEventListener('click', () => {
-            adminCollapsedCategories.clear();
-            document.querySelectorAll('.admin-category-accordion').forEach(acc => {
-                acc.classList.remove('collapsed');
-            });
+    if (adminProductCancel && adminProductPanel && adminProductForm) {
+        adminProductCancel.addEventListener('click', () => {
+            adminProductForm.reset();
+            delete adminProductForm.dataset.editingId;
+            if (adminFormHeading) adminFormHeading.innerHTML = '<i class="fas fa-plus-circle"></i> Agregar Producto';
+            if (adminProductSubmitBtn) adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar en Base de Datos';
+            if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
+            adminProductPanel.classList.add('hidden');
         });
     }
 
-    if (adminCollapseAll) {
-        adminCollapseAll.addEventListener('click', () => {
-            document.querySelectorAll('.admin-category-accordion').forEach(acc => {
-                acc.classList.add('collapsed');
-                if (acc.dataset.category) {
-                    adminCollapsedCategories.add(acc.dataset.category);
-                }
-            });
-        });
-    }
-
-    // Event delegation for category deletion
-    if (adminCategoryList) {
-        adminCategoryList.addEventListener('click', async (event) => {
-            const button = event.target.closest('button[data-action="delete-category"]');
-            if (!button) return;
-            const id = parseInt(button.dataset.id, 10);
-            if (!id) return;
-            await deleteCategory(id);
-        });
-    }
-
-    // Event delegation for product actions (edit, toggle state, delete)
-    if (adminProductList) {
-        adminProductList.addEventListener('click', async (event) => {
-            const button = event.target.closest('button');
-            if (!button) return;
-            const action = button.dataset.action;
-            const id = parseInt(button.dataset.id, 10);
-            if (!id) return;
-
-            if (action === 'delete-product') {
-                await deleteProduct(id);
-            } else if (action === 'edit-product') {
-                await openProductForEdit(id);
-            } else if (action === 'toggle-state') {
-                const currentActive = button.dataset.active === 'true';
-                await toggleProductState(id, currentActive);
-            }
-        });
-    }
-
-    adminCategoryForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        adminCategoryMessage.textContent = '';
-        const categoryName = document.getElementById('admin-new-category').value.trim();
-        if (!categoryName) {
-            adminCategoryMessage.textContent = 'Ingresa el nombre de la categoría.';
-            return;
-        }
-
-        const response = await fetchJson(`${API_BASE_URL}/api/categories`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Admin-Password': adminPassword,
-            },
-            body: JSON.stringify({ name: categoryName }),
-        });
-
-        if (!response.ok) {
-            adminCategoryMessage.textContent = 'No se pudo crear la categoría.';
-            return;
-        }
-
-        document.getElementById('admin-new-category').value = '';
-        adminCategoryMessage.textContent = 'Categoría creada correctamente.';
-        try {
-            const catObj = await response.json();
-            if (catObj && catObj.name) {
-                saveCustomCategory(catObj);
-            }
-        } catch (e) {
-            saveCustomCategory({ id: Date.now(), name: categoryName });
-        }
-        await loadAdminCategories();
-    });
-
-    function readFileAsDataURL(file) {
+    // Image compression helper
+    function compressImageFile(file, maxWidth = 800) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = () => reject(new Error('No se pudo leer la imagen'));
             reader.readAsDataURL(file);
-        });
-    }
-
-    adminProductForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        adminProductMessage.textContent = '';
-
-        const name = document.getElementById('admin-product-name').value.trim();
-        const price = document.getElementById('admin-product-price').value.trim();
-        const imageInput = document.getElementById('admin-product-image');
-        const page = document.getElementById('admin-product-page').value.trim();
-        const categoryId = document.getElementById('admin-product-category').value;
-        const categoryNew = document.getElementById('admin-product-category-new').value.trim();
-        const active = document.getElementById('admin-product-active').checked;
-
-        const imageFile = imageInput.files[0];
-        let image = imageInput.dataset.currentImage || '';
-        if (imageFile) {
-            try {
-                image = await readFileAsDataURL(imageFile);
-            } catch (error) {
-                adminProductMessage.textContent = 'No se pudo leer la imagen seleccionada.';
-                return;
-            }
-        }
-
-        if (!name || !price || (!image && !imageFile)) {
-            adminProductMessage.textContent = 'Completa todos los campos obligatorios. Asegúrate de incluir una imagen.';
-            return;
-        }
-
-        const payload = {
-            name,
-            price: parseInt(price, 10),
-            image,
-            page: parseInt(page, 10) || 1,
-            active,
-        };
-
-        if (categoryNew) {
-            const categoryResponse = await fetchJson(`${API_BASE_URL}/api/categories`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Admin-Password': adminPassword,
-                },
-                body: JSON.stringify({ name: categoryNew }),
-            });
-
-            if (!categoryResponse.ok) {
-                let categoryError = 'No se pudo crear la categoría nueva.';
-                try {
-                    const errorBody = await categoryResponse.json();
-                    if (errorBody && errorBody.description) {
-                        categoryError += ` ${errorBody.description}`;
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
                     }
-                } catch (error) {
-                    const text = await categoryResponse.text();
-                    if (text) {
-                        categoryError += ` ${text}`;
-                    }
-                }
-                adminProductMessage.textContent = categoryError;
-                return;
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.85));
+                };
+                img.onerror = () => resolve(event.target.result);
+            };
+            reader.onerror = reject;
+        });
+    }
+
+    // Image input preview
+    if (adminProductImageInput) {
+        adminProductImageInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const compressed = await compressImageFile(file);
+                if (adminImagePreviewImg) adminImagePreviewImg.src = compressed;
+                if (adminImagePreviewWrap) adminImagePreviewWrap.classList.remove('hidden');
+            }
+        });
+    }
+
+    // Submit Add / Edit Product
+    if (adminProductForm) {
+        adminProductForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (adminProductMessage) adminProductMessage.textContent = 'Guardando producto en base de datos...';
+
+            const name = document.getElementById('admin-product-name').value.trim();
+            const price = parseInt(document.getElementById('admin-product-price').value, 10);
+            const catSelect = document.getElementById('admin-product-category').value;
+            const catNew = document.getElementById('admin-product-category-new').value.trim();
+            const active = document.getElementById('admin-product-active').checked;
+            const editingId = adminProductForm.dataset.editingId;
+
+            let image = adminProductForm.dataset.existingImage || 'img/product_1.jpg';
+            if (adminProductImageInput && adminProductImageInput.files[0]) {
+                image = await compressImageFile(adminProductImageInput.files[0]);
             }
 
-            const category = await categoryResponse.json();
-            payload.category_id = category.id;
-            payload.category = category.name;
-            saveCustomCategory(category);
-        } else if (categoryId) {
-            payload.category_id = parseInt(categoryId, 10);
-            const foundCat = adminCategories.find(c => c.id === payload.category_id);
-            if (foundCat) payload.category = foundCat.name;
-        } else if (adminProductForm.dataset.editing) {
-            payload.category_id = null;
-        }
+            const category = normalizeCategoryName(catNew || catSelect || 'Maquillaje');
 
-        const isEditing = Boolean(adminProductForm.dataset.editing);
-        const editingId = isEditing ? Number(adminProductForm.dataset.editing) : null;
-        const url = isEditing ? `${API_BASE_URL}/api/products/${adminProductForm.dataset.editing}` : `${API_BASE_URL}/api/products`;
-        const method = isEditing ? 'PATCH' : 'POST';
+            const payload = {
+                name,
+                price,
+                image,
+                category,
+                active,
+                page: 1
+            };
 
-        const response = await fetchJson(url, {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Admin-Password': adminPassword,
-            },
-            body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-            let errorMessage = isEditing ? 'No se pudo actualizar el producto.' : 'No se pudo crear el producto.';
             try {
-                const errorBody = await response.json();
-                if (errorBody && errorBody.description) {
-                    errorMessage += ` ${errorBody.description}`;
-                } else if (errorBody && errorBody.message) {
-                    errorMessage += ` ${errorBody.message}`;
-                } else if (typeof errorBody === 'string' && errorBody.trim()) {
-                    errorMessage += ` ${errorBody}`;
+                const endpoint = editingId ? `/api/products/${editingId}` : '/api/products';
+                const method = editingId ? 'PATCH' : 'POST';
+
+                const res = await fetchApi(endpoint, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    throw new Error('Error al guardar en el servidor');
                 }
-            } catch (error) {
-                const text = await response.text();
-                if (text) {
-                    errorMessage += ` ${text}`;
-                }
+
+                showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto agregado con éxito!', '✅');
+                adminProductForm.reset();
+                delete adminProductForm.dataset.editingId;
+                delete adminProductForm.dataset.existingImage;
+                if (adminProductMessage) adminProductMessage.textContent = '';
+                if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
+                if (adminProductPanel) adminProductPanel.classList.add('hidden');
+
+                await loadAdminData();
+                await loadCatalog();
+            } catch (err) {
+                if (adminProductMessage) adminProductMessage.textContent = `Error: No se pudo guardar el producto. (${err.message})`;
             }
-            console.error('Admin product request failed:', response.status, response.statusText, errorMessage);
-            adminProductMessage.textContent = errorMessage;
-            return;
-        }
-
-        try {
-            const savedItem = await response.json();
-            if (isEditing) {
-                saveEditedProduct({ ...payload, id: editingId, ...savedItem });
-            } else {
-                saveCustomProduct(savedItem);
-            }
-        } catch (e) {
-            if (isEditing) {
-                saveEditedProduct({ ...payload, id: editingId });
-            } else {
-                saveCustomProduct({ ...payload, id: Date.now() });
-            }
-        }
-
-        if (isEditing) {
-            delete adminProductForm.dataset.editing;
-            adminProductMessage.textContent = 'Producto actualizado correctamente.';
-        } else {
-            adminProductMessage.textContent = 'Producto creado con éxito.';
-        }
-
-        if (adminProductImageInput) {
-            adminProductImageInput.removeAttribute('data-current-image');
-        }
-        adminProductForm.reset();
-        hideAdminProductPanel();
-        showNotification('Producto guardado correctamente');
-        await loadAdminData();
-        await loadProducts();
-    });
-
-    adminChangePasswordForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        adminPasswordMessage.textContent = '';
-        const newPassword = document.getElementById('admin-new-password').value.trim();
-        if (!newPassword) {
-            adminPasswordMessage.textContent = 'Ingresa el nuevo PIN.';
-            return;
-        }
-
-        const response = await fetchJson(`${API_BASE_URL}/api/admin/password`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Admin-Password': adminPassword,
-            },
-            body: JSON.stringify({ password: newPassword }),
         });
-
-        if (!response.ok) {
-            adminPasswordMessage.textContent = 'No se pudo actualizar la contraseña.';
-            return;
-        }
-
-        adminPassword = newPassword;
-        document.getElementById('admin-new-password').value = '';
-        adminPasswordMessage.textContent = 'PIN actualizado correctamente.';
-        showNotification('PIN de acceso actualizado con éxito');
-    });
-
-    async function deleteCategory(categoryId) {
-        const cat = adminCategories.find(c => c.id === categoryId);
-        const catName = cat ? cat.name : 'esta categoría';
-        if (!confirm(`¿Estás seguro de que deseas eliminar "${catName}"?`)) {
-            return;
-        }
-
-        const response = await fetchJson(`${API_BASE_URL}/api/categories/${categoryId}`, {
-            method: 'DELETE',
-            headers: {
-                'X-Admin-Password': adminPassword,
-            },
-        });
-
-        if (!response.ok) {
-            adminCategoryMessage.textContent = 'No se pudo eliminar la categoría.';
-            return;
-        }
-
-        adminCategoryMessage.textContent = 'Categoría eliminada.';
-        showNotification('Categoría eliminada');
-        await loadAdminData();
     }
 
-    async function deleteProduct(productId) {
-        const prod = adminProducts.find(p => p.id === productId);
-        const prodName = prod ? prod.name : 'este producto';
-        if (!confirm(`¿Estás seguro de que deseas eliminar "${prodName}"?`)) {
-            return;
+    function openEditProduct(id) {
+        const prod = adminProducts.find(p => Number(p.id) === Number(id));
+        if (!prod) return;
+
+        document.getElementById('admin-product-name').value = prod.name;
+        document.getElementById('admin-product-price').value = prod.price;
+        document.getElementById('admin-product-category').value = prod.category || '';
+        document.getElementById('admin-product-category-new').value = '';
+        document.getElementById('admin-product-active').checked = prod.active !== false;
+
+        adminProductForm.dataset.editingId = prod.id;
+        adminProductForm.dataset.existingImage = prod.image;
+
+        if (adminImagePreviewImg && prod.image) {
+            adminImagePreviewImg.src = prod.image;
+            if (adminImagePreviewWrap) adminImagePreviewWrap.classList.remove('hidden');
         }
 
-        saveDeletedProductId(productId);
-        allProducts = allProducts.filter(p => p.id !== productId);
-        adminProducts = adminProducts.filter(p => p.id !== productId);
+        if (adminFormHeading) adminFormHeading.innerHTML = `<i class="fas fa-edit"></i> Editando: ${prod.name}`;
+        if (adminProductSubmitBtn) adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Producto';
+        if (adminProductPanel) adminProductPanel.classList.remove('hidden');
 
-        showNotification('Producto eliminado del catálogo');
-        renderAdminCategoryList();
-        renderAdminCategoryPills();
-        renderAdminProducts();
-        updateAdminStats();
-        applyFilters();
-
-        try {
-            await fetchJson(`${API_BASE_URL}/api/products/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-Admin-Password': adminPassword,
-                },
-            });
-        } catch (e) {
-            console.warn('Delete sync error:', e);
-        }
+        document.getElementById('admin-product-card-form').scrollIntoView({ behavior: 'smooth' });
     }
 
-    async function toggleProductState(productId, currentActive) {
-        const newActive = !currentActive;
-        const prod = adminProducts.find(p => p.id === productId);
-        if (prod) {
-            prod.active = newActive;
-        }
-        const storeProd = allProducts.find(p => p.id === productId);
-        if (storeProd) {
-            storeProd.active = newActive;
-        }
-        renderAdminProducts();
-        applyFilters();
-        showNotification(newActive ? 'Producto visible en tienda' : 'Producto ocultado');
-
+    async function toggleProductState(id, currentActive) {
         try {
-            await fetchJson(`${API_BASE_URL}/api/products/${productId}/state`, {
+            const res = await fetchApi(`/api/products/${id}/state`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Admin-Password': adminPassword,
+                    'X-Admin-Password': adminPassword
                 },
-                body: JSON.stringify({ active: newActive }),
+                body: JSON.stringify({ active: !currentActive })
             });
+
+            if (res.ok) {
+                showNotification(!currentActive ? 'Producto activado' : 'Producto ocultado');
+                await loadAdminData();
+                await loadCatalog();
+            }
         } catch (e) {
-            console.warn('State toggle sync error:', e);
+            alert('No se pudo cambiar el estado del producto');
         }
     }
 
-    async function openProductForEdit(productId) {
-        const response = await fetchJson(`${API_BASE_URL}/api/products/${productId}`);
-        if (!response.ok) {
-            adminProductMessage.textContent = 'No se pudo cargar el producto.';
+    async function deleteProduct(id) {
+        const prod = adminProducts.find(p => Number(p.id) === Number(id));
+        const name = prod ? prod.name : 'este producto';
+        if (!confirm(`¿Estás seguro de que deseas eliminar permanentemente "${name}"? Esta acción se reflejará para todos los usuarios.`)) {
             return;
         }
 
-        const product = await response.json();
-        document.getElementById('admin-product-name').value = product.name;
-        document.getElementById('admin-product-price').value = product.price;
-        
-        if (adminProductImageInput) {
-            adminProductImageInput.value = '';
-            adminProductImageInput.dataset.currentImage = product.image;
-        }
-
-        if (adminImagePreviewWrap && adminImagePreviewImg) {
-            adminImagePreviewImg.src = product.image || 'Logo.jpeg';
-            adminImagePreviewText.textContent = 'Imagen actual guardada';
-            adminImagePreviewWrap.classList.remove('hidden');
-        }
-
-        document.getElementById('admin-product-page').value = product.page || 1;
-        document.getElementById('admin-product-active').checked = product.active !== false;
-        document.getElementById('admin-product-category').value = product.category_id || '';
-        document.getElementById('admin-product-category-new').value = '';
-
-        adminProductForm.dataset.editing = productId;
-        adminProductMessage.textContent = 'Edita los datos y presiona Actualizar producto.';
-        showAdminProductPanel(true, product.name);
-        
-        // Scroll smoothly to form
-        const formCard = document.getElementById('admin-product-card-form');
-        if (formCard) {
-            formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        document.getElementById('admin-product-name').focus();
-    }
-
-    // Floating Notification Effect
-    function showNotification(message) {
-        // Remove existing notification if any
-        const existingNotif = document.querySelector('.floating-notification');
-        if (existingNotif) {
-            existingNotif.remove();
-        }
-
-        const notification = document.createElement('div');
-        notification.className = 'floating-notification';
-        notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-        notification.style.cssText = `
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
-            color: var(--white);
-            padding: 14px 24px;
-            border-radius: 30px;
-            font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 500;
-            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.35);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideUpIn 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-        `;
-        document.body.appendChild(notification);
-
-        // Animation rules added dynamically in document head if not exists
-        if (!document.getElementById('notif-styles')) {
-            const notifStyle = document.createElement('style');
-            notifStyle.id = 'notif-styles';
-            notifStyle.textContent = `
-                @keyframes slideUpIn {
-                    from { transform: translateY(30px); opacity: 0; }
-                    to { transform: translateY(0); opacity: 1; }
+        try {
+            const res = await fetchApi(`/api/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-Admin-Password': adminPassword
                 }
-            `;
-            document.head.appendChild(notifStyle);
-        }
+            });
 
-        setTimeout(() => {
-            notification.style.transition = 'opacity 0.3s, transform 0.3s';
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateY(10px)';
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 2200);
-    }
-
-    // Local Storage Helpers
-    function saveCartToLocalStorage() {
-        localStorage.setItem('prodigiosa_cart', JSON.stringify(cart));
-    }
-
-    function loadCartFromLocalStorage() {
-        const savedCart = localStorage.getItem('prodigiosa_cart');
-        if (savedCart) {
-            try {
-                cart = JSON.parse(savedCart);
-                updateCartCount();
-            } catch (e) {
-                cart = [];
+            if (res.ok) {
+                showNotification('Producto eliminado de la base de datos', '🗑️');
+                await loadAdminData();
+                await loadCatalog();
+            } else {
+                alert('No se pudo eliminar el producto del servidor.');
             }
+        } catch (e) {
+            alert('Error al conectar con la base de datos para eliminar el producto.');
         }
     }
 
-    // App Initialization
-    loadCartFromLocalStorage();
-    loadCategories();
-    loadProducts();
+    // Submit New Category
+    if (adminCategoryForm) {
+        adminCategoryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const catInput = document.getElementById('admin-new-category');
+            const name = catInput.value.trim();
+            if (!name) return;
+
+            try {
+                const res = await fetchApi('/api/categories', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    },
+                    body: JSON.stringify({ name })
+                });
+
+                if (res.ok) {
+                    catInput.value = '';
+                    showNotification('Categoría creada', '✨');
+                    await loadAdminData();
+                    await loadCatalog();
+                }
+            } catch (err) {
+                if (adminCategoryMessage) adminCategoryMessage.textContent = 'Error al crear la categoría.';
+            }
+        });
+    }
+
+    // Change Admin PIN
+    if (adminChangePasswordForm) {
+        adminChangePasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPin = document.getElementById('admin-new-password').value.trim();
+            if (!newPin || newPin.length < 4) {
+                if (adminPasswordMessage) adminPasswordMessage.textContent = 'El PIN debe tener al menos 4 dígitos.';
+                return;
+            }
+
+            try {
+                const res = await fetchApi('/api/admin/password', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    },
+                    body: JSON.stringify({ password: newPin })
+                });
+
+                if (res.ok) {
+                    adminPassword = newPin;
+                    document.getElementById('admin-new-password').value = '';
+                    if (adminPasswordMessage) adminPasswordMessage.textContent = 'PIN actualizado con éxito.';
+                    showNotification('PIN de acceso actualizado', '🔒');
+                }
+            } catch (e) {
+                if (adminPasswordMessage) adminPasswordMessage.textContent = 'No se pudo actualizar el PIN.';
+            }
+        });
+    }
+
+    // Initialize App
+    loadSavedCart();
+    loadCatalog();
 });

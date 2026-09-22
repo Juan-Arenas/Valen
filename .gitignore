@@ -10,4 +10,5 @@ node_modules/
 *.py[cod]
 .venv/
 CATALOGO ACTUALIZADO 2026.pdf
+*.pdf
 .vercel
