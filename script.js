@@ -1,5 +1,5 @@
 /**
- * VALEN MAKEUP - SCRIPT PRINCIPAL & GESTIÓN DE CATÁLOGO
+ * VALEN MAKEUP - SCRIPT PRINCIPAL & GESTIÓN DE CATÁLOGO (CON SUPABASE CLOUD DB)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -76,6 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminChangePasswordForm = document.getElementById('admin-change-password-form');
     const adminPasswordMessage = document.getElementById('admin-password-message');
 
+    // Supabase Settings in Admin
+    const adminDbStatusPill = document.getElementById('admin-db-status-pill');
+    const adminSupabaseUrl = document.getElementById('admin-supabase-url');
+    const adminSupabaseKey = document.getElementById('admin-supabase-key');
+    const adminSupabaseSaveBtn = document.getElementById('admin-supabase-save-btn');
+    const adminSupabaseSeedBtn = document.getElementById('admin-supabase-seed-btn');
+    const adminSupabaseMessage = document.getElementById('admin-supabase-message');
+
     // Global State
     let allProducts = [];
     let filteredProducts = [];
@@ -98,6 +106,128 @@ document.addEventListener('DOMContentLoaded', () => {
         'Accesorios',
         'Bloomshell'
     ];
+
+    // ==========================================
+    // SUPABASE CLIENT INITIALIZATION & REALTIME
+    // ==========================================
+    let supabaseClient = null;
+    let realtimeChannel = null;
+
+    function getDeletedIds() {
+        try {
+            const raw = localStorage.getItem('valen_deleted_ids');
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function addDeletedId(id) {
+        try {
+            const ids = getDeletedIds();
+            const numId = Number(id);
+            if (!ids.includes(numId)) {
+                ids.push(numId);
+                localStorage.setItem('valen_deleted_ids', JSON.stringify(ids));
+            }
+        } catch (e) {}
+    }
+
+    function removeDeletedId(id) {
+        try {
+            let ids = getDeletedIds();
+            const numId = Number(id);
+            ids = ids.filter(i => i !== numId);
+            localStorage.setItem('valen_deleted_ids', JSON.stringify(ids));
+        } catch (e) {}
+    }
+
+    function setupSupabaseRealtime() {
+        if (!supabaseClient || realtimeChannel) return;
+        try {
+            realtimeChannel = supabaseClient
+                .channel('public:products')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, (payload) => {
+                    console.log('⚡ Supabase Realtime cambio detectado:', payload);
+                    if (payload.eventType === 'DELETE') {
+                        const deletedId = Number(payload.old.id);
+                        addDeletedId(deletedId);
+                        allProducts = allProducts.filter(p => Number(p.id) !== deletedId);
+                        adminProducts = adminProducts.filter(p => Number(p.id) !== deletedId);
+                        cart = cart.filter(p => Number(p.id) !== deletedId);
+                        saveLocalCache(allProducts);
+                        saveCart();
+                        applyFilters();
+                        renderAdminProductsList();
+                        updateAdminStats();
+                    } else if (payload.eventType === 'INSERT') {
+                        const newProd = {
+                            ...payload.new,
+                            category: normalizeCategoryName(payload.new.category)
+                        };
+                        removeDeletedId(newProd.id);
+                        if (!allProducts.some(p => Number(p.id) === Number(newProd.id))) {
+                            allProducts.unshift(newProd);
+                            adminProducts.unshift(newProd);
+                            saveLocalCache(allProducts);
+                            applyFilters();
+                            renderAdminProductsList();
+                            updateAdminStats();
+                        }
+                    } else if (payload.eventType === 'UPDATE') {
+                        const updated = {
+                            ...payload.new,
+                            category: normalizeCategoryName(payload.new.category)
+                        };
+                        const idx = allProducts.findIndex(p => Number(p.id) === Number(updated.id));
+                        if (idx >= 0) allProducts[idx] = { ...allProducts[idx], ...updated };
+                        const idxAdmin = adminProducts.findIndex(p => Number(p.id) === Number(updated.id));
+                        if (idxAdmin >= 0) adminProducts[idxAdmin] = { ...adminProducts[idxAdmin], ...updated };
+                        saveLocalCache(allProducts);
+                        applyFilters();
+                        renderAdminProductsList();
+                        updateAdminStats();
+                    }
+                })
+                .subscribe((status) => {
+                    console.log('📡 Supabase Realtime Estado:', status);
+                });
+        } catch (e) {
+            console.warn('No se pudo inicializar canal Realtime:', e);
+        }
+    }
+
+    function initSupabase() {
+        const savedUrl = (localStorage.getItem('valen_supabase_url') || (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url) || '').trim();
+        const savedKey = (localStorage.getItem('valen_supabase_key') || (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.key) || '').trim();
+
+        if (adminSupabaseUrl && savedUrl) adminSupabaseUrl.value = savedUrl;
+        if (adminSupabaseKey && savedKey) adminSupabaseKey.value = savedKey;
+
+        if (savedUrl && savedKey && window.supabase && typeof window.supabase.createClient === 'function') {
+            try {
+                supabaseClient = window.supabase.createClient(savedUrl, savedKey);
+                if (adminDbStatusPill) {
+                    adminDbStatusPill.textContent = '🟢 Conectado a Supabase';
+                    adminDbStatusPill.style.background = '#e6fffa';
+                    adminDbStatusPill.style.color = '#047857';
+                }
+                setupSupabaseRealtime();
+                return true;
+            } catch (e) {
+                console.warn('Error al iniciar Supabase:', e);
+            }
+        }
+
+        if (adminDbStatusPill) {
+            adminDbStatusPill.textContent = '⚪ Modo Local / Servidor';
+            adminDbStatusPill.style.background = '#f0deec';
+            adminDbStatusPill.style.color = 'var(--text-main)';
+        }
+        return false;
+    }
+
+    initSupabase();
 
     // ==========================================
     // HELPERS & STORAGE SYNC
@@ -183,24 +313,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // CATALOG LOADING & RENDERING
+    // CATALOG LOADING (SUPABASE -> SERVER -> LOCAL)
     // ==========================================
     async function loadCatalog() {
         if (loadingTrigger) loadingTrigger.style.display = 'block';
         let loaded = false;
+        const deletedIds = getDeletedIds();
 
-        try {
-            const res = await fetchApi('/api/products');
-            if (res.ok) {
-                const data = await res.json();
-                if (Array.isArray(data) && data.length > 0) {
+        // 1. Try Supabase Cloud DB (Single source of truth)
+        if (supabaseClient) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('id', { ascending: false });
+
+                if (!error && data && data.length > 0) {
                     allProducts = data;
                     saveLocalCache(data);
                     loaded = true;
                 }
+            } catch (err) {
+                console.warn('Supabase query error:', err);
             }
-        } catch (e) {}
+        }
 
+        // 2. Try Server API
+        if (!loaded) {
+            try {
+                const res = await fetchApi('/api/products?active=false');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        allProducts = data;
+                        saveLocalCache(data);
+                        loaded = true;
+                    }
+                }
+            } catch (e) {}
+        }
+
+        // 3. Try Local Cache
         if (!loaded) {
             const cached = getLocalCache();
             if (cached && Array.isArray(cached) && cached.length > 0) {
@@ -209,16 +362,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // 4. Try extracted JSON file
         if (!loaded) {
             try {
                 const res = await fetchApi('/extracted_products.json');
                 if (res.ok) {
                     allProducts = await res.json();
-                    saveLocalCache(allProducts);
                 }
             } catch (err) {
                 allProducts = [];
             }
+        }
+
+        // Filter out deleted IDs if running in local/fallback mode
+        if (!supabaseClient && deletedIds.length > 0) {
+            allProducts = allProducts.filter(p => !deletedIds.includes(Number(p.id)));
         }
 
         allProducts = (allProducts || []).map(p => ({
@@ -226,6 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
             category: normalizeCategoryName(p.category)
         }));
 
+        saveLocalCache(allProducts);
         adminProducts = allProducts.slice();
 
         await loadCategories();
@@ -233,19 +392,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadCategories() {
-        try {
-            const res = await fetchApi('/api/categories');
-            if (res.ok) {
-                allCategories = await res.json();
-            } else {
-                allCategories = [];
-            }
-        } catch (e) {
-            allCategories = [];
+        if (supabaseClient) {
+            try {
+                const { data, error } = await supabaseClient.from('categories').select('*').order('id', { ascending: true });
+                if (!error && data && data.length > 0) {
+                    allCategories = data.map(c => c.name);
+                }
+            } catch (e) {}
+        }
+
+        if (allCategories.length === 0) {
+            try {
+                const res = await fetchApi('/api/categories');
+                if (res.ok) {
+                    const data = await res.json();
+                    allCategories = data.map(c => c.name || c);
+                }
+            } catch (e) {}
         }
 
         const catMap = new Map();
-        allCategories.forEach(c => catMap.set(normalizeCategoryName(c.name).toLowerCase(), c.name));
+        allCategories.forEach(c => catMap.set(normalizeCategoryName(c).toLowerCase(), normalizeCategoryName(c)));
         CANONICAL_CATEGORIES.forEach(c => {
             if (!catMap.has(c.toLowerCase())) {
                 catMap.set(c.toLowerCase(), c);
@@ -260,7 +427,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!categoryFilters) return;
         categoryFilters.innerHTML = '';
 
-        // "Todas"
         const allBtn = document.createElement('button');
         allBtn.type = 'button';
         allBtn.className = `category-pill ${selectedCategory === 'all' ? 'active' : ''}`;
@@ -361,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productsGrid.appendChild(fragment);
     }
 
-    // Search input
+    // Search events
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             if (searchClearBtn) {
@@ -569,7 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleLogoTap() {
         logoTaps += 1;
         clearTimeout(logoTapTimer);
-        logoTapTimer = setTimeout(() => { logoTaps = 0; }, 1400);
+        logoTapTimer = setTimeout(() => { logoTaps = 0; }, 3500);
 
         if (logoTaps >= 3) {
             logoTaps = 0;
@@ -586,6 +752,11 @@ document.addEventListener('DOMContentLoaded', () => {
         adminPinInputs.forEach(input => { if (input) input.value = ''; });
         if (adminPinInputs[0]) adminPinInputs[0].focus();
         if (adminPasswordModal) adminPasswordModal.classList.add('active');
+    }
+
+    window.openAdminPinModal = openAdminPinModal;
+    if (window.location.search.includes('admin=true') || window.location.hash === '#admin') {
+        setTimeout(openAdminPinModal, 300);
     }
 
     adminCloseButtons.forEach(btn => {
@@ -630,7 +801,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // PIN check (with local 2006 fallback if offline)
             let authOk = false;
             try {
                 const res = await fetchApi('/api/admin/authenticate', {
@@ -658,21 +828,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadAdminData() {
-        try {
-            const [prodsRes, catsRes] = await Promise.all([
-                fetchApi('/api/products?active=false'),
-                fetchApi('/api/categories')
-            ]);
-
-            if (prodsRes.ok) adminProducts = await prodsRes.json();
-            else adminProducts = allProducts.slice();
-
-            if (catsRes.ok) adminCategories = await catsRes.json();
-            else adminCategories = allCategories.map((name, id) => ({ id: id + 1, name }));
-        } catch (e) {
-            adminProducts = allProducts.slice();
-            adminCategories = allCategories.map((name, id) => ({ id: id + 1, name }));
+        if (supabaseClient) {
+            try {
+                const { data } = await supabaseClient.from('products').select('*').order('id', { ascending: false });
+                if (data) adminProducts = data;
+            } catch (e) {}
         }
+
+        if (adminProducts.length === 0) {
+            try {
+                const prodsRes = await fetchApi('/api/products?active=false');
+                if (prodsRes.ok) adminProducts = await prodsRes.json();
+                else adminProducts = allProducts.slice();
+            } catch (e) {
+                adminProducts = allProducts.slice();
+            }
+        }
+
+        adminCategories = allCategories.map((name, id) => ({ id: id + 1, name }));
 
         populateAdminCategorySelect();
         renderAdminCategoryChips();
@@ -857,7 +1030,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (adminProductForm) {
         adminProductForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (adminProductMessage) adminProductMessage.textContent = 'Guardando producto...';
+            if (adminProductMessage) adminProductMessage.textContent = 'Guardando producto en base de datos...';
 
             const name = document.getElementById('admin-product-name').value.trim();
             const rawPrice = document.getElementById('admin-product-price').value;
@@ -888,17 +1061,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 page: 1
             };
 
+            // 1. Update in Supabase if active
+            if (supabaseClient) {
+                try {
+                    if (editingId) {
+                        await supabaseClient.from('products').update(payload).eq('id', editingId);
+                    } else {
+                        const { data } = await supabaseClient.from('products').insert([payload]).select();
+                        if (data && data[0] && data[0].id) {
+                            payload.id = data[0].id;
+                        }
+                    }
+                } catch (err) {
+                    console.warn('Supabase insert/update error:', err);
+                }
+            }
+
+            // 2. Update memory arrays
             if (editingId) {
-                // Update in local arrays immediately
                 const idxAll = allProducts.findIndex(p => Number(p.id) === editingId);
                 if (idxAll >= 0) allProducts[idxAll] = { ...allProducts[idxAll], ...payload };
                 const idxAdmin = adminProducts.findIndex(p => Number(p.id) === editingId);
                 if (idxAdmin >= 0) adminProducts[idxAdmin] = { ...adminProducts[idxAdmin], ...payload };
+                removeDeletedId(editingId);
             } else {
-                const maxId = allProducts.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
-                const newProd = { id: maxId + 1, ...payload };
-                allProducts.unshift(newProd);
-                adminProducts.unshift(newProd);
+                if (!payload.id) {
+                    const maxId = allProducts.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
+                    payload.id = maxId + 1;
+                }
+                removeDeletedId(payload.id);
+                allProducts.unshift(payload);
+                adminProducts.unshift(payload);
             }
 
             saveLocalCache(allProducts);
@@ -906,7 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderAdminProductsList();
             updateAdminStats();
 
-            showNotification(editingId ? 'Producto actualizado' : '¡Producto creado con éxito!', '✅');
+            showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos!', '✅');
 
             adminProductForm.reset();
             delete adminProductForm.dataset.editingId;
@@ -915,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
             if (adminProductPanel) adminProductPanel.classList.add('hidden');
 
-            // Send to server in background
+            // 3. Update server API in background
             try {
                 const endpoint = editingId ? `/api/products/${editingId}` : '/api/products';
                 const method = editingId ? 'PATCH' : 'POST';
@@ -950,7 +1143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (adminFormHeading) adminFormHeading.innerHTML = `<i class="fas fa-edit" style="color: var(--bratz-pink);"></i> Editando: ${prod.name}`;
-        if (adminProductSubmitBtn) adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Producto';
+        if (adminProductSubmitBtn) adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar en Base de Datos';
         if (adminProductPanel) adminProductPanel.classList.remove('hidden');
 
         const formCard = document.getElementById('admin-product-card-form');
@@ -960,7 +1153,12 @@ document.addEventListener('DOMContentLoaded', () => {
     async function toggleProductState(id, currentActive) {
         const newActive = !currentActive;
 
-        // Immediate memory & cache update
+        if (supabaseClient) {
+            try {
+                await supabaseClient.from('products').update({ active: newActive }).eq('id', id);
+            } catch (e) {}
+        }
+
         const p1 = allProducts.find(p => Number(p.id) === Number(id));
         if (p1) p1.active = newActive;
         const p2 = adminProducts.find(p => Number(p.id) === Number(id));
@@ -986,14 +1184,27 @@ document.addEventListener('DOMContentLoaded', () => {
     async function deleteProduct(id) {
         const prod = adminProducts.find(p => Number(p.id) === Number(id));
         const name = prod ? prod.name : 'este producto';
-        if (!confirm(`¿Eliminar permanentemente "${name}"?`)) {
+        if (!confirm(`¿Eliminar permanentemente "${name}" de la base de datos? Se borrará para todos los usuarios.`)) {
             return;
         }
 
-        // Remove immediately from memory state
-        allProducts = allProducts.filter(p => Number(p.id) !== Number(id));
-        adminProducts = adminProducts.filter(p => Number(p.id) !== Number(id));
-        cart = cart.filter(p => Number(p.id) !== Number(id));
+        const numId = Number(id);
+        addDeletedId(numId);
+
+        // 1. Delete from Supabase (Cloud Database)
+        if (supabaseClient) {
+            try {
+                const { error } = await supabaseClient.from('products').delete().eq('id', numId);
+                if (error) console.warn('Supabase delete error:', error);
+            } catch (e) {
+                console.warn('Supabase delete error:', e);
+            }
+        }
+
+        // 2. Remove immediately from memory state
+        allProducts = allProducts.filter(p => Number(p.id) !== numId);
+        adminProducts = adminProducts.filter(p => Number(p.id) !== numId);
+        cart = cart.filter(p => Number(p.id) !== numId);
 
         saveLocalCache(allProducts);
         saveCart();
@@ -1001,15 +1212,135 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAdminProductsList();
         updateAdminStats();
 
-        showNotification('Producto eliminado', '🗑️');
+        showNotification('Producto eliminado de la base de datos', '🗑️');
 
-        // Send delete to server in background
+        // 3. Delete from Server API
         try {
-            await fetchApi(`/api/products/${id}`, {
+            await fetchApi(`/api/products/${numId}`, {
                 method: 'DELETE',
                 headers: { 'X-Admin-Password': adminPassword }
             });
         } catch (e) {}
+    }
+
+    // ==========================================
+    // SUPABASE ADMIN UI CONTROLS & SEEDER
+    // ==========================================
+    if (adminSupabaseSaveBtn) {
+        adminSupabaseSaveBtn.addEventListener('click', async () => {
+            const url = (adminSupabaseUrl ? adminSupabaseUrl.value : '').trim();
+            const key = (adminSupabaseKey ? adminSupabaseKey.value : '').trim();
+
+            if (!url || !key) {
+                if (adminSupabaseMessage) {
+                    adminSupabaseMessage.textContent = 'Ingresa la URL y el Anon Key de Supabase.';
+                    adminSupabaseMessage.style.color = 'var(--bratz-deep-pink)';
+                }
+                return;
+            }
+
+            if (adminSupabaseMessage) {
+                adminSupabaseMessage.textContent = 'Verificando conexión con Supabase...';
+                adminSupabaseMessage.style.color = 'var(--text-main)';
+            }
+
+            try {
+                const testClient = window.supabase.createClient(url, key);
+                const { error } = await testClient.from('products').select('id').limit(1);
+
+                if (error && error.code !== 'PGRST116') {
+                    throw error;
+                }
+
+                localStorage.setItem('valen_supabase_url', url);
+                localStorage.setItem('valen_supabase_key', key);
+                supabaseClient = testClient;
+
+                if (adminDbStatusPill) {
+                    adminDbStatusPill.textContent = '🟢 Conectado a Supabase';
+                    adminDbStatusPill.style.background = '#e6fffa';
+                    adminDbStatusPill.style.color = '#047857';
+                }
+
+                if (adminSupabaseMessage) {
+                    adminSupabaseMessage.textContent = '✅ ¡Conectado exitosamente a Supabase! Sincronización en la nube activa.';
+                    adminSupabaseMessage.style.color = '#047857';
+                }
+
+                setupSupabaseRealtime();
+                showNotification('Base de datos Supabase conectada', '🚀');
+                await loadCatalog();
+            } catch (err) {
+                if (adminSupabaseMessage) {
+                    adminSupabaseMessage.textContent = `Error de conexión: ${err.message || 'Verifica que la tabla products exista en Supabase ejecutando el script supabase_schema.sql'}`;
+                    adminSupabaseMessage.style.color = 'var(--bratz-deep-pink)';
+                }
+            }
+        });
+    }
+
+    // 1-Click Initial Migration to Supabase
+    if (adminSupabaseSeedBtn) {
+        adminSupabaseSeedBtn.addEventListener('click', async () => {
+            if (!supabaseClient) {
+                alert('Primero conecta tu proyecto de Supabase ingresando la URL y el Anon Key y haciendo clic en "Guardar y Conectar".');
+                return;
+            }
+
+            if (!confirm('¿Deseas sincronizar los 272 productos del catálogo a tu base de datos Supabase?')) {
+                return;
+            }
+
+            if (adminSupabaseMessage) {
+                adminSupabaseMessage.textContent = 'Cargando catálogo para subir a Supabase...';
+                adminSupabaseMessage.style.color = 'var(--text-main)';
+            }
+
+            try {
+                let prodsToUpload = allProducts;
+                if (prodsToUpload.length === 0) {
+                    const res = await fetchApi('/extracted_products.json');
+                    prodsToUpload = await res.json();
+                }
+
+                const CHUNK_SIZE = 40;
+                let inserted = 0;
+
+                for (let i = 0; i < prodsToUpload.length; i += CHUNK_SIZE) {
+                    const chunk = prodsToUpload.slice(i, i + CHUNK_SIZE).map(p => ({
+                        id: Number(p.id),
+                        name: String(p.name || '').trim(),
+                        price: Number(p.price || 0),
+                        image: String(p.image || 'img/product_1.jpg').trim(),
+                        page: Number(p.page || 1),
+                        active: p.active !== false,
+                        category: normalizeCategoryName(p.category || 'Maquillaje'),
+                        category_id: p.category_id ? Number(p.category_id) : 2
+                    }));
+
+                    const { error } = await supabaseClient.from('products').upsert(chunk, { onConflict: 'id' });
+                    if (error) throw error;
+
+                    inserted += chunk.length;
+                    if (adminSupabaseMessage) {
+                        adminSupabaseMessage.textContent = `Subiendo a Supabase: ${inserted} / ${prodsToUpload.length} productos...`;
+                    }
+                }
+
+                if (adminSupabaseMessage) {
+                    adminSupabaseMessage.textContent = `✅ ¡Catálogo completo de ${inserted} productos subido exitosamente a Supabase!`;
+                    adminSupabaseMessage.style.color = '#047857';
+                }
+
+                showNotification('Catálogo migrado a Supabase con éxito', '🎉');
+                await loadCatalog();
+            } catch (err) {
+                if (adminSupabaseMessage) {
+                    adminSupabaseMessage.textContent = `Error al migrar catálogo: ${err.message}`;
+                    adminSupabaseMessage.style.color = 'var(--bratz-deep-pink)';
+                }
+            }
+        });
     }
 
     // Submit New Category
@@ -1033,6 +1364,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             catInput.value = '';
             showNotification('Categoría agregada', '✨');
+
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('categories').insert([{ name: norm }]);
+                } catch (e) {}
+            }
 
             try {
                 await fetchApi('/api/categories', {

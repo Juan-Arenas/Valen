@@ -19,6 +19,9 @@
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -365,6 +368,32 @@
                 <div class="admin-prods-grid" id="admin-product-list">
                     <!-- Populated dynamically by script.js -->
                 </div>
+            <!-- Supabase Database Connection & Migration Section -->
+            <div class="admin-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff, #fbf2fa); border: 2px solid var(--border-pink);">
+                <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="color: var(--bratz-dark-purple);"><i class="fas fa-database" style="color: var(--bratz-pink);"></i> Base de Datos en la Nube (Supabase)</h3>
+                    <span id="admin-db-status-pill" style="font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: var(--radius-full); background: #f0deec; color: var(--text-main);">⚪ Modo Local</span>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Conecta tu proyecto de Supabase para que las creaciones, ediciones y eliminaciones se guarden en tiempo real en la nube para todos los clientes.</p>
+                <div class="checkout-inputs-grid" style="margin-bottom: 12px;">
+                    <div class="checkout-field">
+                        <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">Supabase Project URL:</label>
+                        <input type="text" id="admin-supabase-url" placeholder="https://tu-proyecto.supabase.co">
+                    </div>
+                    <div class="checkout-field">
+                        <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">Supabase Anon Key (public):</label>
+                        <input type="password" id="admin-supabase-key" placeholder="eyJhbGciOi...">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn-primary" type="button" id="admin-supabase-save-btn">
+                        <i class="fas fa-link"></i> Guardar y Conectar
+                    </button>
+                    <button class="btn-secondary" type="button" id="admin-supabase-seed-btn" style="border-color: var(--bratz-pink); color: var(--bratz-deep-pink);">
+                        <i class="fas fa-cloud-arrow-up"></i> Subir los 272 Productos Iniciales
+                    </button>
+                </div>
+                <p id="admin-supabase-message" style="font-size: 0.82rem; margin-top: 8px; font-weight: 700;"></p>
             </div>
 
             <!-- Change PIN Section -->
@@ -429,6 +458,7 @@
     <script>
         window.API_BASE_URL = '';
     </script>
+    <script src="supabase_config.js"></script>
     <script src="script.js"></script>
 </body>
 

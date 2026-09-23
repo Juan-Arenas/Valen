@@ -2718,5 +2718,15 @@
         "active": true,
         "category_id": 1,
         "category": "Cuidado Facial y Corporal"
+    },
+    {
+        "id": 273,
+        "name": "Glitter Bratz Y2K Pink",
+        "price": 18000,
+        "image": "img/product_1.jpg",
+        "page": 1,
+        "active": false,
+        "category_id": null,
+        "category": null
     }
 ]
