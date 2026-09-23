@@ -1097,6 +1097,8 @@ document.addEventListener('DOMContentLoaded', () => {
             saveLocalCache(allProducts);
             renderProductsGrid();
             renderAdminProductsList();
+            renderAdminCategoryPills();
+            renderAdminCategoryChips();
             updateAdminStats();
 
             showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos!', '✅');
@@ -1150,77 +1152,71 @@ document.addEventListener('DOMContentLoaded', () => {
         if (formCard) formCard.scrollIntoView({ behavior: 'smooth' });
     }
 
-    async function toggleProductState(id, currentActive) {
+    function toggleProductState(id, currentActive) {
         const newActive = !currentActive;
+        const numId = Number(id);
 
-        if (supabaseClient) {
-            try {
-                await supabaseClient.from('products').update({ active: newActive }).eq('id', id);
-            } catch (e) {}
-        }
-
-        const p1 = allProducts.find(p => Number(p.id) === Number(id));
+        const p1 = allProducts.find(p => Number(p.id) === numId);
         if (p1) p1.active = newActive;
-        const p2 = adminProducts.find(p => Number(p.id) === Number(id));
+        const p2 = adminProducts.find(p => Number(p.id) === numId);
         if (p2) p2.active = newActive;
 
         saveLocalCache(allProducts);
-        applyFilters();
         renderAdminProductsList();
-        showNotification(newActive ? 'Producto visible' : 'Producto ocultado');
+        renderAdminCategoryPills();
+        renderAdminCategoryChips();
+        updateAdminStats();
+        applyFilters();
 
-        try {
-            await fetchApi(`/api/products/${id}/state`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Admin-Password': adminPassword
-                },
-                body: JSON.stringify({ active: newActive })
-            });
-        } catch (e) {}
+        showNotification(newActive ? 'Producto activado' : 'Producto ocultado');
+
+        if (supabaseClient) {
+            supabaseClient.from('products').update({ active: newActive }).eq('id', numId).catch(e => console.warn('Supabase toggle error:', e));
+        }
+
+        fetchApi(`/api/products/${numId}/state`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-Password': adminPassword
+            },
+            body: JSON.stringify({ active: newActive })
+        }).catch(() => {});
     }
 
-    async function deleteProduct(id) {
-        const prod = adminProducts.find(p => Number(p.id) === Number(id));
-        const name = prod ? prod.name : 'este producto';
-        if (!confirm(`¿Eliminar permanentemente "${name}" de la base de datos? Se borrará para todos los usuarios.`)) {
-            return;
-        }
-
+    function deleteProduct(id) {
         const numId = Number(id);
+        const prod = adminProducts.find(p => Number(p.id) === numId) || allProducts.find(p => Number(p.id) === numId);
+        const prodName = prod ? prod.name : 'Producto';
+
+        // 1. Eliminar inmediatamente del estado en memoria y blacklist
         addDeletedId(numId);
-
-        // 1. Delete from Supabase (Cloud Database)
-        if (supabaseClient) {
-            try {
-                const { error } = await supabaseClient.from('products').delete().eq('id', numId);
-                if (error) console.warn('Supabase delete error:', error);
-            } catch (e) {
-                console.warn('Supabase delete error:', e);
-            }
-        }
-
-        // 2. Remove immediately from memory state
         allProducts = allProducts.filter(p => Number(p.id) !== numId);
         adminProducts = adminProducts.filter(p => Number(p.id) !== numId);
         cart = cart.filter(p => Number(p.id) !== numId);
 
+        // 2. Actualizar inmediatamente toda la interfaz visual (0ms de espera)
         saveLocalCache(allProducts);
         saveCart();
-        applyFilters();
         renderAdminProductsList();
+        renderAdminCategoryPills();
+        renderAdminCategoryChips();
         updateAdminStats();
+        applyFilters();
 
-        showNotification('Producto eliminado de la base de datos', '🗑️');
+        showNotification(`"${prodName}" eliminado correctamente`, '🗑️');
 
-        // 3. Delete from Server API
-        try {
-            await fetchApi(`/api/products/${numId}`, {
-                method: 'DELETE',
-                headers: { 'X-Admin-Password': adminPassword }
-            });
-        } catch (e) {}
+        // 3. Sincronizar en la nube en segundo plano (Supabase & Server API)
+        if (supabaseClient) {
+            supabaseClient.from('products').delete().eq('id', numId).then(({ error }) => {
+                if (error) console.warn('Supabase delete error:', error);
+            }).catch(e => console.warn('Supabase delete error:', e));
+        }
+
+        fetchApi(`/api/products/${numId}`, {
+            method: 'DELETE',
+            headers: { 'X-Admin-Password': adminPassword }
+        }).catch(() => {});
     }
 
     // ==========================================
