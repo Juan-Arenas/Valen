@@ -320,8 +320,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let loaded = false;
         const deletedIds = getDeletedIds();
 
+        // 0. Use INLINE_PRODUCTS from catalogo.js if available (highest priority now since DB is out of quota)
+        if (typeof INLINE_PRODUCTS !== 'undefined' && INLINE_PRODUCTS.length > 0) {
+            allProducts = INLINE_PRODUCTS;
+            saveLocalCache(allProducts);
+            loaded = true;
+        }
+
         // 1. Try Supabase Cloud DB (Single source of truth)
-        if (supabaseClient) {
+        if (!loaded && supabaseClient) {
             try {
                 const { data, error } = await supabaseClient
                     .from('products')
