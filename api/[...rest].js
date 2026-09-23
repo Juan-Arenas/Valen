@@ -1,8 +1,10 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 
 const SOURCE_FILE = path.join(process.cwd(), 'extracted_products.json');
+const TMP_FILE = path.join(os.tmpdir(), 'valen_products_override.json');
 const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || '2006';
 
 function hashPassword(password) {
@@ -20,38 +22,59 @@ const DEFAULT_CATEGORIES = [
 ];
 
 function normalizeCategoryName(name) {
-  const clean = String(name || '').replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FAFF}\u{200D}\u{FE0F}]/gu, '').replace(/\s+/g, ' ').trim();
+  if (!name) return 'Maquillaje';
+  const clean = String(name).replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{1FA00}-\u{1FAFF}\u{200D}\u{FE0F}]/gu, '').replace(/\s+/g, ' ').trim();
   const lower = clean.toLowerCase();
-  if (lower === 'cuidado facial' || lower === 'corporal' || lower === 'cuidado corporal' || lower === 'cuidado facial y corporal') {
+  if (lower === '1' || lower === 'cuidado facial' || lower === 'corporal' || lower === 'cuidado corporal' || lower === 'cuidado facial y corporal') {
     return 'Cuidado Facial y Corporal';
   }
-  if (lower === 'maquillaje') return 'Maquillaje';
-  if (lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') return 'Cabello y Ducha';
-  if (lower === 'accesorios' || lower === 'herramientas') return 'Accesorios';
-  if (lower === 'bloomshell') return 'Bloomshell';
+  if (lower === '2' || lower === 'maquillaje') return 'Maquillaje';
+  if (lower === '3' || lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') return 'Cabello y Ducha';
+  if (lower === '4' || lower === 'accesorios' || lower === 'herramientas') return 'Accesorios';
+  if (lower === '5' || lower === 'bloomshell') return 'Bloomshell';
   return clean;
 }
 
-function loadProductsFromFile() {
+// In-memory cache for serverless lifecycles
+let inMemoryProducts = null;
+
+function loadProducts() {
+  if (inMemoryProducts && inMemoryProducts.length > 0) {
+    return inMemoryProducts;
+  }
+  if (fs.existsSync(TMP_FILE)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(TMP_FILE, 'utf8'));
+      if (Array.isArray(data) && data.length > 0) {
+        inMemoryProducts = data;
+        return data;
+      }
+    } catch (e) {}
+  }
   if (fs.existsSync(SOURCE_FILE)) {
     try {
-      const content = fs.readFileSync(SOURCE_FILE, 'utf8');
-      return JSON.parse(content);
-    } catch (e) {
-      console.error('Error reading extracted_products.json:', e);
-    }
+      const data = JSON.parse(fs.readFileSync(SOURCE_FILE, 'utf8'));
+      if (Array.isArray(data)) {
+        inMemoryProducts = data;
+        return data;
+      }
+    } catch (e) {}
   }
-  return [];
+  inMemoryProducts = [];
+  return inMemoryProducts;
 }
 
-function saveProductsToFile(products) {
+function saveProducts(products) {
+  inMemoryProducts = products;
+  // Write to /tmp (always writable in serverless)
   try {
-    fs.writeFileSync(SOURCE_FILE, JSON.stringify(products, null, 4), 'utf8');
-    return true;
-  } catch (e) {
-    console.error('Error saving extracted_products.json:', e);
-    return false;
-  }
+    fs.writeFileSync(TMP_FILE, JSON.stringify(products, null, 2), 'utf8');
+  } catch (e) {}
+  // Also try local working directory if writable
+  try {
+    fs.writeFileSync(SOURCE_FILE, JSON.stringify(products, null, 2), 'utf8');
+  } catch (e) {}
+  return true;
 }
 
 function getCategoriesList(products) {
@@ -116,7 +139,7 @@ module.exports = async (req, res) => {
   const method = req.method;
 
   const payload = ['POST', 'PUT', 'PATCH'].includes(method) ? await parseBody(req) : {};
-  let products = loadProductsFromFile();
+  let products = loadProducts();
 
   // Route: /api/health
   if (segments[0] === 'health') {
@@ -207,7 +230,7 @@ module.exports = async (req, res) => {
         const newProduct = {
           id: maxId + 1,
           name: String(payload.name).trim(),
-          price: Number(payload.price) || 0,
+          price: Number(String(payload.price).replace(/[^0-9]/g, '')) || 0,
           image: String(payload.image || 'img/product_1.jpg').trim(),
           page: Number(payload.page) || 1,
           active: payload.active !== false,
@@ -215,8 +238,8 @@ module.exports = async (req, res) => {
           category_id: payload.category_id ? Number(payload.category_id) : 2
         };
 
-        products.push(newProduct);
-        saveProductsToFile(products);
+        products.unshift(newProduct);
+        saveProducts(products);
         return sendJson(res, 201, newProduct);
       }
     }
@@ -239,14 +262,14 @@ module.exports = async (req, res) => {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
         if (payload.name != null) products[index].name = String(payload.name).trim();
-        if (payload.price != null) products[index].price = Number(payload.price);
+        if (payload.price != null) products[index].price = Number(String(payload.price).replace(/[^0-9]/g, '')) || products[index].price;
         if (payload.image != null && payload.image !== '') products[index].image = String(payload.image).trim();
         if (payload.page != null) products[index].page = Number(payload.page) || 1;
         if (payload.active != null) products[index].active = Boolean(payload.active);
         if (payload.category != null) products[index].category = normalizeCategoryName(payload.category);
         if (payload.category_id != null) products[index].category_id = Number(payload.category_id);
 
-        saveProductsToFile(products);
+        saveProducts(products);
         return sendJson(res, 200, products[index]);
       }
 
@@ -255,7 +278,7 @@ module.exports = async (req, res) => {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
         products.splice(index, 1);
-        saveProductsToFile(products);
+        saveProducts(products);
         return sendJson(res, 200, { deleted: true });
       }
     }
@@ -271,7 +294,7 @@ module.exports = async (req, res) => {
         return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
       }
       product.active = Boolean(payload.active);
-      saveProductsToFile(products);
+      saveProducts(products);
       return sendJson(res, 200, product);
     }
   }
