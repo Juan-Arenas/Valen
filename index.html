@@ -252,163 +252,167 @@
     </div>
 
     <!-- Admin Management Panel -->
-    <div id="admin-panel" class="modal">
+    <div id="admin-panel" class="modal admin-fullscreen-modal">
         <div class="modal-content admin-panel-content">
             <div class="admin-panel-header">
-                <div>
+                <div class="admin-header-title-wrap">
                     <h2><i class="fas fa-boxes-stacked" style="color: var(--bratz-pink);"></i> Panel Administrativo</h2>
-                    <p class="admin-subtitle">Los cambios se guardan directamente en la base de datos y se reflejan para todos los clientes en tiempo real.</p>
+                    <p class="admin-subtitle">Gestión de catálogo, categorías y sincronización en tiempo real con Supabase.</p>
                 </div>
                 <div class="admin-header-stats">
                     <span class="admin-stat-pill" id="admin-header-product-stat">0 Productos</span>
                     <span class="admin-stat-pill" id="admin-header-category-stat">0 Categorías</span>
                 </div>
-                <button class="modal-close-btn admin-close" id="admin-panel-close">&times;</button>
+                <button class="modal-close-btn admin-close" id="admin-panel-close" title="Cerrar panel">&times;</button>
             </div>
 
-            <div class="admin-grid-two">
-                <!-- Add / Edit Product Card -->
-                <div class="admin-card" id="admin-product-card-form">
-                    <div class="admin-card-header">
-                        <h3 id="admin-form-heading"><i class="fas fa-plus-circle" style="color: var(--bratz-pink);"></i> Agregar Producto</h3>
-                    </div>
-                    
-                    <button id="admin-product-toggle" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
-                        <i class="fas fa-plus"></i> Abrir Formulario
-                    </button>
+            <div class="admin-panel-body">
+                <div class="admin-grid-two">
+                    <!-- Add / Edit Product Card -->
+                    <div class="admin-card" id="admin-product-card-form">
+                        <div class="admin-card-header">
+                            <h3 id="admin-form-heading"><i class="fas fa-plus-circle" style="color: var(--bratz-pink);"></i> Agregar Producto</h3>
+                        </div>
+                        
+                        <button id="admin-product-toggle" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
+                            <i class="fas fa-plus"></i> Abrir Formulario
+                        </button>
 
-                    <div id="admin-product-panel" class="hidden">
-                        <form id="admin-product-form" class="admin-form">
-                            <div class="form-group">
-                                <label for="admin-product-name">Nombre del Producto *</label>
-                                <input type="text" id="admin-product-name" placeholder="Ej. Labial Matte Bioaqua Pink" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-product-price">Precio ($ COP) *</label>
-                                <input type="number" id="admin-product-price" min="0" placeholder="Ej. 18000" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="admin-product-image">Foto del Producto (Galería o Archivo)</label>
-                                <input type="file" id="admin-product-image" accept="image/*">
-                                <div id="admin-image-preview-wrap" class="admin-image-preview-wrap hidden">
-                                    <img id="admin-image-preview-img" src="" alt="Vista previa">
-                                    <span id="admin-image-preview-text" style="font-size: 0.8rem; font-weight: 600;">Imagen seleccionada</span>
+                        <div id="admin-product-panel" class="hidden">
+                            <form id="admin-product-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="admin-product-name">Nombre del Producto *</label>
+                                    <input type="text" id="admin-product-name" placeholder="Ej. Labial Matte Bioaqua Pink" required>
                                 </div>
-                                <small>Selecciona una imagen de tu dispositivo.</small>
-                            </div>
 
+                                <div class="form-group">
+                                    <label for="admin-product-price">Precio ($ COP) *</label>
+                                    <input type="number" id="admin-product-price" min="0" placeholder="Ej. 18000" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-product-image">Foto del Producto (Galería o Archivo)</label>
+                                    <input type="file" id="admin-product-image" accept="image/*">
+                                    <div id="admin-image-preview-wrap" class="admin-image-preview-wrap hidden">
+                                        <img id="admin-image-preview-img" src="" alt="Vista previa">
+                                        <span id="admin-image-preview-text" style="font-size: 0.8rem; font-weight: 600;">Imagen seleccionada</span>
+                                    </div>
+                                    <small>Selecciona una imagen de tu dispositivo.</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-product-category">Categoría</label>
+                                    <select id="admin-product-category"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-product-category-new">O crea una categoría nueva</label>
+                                    <input type="text" id="admin-product-category-new" placeholder="Ej. Cuidado Facial">
+                                </div>
+
+                                <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="admin-product-active" checked>
+                                    <label for="admin-product-active" style="margin: 0; cursor: pointer;">Producto activo (visible en el catálogo)</label>
+                                </div>
+
+                                <div class="admin-form-actions">
+                                    <button class="btn-primary" type="submit" id="admin-product-submit-btn">
+                                        <i class="fas fa-save"></i> Guardar en Base de Datos
+                                    </button>
+                                    <button class="btn-secondary" type="button" id="admin-product-cancel">
+                                        <i class="fas fa-times"></i> Cancelar
+                                    </button>
+                                </div>
+                                <p class="admin-message" id="admin-product-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Categories Manager -->
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h3><i class="fas fa-tags" style="color: var(--bratz-pink);"></i> Categorías</h3>
+                        </div>
+                        <form id="admin-category-form" class="admin-form">
                             <div class="form-group">
-                                <label for="admin-product-category">Categoría</label>
-                                <select id="admin-product-category"></select>
+                                <label for="admin-new-category">Nueva categoría:</label>
+                                <div style="display: flex; gap: 8px;">
+                                    <input type="text" id="admin-new-category" placeholder="Nombre de categoría" required>
+                                    <button class="btn-primary" type="submit"><i class="fas fa-plus"></i></button>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="admin-product-category-new">O crea una categoría nueva</label>
-                                <input type="text" id="admin-product-category-new" placeholder="Ej. Cuidado Facial">
-                            </div>
-
-                            <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
-                                <input type="checkbox" id="admin-product-active" checked>
-                                <label for="admin-product-active" style="margin: 0; cursor: pointer;">Producto activo (visible en el catálogo)</label>
-                            </div>
-
-                            <div class="admin-form-actions">
-                                <button class="btn-primary" type="submit" id="admin-product-submit-btn">
-                                    <i class="fas fa-save"></i> Guardar en Base de Datos
-                                </button>
-                                <button class="btn-secondary" type="button" id="admin-product-cancel">
-                                    <i class="fas fa-times"></i> Cancelar
-                                </button>
-                            </div>
-                            <p class="admin-message" id="admin-product-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
                         </form>
+
+                        <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Categorías actuales:</label>
+                        <div id="admin-category-list" class="admin-category-list"></div>
                     </div>
                 </div>
 
-                <!-- Categories Manager -->
+                <!-- Product Inventory List -->
+                <div class="admin-products-section">
+                    <div class="admin-products-header-bar">
+                        <div>
+                            <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);"><i class="fas fa-boxes"></i> Inventario de Productos</h3>
+                            <span id="admin-total-products-badge" style="color: var(--text-muted); font-size: 0.8rem; font-weight: 600;">0 productos</span>
+                        </div>
+
+                        <div class="admin-search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="admin-product-search" placeholder="Buscar en inventario...">
+                        </div>
+                    </div>
+
+                    <div class="admin-pills-container" id="admin-category-pills" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px;">
+                        <!-- Category pills in admin -->
+                    </div>
+
+                    <div class="admin-prods-grid" id="admin-product-list">
+                        <!-- Populated dynamically by script.js -->
+                    </div>
+                </div>
+
+                <!-- Supabase Database Connection & Migration Section -->
+                <div class="admin-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff, #fbf2fa); border: 2px solid var(--border-pink);">
+                    <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="color: var(--bratz-dark-purple);"><i class="fas fa-database" style="color: var(--bratz-pink);"></i> Base de Datos en la Nube (Supabase)</h3>
+                        <span id="admin-db-status-pill" style="font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: var(--radius-full); background: #f0deec; color: var(--text-main);">⚪ Modo Local</span>
+                    </div>
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Conecta tu proyecto de Supabase para que las creaciones, ediciones y eliminaciones se guarden en tiempo real en la nube para todos los clientes.</p>
+                    <div class="checkout-inputs-grid" style="margin-bottom: 12px;">
+                        <div class="checkout-field">
+                            <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">Supabase Project URL:</label>
+                            <input type="text" id="admin-supabase-url" placeholder="https://tu-proyecto.supabase.co">
+                        </div>
+                        <div class="checkout-field">
+                            <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">Supabase Anon Key (public):</label>
+                            <input type="password" id="admin-supabase-key" placeholder="eyJhbGciOi...">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn-primary" type="button" id="admin-supabase-save-btn">
+                            <i class="fas fa-link"></i> Guardar y Conectar
+                        </button>
+                        <button class="btn-secondary" type="button" id="admin-supabase-seed-btn" style="border-color: var(--bratz-pink); color: var(--bratz-deep-pink);">
+                            <i class="fas fa-cloud-arrow-up"></i> Subir los 272 Productos Iniciales
+                        </button>
+                    </div>
+                    <p id="admin-supabase-message" style="font-size: 0.82rem; margin-top: 8px; font-weight: 700;"></p>
+                </div>
+
+                <!-- Change PIN Section -->
                 <div class="admin-card">
                     <div class="admin-card-header">
-                        <h3><i class="fas fa-tags" style="color: var(--bratz-pink);"></i> Categorías</h3>
+                        <h3><i class="fas fa-key" style="color: var(--bratz-pink);"></i> Cambiar PIN de Acceso</h3>
                     </div>
-                    <form id="admin-category-form" class="admin-form">
-                        <div class="form-group">
-                            <label for="admin-new-category">Nueva categoría:</label>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="text" id="admin-new-category" placeholder="Nombre de categoría" required>
-                                <button class="btn-primary" type="submit"><i class="fas fa-plus"></i></button>
-                            </div>
+                    <form id="admin-change-password-form" class="admin-form" style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+                        <div class="form-group" style="margin-bottom: 0; flex-grow: 1; max-width: 220px;">
+                            <label for="admin-new-password">Nuevo PIN (4 dígitos):</label>
+                            <input type="password" id="admin-new-password" maxlength="10" placeholder="Ej. 2026" required>
                         </div>
+                        <button class="btn-primary" type="submit"><i class="fas fa-lock"></i> Actualizar PIN</button>
                     </form>
-
-                    <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Categorías actuales:</label>
-                    <div id="admin-category-list" class="admin-category-list"></div>
+                    <p class="admin-message" id="admin-password-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
                 </div>
-            </div>
-
-            <!-- Product Inventory List -->
-            <div class="admin-products-section">
-                <div class="admin-products-header-bar">
-                    <div>
-                        <h3 style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);"><i class="fas fa-boxes"></i> Inventario de Productos</h3>
-                        <span id="admin-total-products-badge" style="color: var(--text-muted); font-size: 0.8rem; font-weight: 600;">0 productos</span>
-                    </div>
-
-                    <div class="admin-search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="admin-product-search" placeholder="Buscar en inventario...">
-                    </div>
-                </div>
-
-                <div class="admin-pills-container" id="admin-category-pills" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px;">
-                    <!-- Category pills in admin -->
-                </div>
-
-                <div class="admin-prods-grid" id="admin-product-list">
-                    <!-- Populated dynamically by script.js -->
-                </div>
-            <!-- Supabase Database Connection & Migration Section -->
-            <div class="admin-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff, #fbf2fa); border: 2px solid var(--border-pink);">
-                <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="color: var(--bratz-dark-purple);"><i class="fas fa-database" style="color: var(--bratz-pink);"></i> Base de Datos en la Nube (Supabase)</h3>
-                    <span id="admin-db-status-pill" style="font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: var(--radius-full); background: #f0deec; color: var(--text-main);">⚪ Modo Local</span>
-                </div>
-                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Conecta tu proyecto de Supabase para que las creaciones, ediciones y eliminaciones se guarden en tiempo real en la nube para todos los clientes.</p>
-                <div class="checkout-inputs-grid" style="margin-bottom: 12px;">
-                    <div class="checkout-field">
-                        <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">Supabase Project URL:</label>
-                        <input type="text" id="admin-supabase-url" placeholder="https://tu-proyecto.supabase.co">
-                    </div>
-                    <div class="checkout-field">
-                        <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">Supabase Anon Key (public):</label>
-                        <input type="password" id="admin-supabase-key" placeholder="eyJhbGciOi...">
-                    </div>
-                </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button class="btn-primary" type="button" id="admin-supabase-save-btn">
-                        <i class="fas fa-link"></i> Guardar y Conectar
-                    </button>
-                    <button class="btn-secondary" type="button" id="admin-supabase-seed-btn" style="border-color: var(--bratz-pink); color: var(--bratz-deep-pink);">
-                        <i class="fas fa-cloud-arrow-up"></i> Subir los 272 Productos Iniciales
-                    </button>
-                </div>
-                <p id="admin-supabase-message" style="font-size: 0.82rem; margin-top: 8px; font-weight: 700;"></p>
-            </div>
-
-            <!-- Change PIN Section -->
-            <div class="admin-card">
-                <div class="admin-card-header">
-                    <h3><i class="fas fa-key" style="color: var(--bratz-pink);"></i> Cambiar PIN de Acceso</h3>
-                </div>
-                <form id="admin-change-password-form" class="admin-form" style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
-                    <div class="form-group" style="margin-bottom: 0; flex-grow: 1; max-width: 220px;">
-                        <label for="admin-new-password">Nuevo PIN (4 dígitos):</label>
-                        <input type="password" id="admin-new-password" maxlength="10" placeholder="Ej. 2026" required>
-                    </div>
-                    <button class="btn-primary" type="submit"><i class="fas fa-lock"></i> Actualizar PIN</button>
-                </form>
-                <p class="admin-message" id="admin-password-message" style="color: var(--bratz-deep-pink); font-size: 0.85rem; margin-top: 8px; font-weight: 700;"></p>
             </div>
         </div>
     </div>
