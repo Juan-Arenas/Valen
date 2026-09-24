@@ -6,15 +6,25 @@ import sys
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-doc = fitz.open("CATALOGO ACTUALIZADO 2026.pdf")
+doc = fitz.open("CATALOGO ACTUALIZADO (1).pdf")
 print("Total pages in PDF:", len(doc))
 
 products = []
 product_id = 1
 
-price_pattern = re.compile(r'\$?\s*(\d{1,3}(?:\.\d{3})+)\b')
+# Support both comma and dot as thousands separator
+# Match prices like $14,000  $14.000  $1,500  $1.500  etc.
+price_pattern = re.compile(r'\$?\s*(\d{1,3}(?:[.,]\d{3})+)\b')
 
-for page_num in range(len(doc)):
+def parse_price(price_str):
+    """Parse a price string like '14,000' or '14.000' to int"""
+    cleaned = price_str.replace('.', '').replace(',', '')
+    return int(cleaned)
+
+# Ensure img directory exists
+os.makedirs("img", exist_ok=True)
+
+for page_num in range(1, 55):  # Pages 2 to 55 (0-indexed: 1 to 54)
     page = doc[page_num]
     text_blocks = page.get_text("blocks")
     images_info = page.get_image_info()
@@ -23,6 +33,7 @@ for page_num in range(len(doc)):
     page_text = page.get_text()
     prices_found = price_pattern.findall(page_text)
     if len(prices_found) == 0:
+        print(f"Page {page_num + 1}: No prices found, skipping")
         continue
         
     page_rect = page.rect
@@ -38,14 +49,16 @@ for page_num in range(len(doc)):
         
         w = r.width
         h = r.height
-        if w > page_width * 0.8 and h > page_height * 0.8:
+        # Filter out background/frame images (wide panels covering most of the page width)
+        if w > page_width * 0.7:
             continue
         if w < 40 or h < 40:
             continue
             
         is_duplicate = False
         for existing in product_images:
-            if (r & existing).get_area() > 0.8 * r.get_area():
+            intersection = r & existing
+            if intersection.get_area() > 0.8 * min(r.get_area(), existing.get_area()):
                 is_duplicate = True
                 break
         if is_duplicate:
@@ -74,7 +87,7 @@ for page_num in range(len(doc)):
         for line in cb["lines"]:
             match = price_pattern.search(line)
             if match:
-                price_val = int(match.group(1).replace('.', ''))
+                price_val = parse_price(match.group(1))
                 price_boxes.append({
                     "rect": cb["rect"],
                     "price": price_val,
@@ -125,9 +138,11 @@ for page_num in range(len(doc)):
             for line in unique_lines:
                 match = price_pattern.search(line)
                 if match:
-                    product_price = int(match.group(1).replace('.', ''))
+                    product_price = parse_price(match.group(1))
                     price_found = True
                     cleaned_line = price_pattern.sub('', line).strip()
+                    # Remove leftover $ signs
+                    cleaned_line = cleaned_line.replace('$', '').strip()
                     if cleaned_line and cleaned_line not in name_parts:
                         name_parts.append(cleaned_line)
                 else:
@@ -151,21 +166,18 @@ for page_num in range(len(doc)):
             
         # IF price is still 0, find the closest price box on the page!
         if product_price == 0 and price_boxes:
-            # Find the price box that is closest to the bottom of the image
             closest_price = None
             min_dist = 999999
             for pb in price_boxes:
                 pb_rect = pb["rect"]
-                # Calculate distance between image bottom-center and price box top-center
                 img_cx = (img_rect.x0 + img_rect.x1) / 2
                 img_cy = img_rect.y1
                 pb_cx = (pb_rect.x0 + pb_rect.x1) / 2
                 pb_cy = pb_rect.y0
                 dist = ((img_cx - pb_cx) ** 2 + (img_cy - pb_cy) ** 2) ** 0.5
                 
-                # We prefer price boxes that are below the image
                 if pb_rect.y0 >= img_rect.y1 - 10:
-                    dist *= 0.8 # favor below
+                    dist *= 0.8
                 if dist < min_dist:
                     min_dist = dist
                     closest_price = pb["price"]
@@ -175,8 +187,27 @@ for page_num in range(len(doc)):
         # Clean product name
         if "Incluye:" in product_name:
             product_name = product_name.split("Incluye:")[0].strip()
-        if product_name.lower() in ["cuidado facial y corporal", "maquillaje", "cabello y ducha", "accesorios"]:
+        
+        # Remove page header text that gets mixed into names
+        product_name = re.sub(r'VALEN MAKEUP\s*', '', product_name).strip()
+        product_name = re.sub(r'P[aá]gina\s+\d+', '', product_name, flags=re.IGNORECASE).strip()
+        product_name = re.sub(r'-?\s*comprar en l[ií]nea\s*', '', product_name, flags=re.IGNORECASE).strip()
+        product_name = re.sub(r'\d+\s*productos?', '', product_name, flags=re.IGNORECASE).strip()
+        
+        # Skip category headers and page headers
+        skip_names = ["cuidado facial y corporal", "maquillaje", "cabello y ducha", 
+                      "accesorios", "valen makeup"]
+        if product_name.lower().strip() in skip_names:
             continue
+        # Skip if name starts with page header patterns
+        if product_name.lower().startswith("valen makeup"):
+            continue
+        if re.match(r'^P[aá]gina\s+\d+', product_name, re.IGNORECASE):
+            continue
+        # Skip the first page intro text
+        if "DATOS CLAVE" in product_name or "Modalidad" in product_name:
+            continue
+            
         if not product_name or len(product_name) < 3:
             product_name = "Producto de Maquillaje"
             
@@ -196,7 +227,7 @@ for page_num in range(len(doc)):
             pix = page.get_pixmap(matrix=mat, clip=clip_rect)
             pix.save(image_filename)
         except Exception as e:
-            pass
+            print(f"  Error saving image: {e}")
             
         products.append({
             "id": product_id,
@@ -207,9 +238,25 @@ for page_num in range(len(doc)):
         })
         product_id += 1
 
+# Save results
 with open("extracted_products.json", "w", encoding="utf-8") as f:
     json.dump(products, f, indent=4, ensure_ascii=False)
 
-print(f"Fixed extraction completed! Total products: {len(products)}")
+print(f"\nExtraction completed! Total products: {len(products)}")
 zero_prices = [p for p in products if p["price"] == 0]
-print(f"Products with zero price now: {len(zero_prices)}")
+print(f"Products with zero price: {len(zero_prices)}")
+
+# Show page coverage
+pages_covered = sorted(set(p["page"] for p in products))
+all_pages = list(range(2, 56))
+missing_pages = [p for p in all_pages if p not in pages_covered]
+print(f"Pages covered: {len(pages_covered)}/{len(all_pages)}")
+print(f"Pages with products: {pages_covered}")
+if missing_pages:
+    print(f"Pages still missing: {missing_pages}")
+
+# Show count per page
+from collections import Counter
+page_counts = Counter(p["page"] for p in products)
+for pg in sorted(page_counts.keys()):
+    print(f"  Page {pg}: {page_counts[pg]} products")
