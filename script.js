@@ -103,7 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'Cuidado Facial y Corporal',
         'Maquillaje',
         'Cabello y Ducha',
-        'Accesorios',
+        'Accesorios Cabello',
+        'Accesorios Maquillaje',
         'Bloomshell'
     ];
 
@@ -241,7 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (lower === '2' || lower === 'maquillaje') return 'Maquillaje';
         if (lower === '3' || lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') return 'Cabello y Ducha';
-        if (lower === '4' || lower === 'accesorios' || lower === 'herramientas') return 'Accesorios';
+        if (lower === 'accesorios cabello') return 'Accesorios Cabello';
+        if (lower === 'accesorios maquillaje') return 'Accesorios Maquillaje';
+        if (lower === '4' || lower === 'accesorios' || lower === 'herramientas') return 'Accesorios Maquillaje';
         if (lower === '5' || lower === 'bloomshell') return 'Bloomshell';
         return clean;
     }
@@ -449,7 +452,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'Cuidado Facial y Corporal': '✨',
             'Maquillaje': '💄',
             'Cabello y Ducha': '💇‍♀️',
-            'Accesorios': '👑',
+            'Accesorios Cabello': '🎀',
+            'Accesorios Maquillaje': '🖌️',
             'Bloomshell': '🌸'
         };
 

@@ -4,2484 +4,2839 @@ const INLINE_PRODUCTS = [
         "name": "📌 DATOS CLAVE DE COMPRA: 💄 Maquillaje, skincare y accesorios: Compra mínima de  (no incluye domicilio). 🌸 Perfumes, lociones y splash: ¡Sin compra mínima! 💰 Modalidad: Trabajamos sobre pedido y confirmamos con un abono previo. 🤍 ¿Primera vez comprando? Somos una tienda 100% real. Con gusto te mostramos",
         "price": 35000,
         "image": "img/product_1.jpg",
-        "page": 2
+        "page": 2,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 2,
         "name": "Protector solar Atenea Profesional Aqua Waves Hidratante de aloe Vera Lula",
         "price": 46500,
         "image": "img/product_2.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 3,
         "name": "Exfoliante corporal Lula (Atenea) $28,500 Hidratante facial con perlas Lula",
         "price": 46500,
         "image": "img/product_3.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 4,
         "name": "Tónico facial hidratante ácido Hialurónico Bioaqua $10,000 Crema corporal Lula 30ml (Atenea) - comprar en línea",
         "price": 46500,
         "image": "img/product_4.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 5,
         "name": "Hidratante de aloe Vera Lula (atenea) - comprar en línea $17,000 Desmaquillante Lula",
         "price": 46500,
         "image": "img/product_5.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 6,
         "name": "Hidratante facial con perlas Lula (atenea) - comprar en línea $19,900 Kit x3 serum Bioaqua",
         "price": 46500,
         "image": "img/product_6.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 7,
         "name": "Crema corporal Lula 30ml (Atenea) - comprar en línea $8,000 Jabón anti acné",
         "price": 46500,
         "image": "img/product_7.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 8,
         "name": "Desmaquillante Lula (Atenea) $23,500 Serum ácido Hialurónico Bioaqua",
         "price": 46500,
         "image": "img/product_8.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 9,
         "name": "Kit x3 serum Bioaqua skincare $21,000 Trío de serum Bioaqua en caja kit x3",
         "price": 46500,
         "image": "img/product_9.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 10,
         "name": "Jabón anti acné bioaqua $12,000 Serum anti acné $11,500",
         "price": 46500,
         "image": "img/product_10.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 11,
         "name": "Serum ácido Hialurónico Bioaqua $6,500",
         "price": 46500,
         "image": "img/product_11.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 12,
         "name": "Trío de serum Bioaqua en caja kit x3 $21,000 VALEN MAKEUP Página 5",
         "price": 46500,
         "image": "img/product_12.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 13,
         "name": "Serum anti acné bioaqua $11,500",
         "price": 46500,
         "image": "img/product_13.jpg",
-        "page": 6
+        "page": 6,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 14,
         "name": "Mascarilla para puntos negros peel off Arroz Bioaqua $8,000 Bloom Repair Cream Bloomshell crema",
         "price": 49900,
         "image": "img/product_14.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 15,
         "name": "Gel limpiador Bloomshell jabón facial $40,000 Bloom serum Balance",
         "price": 49900,
         "image": "img/product_15.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 16,
         "name": "Bloom Essential Cream Bloomshell crema reparadora día y noche - comprar en línea $49,900 Pañitos húmedos mini",
         "price": 49900,
         "image": "img/product_16.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 17,
         "name": "Bloom Repair Cream Bloomshell crema reparadora día y noche Jabón líquido facial hidratante",
         "price": 49900,
         "image": "img/product_17.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 18,
         "name": "Bloom serum Balance Bloomshell $47,000 Protector solar Retinol",
         "price": 49900,
         "image": "img/product_18.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 19,
         "name": "Pañitos húmedos mini Bloomshell $4,500 Agua micelar bifásica desmaquillante miss Vanessa",
         "price": 49900,
         "image": "img/product_19.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 20,
         "name": "Jabón líquido facial hidratante con aminoácidos Bioaqua $8,500 Caja x10 mascarilla negra",
         "price": 49900,
         "image": "img/product_20.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 21,
         "name": "Protector solar Retinol Bioaqua $10,000 Hidratante facial MAÑANA",
         "price": 49900,
         "image": "img/product_21.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 22,
         "name": "Agua micelar bifásica desmaquillante miss Vanessa $12,500 Hidratante facial",
         "price": 49900,
         "image": "img/product_22.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 23,
         "name": "Caja x10 mascarilla negra $10,000",
         "price": 49900,
         "image": "img/product_23.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 24,
         "name": "Hidratante facial MAÑANA Lula - comprar en línea $25,000 VALEN MAKEUP Página 7",
         "price": 49900,
         "image": "img/product_24.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 25,
         "name": "Hidratante facial NOCHE Lula $25,000",
         "price": 49900,
         "image": "img/product_25.jpg",
-        "page": 8
+        "page": 8,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 26,
         "name": "Rubor en polvo suelto con aplicador tonos surtidos $10,000 Base de maquillaje Kuromi",
         "price": 23900,
         "image": "img/product_26.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 27,
         "name": "Iluminador en barra surtido $7,000 Base líquida Kevin & Coco",
         "price": 23900,
         "image": "img/product_27.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 28,
         "name": "Primer With Clay $6,000 Gloss Voluminizador con destellos",
         "price": 23900,
         "image": "img/product_28.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 29,
         "name": "Base de maquillaje Kuromi surtida $7,000 Got2b original",
         "price": 23900,
         "image": "img/product_29.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 30,
         "name": "Base líquida Kevin & Coco $18,000 Primer Bloom poros invisibles",
         "price": 23900,
         "image": "img/product_30.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 31,
         "name": "Gloss Voluminizador con destellos tornasol holograficos $6,500 Kit amor y amistad Bloomshell",
         "price": 23900,
         "image": "img/product_31.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 32,
         "name": "Got2b original $25,000 Paleta Rubor velvet x3 Bloomshell Nueva presentación",
         "price": 23900,
         "image": "img/product_32.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 33,
         "name": "Kit amor y amistad Bloomshell edición limitada Kiss Love x4 $130,000 Set x 6 Bloomshell tus mini",
         "price": 23900,
         "image": "img/product_33.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 34,
         "name": "Primer Bloom poros invisibles $19,000 Bloom glow Bloomshell",
         "price": 23900,
         "image": "img/product_34.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 35,
         "name": "Bloom glow Bloomshell iluminador/Blush VALEN MAKEUP Página 14",
         "price": 23900,
         "image": "img/product_35.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 36,
         "name": "infaltables de labios $24,000",
         "price": 23900,
         "image": "img/product_36.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 37,
         "name": "Paleta Rubor velvet x3 Bloomshell Nueva presentación $40,000",
         "price": 23900,
         "image": "img/product_37.jpg",
-        "page": 15
+        "page": 15,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 38,
         "name": "$3,500 $6,000 VALEN MAKEUP Página 19",
         "price": 3000,
         "image": "img/product_38.jpg",
-        "page": 19
+        "page": 19,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 39,
         "name": "Rubor en barra surtido $7,500 Jabón en barra Bamboo Bioaqua",
         "price": 19500,
         "image": "img/product_39.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 40,
         "name": "Tinta de labios miss Betty aplicador grueso $8,000 Kit de labios Glitter set x3",
         "price": 19500,
         "image": "img/product_40.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 41,
         "name": "Rubor cremoso multi usos labios o mejillas surtido $6,000 Polvo base cushion 2 en 1",
         "price": 19500,
         "image": "img/product_41.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 42,
         "name": "Jabón en barra Bamboo Bioaqua $10,000 Bloom floral Rubor serum liquido Bloomshell",
         "price": 19500,
         "image": "img/product_42.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 43,
         "name": "Kit de labios Glitter set x3 productos Bloom Beige Lápiz beige Bloomshell nude",
         "price": 19500,
         "image": "img/product_43.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 44,
         "name": "Polvo base cushion 2 en 1 $10,000 Labial Bloom lumi gloss Brillo hidratante Bloomshell",
         "price": 19500,
         "image": "img/product_44.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 45,
         "name": "Bloom floral Rubor serum liquido Bloomshell $22,500 Llavero Dúo mimosa + mini shell tint Bloomshell",
         "price": 25000,
         "image": "img/product_45.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 46,
         "name": "Bloom Beige Lápiz beige Bloomshell nude $10,000 Llavero Dúo nude + mini gloss hidratante Bloomshell",
         "price": 19500,
         "image": "img/product_46.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 47,
         "name": "Labial Bloom lumi gloss Brillo hidratante Bloomshell $18,000 Paleta de sombras Nude Allure",
         "price": 38000,
         "image": "img/product_47.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 48,
         "name": "Llavero Dúo mimosa + mini shell tint Bloomshell",
         "price": 25000,
         "image": "img/product_48.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 49,
         "name": "Llavero Dúo nude + mini gloss hidratante Bloomshell VALEN MAKEUP Página 21",
         "price": 25000,
         "image": "img/product_49.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 50,
         "name": "Paleta de sombras Nude Allure Bloomshell",
         "price": 38000,
         "image": "img/product_50.jpg",
-        "page": 21
+        "page": 21,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 51,
         "name": "Bloom Sublime Gloss XL Bloomshell Nude $23,500 Trío rubor x3 Pretty Blush Purpure Tono #1 Diva",
         "price": 15000,
         "image": "img/product_51.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 52,
         "name": "Bloom Black Bloomshell lápiz cremoso negro $9,000 Dúo rubor e iluminador Purpure",
         "price": 15000,
         "image": "img/product_52.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 53,
         "name": "Lip serum piña colada gloss Purpure $15,000 Jabón facial activación de Colageno Bioaqua",
         "price": 15000,
         "image": "img/product_53.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 54,
         "name": "Trío rubor x3 Pretty Blush Purpure Tono #1 Diva $20,000 Beauty blender",
         "price": 15000,
         "image": "img/product_54.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 55,
         "name": "Dúo rubor e iluminador Purpure Iluminador Lula",
         "price": 15000,
         "image": "img/product_55.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 56,
         "name": "Jabón facial activación de Colageno Bioaqua $10,000 Primer Lula (Atenea)",
         "price": 15000,
         "image": "img/product_56.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 57,
         "name": "Beauty blender esponja surtida Rubor Lula (atenea) tono 01 pink",
         "price": 15000,
         "image": "img/product_57.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 58,
         "name": "Iluminador Lula Dúo rubor iluminador Lula (Atenea)",
         "price": 15000,
         "image": "img/product_58.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 59,
         "name": "Primer Lula (Atenea) $22,000 Base Lula (atenea) Buena Cobertura",
         "price": 15000,
         "image": "img/product_59.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 60,
         "name": "Rubor Lula (atenea) tono 01 pink",
         "price": 15000,
         "image": "img/product_60.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 61,
         "name": "Dúo rubor iluminador Lula (Atenea) VALEN MAKEUP Página 22",
         "price": 18000,
         "image": "img/product_61.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 62,
         "name": "Base Lula (atenea) Buena Cobertura",
         "price": 23000,
         "image": "img/product_62.jpg",
-        "page": 22
+        "page": 22,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 63,
         "name": "Corrector líquido Lula (atenea) Buena cobertura Mini gel fijador de cejas Atenea",
         "price": 17000,
         "image": "img/product_63.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 64,
         "name": "Polvo suelto banana Lula (atenea) $15,000 Bálsamo Hidratante de labios",
         "price": 17000,
         "image": "img/product_64.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 65,
         "name": "Fijador spray Lula (atenea) $17,000 Polvo suelto banana",
         "price": 17000,
         "image": "img/product_65.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 66,
         "name": "Mini gel fijador de cejas Atenea Profesional $17,500 Lápiz delineador para ojos y",
         "price": 17000,
         "image": "img/product_66.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 67,
         "name": "Bálsamo Hidratante de labios Durazno Sadoer $5,000 Lip Balm Glossy",
         "price": 17000,
         "image": "img/product_67.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 68,
         "name": "Polvo suelto banana Purpure $15,000 Iluminador Boss Babe",
         "price": 17000,
         "image": "img/product_68.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 69,
         "name": "Lápiz delineador para ojos y labios Purpure $9,500 Labial en barra S.f.r colors surtido",
         "price": 17000,
         "image": "img/product_69.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 70,
         "name": "Lip Balm Glossy Purpure $16,000 Paleta de sombras Hudamoji",
         "price": 17000,
         "image": "img/product_70.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 71,
         "name": "Iluminador Boss Babe Purpure $14,500 Paleta de maquillaje",
         "price": 17000,
         "image": "img/product_71.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 72,
         "name": "Labial en barra S.f.r colors surtido $5,500",
         "price": 17000,
         "image": "img/product_72.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 73,
         "name": "Paleta de sombras Hudamoji $10,300 VALEN MAKEUP Página 23",
         "price": 17000,
         "image": "img/product_73.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 74,
         "name": "Paleta de maquillaje Helado $15,000",
         "price": 17000,
         "image": "img/product_74.jpg",
-        "page": 23
+        "page": 23,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 75,
         "name": "Lápiz de ojos negro con sacapuntas $3,400 Corrector líquido fitme surtido con aplicador",
         "price": 6000,
         "image": "img/product_75.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 76,
         "name": "Base líquida For me Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida",
         "price": 6000,
         "image": "img/product_76.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 77,
         "name": "Base líquida Fit surtida Paleta de sombras 18 tonos New Nude",
         "price": 6000,
         "image": "img/product_77.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 78,
         "name": "Corrector líquido fitme surtido con aplicador $7,000 Fijador de maquillaje cherry",
         "price": 6000,
         "image": "img/product_78.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 79,
         "name": "Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida $6,500 Kit de primer + fijador de",
         "price": 6000,
         "image": "img/product_79.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 80,
         "name": "Paleta de sombras 18 tonos New Nude $15,000 Lápiz delineador de labios donut",
         "price": 6000,
         "image": "img/product_80.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 81,
         "name": "Fijador de maquillaje cherry $8,500 Rubor en perlas tonos surtidos rubor granulado o",
         "price": 6000,
         "image": "img/product_81.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 82,
         "name": "Kit de primer + fijador de maquillaje Arroz $12,000 Rubor líquido sweet",
         "price": 6000,
         "image": "img/product_82.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 83,
         "name": "Lápiz delineador de labios donut $3,500 Labial Bloom sparkle kiss",
         "price": 6000,
         "image": "img/product_83.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 84,
         "name": "Rubor en perlas tonos surtidos rubor granulado o iluminador $8,500",
         "price": 6000,
         "image": "img/product_84.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 85,
         "name": "Rubor líquido sweet surtido $7,500 VALEN MAKEUP Página 26",
         "price": 6000,
         "image": "img/product_85.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 86,
         "name": "Labial Bloom sparkle kiss Bloomshell tono 4 $15,000",
         "price": 6000,
         "image": "img/product_86.jpg",
-        "page": 26
+        "page": 26,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 87,
         "name": "Polvo translucent Grande 2 en 1 Pink Bloomshell suelto y compacto $38,500 Rubor cherry Blossom Bloomshell",
         "price": 26500,
         "image": "img/product_87.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 88,
         "name": "Paleta sombras y rubores Luxury $41,000 Polvo suelto Bloomshell Mate",
         "price": 26500,
         "image": "img/product_88.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 89,
         "name": "Bloom define dark contorno en barra Bloomshell tono 03 $27,500 Rubor mágico Bloomshell multiusos aplicador jumbo ph",
         "price": 26500,
         "image": "img/product_89.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 90,
         "name": "Rubor cherry Blossom Bloomshell en barra cremoso tono Surtido Bloom kiss con color formula hidratante no pegajosa gloss lip",
         "price": 26500,
         "image": "img/product_90.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 91,
         "name": "Polvo suelto Bloomshell Mate translucent mini $28,000 Gloss aplicador de",
         "price": 26500,
         "image": "img/product_91.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 92,
         "name": "Rubor mágico Bloomshell multiusos aplicador jumbo ph $16,000 Gloss purpure Lip",
         "price": 26500,
         "image": "img/product_92.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 93,
         "name": "Bloom kiss con color formula hidratante no pegajosa gloss lip oil Bloomshell $11,500 Polvo base Purpure 2 en 1 girl",
         "price": 26500,
         "image": "img/product_93.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 94,
         "name": "Gloss aplicador de silicona $8,500 Rubor líquido Purpure",
         "price": 26500,
         "image": "img/product_94.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 95,
         "name": "Gloss purpure Lip Gloss Glow $12,500 Base líquida matte Purpure",
         "price": 26500,
         "image": "img/product_95.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 96,
         "name": "Polvo base Purpure 2 en 1 girl boss $25,500",
         "price": 26500,
         "image": "img/product_96.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 97,
         "name": "Rubor líquido Purpure $16,500 VALEN MAKEUP Página 27",
         "price": 26500,
         "image": "img/product_97.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 98,
         "name": "Base líquida matte Purpure buena cobertura $24,500",
         "price": 26500,
         "image": "img/product_98.jpg",
-        "page": 27
+        "page": 27,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 99,
         "name": "Lip gloss Candy Love Purpure aplicador grueso Gloss Voluminizador con color",
         "price": 16000,
         "image": "img/product_99.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 100,
         "name": "Lápiz delineador de labios Purpure $7,500 Labial terciopelo velvet BEAR",
         "price": 16000,
         "image": "img/product_100.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 101,
         "name": "Pestañina so perfect lash Purpure $20,500 Labial terciopelo velvet",
         "price": 8500,
         "image": "img/product_101.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 102,
         "name": "Gloss Voluminizador con color Purpure $14,000 Fijador de maquillaje",
         "price": 8500,
         "image": "img/product_102.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 103,
         "name": "Labial terciopelo velvet BEAR Lip balm hidratante de labios",
         "price": 8500,
         "image": "img/product_103.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 104,
         "name": "Labial terciopelo velvet Osito Bálsamo labial tipo vaselina",
         "price": 8500,
         "image": "img/product_104.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 105,
         "name": "Fijador de maquillaje en Spray $10,000 Bálsamo labial tipo vaselina",
         "price": 2900,
         "image": "img/product_105.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 106,
         "name": "Lip balm hidratante de labios sin color Primer vitamina c",
         "price": 2900,
         "image": "img/product_106.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 107,
         "name": "Bálsamo labial tipo vaselina Lip Care - comprar en línea Fijador de maquillaje Atenea",
         "price": 4000,
         "image": "img/product_107.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 108,
         "name": "Bálsamo labial tipo vaselina Candy Baby",
         "price": 4000,
         "image": "img/product_108.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 109,
         "name": "Primer vitamina c $7,500 VALEN MAKEUP Página 28",
         "price": 4000,
         "image": "img/product_109.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 110,
         "name": "Fijador de maquillaje Atenea Profesional sellante $30,500",
         "price": 4000,
         "image": "img/product_110.jpg",
-        "page": 28
+        "page": 28,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 111,
         "name": "Polvo MINI 2en1 Bloomshell Suelto y compacto 01 WHITE $30,000 Base skin cover",
         "price": 3700,
         "image": "img/product_111.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 112,
         "name": "Lápiz de cejas Hidratante de labios Sugar daddy",
         "price": 3700,
         "image": "img/product_112.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 113,
         "name": "Lip gloss Bloomshell Bloom esplendor nude Gloss coreano Purpure efecto",
         "price": 16000,
         "image": "img/product_113.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 114,
         "name": "Base skin cover Mocmallure Lip Gloss cuadrado con",
         "price": 11500,
         "image": "img/product_114.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 115,
         "name": "Hidratante de labios Sugar daddy $7,500 Gloss serum reparador de labios vitamina E Purpure aplicador grueso",
         "price": 11500,
         "image": "img/product_115.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 116,
         "name": "Gloss coreano Purpure efecto tinta gloss Gloss ángel aplicador silicona",
         "price": 15000,
         "image": "img/product_116.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 117,
         "name": "Lip Gloss cuadrado con color Purpure $15,000 Kit mini de maquillaje",
         "price": 11500,
         "image": "img/product_117.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 118,
         "name": "Gloss serum reparador de labios vitamina E Purpure aplicador grueso $15,500 Hidratante de labios Bioaqua",
         "price": 12500,
         "image": "img/product_118.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 119,
         "name": "Gloss ángel aplicador silicona Crystal Bear mirellas $8,500 Iluminador Candy",
         "price": 15000,
         "image": "img/product_119.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 120,
         "name": "Kit mini de maquillaje corazón $15,000",
         "price": 12500,
         "image": "img/product_120.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 121,
         "name": "Hidratante de labios Bioaqua lip balm - comprar en línea $5,000 VALEN MAKEUP Página 30",
         "price": 12500,
         "image": "img/product_121.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 122,
         "name": "Iluminador Candy Love Purpure",
         "price": 12500,
         "image": "img/product_122.jpg",
-        "page": 30
+        "page": 30,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 123,
         "name": "Rubor cremoso con borla Bloom Blushy Bloomshell - comprar en línea Rubor líquido velvet Atenea",
         "price": 22500,
         "image": "img/product_123.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 124,
         "name": "Gloss Bloom dúo Bloomshell Paleta de sombras Birds Atenea",
         "price": 17500,
         "image": "img/product_124.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 125,
         "name": "Fijador de maquillaje Purpure 50ml Lip balm Lula (atenea) hidratante",
         "price": 15900,
         "image": "img/product_125.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 126,
         "name": "Rubor líquido velvet Atenea profesional Russet orange Labial flor ph",
         "price": 25900,
         "image": "img/product_126.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 127,
         "name": "Paleta de sombras Birds Atenea profesional Corrector Bloomshell nueva",
         "price": 60900,
         "image": "img/product_127.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 128,
         "name": "Lip balm Lula (atenea) hidratante con aroma Fresa $11,500 Polvo suelto traslúcido Pink mini",
         "price": 60900,
         "image": "img/product_128.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 129,
         "name": "Labial flor ph $8,000 Gloss labial celular con",
         "price": 20900,
         "image": "img/product_129.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 130,
         "name": "Corrector Bloomshell nueva presentación 10ml Lápiz delineador de labios con",
         "price": 20900,
         "image": "img/product_130.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 131,
         "name": "Polvo suelto traslúcido Pink mini atenea profesional 1st scene $29,500 Lápiz delineador de",
         "price": 20900,
         "image": "img/product_131.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 132,
         "name": "Gloss labial celular con aplicador 2en1 $7,000",
         "price": 3900,
         "image": "img/product_132.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 133,
         "name": "Lápiz delineador de labios con sacapuntas VALEN MAKEUP Página 31",
         "price": 3900,
         "image": "img/product_133.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 134,
         "name": "Lápiz delineador de labios",
         "price": 3500,
         "image": "img/product_134.jpg",
-        "page": 31
+        "page": 31,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 135,
         "name": "Desmaquillante bifásico dual 100ml - comprar en línea $14,500 Corrector líquido atenea profesional 1st scene buena",
         "price": 35900,
         "image": "img/product_135.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 136,
         "name": "Sombras 6 tonos $10,000 Tinta base serum Atenea",
         "price": 20500,
         "image": "img/product_136.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 137,
         "name": "Gloss aura Trendy aplicador jumbo tono #2 Base atenea profesional",
         "price": 20500,
         "image": "img/product_137.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 138,
         "name": "Corrector líquido atenea profesional 1st scene buena cobertura Base atenea profesional (30ML)",
         "price": 35900,
         "image": "img/product_138.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 139,
         "name": "Tinta base serum Atenea Profesional 1st scene Labial líquido velvet terciopelo Atenea profesional",
         "price": 47900,
         "image": "img/product_139.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 140,
         "name": "Base atenea profesional (50ML) 1st scene buena cobertura - $48,000 Peptide lip balm Atenea Profesional",
         "price": 47900,
         "image": "img/product_140.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Cuidado Facial y Corporal"
     },
     {
         "id": 141,
         "name": "Base atenea profesional (30ML) 1st scene buena cobertura Lápiz delineador de labios Atenea Profesional - comprar en",
         "price": 36500,
         "image": "img/product_141.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Maquillaje"
     },
     {
         "id": 142,
         "name": "Labial líquido velvet terciopelo Atenea profesional Sombras Marvelous Atenea",
         "price": 25900,
         "image": "img/product_142.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Maquillaje"
     },
     {
         "id": 143,
         "name": "Peptide lip balm Atenea Profesional - comprar en línea Sombras Atemporal Atenea",
         "price": 27900,
         "image": "img/product_143.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Maquillaje"
     },
     {
         "id": 144,
         "name": "Lápiz delineador de labios Atenea Profesional - comprar en línea",
         "price": 12500,
         "image": "img/product_144.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Maquillaje"
     },
     {
         "id": 145,
         "name": "Sombras Marvelous Atenea Profesional VALEN MAKEUP Página 32",
         "price": 66900,
         "image": "img/product_145.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Maquillaje"
     },
     {
         "id": 146,
         "name": "Sombras Atemporal Atenea Profesional",
         "price": 66900,
         "image": "img/product_146.jpg",
-        "page": 32
+        "page": 32,
+        "category": "Maquillaje"
     },
     {
         "id": 147,
         "name": "Sombras Hawaii Atenea Sombras Atenea profesional Sublime",
         "price": 66900,
         "image": "img/product_147.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 148,
         "name": "Sombras Majestic Atenea Dúo de rubor en crema y compacto Atenea Profesional",
         "price": 66900,
         "image": "img/product_148.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 149,
         "name": "Sombras Art deco Atenea Profesional Iluminador Atenea",
         "price": 41400,
         "image": "img/product_149.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 150,
         "name": "Sombras Atenea profesional Sublime Sombra cremosa Atenea profesional duocromática",
         "price": 40900,
         "image": "img/product_150.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 151,
         "name": "Dúo de rubor en crema y compacto Atenea Profesional Lápiz delineador de labios Bloomshell cremoso de larga",
         "price": 37900,
         "image": "img/product_151.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 152,
         "name": "Iluminador Atenea Profesional Removedor de maquillaje agua limpiadora desmaquillante hello Kitty",
         "price": 26900,
         "image": "img/product_152.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 153,
         "name": "Sombra cremosa Atenea profesional duocromática Sombras mini",
         "price": 16500,
         "image": "img/product_153.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 154,
         "name": "Lápiz delineador de labios Bloomshell cremoso de larga duración Paleta de sombras",
         "price": 9500,
         "image": "img/product_154.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 155,
         "name": "Removedor de maquillaje agua limpiadora desmaquillante hello Kitty $8,000 Voluminizador de",
         "price": 9500,
         "image": "img/product_155.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 156,
         "name": "Sombras mini huellita",
         "price": 8000,
         "image": "img/product_156.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 157,
         "name": "Paleta de sombras corazón pink VALEN MAKEUP Página 33",
         "price": 9500,
         "image": "img/product_157.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 158,
         "name": "Voluminizador de labios Trendy",
         "price": 8900,
         "image": "img/product_158.jpg",
-        "page": 33
+        "page": 33,
+        "category": "Maquillaje"
     },
     {
         "id": 159,
         "name": "Hidratante mágico Minnie $5,000 Click gloss de lujo $9,000",
         "price": 7000,
         "image": "img/product_159.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 160,
         "name": "Bálsamo labial $5,000 Click gloss coreano surtido - comprar en línea",
         "price": 7000,
         "image": "img/product_160.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 161,
         "name": "Tinta heart $9,000 Click gloss bunny $8,000",
         "price": 7000,
         "image": "img/product_161.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 162,
         "name": "Click gloss de lujo $9,000 Labial de",
         "price": 7000,
         "image": "img/product_162.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 163,
         "name": "Click gloss coreano surtido - comprar en línea $9,000 Labial de",
         "price": 7000,
         "image": "img/product_163.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 164,
         "name": "Click gloss bunny $8,000 Gloss perlado",
         "price": 7000,
         "image": "img/product_164.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 165,
         "name": "Labial de hadas $7,000 Lip balm argan bálsamo labial (sin color)",
         "price": 7000,
         "image": "img/product_165.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 166,
         "name": "Labial de hadas Lip balm pink bálsamo labial",
         "price": 7000,
         "image": "img/product_166.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 167,
         "name": "Gloss perlado labios $6,500 Bálsamo labial vitamina C (sin color)",
         "price": 7000,
         "image": "img/product_167.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 168,
         "name": "Lip balm argan bálsamo labial (sin color) $5,000",
         "price": 5700,
         "image": "img/product_168.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 169,
         "name": "Lip balm pink bálsamo labial VALEN MAKEUP Página 35",
         "price": 5700,
         "image": "img/product_169.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 170,
         "name": "Bálsamo labial vitamina C (sin color)",
         "price": 4500,
         "image": "img/product_170.jpg",
-        "page": 35
+        "page": 35,
+        "category": "Maquillaje"
     },
     {
         "id": 171,
         "name": "VALEN MAKEUP Página 36",
         "price": 11300,
         "image": "img/product_171.jpg",
-        "page": 36
+        "page": 36,
+        "category": "Maquillaje"
     },
     {
         "id": 172,
         "name": "Producto de Maquillaje",
         "price": 10900,
         "image": "img/product_172.jpg",
-        "page": 37
+        "page": 37,
+        "category": "Maquillaje"
     },
     {
         "id": 173,
         "name": "Perfume capilar de hadas con shimmer surtido Sachet SHAMPOO capilar colageno Exotic - comprar en línea",
         "price": 10700,
         "image": "img/product_173.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 174,
         "name": "Tratamiento capilar Colageno reconstructor Exotic - Sachet SHAMPOO capilar Rizos",
         "price": 18900,
         "image": "img/product_174.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 175,
         "name": "Sachet SHAMPOO capilar Romero y aceite de argán - comprar en línea Sachet TRATAMIENTO capilar Rizos",
         "price": 2500,
         "image": "img/product_175.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 176,
         "name": "Sachet SHAMPOO capilar colageno Exotic - comprar en línea Shampoo de rizos kids Exotic",
         "price": 2500,
         "image": "img/product_176.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 177,
         "name": "Sachet SHAMPOO capilar Rizos Kids Exotic - comprar en línea Tratamiento de rizos kids Exotic -",
         "price": 2500,
         "image": "img/product_177.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 178,
         "name": "Sachet TRATAMIENTO capilar Rizos Kids Exotic - comprar en línea Sachet SHAMPOO capilar rizos",
         "price": 2500,
         "image": "img/product_178.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 179,
         "name": "Shampoo de rizos kids Exotic Sin sal - comprar en línea Sachet TRATAMIENTO capilar",
         "price": 17900,
         "image": "img/product_179.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 180,
         "name": "Tratamiento de rizos kids Exotic - comprar en línea Shampoo rizos",
         "price": 18900,
         "image": "img/product_180.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 181,
         "name": "Sachet SHAMPOO capilar rizos Exotic - comprar en línea Tratamiento capilar Melancia",
         "price": 2500,
         "image": "img/product_181.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 182,
         "name": "Sachet TRATAMIENTO capilar rizos Exotic",
         "price": 2500,
         "image": "img/product_182.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 183,
         "name": "Shampoo rizos 1.000ml Exotic VALEN MAKEUP Página 38",
         "price": 17900,
         "image": "img/product_183.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 184,
         "name": "Tratamiento capilar Melancia 3en1 para cabello seco y dañado",
         "price": 19500,
         "image": "img/product_184.jpg",
-        "page": 38
+        "page": 38,
+        "category": "Maquillaje"
     },
     {
         "id": 185,
         "name": "Sachet TRATAMIENTO capilar coco Exotic - comprar en línea Shampoo de coco",
         "price": 1000,
         "image": "img/product_185.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 186,
         "name": "Sachet SHAMPOO capilar coco Exotic - comprar en línea Shampoo Repolarizacion intensiva",
         "price": 2500,
         "image": "img/product_186.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 187,
         "name": "Tratamiento capilar coco Exotic 1.000ml Tratamiento Repolarizacion",
         "price": 18900,
         "image": "img/product_187.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 188,
         "name": "Shampoo de coco ml Exotic Sachet de SHAMPOO capilar cebolla Exotic - comprar en línea",
         "price": 17900,
         "image": "img/product_188.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 189,
         "name": "Shampoo Repolarizacion intensiva exotic - comprar en línea Sachet de TRATAMIENTO",
         "price": 17900,
         "image": "img/product_189.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 190,
         "name": "Tratamiento Repolarizacion intensiva exotic Shampoo de cebolla",
         "price": 19900,
         "image": "img/product_190.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 191,
         "name": "Sachet de SHAMPOO capilar cebolla Exotic - comprar en línea Tratamiento capilar de",
         "price": 2500,
         "image": "img/product_191.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 192,
         "name": "Sachet de TRATAMIENTO capilar cebolla Exotic $2,500 Óleo premium Cebolla aceite",
         "price": 2500,
         "image": "img/product_192.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 193,
         "name": "Shampoo de cebolla 1.000ml Exotic Óleo Romero aceite capilar",
         "price": 17900,
         "image": "img/product_193.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 194,
         "name": "Tratamiento capilar de cebolla Exotic",
         "price": 18900,
         "image": "img/product_194.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 195,
         "name": "Óleo premium Cebolla aceite capilar crecimiento - comprar en línea VALEN MAKEUP Página 39",
         "price": 10900,
         "image": "img/product_195.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 196,
         "name": "Óleo Romero aceite capilar crecimiento",
         "price": 11500,
         "image": "img/product_196.jpg",
-        "page": 39
+        "page": 39,
+        "category": "Maquillaje"
     },
     {
         "id": 197,
         "name": "Kit x4 crecimiento capilar y brillo Acondicionador de ají Click hair",
         "price": 153700,
         "image": "img/product_197.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 198,
         "name": "Pelinex tónico capilar crecimiento y anti caída Click Hair Energizante capilar Click hair",
         "price": 35900,
         "image": "img/product_198.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 199,
         "name": "Shampoo de ají crecimiento, control grasa y caída Click Hair Caja kit x 3 perfumes mini Click hair",
         "price": 45500,
         "image": "img/product_199.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 200,
         "name": "Acondicionador de ají Click hair suavidad y brillo Perfume Miel click hair",
         "price": 43900,
         "image": "img/product_200.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 201,
         "name": "Energizante capilar Click hair reparación profunda Termo protector bifásico leche y",
         "price": 44400,
         "image": "img/product_201.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 202,
         "name": "Caja kit x 3 perfumes mini Click hair cabello y cuerpo - comprar en línea Acondicionador de miel Click",
         "price": 46900,
         "image": "img/product_202.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 203,
         "name": "Perfume Miel click hair Mascarilla capilar miel brillo",
         "price": 56400,
         "image": "img/product_203.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 204,
         "name": "Termo protector bifásico leche y miel protección y brillo Miel capilar 50ml repara puntas",
         "price": 47900,
         "image": "img/product_204.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 205,
         "name": "Acondicionador de miel Click Hair Brillo y suavidad Perfume capilar Click hair",
         "price": 43600,
         "image": "img/product_205.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 206,
         "name": "Mascarilla capilar miel brillo intenso Click Hair aroma delicioso",
         "price": 49600,
         "image": "img/product_206.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 207,
         "name": "Miel capilar 50ml repara puntas brillo intenso click hair VALEN MAKEUP Página 40",
         "price": 57300,
         "image": "img/product_207.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 208,
         "name": "Perfume capilar Click hair con termo protector, feromonas y glitter",
         "price": 46500,
         "image": "img/product_208.jpg",
-        "page": 40
+        "page": 40,
+        "category": "Maquillaje"
     },
     {
         "id": 209,
         "name": "Tratamiento capilar mascarilla crecimiento Romero y menta Sadoer Gel de ducha Purpure 250ml -",
         "price": 12900,
         "image": "img/product_209.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 210,
         "name": "ACONDICIONADOR crecimiento Romero y menta Sadoer - comprar en línea $13,500 Aceite capilar Romero y menta",
         "price": 12900,
         "image": "img/product_210.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 211,
         "name": "SHAMPOO crecimiento Romero y menta Sadoer Tratamiento capilar 500g Coco",
         "price": 14900,
         "image": "img/product_211.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 212,
         "name": "Gel de ducha Purpure 250ml - comprar en línea Gel de ducha Purpure con",
         "price": 25700,
         "image": "img/product_212.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 213,
         "name": "Aceite capilar Romero y menta crecimiento Sadoer Gel de cabello Ikt",
         "price": 11800,
         "image": "img/product_213.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 214,
         "name": "Tratamiento capilar 500g Coco recuperación y brillo Cera wax",
         "price": 13900,
         "image": "img/product_214.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 215,
         "name": "Gel de ducha Purpure con aromas 300ml Perfume capilar con gatillo",
         "price": 18900,
         "image": "img/product_215.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 216,
         "name": "Gel de cabello Ikt Perfume capilar con provitamina B5",
         "price": 13500,
         "image": "img/product_216.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 217,
         "name": "Cera wax stick Perfume termo protector desenredante para el cabello",
         "price": 12900,
         "image": "img/product_217.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 218,
         "name": "Perfume capilar con gatillo",
         "price": 18900,
         "image": "img/product_218.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 219,
         "name": "Perfume capilar con provitamina B5 VALEN MAKEUP Página 41",
         "price": 16900,
         "image": "img/product_219.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 220,
         "name": "Perfume termo protector desenredante para el cabello",
         "price": 18900,
         "image": "img/product_220.jpg",
-        "page": 41
+        "page": 41,
+        "category": "Maquillaje"
     },
     {
         "id": 221,
         "name": "comprar en línea",
         "price": 36900,
         "image": "img/product_221.jpg",
-        "page": 42
+        "page": 42,
+        "category": "Maquillaje"
     },
     {
         "id": 222,
         "name": "Cepillo de madera bamboo cuadrado Kit de pinzas Trendy hairclips x8",
         "price": 15900,
         "image": "img/product_222.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 223,
         "name": "Kit x3 cepillos de cabello pulidores Scrunchie satin bamba cabello moña anti quiebre",
         "price": 8500,
         "image": "img/product_223.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 224,
         "name": "Kit moños Barbie Dreams Trendy Set mini ganchos más moñitas",
         "price": 6500,
         "image": "img/product_224.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 225,
         "name": "Kit de pinzas Trendy hairclips x8 Kit cauchos y moñas",
         "price": 7000,
         "image": "img/product_225.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 226,
         "name": "Scrunchie satin bamba cabello moña anti quiebre Kit cauchos",
         "price": 5200,
         "image": "img/product_226.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 227,
         "name": "Set mini ganchos más moñitas Cartón animado moñas y",
         "price": 6500,
         "image": "img/product_227.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 228,
         "name": "Kit cauchos y moñas colorido Cera moldeadora de cabello hello kitty kuromi surtido",
         "price": 3900,
         "image": "img/product_228.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 229,
         "name": "Kit cauchos Kit de moñas y mini pinzas para el cabello en cajita",
         "price": 3900,
         "image": "img/product_229.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 230,
         "name": "Cartón animado moñas y pinzas surtido Kit de moñas para el cabello en cajita",
         "price": 5900,
         "image": "img/product_230.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 231,
         "name": "Cera moldeadora de cabello hello kitty kuromi surtido $8,900",
         "price": 6900,
         "image": "img/product_231.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 232,
         "name": "Kit de moñas y mini pinzas para el cabello en cajita VALEN MAKEUP Página 43",
         "price": 6900,
         "image": "img/product_232.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 233,
         "name": "Kit de moñas para el cabello en cajita",
         "price": 6900,
         "image": "img/product_233.jpg",
-        "page": 43
+        "page": 43,
+        "category": "Maquillaje"
     },
     {
         "id": 234,
         "name": "Ondas sin calor tubo de seda más scrunchies Set x3 pinzas Flor color surtido 1",
         "price": 11900,
         "image": "img/product_234.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 235,
         "name": "Bloom Hair curl pro Cepillo definidor de rizos Bloomshell Perfume capilar Click hair con",
         "price": 16900,
         "image": "img/product_235.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 236,
         "name": "Pinza flor hawaiana color surtido - comprar en línea Diadema clásica Balaca",
         "price": 5900,
         "image": "img/product_236.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 237,
         "name": "Set x3 pinzas Flor color surtido 1 grande 2 pequeñas Caimán concha perla",
         "price": 8500,
         "image": "img/product_237.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 238,
         "name": "Perfume capilar Click hair con termo protector, feromonas y glitter Kit balaca puffy más",
         "price": 46500,
         "image": "img/product_238.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 239,
         "name": "Diadema clásica Balaca casual surtida Gorrito de cabello",
         "price": 7500,
         "image": "img/product_239.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 240,
         "name": "Caimán concha perla surtida Toalla de cabello de micro fibra",
         "price": 5000,
         "image": "img/product_240.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 241,
         "name": "Kit balaca puffy más muñequeras Caimán tortuga surtida",
         "price": 5000,
         "image": "img/product_241.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 242,
         "name": "Gorrito de cabello micro fibra Pinza estrella de mar surtida",
         "price": 5000,
         "image": "img/product_242.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 243,
         "name": "Toalla de cabello de micro fibra",
         "price": 10500,
         "image": "img/product_243.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 244,
         "name": "Caimán tortuga surtida VALEN MAKEUP Página 44",
         "price": 5000,
         "image": "img/product_244.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 245,
         "name": "Pinza estrella de mar surtida",
         "price": 5000,
         "image": "img/product_245.jpg",
-        "page": 44
+        "page": 44,
+        "category": "Maquillaje"
     },
     {
         "id": 246,
         "name": "Pinza flor hawaiana surtida Set x6 pinzas mariposa gancho mini",
         "price": 5000,
         "image": "img/product_246.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 247,
         "name": "Set x6 pinzas mariposas de cristal Set x2 pinzas flor",
         "price": 5400,
         "image": "img/product_247.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 248,
         "name": "Set x2 Pinza flor Cepillo de cabello",
         "price": 7900,
         "image": "img/product_248.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 249,
         "name": "Set x6 pinzas mariposa gancho mini Cera wax stick",
         "price": 12900,
         "image": "img/product_249.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 250,
         "name": "Set x2 pinzas flor Cepillo garra masajeador estimulador capilar",
         "price": 5400,
         "image": "img/product_250.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 251,
         "name": "Cepillo de cabello Moñitas coloridas",
         "price": 7900,
         "image": "img/product_251.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 252,
         "name": "Cera wax stick Cepillo masajeador capilar shampoo - comprar en línea",
         "price": 12900,
         "image": "img/product_252.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 253,
         "name": "Cepillo garra masajeador estimulador capilar Cepillo de cabello garrita",
         "price": 10500,
         "image": "img/product_253.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 254,
         "name": "Moñitas coloridas $1,900 Balaca elástica",
         "price": 3500,
         "image": "img/product_254.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 255,
         "name": "Cepillo masajeador capilar shampoo - comprar en línea",
         "price": 9500,
         "image": "img/product_255.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 256,
         "name": "Cepillo de cabello garrita VALEN MAKEUP Página 45",
         "price": 10500,
         "image": "img/product_256.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 257,
         "name": "Balaca elástica",
         "price": 3500,
         "image": "img/product_257.jpg",
-        "page": 45
+        "page": 45,
+        "category": "Maquillaje"
     },
     {
         "id": 258,
         "name": "Producto de Maquillaje",
         "price": 6900,
         "image": "img/product_258.jpg",
-        "page": 46
+        "page": 46,
+        "category": "Maquillaje"
     },
     {
         "id": 259,
         "name": "Kit de brochas kabuki pequeño surtido Paquete x12 beauty blender cada una en su caja individual",
         "price": 10500,
         "image": "img/product_259.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 260,
         "name": "Kit de brochas KLXR surtidas Set x3 mini beauty blender",
         "price": 8500,
         "image": "img/product_260.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 261,
         "name": "Kit de brochas conejito Set de brochas kabuki tamaño normal surtidas",
         "price": 6900,
         "image": "img/product_261.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 262,
         "name": "Paquete x12 beauty blender cada una en su caja individual Set x3 borlas",
         "price": 21500,
         "image": "img/product_262.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 263,
         "name": "Set x3 mini beauty blender Borla individual",
         "price": 3600,
         "image": "img/product_263.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 264,
         "name": "Set de brochas kabuki tamaño normal surtidas Kit de brochas mármol",
         "price": 13500,
         "image": "img/product_264.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 265,
         "name": "Set x3 borlas surtida Set de brochas en cajita",
         "price": 8900,
         "image": "img/product_265.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 266,
         "name": "Borla individual surtida Bloom stop Bloomshell parches anti acné rosa",
         "price": 2600,
         "image": "img/product_266.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 267,
         "name": "Kit de brochas mármol surtidas Bloom me espejo (brillo hidratante) Bloomshell",
         "price": 12900,
         "image": "img/product_267.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 268,
         "name": "Set de brochas en cajita",
         "price": 8900,
         "image": "img/product_268.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 269,
         "name": "Bloom stop Bloomshell parches anti acné rosa VALEN MAKEUP Página 47",
         "price": 13500,
         "image": "img/product_269.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 270,
         "name": "Bloom me espejo (brillo hidratante) Bloomshell",
         "price": 27600,
         "image": "img/product_270.jpg",
-        "page": 47
+        "page": 47,
+        "category": "Maquillaje"
     },
     {
         "id": 271,
         "name": "Pop bloom mimosa (brillo hidratante) Bloomshell Libro de pestañas punto a punto 640 pestañas aproximadamente, Diferentes tamaños",
         "price": 24500,
         "image": "img/product_271.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 272,
         "name": "Bloom pocket kiss/ brillo hidratante Bloomshell Kit de pestañas punto a punto más Pegante/fijador",
         "price": 25000,
         "image": "img/product_272.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 273,
         "name": "Kit de brochas surtidas Pestañas punto a punto DIY",
         "price": 7500,
         "image": "img/product_273.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 274,
         "name": "Libro de pestañas punto a punto 640 pestañas aproximadamente, Diferentes tamaños",
         "price": 20500,
         "image": "img/product_274.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 275,
         "name": "Kit de pestañas punto a punto más Pegante/fijador y pinza",
         "price": 21900,
         "image": "img/product_275.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 276,
         "name": "Pestañas punto a punto DIY Eyelashes",
         "price": 15500,
         "image": "img/product_276.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 277,
         "name": "Pega de pestañas Transparente Lula (Atenea) Kit de brochas Rosy Lula (atenea) 8 Pcs",
         "price": 18900,
         "image": "img/product_277.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 278,
         "name": "Pega de pestañas Lula (Atenea) Borla mini de precisión borla para el dedo",
         "price": 10900,
         "image": "img/product_278.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 279,
         "name": "Pestañas completas par Atenea profesional Beauty Blender XL Bloomshell",
         "price": 10500,
         "image": "img/product_279.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 280,
         "name": "Kit de brochas Rosy Lula (atenea) 8 Pcs",
         "price": 45900,
         "image": "img/product_280.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 281,
         "name": "Borla mini de precisión borla para el dedo $1,200 VALEN MAKEUP Página 48",
         "price": 45900,
         "image": "img/product_281.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 282,
         "name": "Beauty Blender XL Bloomshell",
         "price": 10900,
         "image": "img/product_282.jpg",
-        "page": 48
+        "page": 48,
+        "category": "Maquillaje"
     },
     {
         "id": 283,
         "name": "Fijador Sellante de maquillaje hidratante Bloomshell Fijador de maquillaje en spray",
         "price": 25900,
         "image": "img/product_283.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 284,
         "name": "Paquete x 12 beauty blender surtidas tamaño normal Brocha doble de cejas",
         "price": 18500,
         "image": "img/product_284.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 285,
         "name": "Encrespador de pestañas económico Pestañas punto a punto",
         "price": 5900,
         "image": "img/product_285.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 286,
         "name": "Fijador de maquillaje en spray Kormesic Set x 3 par de pestañas Celestiales Bloomshell",
         "price": 9900,
         "image": "img/product_286.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 287,
         "name": "Brocha doble de cejas Par de pestañas premium Bloomshell Flower",
         "price": 3500,
         "image": "img/product_287.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 288,
         "name": "Pestañas punto a punto cluster Brocha 2en1 bloomshell rubor/polvo + Base",
         "price": 6800,
         "image": "img/product_288.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 289,
         "name": "Set x 3 par de pestañas Celestiales Bloomshell Fijador sellante aerosol pequeño",
         "price": 14900,
         "image": "img/product_289.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 290,
         "name": "Par de pestañas premium Bloomshell Flower Fijador sellante de maquillaje",
         "price": 9500,
         "image": "img/product_290.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 291,
         "name": "Brocha 2en1 bloomshell rubor/polvo + Base Pomos algodón desmaquillantes Atenea",
         "price": 26900,
         "image": "img/product_291.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 292,
         "name": "Fijador sellante aerosol pequeño Bloomshell",
         "price": 29000,
         "image": "img/product_292.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 293,
         "name": "Fijador sellante de maquillaje aerosol Bloomshell Grande VALEN MAKEUP Página 49",
         "price": 37900,
         "image": "img/product_293.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 294,
         "name": "Pomos algodón desmaquillantes Atenea Profesional luxury",
         "price": 19900,
         "image": "img/product_294.jpg",
-        "page": 49
+        "page": 49,
+        "category": "Maquillaje"
     },
     {
         "id": 295,
         "name": "Cosmetiquera Forever Love Organizador viajero de colgar",
         "price": 15900,
         "image": "img/product_295.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 296,
         "name": "Repuestos encrespador Set de brochas más 2",
         "price": 5000,
         "image": "img/product_296.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 297,
         "name": "Beauty blender grande Big Blender Bloomshell Set de brochas viajeras",
         "price": 12500,
         "image": "img/product_297.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 298,
         "name": "Organizador viajero de colgar surtido - comprar en línea Piedra guasha masajeador facial",
         "price": 20000,
         "image": "img/product_298.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 299,
         "name": "Set de brochas más 2 borla mini Brocha para base pequeña",
         "price": 8900,
         "image": "img/product_299.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 300,
         "name": "Set de brochas viajeras surtidas",
         "price": 6000,
         "image": "img/product_300.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 301,
         "name": "Piedra guasha masajeador facial Paquete x9 mini borlas para el maquillaje borla para el dedo",
         "price": 5900,
         "image": "img/product_301.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 302,
         "name": "Brocha para base pequeña viral TikTok Brocha de rostro C",
         "price": 6900,
         "image": "img/product_302.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 303,
         "name": "Set de brochas sirena Brocha de rostro",
         "price": 8800,
         "image": "img/product_303.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 304,
         "name": "Paquete x9 mini borlas para el maquillaje borla para el dedo",
         "price": 7900,
         "image": "img/product_304.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 305,
         "name": "Brocha de rostro C VALEN MAKEUP Página 50",
         "price": 8500,
         "image": "img/product_305.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 306,
         "name": "Brocha de rostro",
         "price": 8800,
         "image": "img/product_306.jpg",
-        "page": 50
+        "page": 50,
+        "category": "Maquillaje"
     },
     {
         "id": 307,
         "name": "Brocha de rostro Plantilla multiusos molde delineador",
         "price": 8500,
         "image": "img/product_307.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 308,
         "name": "Brocha de ojos difuminadora Toalla afelpada multiusos toalla desmaquillante o",
         "price": 6500,
         "image": "img/product_308.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 309,
         "name": "Papel de arroz absorbe grasa Perfilador + Depilador",
         "price": 6800,
         "image": "img/product_309.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 310,
         "name": "Plantilla multiusos molde delineador Kit de brochas Sunshine Lula",
         "price": 3900,
         "image": "img/product_310.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 311,
         "name": "Toalla afelpada multiusos toalla desmaquillante o borla Pestañas punto a punto",
         "price": 5900,
         "image": "img/product_311.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 312,
         "name": "Perfilador + Depilador Paquete de Pestañas efecto",
         "price": 5900,
         "image": "img/product_312.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 313,
         "name": "Kit de brochas Sunshine Lula by Atenea profesional Set de",
         "price": 41900,
         "image": "img/product_313.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 314,
         "name": "Pestañas punto a punto foxy eyes Mini pañitos húmedos kitty",
         "price": 11500,
         "image": "img/product_314.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 315,
         "name": "Paquete de Pestañas efecto pestañas de muñeca ojo de gato Kit de brochas Eclipse Lula",
         "price": 12600,
         "image": "img/product_315.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 316,
         "name": "Set de brochas",
         "price": 8900,
         "image": "img/product_316.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 317,
         "name": "Mini pañitos húmedos kitty VALEN MAKEUP Página 51",
         "price": 3900,
         "image": "img/product_317.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 318,
         "name": "Kit de brochas Eclipse Lula (atenea) 10 pcs",
         "price": 44000,
         "image": "img/product_318.jpg",
-        "page": 51
+        "page": 51,
+        "category": "Maquillaje"
     },
     {
         "id": 319,
         "name": "Fijador de maquillarte spray sellante Par parches",
         "price": 9900,
         "image": "img/product_319.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 320,
         "name": "Llaveros Kiut (kuromi) Aceite desmaquillante para el crecimiento de las pestañas Prosa -",
         "price": 5900,
         "image": "img/product_320.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 321,
         "name": "Set de brochas suaves + cosmetiquera Trendy viajeras",
         "price": 32900,
         "image": "img/product_321.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 322,
         "name": "Par parches hidrogel $1,500 Brocha difuminadora",
         "price": 9900,
         "image": "img/product_322.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 323,
         "name": "Aceite desmaquillante para el crecimiento de las pestañas Prosa - $25,000 Brocha para base",
         "price": 13500,
         "image": "img/product_323.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 324,
         "name": "Set de brochas Aplicador dedo silicona",
         "price": 13500,
         "image": "img/product_324.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 325,
         "name": "Brocha difuminadora Par de pestañas",
         "price": 6500,
         "image": "img/product_325.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 326,
         "name": "Brocha para base plancha Set x3 pares de pestañas trendy glam lashes",
         "price": 9900,
         "image": "img/product_326.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 327,
         "name": "Aplicador dedo silicona suave Cepillo cejas y pestañas paquete x10",
         "price": 7500,
         "image": "img/product_327.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 328,
         "name": "Par de pestañas",
         "price": 5900,
         "image": "img/product_328.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 329,
         "name": "Set x3 pares de pestañas trendy glam lashes VALEN MAKEUP Página 52",
         "price": 15500,
         "image": "img/product_329.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 330,
         "name": "Cepillo cejas y pestañas paquete x10",
         "price": 6800,
         "image": "img/product_330.jpg",
-        "page": 52
+        "page": 52,
+        "category": "Maquillaje"
     },
     {
         "id": 331,
         "name": "Iluminador líquido the Sun Trendy Spray shimmer Lula cabello y cuerpo 100ml",
         "price": 13500,
         "image": "img/product_331.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 332,
         "name": "Mantequilla corporal rosas Trendy Mantequilla importada Purpure Grande 250ml",
         "price": 15000,
         "image": "img/product_332.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 333,
         "name": "Kit corporal Polly Pocket Trendy Mini mantequilla corporal shimmer Purpure 50gr -",
         "price": 25500,
         "image": "img/product_333.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 334,
         "name": "Spray shimmer Lula cabello y cuerpo 100ml Mini mantequilla Purpure i",
         "price": 18900,
         "image": "img/product_334.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 335,
         "name": "Mantequilla importada Purpure Grande 250ml Splash Purpure",
         "price": 25500,
         "image": "img/product_335.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 336,
         "name": "Mini mantequilla corporal shimmer Purpure 50gr - Splash purpure",
         "price": 12900,
         "image": "img/product_336.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 337,
         "name": "Mini mantequilla Purpure i mportada 50gr Body Splash grande Purpure 250ml",
         "price": 12600,
         "image": "img/product_337.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 338,
         "name": "Splash Purpure 105ml Kit corporal Purpure Sunset Paradise x3 productos",
         "price": 15900,
         "image": "img/product_338.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 339,
         "name": "Splash purpure 100ml Kit corporal Purpure Donut Crush x3 productos",
         "price": 16900,
         "image": "img/product_339.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 340,
         "name": "Body Splash grande Purpure 250ml",
         "price": 22900,
         "image": "img/product_340.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 341,
         "name": "Kit corporal Purpure Sunset Paradise x3 productos VALEN MAKEUP Página 54",
         "price": 36800,
         "image": "img/product_341.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 342,
         "name": "Kit corporal Purpure Donut Crush x3 productos",
         "price": 36800,
         "image": "img/product_342.jpg",
-        "page": 53
+        "page": 53,
+        "category": "Maquillaje"
     },
     {
         "id": 343,
         "name": "Kit corporal Purpure Pink Champagne x3 productos Crema serum íntimo Truly 50ml",
         "price": 36800,
         "image": "img/product_343.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 344,
         "name": "Kit x3 crema y loción corporal Rosa Peony Frost Aceite íntimo Truly 50ml",
         "price": 18500,
         "image": "img/product_344.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 345,
         "name": "Perfume capilar de hadas con shimmer surtido Crema serum Unicorn",
         "price": 11700,
         "image": "img/product_345.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 346,
         "name": "Crema serum íntimo Truly 50ml MORADO Aceite íntimo Truly",
         "price": 23900,
         "image": "img/product_346.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 347,
         "name": "Aceite íntimo Truly 50ml morado Perfume de lujo x Dani Duke 30% de concentración Click hair",
         "price": 68000,
         "image": "img/product_347.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 348,
         "name": "Crema serum Unicorn Truly 50ml Caja kit x 3 perfumes mini Click hair cabello y cuerpo - comprar en línea",
         "price": 23900,
         "image": "img/product_348.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 349,
         "name": "Aceite íntimo Truly 50ml Mantequilla corporal click hair",
         "price": 23900,
         "image": "img/product_349.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 350,
         "name": "Perfume de lujo x Dani Duke 30% de concentración Click Perfume Miel click hair",
         "price": 68000,
         "image": "img/product_350.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 351,
         "name": "Caja kit x 3 perfumes mini Click hair cabello y cuerpo - comprar en línea Perfume capilar Click hair",
         "price": 46900,
         "image": "img/product_351.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 352,
         "name": "Mantequilla corporal click hair con glitter 250ml",
         "price": 55900,
         "image": "img/product_352.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 353,
         "name": "Perfume Miel click hair VALEN MAKEUP Página 55",
         "price": 56400,
         "image": "img/product_353.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 354,
         "name": "Perfume capilar Click hair con termo protector, feromonas y glitter",
         "price": 46500,
         "image": "img/product_354.jpg",
-        "page": 54
+        "page": 54,
+        "category": "Maquillaje"
     },
     {
         "id": 355,
         "name": "VALEN MAKEUP Página 59",
         "price": 29000,
         "image": "img/product_355.jpg",
-        "page": 55
+        "page": 55,
+        "category": "Maquillaje"
     }
 ];
