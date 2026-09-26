@@ -5,6 +5,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements
     const hamburgerBtn = document.getElementById('hamburger-btn');
+    
+    // Mantenimiento: Forzar limpieza de cache local si hay bugs de versiones pasadas
+    if (!localStorage.getItem('valen_cache_cleared_v1')) {
+        const url = localStorage.getItem('valen_supabase_url');
+        const key = localStorage.getItem('valen_supabase_key');
+        localStorage.clear();
+        if (url) localStorage.setItem('valen_supabase_url', url);
+        if (key) localStorage.setItem('valen_supabase_key', key);
+        localStorage.setItem('valen_cache_cleared_v1', 'true');
+        console.log('Mantenimiento: Caché limpiada correctamente.');
+    }
     const navMenu = document.getElementById('nav-menu');
     const headerCartBtn = document.getElementById('header-cart-btn');
     const headerCartCount = document.getElementById('header-cart-count');
