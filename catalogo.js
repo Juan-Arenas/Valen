@@ -4081,14 +4081,11 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 511,
-    "name": "Set de brochas kabuki tamaño normal",
+    "name": "Set de brochas kabuki tamaño normal surtidas Kit de brochas mármol",
     "price": 13500,
     "image": "img/product_511.jpg",
-    "page": 1,
-    "category": "Accesorios Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 47,
+    "category": "Accesorios Maquillaje"
   },
   {
     "id": 512,
@@ -4428,11 +4425,14 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 554,
-    "name": "Brocha de rostro Plantilla multiusos molde delineador",
+    "name": "Brocha de rostro",
     "price": 8500,
     "image": "img/product_554.jpg",
-    "page": 51,
-    "category": "Accesorios Maquillaje"
+    "page": 1,
+    "category": "Accesorios Maquillaje",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 555,
