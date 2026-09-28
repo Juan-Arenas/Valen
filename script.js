@@ -330,6 +330,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
+    // CATALOG VALIDATION
+    // ==========================================
+    function validateCatalog(products) {
+        let maxId = Math.max(...products.map(p => p.id)) || 1000;
+        const validatedProducts = [];
+        const nameSet = new Set();
+        
+        products.forEach(p => {
+            if (!p.name) return;
+            
+            // Duplicate name check
+            if (nameSet.has(p.name.toLowerCase())) {
+                console.warn(`[Catálogo] Posible duplicado detectado: ${p.name}`);
+            } else {
+                nameSet.add(p.name.toLowerCase());
+            }
+
+            // Length and Merged Product check
+            if (p.name.length > 50) {
+                console.warn(`[Catálogo] Nombre inusualmente largo, verificar si no está fusionado: ${p.name}`);
+            }
+            
+            // Check for missing data (do not delete, just log)
+            if (!p.price || p.price === 0) {
+                console.warn(`[Catálogo] Producto sin precio (Faltante): ${p.name}`);
+            }
+            if (!p.image) {
+                console.warn(`[Catálogo] Producto sin imagen (Faltante): ${p.name}`);
+                // Use a professional placeholder (assuming one exists)
+                p.image = 'img/placeholder.jpg'; 
+            }
+            
+            validatedProducts.push(p);
+        });
+
+        console.log(`[Catálogo] Validación completada. Total productos en web: ${validatedProducts.length}`);
+        
+        // Return cleaned up array
+        return validatedProducts;
+    }
+
+    // ==========================================
     // CATALOG LOADING (SUPABASE -> SERVER -> LOCAL)
     // ==========================================
     async function loadCatalog() {
@@ -339,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 0. Use INLINE_PRODUCTS from catalogo.js if available (highest priority now since DB is out of quota)
         if (typeof INLINE_PRODUCTS !== 'undefined' && INLINE_PRODUCTS.length > 0) {
-            allProducts = INLINE_PRODUCTS;
+            allProducts = validateCatalog(INLINE_PRODUCTS);
             saveLocalCache(allProducts);
             loaded = true;
         }
