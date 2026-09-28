@@ -12,11 +12,14 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 2,
-    "name": "Agua micelar grande 500ml Kormesic Bálsamo desmaquillante",
+    "name": "Agua micelar grande 500ml Kormesic",
     "price": 17000,
     "image": "img/product_2.jpg",
-    "page": 3,
-    "category": "Cuidado Facial y Corporal"
+    "page": 1,
+    "category": "Cuidado Facial y Corporal",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 3,
