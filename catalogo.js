@@ -852,7 +852,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 107,
-    "name": "",
+    "name": "Jabón facial vitamina C",
     "price": 10000,
     "image": "img/product_107.jpg",
     "page": 11,
@@ -1020,7 +1020,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 128,
-    "name": "",
+    "name": "Protector solar 100spf",
     "price": 9000,
     "image": "img/product_128.jpg",
     "page": 13,
@@ -2748,7 +2748,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 344,
-    "name": "",
+    "name": "Lápiz delineador de labios",
     "price": 3500,
     "image": "img/product_344.jpg",
     "page": 31,
@@ -3052,7 +3052,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 382,
-    "name": "",
+    "name": "Bálsamo labial Click gloss coreano",
     "price": 5000,
     "image": "img/product_382.jpg",
     "page": 35,
@@ -3956,7 +3956,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 495,
-    "name": "",
+    "name": "Cepillo de cabello",
     "price": 7900,
     "image": "img/product_495.jpg",
     "page": 45,
@@ -4420,7 +4420,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 553,
-    "name": "",
+    "name": "Brocha de rostro",
     "price": 8800,
     "image": "img/product_553.jpg",
     "page": 50,
@@ -4500,7 +4500,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 563,
-    "name": "",
+    "name": "Set de brochas",
     "price": 8900,
     "image": "img/product_563.jpg",
     "page": 51,
