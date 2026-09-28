@@ -225,14 +225,11 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 29,
-    "name": "Fijador de maquillaje en spray",
+    "name": "Fijador de maquillaje en spray Molde de hielo facial",
     "price": 10000,
     "image": "img/product_29.jpg",
-    "page": 1,
-    "category": "Cuidado Facial y Corporal",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 5,
+    "category": "Cuidado Facial y Corporal"
   },
   {
     "id": 30,
@@ -3772,14 +3769,11 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 472,
-    "name": "Kit cauchos y moñas colorido",
+    "name": "Kit cauchos y moñas colorido Cera moldeadora de cabello hello kitty kuromi surtido",
     "price": 3900,
     "image": "img/product_472.jpg",
-    "page": 1,
-    "category": "Accesorios Cabello",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 43,
+    "category": "Accesorios Cabello"
   },
   {
     "id": 473,
@@ -3802,8 +3796,11 @@ const INLINE_PRODUCTS = [
     "name": "Cera moldeadora de cabello hello kitty kuromi surtido",
     "price": 8900,
     "image": "img/product_475.jpg",
-    "page": 43,
-    "category": "Accesorios Cabello"
+    "page": 1,
+    "category": "Accesorios Cabello",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 476,
