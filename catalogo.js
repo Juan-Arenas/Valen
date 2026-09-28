@@ -36,11 +36,14 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 5,
-    "name": "Bálsamo desmaquillante Lula (atenea) Kit viajero Ácido Salicilico",
+    "name": "Bálsamo desmaquillante Lula (atenea)",
     "price": 18000,
     "image": "img/product_5.jpg",
-    "page": 3,
-    "category": "Cuidado Facial y Corporal"
+    "page": 1,
+    "category": "Cuidado Facial y Corporal",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 6,
