@@ -167,9 +167,17 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 21,
-    "name": "Mascarilla en velo Doll Arándanos Sadoer Doggy Vitamina C",
+    "name": "Mascarilla en velo Doll Arándanos Sadoer",
     "price": 1500,
     "image": "img/product_21.jpg",
+    "page": 4,
+    "category": "Cuidado Facial y Corporal"
+  },
+  {
+    "id": 614,
+    "name": "Mascarilla en velo Doggy Vitamina C",
+    "price": 0,
+    "image": "",
     "page": 4,
     "category": "Cuidado Facial y Corporal"
   },
@@ -983,9 +991,17 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 123,
-    "name": "Jabón facial el barra Protector solar sachet -",
+    "name": "Jabón facial en barra",
     "price": 8000,
     "image": "img/product_123.jpg",
+    "page": 13,
+    "category": "Cuidado Facial y Corporal"
+  },
+  {
+    "id": 615,
+    "name": "Protector solar sachet",
+    "price": 0,
+    "image": "",
     "page": 13,
     "category": "Cuidado Facial y Corporal"
   },
@@ -1711,9 +1727,17 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 214,
-    "name": "Tinta de labios miss Betty aplicador grueso Kit de labios Glitter set x3",
+    "name": "Tinta de labios miss Betty aplicador grueso",
     "price": 8000,
     "image": "img/product_214.jpg",
+    "page": 21,
+    "category": "Maquillaje"
+  },
+  {
+    "id": 616,
+    "name": "Kit de labios Glitter set x3",
+    "price": 0,
+    "image": "",
     "page": 21,
     "category": "Maquillaje"
   },
