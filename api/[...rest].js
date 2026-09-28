@@ -285,7 +285,8 @@ module.exports = async (req, res) => {
           active: payload.active !== false,
           category: normalizeCategoryName(payload.category || 'Maquillaje'),
           category_id: payload.category_id ? Number(payload.category_id) : 2,
-          skin_tones_image: payload.skin_tones_image ? String(payload.skin_tones_image).trim() : ''
+          skin_tones_image: payload.skin_tones_image ? String(payload.skin_tones_image).trim() : '',
+          skin_tones_count: payload.skin_tones_count ? Number(payload.skin_tones_count) : 0
         };
 
         products.unshift(newProduct);
@@ -315,6 +316,7 @@ module.exports = async (req, res) => {
         if (payload.price != null) products[index].price = Number(String(payload.price).replace(/[^0-9]/g, '')) || products[index].price;
         if (payload.image != null && payload.image !== '') products[index].image = String(payload.image).trim();
         if (payload.skin_tones_image != null) products[index].skin_tones_image = String(payload.skin_tones_image).trim();
+        if (payload.skin_tones_count != null) products[index].skin_tones_count = Number(payload.skin_tones_count) || 0;
         if (payload.page != null) products[index].page = Number(payload.page) || 1;
         if (payload.active != null) products[index].active = Boolean(payload.active);
         if (payload.category != null) products[index].category = normalizeCategoryName(payload.category);

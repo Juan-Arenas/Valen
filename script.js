@@ -536,6 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="product-price">${formatPrice(product.price)}</div>
                     </div>
                     ${product.skin_tones_image ? `<button type="button" class="btn-view-tones" style="background: #fdf2f8; color: var(--bratz-pink); border: 1px solid var(--bratz-pink); border-radius: 8px; padding: 6px; width: 100%; margin-bottom: 8px; font-weight: 700; cursor: pointer;" onclick="window.open('${product.skin_tones_image}', '_blank')"><i class="fas fa-palette"></i> Ver Tonos Disponibles</button>` : ''}
+                    ${product.skin_tones_count > 0 ? `<div style="margin-bottom: 8px;"><label style="font-size: 0.8rem; font-weight: bold; color: var(--text-dark);">Elige tu tono:</label><select class="product-tone-select" style="width: 100%; padding: 6px; border-radius: 8px; border: 1px solid #ddd; margin-top: 4px;"><option value="">Selecciona un tono...</option>${Array.from({length: product.skin_tones_count}, (_, i) => `<option value="${i+1}">Tono ${i+1}</option>`).join('')}</select></div>` : ''}
                     <button class="btn-add-cart" data-id="${product.id}">
                         <i class="fas fa-shopping-bag"></i> Agregar al Carrito
                     </button>
@@ -544,7 +545,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const addBtn = card.querySelector('.btn-add-cart');
             addBtn.addEventListener('click', () => {
-                addToCart(product);
+                let selectedTone = null;
+                if (product.skin_tones_count > 0) {
+                    const select = card.querySelector('.product-tone-select');
+                    if (select && !select.value) {
+                        alert('Por favor selecciona un tono antes de agregar al carrito.');
+                        return;
+                    }
+                    if (select) selectedTone = select.value;
+                }
+                addToCart(product, selectedTone);
             });
 
             fragment.appendChild(card);
@@ -595,12 +605,12 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartUi();
     }
 
-    function addToCart(product) {
-        const existing = cart.find(item => Number(item.id) === Number(product.id));
+    function addToCart(product, selectedTone) {
+        const existing = cart.find(item => Number(item.id) === Number(product.id) && item.selectedTone === selectedTone);
         if (existing) {
             existing.quantity = (existing.quantity || 1) + 1;
         } else {
-            cart.push({ ...product, quantity: 1 });
+            cart.push({ ...product, quantity: 1, selectedTone: selectedTone });
         }
         saveCart();
         showNotification(`¡${product.name.slice(0, 22)}... agregado!`, '🛍️');
@@ -631,29 +641,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
             } else {
-                cartItemsContainer.innerHTML = cart.map(item => `
+                cartItemsContainer.innerHTML = cart.map((item, index) => `
                     <div class="cart-item">
                         <img src="${item.image || 'Logo.jpeg'}" alt="${item.name}" onerror="this.onerror=null;this.src='Logo.jpeg';">
                         <div class="cart-item-details">
-                            <h4>${item.name}</h4>
+                            <h4>${item.name} ${item.selectedTone ? `(Tono ${item.selectedTone})` : ''}</h4>
                             <div class="cart-item-price">${formatPrice(item.price)}</div>
                         </div>
                         <div class="quantity-control">
-                            <button type="button" class="btn-qty-minus" data-id="${item.id}">-</button>
+                            <button type="button" class="btn-qty-minus" data-index="${index}">-</button>
                             <span>${item.quantity || 1}</span>
-                            <button type="button" class="btn-qty-plus" data-id="${item.id}">+</button>
+                            <button type="button" class="btn-qty-plus" data-index="${index}">+</button>
                         </div>
                     </div>
                 `).join('');
 
                 cartItemsContainer.querySelectorAll('.btn-qty-minus').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        const id = Number(btn.getAttribute('data-id'));
-                        const item = cart.find(i => Number(i.id) === id);
+                        const idx = Number(btn.getAttribute('data-index'));
+                        const item = cart[idx];
                         if (item) {
                             item.quantity -= 1;
                             if (item.quantity <= 0) {
-                                cart = cart.filter(i => Number(i.id) !== id);
+                                cart.splice(idx, 1);
                             }
                             saveCart();
                         }
@@ -662,10 +672,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 cartItemsContainer.querySelectorAll('.btn-qty-plus').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        const id = Number(btn.getAttribute('data-id'));
-                        const item = cart.find(i => Number(i.id) === id);
-                        if (item) {
-                            item.quantity += 1;
+                        const idx = Number(btn.getAttribute('data-index'));
+                        if (cart[idx]) {
+                            cart[idx].quantity += 1;
                             saveCart();
                         }
                     });
@@ -727,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cart.forEach((item, idx) => {
                 const sub = (Number(item.price || 0)) * (item.quantity || 1);
                 total += sub;
-                msg += `*${idx + 1}.* ${item.name}\n`;
+                msg += `*${idx + 1}.* ${item.name} ${item.selectedTone ? `(Tono ${item.selectedTone})` : ''}\n`;
                 msg += `   └ Cantidad: ${item.quantity} x ${formatPrice(item.price)} = ${formatPrice(sub)}\n`;
             });
 
@@ -1076,6 +1085,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const catSelect = document.getElementById('admin-product-category').value;
             const catNew = document.getElementById('admin-product-category-new').value.trim();
             const active = document.getElementById('admin-product-active').checked;
+            const skin_tones_count_raw = document.getElementById('admin-product-skin-tones-count') ? document.getElementById('admin-product-skin-tones-count').value : '';
+            const skin_tones_count = skin_tones_count_raw ? Number(skin_tones_count_raw) : 0;
             const editingId = adminProductForm.dataset.editingId ? Number(adminProductForm.dataset.editingId) : null;
 
             let image = adminProductForm.dataset.existingImage || 'img/product_1.jpg';
@@ -1100,6 +1111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 price,
                 image,
                 skin_tones_image,
+                skin_tones_count,
                 category,
                 active,
                 page: 1
@@ -1151,6 +1163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             delete adminProductForm.dataset.editingId;
             delete adminProductForm.dataset.existingImage;
             delete adminProductForm.dataset.existingSkinTones;
+            if (document.getElementById('admin-product-skin-tones-count')) document.getElementById('admin-product-skin-tones-count').value = '';
             if (adminProductMessage) adminProductMessage.textContent = '';
             if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
             if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
@@ -1181,6 +1194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('admin-product-category').value = prod.category || '';
         document.getElementById('admin-product-category-new').value = '';
         document.getElementById('admin-product-active').checked = prod.active !== false;
+        if (document.getElementById('admin-product-skin-tones-count')) document.getElementById('admin-product-skin-tones-count').value = prod.skin_tones_count || '';
 
         adminProductForm.dataset.editingId = prod.id;
         adminProductForm.dataset.existingImage = prod.image;
