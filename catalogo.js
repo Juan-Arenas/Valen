@@ -3772,11 +3772,14 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 472,
-    "name": "Kit cauchos y moñas colorido Cera moldeadora de cabello hello kitty kuromi surtido",
+    "name": "Kit cauchos y moñas colorido",
     "price": 3900,
     "image": "img/product_472.jpg",
-    "page": 43,
-    "category": "Accesorios Cabello"
+    "page": 1,
+    "category": "Accesorios Cabello",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 473,
