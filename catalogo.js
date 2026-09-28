@@ -1,11 +1,14 @@
 const INLINE_PRODUCTS = [
   {
     "id": 1,
-    "name": "Protector solar Whiten Sadoer Bloom Bubbles parches para el acne bye bye granos Bloomshell",
+    "name": "Protector solar Whiten Sadoer",
     "price": 17000,
     "image": "img/product_1.jpg",
-    "page": 3,
-    "category": "Cuidado Facial y Corporal"
+    "page": 1,
+    "category": "Cuidado Facial y Corporal",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 2,
@@ -4449,14 +4452,11 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 557,
-    "name": "Plantilla multiusos molde",
+    "name": "Plantilla multiusos molde delineador Kit de brochas Sunshine Lula",
     "price": 3900,
     "image": "img/product_557.jpg",
-    "page": 1,
-    "category": "Accesorios Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 51,
+    "category": "Accesorios Maquillaje"
   },
   {
     "id": 558,
