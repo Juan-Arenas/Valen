@@ -3796,11 +3796,8 @@ const INLINE_PRODUCTS = [
     "name": "Cera moldeadora de cabello hello kitty kuromi surtido",
     "price": 8900,
     "image": "img/product_475.jpg",
-    "page": 1,
-    "category": "Accesorios Cabello",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 43,
+    "category": "Accesorios Cabello"
   },
   {
     "id": 476,
@@ -4084,11 +4081,14 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 511,
-    "name": "Set de brochas kabuki tamaño normal surtidas Kit de brochas mármol",
+    "name": "Set de brochas kabuki tamaño normal",
     "price": 13500,
     "image": "img/product_511.jpg",
-    "page": 47,
-    "category": "Accesorios Maquillaje"
+    "page": 1,
+    "category": "Accesorios Maquillaje",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 512,
