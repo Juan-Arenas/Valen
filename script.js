@@ -72,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminProductImageInput = document.getElementById('admin-product-image');
     const adminImagePreviewWrap = document.getElementById('admin-image-preview-wrap');
     const adminImagePreviewImg = document.getElementById('admin-image-preview-img');
+    const adminProductSkinTonesInput = document.getElementById('admin-product-skin-tones');
+    const adminSkinTonesPreviewWrap = document.getElementById('admin-skin-tones-preview-wrap');
+    const adminSkinTonesPreviewImg = document.getElementById('admin-skin-tones-preview-img');
     const adminProductMessage = document.getElementById('admin-product-message');
     const adminCategorySelect = document.getElementById('admin-product-category');
 
@@ -532,6 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="product-price-row">
                         <div class="product-price">${formatPrice(product.price)}</div>
                     </div>
+                    ${product.skin_tones_image ? `<button type="button" class="btn-view-tones" style="background: #fdf2f8; color: var(--bratz-pink); border: 1px solid var(--bratz-pink); border-radius: 8px; padding: 6px; width: 100%; margin-bottom: 8px; font-weight: 700; cursor: pointer;" onclick="window.open('${product.skin_tones_image}', '_blank')"><i class="fas fa-palette"></i> Ver Tonos Disponibles</button>` : ''}
                     <button class="btn-add-cart" data-id="${product.id}">
                         <i class="fas fa-shopping-bag"></i> Agregar al Carrito
                     </button>
@@ -1006,6 +1010,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (adminFormHeading) adminFormHeading.innerHTML = '<i class="fas fa-plus-circle" style="color: var(--bratz-pink);"></i> Agregar Producto';
             if (adminProductSubmitBtn) adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar en Base de Datos';
             if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
+            if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
             adminProductPanel.classList.add('hidden');
         });
     }
@@ -1048,6 +1053,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (adminProductSkinTonesInput) {
+        adminProductSkinTonesInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const compressed = await compressImageFile(file);
+                if (adminSkinTonesPreviewImg) adminSkinTonesPreviewImg.src = compressed;
+                if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.remove('hidden');
+            }
+        });
+    }
+
     // Submit Add / Edit Product
     if (adminProductForm) {
         adminProductForm.addEventListener('submit', async (e) => {
@@ -1067,6 +1083,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 image = await compressImageFile(adminProductImageInput.files[0]);
             }
 
+            let skin_tones_image = adminProductForm.dataset.existingSkinTones || '';
+            if (adminProductSkinTonesInput && adminProductSkinTonesInput.files[0]) {
+                skin_tones_image = await compressImageFile(adminProductSkinTonesInput.files[0]);
+            }
+
             const category = normalizeCategoryName(catNew || catSelect || 'Maquillaje');
 
             if (!name) {
@@ -1078,6 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name,
                 price,
                 image,
+                skin_tones_image,
                 category,
                 active,
                 page: 1
@@ -1128,8 +1150,10 @@ document.addEventListener('DOMContentLoaded', () => {
             adminProductForm.reset();
             delete adminProductForm.dataset.editingId;
             delete adminProductForm.dataset.existingImage;
+            delete adminProductForm.dataset.existingSkinTones;
             if (adminProductMessage) adminProductMessage.textContent = '';
             if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
+            if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
             if (adminProductPanel) adminProductPanel.classList.add('hidden');
 
             // 3. Update server API in background
@@ -1160,10 +1184,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         adminProductForm.dataset.editingId = prod.id;
         adminProductForm.dataset.existingImage = prod.image;
+        adminProductForm.dataset.existingSkinTones = prod.skin_tones_image || '';
 
         if (adminImagePreviewImg && prod.image) {
             adminImagePreviewImg.src = prod.image;
             if (adminImagePreviewWrap) adminImagePreviewWrap.classList.remove('hidden');
+        }
+
+        if (adminSkinTonesPreviewImg && prod.skin_tones_image) {
+            adminSkinTonesPreviewImg.src = prod.skin_tones_image;
+            if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.remove('hidden');
         }
 
         if (adminFormHeading) adminFormHeading.innerHTML = `<i class="fas fa-edit" style="color: var(--bratz-pink);"></i> Editando: ${prod.name}`;

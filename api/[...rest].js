@@ -64,7 +64,51 @@ function loadProducts() {
   return inMemoryProducts;
 }
 
-function saveProducts(products) {
+async function syncToGithub(products) {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = process.env.GITHUB_REPO;
+  if (!token || !repo) return false;
+
+  const content = `const INLINE_PRODUCTS = ${JSON.stringify(products, null, 2)};`;
+  const encodedContent = Buffer.from(content).toString('base64');
+  const path = 'catalogo.js';
+  const branch = process.env.GITHUB_BRANCH || 'main';
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Valen-Makeup-App'
+      }
+    });
+    let sha = '';
+    if (res.ok) {
+      const data = await res.json();
+      sha = data.sha;
+    }
+
+    const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Valen-Makeup-App',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Auto-update catalogo.js from Admin Panel',
+        content: encodedContent,
+        sha: sha || undefined,
+        branch: branch
+      })
+    });
+    return putRes.ok;
+  } catch(e) {
+    console.error('Github Sync Error:', e);
+    return false;
+  }
+}
+
+async function saveProducts(products) {
   inMemoryProducts = products;
   // Write to /tmp (always writable in serverless)
   try {
@@ -73,7 +117,12 @@ function saveProducts(products) {
   // Also try local working directory if writable
   try {
     fs.writeFileSync(SOURCE_FILE, JSON.stringify(products, null, 2), 'utf8');
+    fs.writeFileSync(path.join(process.cwd(), 'catalogo.js'), `const INLINE_PRODUCTS = ${JSON.stringify(products, null, 2)};`, 'utf8');
   } catch (e) {}
+  
+  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
+    await syncToGithub(products);
+  }
   return true;
 }
 
@@ -235,11 +284,12 @@ module.exports = async (req, res) => {
           page: Number(payload.page) || 1,
           active: payload.active !== false,
           category: normalizeCategoryName(payload.category || 'Maquillaje'),
-          category_id: payload.category_id ? Number(payload.category_id) : 2
+          category_id: payload.category_id ? Number(payload.category_id) : 2,
+          skin_tones_image: payload.skin_tones_image ? String(payload.skin_tones_image).trim() : ''
         };
 
         products.unshift(newProduct);
-        saveProducts(products);
+        await saveProducts(products);
         return sendJson(res, 201, newProduct);
       }
     }
@@ -264,12 +314,13 @@ module.exports = async (req, res) => {
         if (payload.name != null) products[index].name = String(payload.name).trim();
         if (payload.price != null) products[index].price = Number(String(payload.price).replace(/[^0-9]/g, '')) || products[index].price;
         if (payload.image != null && payload.image !== '') products[index].image = String(payload.image).trim();
+        if (payload.skin_tones_image != null) products[index].skin_tones_image = String(payload.skin_tones_image).trim();
         if (payload.page != null) products[index].page = Number(payload.page) || 1;
         if (payload.active != null) products[index].active = Boolean(payload.active);
         if (payload.category != null) products[index].category = normalizeCategoryName(payload.category);
         if (payload.category_id != null) products[index].category_id = Number(payload.category_id);
 
-        saveProducts(products);
+        await saveProducts(products);
         return sendJson(res, 200, products[index]);
       }
 
@@ -278,7 +329,7 @@ module.exports = async (req, res) => {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
         products.splice(index, 1);
-        saveProducts(products);
+        await saveProducts(products);
         return sendJson(res, 200, { deleted: true });
       }
     }
@@ -294,7 +345,7 @@ module.exports = async (req, res) => {
         return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
       }
       product.active = Boolean(payload.active);
-      saveProducts(products);
+      await saveProducts(products);
       return sendJson(res, 200, product);
     }
   }
