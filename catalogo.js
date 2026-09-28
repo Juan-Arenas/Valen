@@ -12,7 +12,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 2,
-    "name": "Agua micelar grande 500ml Kormesic Bálsamo desmaquillante",
+    "name": "Agua micelar grande 500ml Kormesic",
     "price": 17000,
     "image": "img/product_2.jpg",
     "page": 3,
@@ -20,7 +20,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 3,
-    "name": "Bloom stop Bloomshell parches anti acné rosa Kit extractores de espinillas y puntos negros",
+    "name": "Bloom stop Bloomshell parches anti acné rosa",
     "price": 14000,
     "image": "img/product_3.jpg",
     "page": 3,
@@ -28,7 +28,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 4,
-    "name": "Bloom Bubbles parches para el acne bye bye granos Bloomshell Kit viajero baba de caracol regeneración",
+    "name": "Bloom Bubbles parches para el acne bye bye granos Bloomshell",
     "price": 14000,
     "image": "img/product_4.jpg",
     "page": 3,
@@ -36,7 +36,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 5,
-    "name": "Bálsamo desmaquillante Lula (atenea) Kit viajero Ácido Salicilico",
+    "name": "Bálsamo desmaquillante Lula (atenea)",
     "price": 18000,
     "image": "img/product_5.jpg",
     "page": 3,
@@ -44,7 +44,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 6,
-    "name": "Kit extractores de espinillas y puntos negros Kit anti acné Bioaqua en",
+    "name": "Kit extractores de espinillas y puntos negros",
     "price": 9500,
     "image": "img/product_6.jpg",
     "page": 3,
@@ -52,7 +52,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 7,
-    "name": "Kit viajero baba de caracol regeneración anti edad Skincare Bioaqua Kit facial viajero Centella",
+    "name": "Kit viajero baba de caracol regeneración anti edad Skincare Bioaqua",
     "price": 20000,
     "image": "img/product_7.jpg",
     "page": 3,
@@ -60,7 +60,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 8,
-    "name": "Kit viajero Ácido Salicilico Skincare Bioaqua Crema facial centella",
+    "name": "Kit viajero Ácido Salicilico Skincare Bioaqua",
     "price": 20000,
     "image": "img/product_8.jpg",
     "page": 3,
@@ -68,7 +68,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 9,
-    "name": "Kit anti acné Bioaqua en caja x Protector solar Bioaqua",
+    "name": "Kit anti acné Bioaqua en caja x",
     "price": 20500,
     "image": "img/product_9.jpg",
     "page": 3,
@@ -100,7 +100,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 13,
-    "name": "Jabón antioxidante Uva Sadoer Velo mascarilla Baby Colageno",
+    "name": "Jabón antioxidante Uva Sadoer",
     "price": 1500,
     "image": "img/product_13.jpg",
     "page": 4,
@@ -108,7 +108,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 14,
-    "name": "Serum antioxidante Uva Sadoer Velo Tea Control grasa Bioaqua",
+    "name": "Serum antioxidante Uva Sadoer",
     "price": 10000,
     "image": "img/product_14.jpg",
     "page": 4,
@@ -116,7 +116,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 15,
-    "name": "Crema facial antioxidante Uva Sadoer velo facial niacinamida nicotinamida sadoer",
+    "name": "Crema facial antioxidante Uva Sadoer",
     "price": 11000,
     "image": "img/product_15.jpg",
     "page": 4,
@@ -124,7 +124,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 16,
-    "name": "Velo mascarilla Baby Colageno Sadoer Mascarilla en velo Coco",
+    "name": "Velo mascarilla Baby Colageno Sadoer",
     "price": 1500,
     "image": "img/product_16.jpg",
     "page": 4,
@@ -132,7 +132,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 17,
-    "name": "Velo Tea Control grasa Bioaqua Mascarilla en velo antioxidante limón Sadoer",
+    "name": "Velo Tea Control grasa Bioaqua",
     "price": 1500,
     "image": "img/product_17.jpg",
     "page": 4,
@@ -140,7 +140,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 18,
-    "name": "velo facial niacinamida nicotinamida sadoer Mascarilla en velo Doll Arándanos Sadoer",
+    "name": "velo facial niacinamida nicotinamida sadoer",
     "price": 1500,
     "image": "img/product_18.jpg",
     "page": 4,
@@ -148,7 +148,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 19,
-    "name": "Mascarilla en velo Coco Mascarilla en velo ácido Hialurónico baby Sadoer",
+    "name": "Mascarilla en velo Coco",
     "price": 1500,
     "image": "img/product_19.jpg",
     "page": 4,
@@ -156,7 +156,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 20,
-    "name": "Mascarilla en velo antioxidante limón Sadoer Mascarilla en velo ácido",
+    "name": "Mascarilla en velo antioxidante limón Sadoer",
     "price": 1500,
     "image": "img/product_20.jpg",
     "page": 4,
@@ -196,7 +196,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 25,
-    "name": "Velo facial con ácido Hialurónico PEACH Set x2 extractor de espinillas",
+    "name": "Velo facial con ácido Hialurónico PEACH",
     "price": 1500,
     "image": "img/product_25.jpg",
     "page": 5,
@@ -204,7 +204,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 26,
-    "name": "Velo facial con ácido Hialurónico CEREZA Fijador de maquillaje en spray",
+    "name": "Velo facial con ácido Hialurónico CEREZA",
     "price": 10000,
     "image": "img/product_26.jpg",
     "page": 5,
@@ -212,7 +212,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 27,
-    "name": "Velo facial con niacinamida Orange Auto bronceador",
+    "name": "Velo facial con niacinamida Orange",
     "price": 1500,
     "image": "img/product_27.jpg",
     "page": 5,
@@ -220,7 +220,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 28,
-    "name": "Set x2 extractor de espinillas Kit truly íntimo aroma delicioso hidratante",
+    "name": "Set x2 extractor de espinillas",
     "price": 7500,
     "image": "img/product_28.jpg",
     "page": 5,
@@ -228,7 +228,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 29,
-    "name": "Fijador de maquillaje en spray Molde de hielo facial",
+    "name": "Fijador de maquillaje en spray",
     "price": 10000,
     "image": "img/product_29.jpg",
     "page": 5,
@@ -236,7 +236,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 30,
-    "name": "Auto bronceador Contorno de ojos antioxidante UVA Sadoer",
+    "name": "Auto bronceador",
     "price": 18500,
     "image": "img/product_30.jpg",
     "page": 5,
@@ -244,7 +244,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 31,
-    "name": "Kit truly íntimo aroma delicioso hidratante Tónico facial agua de rosas",
+    "name": "Kit truly íntimo aroma delicioso hidratante",
     "price": 54900,
     "image": "img/product_31.jpg",
     "page": 5,
@@ -292,7 +292,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 37,
-    "name": "Protector solar Atenea Profesional Aqua Waves Hidratante de aloe Vera Lula",
+    "name": "Protector solar Atenea Profesional Aqua Waves",
     "price": 46500,
     "image": "img/product_37.jpg",
     "page": 6,
@@ -300,7 +300,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 38,
-    "name": "Exfoliante corporal Lula (Atenea) Hidratante facial con perlas Lula",
+    "name": "Exfoliante corporal Lula (Atenea)",
     "price": 28500,
     "image": "img/product_38.jpg",
     "page": 6,
@@ -308,7 +308,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 39,
-    "name": "Tónico facial hidratante ácido Hialurónico Bioaqua Crema corporal Lula 30ml (Atenea)",
+    "name": "Tónico facial hidratante ácido Hialurónico Bioaqua",
     "price": 10000,
     "image": "img/product_39.jpg",
     "page": 6,
@@ -316,7 +316,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 40,
-    "name": "Hidratante de aloe Vera Lula (atenea) Desmaquillante Lula",
+    "name": "Hidratante de aloe Vera Lula (atenea)",
     "price": 17000,
     "image": "img/product_40.jpg",
     "page": 6,
@@ -324,7 +324,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 41,
-    "name": "Hidratante facial con perlas Lula (atenea) Kit x3 serum Bioaqua",
+    "name": "Hidratante facial con perlas Lula (atenea)",
     "price": 19900,
     "image": "img/product_41.jpg",
     "page": 6,
@@ -332,7 +332,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 42,
-    "name": "Crema corporal Lula 30ml (Atenea) Jabón anti acné",
+    "name": "Crema corporal Lula 30ml (Atenea)",
     "price": 8000,
     "image": "img/product_42.jpg",
     "page": 6,
@@ -340,7 +340,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 43,
-    "name": "Desmaquillante Lula (Atenea) Serum ácido Hialurónico Bioaqua",
+    "name": "Desmaquillante Lula (Atenea)",
     "price": 23500,
     "image": "img/product_43.jpg",
     "page": 6,
@@ -348,7 +348,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 44,
-    "name": "Kit x3 serum Bioaqua skincare Trío de serum Bioaqua en caja kit x3",
+    "name": "Kit x3 serum Bioaqua skincare",
     "price": 21000,
     "image": "img/product_44.jpg",
     "page": 6,
@@ -356,7 +356,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 45,
-    "name": "Jabón anti acné bioaqua Serum anti acné",
+    "name": "Jabón anti acné bioaqua",
     "price": 11500,
     "image": "img/product_45.jpg",
     "page": 6,
@@ -388,7 +388,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 49,
-    "name": "Kit x5 cremas hidratantes aroma agradable crema de manos Dúo de Colageno ojos y labios",
+    "name": "Kit x5 cremas hidratantes aroma agradable crema de manos",
     "price": 10000,
     "image": "img/product_49.jpg",
     "page": 7,
@@ -396,7 +396,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 50,
-    "name": "Desodorante viajero rollon Pañitos húmedos",
+    "name": "Desodorante viajero rollon",
     "price": 9500,
     "image": "img/product_50.jpg",
     "page": 7,
@@ -404,7 +404,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 51,
-    "name": "Piedra guasha masajeador facial Agua de rosas mediana",
+    "name": "Piedra guasha masajeador facial",
     "price": 6500,
     "image": "img/product_51.jpg",
     "page": 7,
@@ -412,7 +412,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 52,
-    "name": "Dúo de Colageno ojos y labios Bioaqua Agua de rosas",
+    "name": "Dúo de Colageno ojos y labios Bioaqua",
     "price": 5000,
     "image": "img/product_52.jpg",
     "page": 7,
@@ -420,7 +420,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 53,
-    "name": "Pañitos húmedos desmaquillantes Gel Exfoliante de arroz",
+    "name": "Pañitos húmedos desmaquillantes",
     "price": 6000,
     "image": "img/product_53.jpg",
     "page": 7,
@@ -428,7 +428,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 54,
-    "name": "Agua de rosas mediana 125ml Gel de arroz Bioaqua 300g gel blanco mascarilla facial",
+    "name": "Agua de rosas mediana 125ml",
     "price": 10000,
     "image": "img/product_54.jpg",
     "page": 7,
@@ -436,7 +436,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 55,
-    "name": "Agua de rosas grande 250ml Desmaquillante de arroz",
+    "name": "Agua de rosas grande 250ml",
     "price": 15000,
     "image": "img/product_55.jpg",
     "page": 7,
@@ -444,7 +444,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 56,
-    "name": "Gel Exfoliante de arroz Bioaqua Agua micelar",
+    "name": "Gel Exfoliante de arroz Bioaqua",
     "price": 13500,
     "image": "img/product_56.jpg",
     "page": 7,
@@ -484,7 +484,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 61,
-    "name": "Mascarilla para puntos negros peel off Arroz Bioaqua Bloom Repair Cream Bloomshell crema",
+    "name": "Mascarilla para puntos negros peel off Arroz Bioaqua",
     "price": 8000,
     "image": "img/product_61.jpg",
     "page": 8,
@@ -492,7 +492,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 62,
-    "name": "Gel limpiador Bloomshell jabón facial Bloom serum Balance",
+    "name": "Gel limpiador Bloomshell jabón facial",
     "price": 40000,
     "image": "img/product_62.jpg",
     "page": 8,
@@ -500,7 +500,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 63,
-    "name": "Bloom Essential Cream Bloomshell crema reparadora día y noche Pañitos húmedos mini",
+    "name": "Bloom Essential Cream Bloomshell crema reparadora día y noche",
     "price": 49900,
     "image": "img/product_63.jpg",
     "page": 8,
@@ -508,7 +508,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 64,
-    "name": "Bloom Repair Cream Bloomshell crema reparadora día y noche Jabón líquido facial hidratante",
+    "name": "Bloom Repair Cream Bloomshell crema reparadora día y noche",
     "price": 49900,
     "image": "img/product_64.jpg",
     "page": 8,
@@ -516,7 +516,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 65,
-    "name": "Bloom serum Balance Bloomshell Protector solar Retinol",
+    "name": "Bloom serum Balance Bloomshell",
     "price": 47000,
     "image": "img/product_65.jpg",
     "page": 8,
@@ -524,7 +524,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 66,
-    "name": "Pañitos húmedos mini Bloomshell Agua micelar bifásica desmaquillante miss Vanessa",
+    "name": "Pañitos húmedos mini Bloomshell",
     "price": 4500,
     "image": "img/product_66.jpg",
     "page": 8,
@@ -532,7 +532,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 67,
-    "name": "Jabón líquido facial hidratante con aminoácidos Bioaqua Caja x10 mascarilla negra",
+    "name": "Jabón líquido facial hidratante con aminoácidos Bioaqua",
     "price": 8500,
     "image": "img/product_67.jpg",
     "page": 8,
@@ -540,7 +540,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 68,
-    "name": "Protector solar Retinol Bioaqua Hidratante facial MAÑANA",
+    "name": "Protector solar Retinol Bioaqua",
     "price": 10000,
     "image": "img/product_68.jpg",
     "page": 8,
@@ -548,7 +548,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 69,
-    "name": "Agua micelar bifásica desmaquillante miss Vanessa Hidratante facial",
+    "name": "Agua micelar bifásica desmaquillante miss Vanessa",
     "price": 12500,
     "image": "img/product_69.jpg",
     "page": 8,
@@ -580,7 +580,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 73,
-    "name": "Contorno de ojos ácido Hialurónico Bioaqua Serum hidratante ácido Hialurónico",
+    "name": "Contorno de ojos ácido Hialurónico Bioaqua",
     "price": 6500,
     "image": "img/product_73.jpg",
     "page": 9,
@@ -588,7 +588,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 74,
-    "name": "Protector solar rosas Con Color Karité Jabón facial ácido Hialurónico",
+    "name": "Protector solar rosas Con Color Karité",
     "price": 7000,
     "image": "img/product_74.jpg",
     "page": 9,
@@ -596,7 +596,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 75,
-    "name": "Contorno de ojos ácido Hialurónico Bioaqua Serum facial con",
+    "name": "Contorno de ojos ácido Hialurónico Bioaqua",
     "price": 7500,
     "image": "img/product_75.jpg",
     "page": 9,
@@ -604,7 +604,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 76,
-    "name": "Serum hidratante ácido Hialurónico Bioaqua Serum retinol",
+    "name": "Serum hidratante ácido Hialurónico Bioaqua",
     "price": 8500,
     "image": "img/product_76.jpg",
     "page": 9,
@@ -612,7 +612,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 77,
-    "name": "Jabón facial ácido Hialurónico Bioaqua Crema facial retinol",
+    "name": "Jabón facial ácido Hialurónico Bioaqua",
     "price": 11500,
     "image": "img/product_77.jpg",
     "page": 9,
@@ -620,7 +620,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 78,
-    "name": "Serum facial con cerámicas Lula Crema vitamina C Bioaqua",
+    "name": "Serum facial con cerámicas Lula",
     "price": 12000,
     "image": "img/product_78.jpg",
     "page": 9,
@@ -628,7 +628,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 79,
-    "name": "Serum retinol bioaqua Jabón Azufre facial Purpure en barra",
+    "name": "Serum retinol bioaqua",
     "price": 9000,
     "image": "img/product_79.jpg",
     "page": 9,
@@ -636,7 +636,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 80,
-    "name": "Crema facial retinol bioaqua Jabón Detox facial Purpure carbón activado en barra",
+    "name": "Crema facial retinol bioaqua",
     "price": 11500,
     "image": "img/product_80.jpg",
     "page": 9,
@@ -644,7 +644,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 81,
-    "name": "Crema vitamina C Bioaqua Serum vitamina C Lula (atenea)",
+    "name": "Crema vitamina C Bioaqua",
     "price": 40000,
     "image": "img/product_81.jpg",
     "page": 9,
@@ -676,7 +676,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 85,
-    "name": "Exfoliante hidratante gel facial 200ml Aguacate Mini pañitos húmedos kitty",
+    "name": "Exfoliante hidratante gel facial 200ml Aguacate",
     "price": 15000,
     "image": "img/product_85.jpg",
     "page": 10,
@@ -684,7 +684,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 86,
-    "name": "Mascarilla peel off Crema anti acne",
+    "name": "Mascarilla peel off",
     "price": 10000,
     "image": "img/product_86.jpg",
     "page": 10,
@@ -692,7 +692,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 87,
-    "name": "Pañitos húmedos en lata Protector solar kuromi spf 90",
+    "name": "Pañitos húmedos en lata",
     "price": 6000,
     "image": "img/product_87.jpg",
     "page": 10,
@@ -700,7 +700,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 88,
-    "name": "Mini pañitos húmedos kitty Crema de manos hidratante Labubu",
+    "name": "Mini pañitos húmedos kitty",
     "price": 5000,
     "image": "img/product_88.jpg",
     "page": 10,
@@ -708,7 +708,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 89,
-    "name": "Crema anti acne Bioaqua Protector solar en barra",
+    "name": "Crema anti acne Bioaqua",
     "price": 10000,
     "image": "img/product_89.jpg",
     "page": 10,
@@ -716,7 +716,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 90,
-    "name": "Protector solar kuromi spf 90 bloqueador Jabón Niacinamida bioaqua",
+    "name": "Protector solar kuromi spf 90 bloqueador",
     "price": 10000,
     "image": "img/product_90.jpg",
     "page": 10,
@@ -724,7 +724,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 91,
-    "name": "Crema de manos hidratante Labubu Serum Niacinamida",
+    "name": "Crema de manos hidratante Labubu",
     "price": 6500,
     "image": "img/product_91.jpg",
     "page": 10,
@@ -740,7 +740,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 93,
-    "name": "Jabón Niacinamida bioaqua Serum ácido salicilico",
+    "name": "Jabón Niacinamida bioaqua",
     "price": 10000,
     "image": "img/product_93.jpg",
     "page": 10,
@@ -772,7 +772,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 97,
-    "name": "Crema Depiladora en sobre Jabón facial rosas",
+    "name": "Crema Depiladora en sobre",
     "price": 6500,
     "image": "img/product_97.jpg",
     "page": 11,
@@ -780,7 +780,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 98,
-    "name": "Serum ácido Hialurónico 100ml bioaqua Contorno de ojos arroz",
+    "name": "Serum ácido Hialurónico 100ml bioaqua",
     "price": 12000,
     "image": "img/product_98.jpg",
     "page": 11,
@@ -788,7 +788,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 99,
-    "name": "Jabón ácido Hialurónico bioaqua Mascarilla facial peel off de arroz",
+    "name": "Jabón ácido Hialurónico bioaqua",
     "price": 13000,
     "image": "img/product_99.jpg",
     "page": 11,
@@ -796,7 +796,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 100,
-    "name": "Jabón facial rosas bioaqua Serum facial de arroz",
+    "name": "Jabón facial rosas bioaqua",
     "price": 10000,
     "image": "img/product_100.jpg",
     "page": 11,
@@ -804,7 +804,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 101,
-    "name": "Contorno de ojos arroz bioaqua Combo skincare Retinol x",
+    "name": "Contorno de ojos arroz bioaqua",
     "price": 6500,
     "image": "img/product_101.jpg",
     "page": 11,
@@ -812,7 +812,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 102,
-    "name": "Mascarilla facial peel off de arroz bioaqua Jabón retinol",
+    "name": "Mascarilla facial peel off de arroz bioaqua",
     "price": 10000,
     "image": "img/product_102.jpg",
     "page": 11,
@@ -820,7 +820,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 103,
-    "name": "Serum facial de arroz bioaqua Combo facial bamboo kit",
+    "name": "Serum facial de arroz bioaqua",
     "price": 10000,
     "image": "img/product_103.jpg",
     "page": 11,
@@ -828,7 +828,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 104,
-    "name": "Combo skincare Retinol x Jabón facial vitamina C",
+    "name": "Combo skincare Retinol x",
     "price": 30000,
     "image": "img/product_104.jpg",
     "page": 11,
@@ -836,7 +836,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 105,
-    "name": "Jabón retinol Jabón facial vitamina C bioaqua",
+    "name": "Jabón retinol",
     "price": 10000,
     "image": "img/product_105.jpg",
     "page": 11,
@@ -852,7 +852,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 107,
-    "name": "Jabón facial vitamina C",
+    "name": "",
     "price": 10000,
     "image": "img/product_107.jpg",
     "page": 11,
@@ -868,7 +868,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 109,
-    "name": "Serum vitamina C 30ml Velo anti acné bioaqua",
+    "name": "Serum vitamina C 30ml",
     "price": 10000,
     "image": "img/product_109.jpg",
     "page": 12,
@@ -876,7 +876,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 110,
-    "name": "Contorno de ojos vitamina C Bioaqua Serum centella asiática",
+    "name": "Contorno de ojos vitamina C Bioaqua",
     "price": 8000,
     "image": "img/product_110.jpg",
     "page": 12,
@@ -884,7 +884,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 111,
-    "name": "Crema pequeña ácido salicilico Jabón facial ácido azelaico",
+    "name": "Crema pequeña ácido salicilico",
     "price": 10000,
     "image": "img/product_111.jpg",
     "page": 12,
@@ -892,7 +892,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 112,
-    "name": "Velo anti acné bioaqua Tónico ácido kojico y Colageno",
+    "name": "Velo anti acné bioaqua",
     "price": 3500,
     "image": "img/product_112.jpg",
     "page": 12,
@@ -900,7 +900,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 113,
-    "name": "Serum centella asiática Set x 3 Pañito comprimido",
+    "name": "Serum centella asiática",
     "price": 8000,
     "image": "img/product_113.jpg",
     "page": 12,
@@ -908,7 +908,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 114,
-    "name": "Jabón facial ácido azelaico Espuma facial ácido Hialurónico Ushas",
+    "name": "Jabón facial ácido azelaico",
     "price": 10000,
     "image": "img/product_114.jpg",
     "page": 12,
@@ -916,7 +916,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 115,
-    "name": "Tónico ácido kojico y Colageno Espuma limpiadora",
+    "name": "Tónico ácido kojico y Colageno",
     "price": 10000,
     "image": "img/product_115.jpg",
     "page": 12,
@@ -924,7 +924,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 116,
-    "name": "Set x 3 Pañito comprimido Exfoliante líquido ushas",
+    "name": "Set x 3 Pañito comprimido",
     "price": 3500,
     "image": "img/product_116.jpg",
     "page": 12,
@@ -932,7 +932,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 117,
-    "name": "Espuma facial ácido Hialurónico Ushas Agua micelar kuromi desmaquillante",
+    "name": "Espuma facial ácido Hialurónico Ushas",
     "price": 15000,
     "image": "img/product_117.jpg",
     "page": 12,
@@ -964,7 +964,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 121,
-    "name": "Desmaquillante en barra Rodillo",
+    "name": "Desmaquillante en barra",
     "price": 8500,
     "image": "img/product_121.jpg",
     "page": 13,
@@ -972,7 +972,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 122,
-    "name": "Jabón facial blanqueador Nicotinamida manchas y pecas Protector solar Aloe Vera Bioaqua",
+    "name": "Jabón facial blanqueador Nicotinamida manchas y pecas",
     "price": 11000,
     "image": "img/product_122.jpg",
     "page": 13,
@@ -988,7 +988,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 124,
-    "name": "Rodillo jade Protector solar cat",
+    "name": "Rodillo jade",
     "price": 11000,
     "image": "img/product_124.jpg",
     "page": 13,
@@ -1004,7 +1004,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 126,
-    "name": "Protector solar sachet Protector solar trendy 115gr -",
+    "name": "Protector solar sachet",
     "price": 5000,
     "image": "img/product_126.jpg",
     "page": 13,
@@ -1020,7 +1020,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 128,
-    "name": "Protector solar 100spf",
+    "name": "",
     "price": 9000,
     "image": "img/product_128.jpg",
     "page": 13,
@@ -1028,7 +1028,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 129,
-    "name": "Protector solar trendy 115gr - Serum exfoliante",
+    "name": "Protector solar trendy 115gr -",
     "price": 43000,
     "image": "img/product_129.jpg",
     "page": 13,
@@ -1060,7 +1060,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 133,
-    "name": "Gel de ducha con aroma 125ml Crema para el contorno de ojos Ushas",
+    "name": "Gel de ducha con aroma 125ml",
     "price": 9500,
     "image": "img/product_133.jpg",
     "page": 14,
@@ -1068,7 +1068,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 134,
-    "name": "Serum con Centella asiática Kormesic Parches anti acné (figuras)",
+    "name": "Serum con Centella asiática Kormesic",
     "price": 10000,
     "image": "img/product_134.jpg",
     "page": 14,
@@ -1076,7 +1076,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 135,
-    "name": "Tónico lavanda Ushas Parches estrellita acné color surtido",
+    "name": "Tónico lavanda Ushas",
     "price": 10000,
     "image": "img/product_135.jpg",
     "page": 14,
@@ -1084,7 +1084,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 136,
-    "name": "Crema para el contorno de ojos Ushas Velo facial",
+    "name": "Crema para el contorno de ojos Ushas",
     "price": 8500,
     "image": "img/product_136.jpg",
     "page": 14,
@@ -1092,7 +1092,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 137,
-    "name": "Parches anti acné (figuras) Velo facial bunny",
+    "name": "Parches anti acné (figuras)",
     "price": 2500,
     "image": "img/product_137.jpg",
     "page": 14,
@@ -1124,7 +1124,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 141,
-    "name": "Rubor en polvo suelto con aplicador tonos surtidos Base de maquillaje Kuromi",
+    "name": "Rubor en polvo suelto con aplicador tonos surtidos",
     "price": 10000,
     "image": "img/product_141.jpg",
     "page": 15,
@@ -1132,7 +1132,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 142,
-    "name": "Iluminador en barra surtido Base líquida Kevin & Coco",
+    "name": "Iluminador en barra surtido",
     "price": 7000,
     "image": "img/product_142.jpg",
     "page": 15,
@@ -1140,7 +1140,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 143,
-    "name": "Primer With Clay Gloss Voluminizador con destellos",
+    "name": "Primer With Clay",
     "price": 6000,
     "image": "img/product_143.jpg",
     "page": 15,
@@ -1148,7 +1148,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 144,
-    "name": "Base de maquillaje Kuromi surtida Got2b original",
+    "name": "Base de maquillaje Kuromi surtida",
     "price": 7000,
     "image": "img/product_144.jpg",
     "page": 15,
@@ -1156,7 +1156,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 145,
-    "name": "Base líquida Kevin & Coco Primer Bloom poros invisibles",
+    "name": "Base líquida Kevin & Coco",
     "price": 18000,
     "image": "img/product_145.jpg",
     "page": 15,
@@ -1164,7 +1164,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 146,
-    "name": "Gloss Voluminizador con destellos tornasol holograficos Kit amor y amistad Bloomshell",
+    "name": "Gloss Voluminizador con destellos tornasol holograficos",
     "price": 6500,
     "image": "img/product_146.jpg",
     "page": 15,
@@ -1172,7 +1172,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 147,
-    "name": "Got2b original Paleta Rubor velvet x3 Bloomshell Nueva presentación",
+    "name": "Got2b original",
     "price": 25000,
     "image": "img/product_147.jpg",
     "page": 15,
@@ -1188,7 +1188,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 149,
-    "name": "Primer Bloom poros invisibles Bloom glow Bloomshell",
+    "name": "Primer Bloom poros invisibles",
     "price": 19000,
     "image": "img/product_149.jpg",
     "page": 15,
@@ -1220,7 +1220,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 153,
-    "name": "Bloom filter línea premium Polvo suelto Bloomshell Polvo suelto XL Pink translucent Bloomshell",
+    "name": "Bloom filter línea premium Polvo suelto Bloomshell",
     "price": 30000,
     "image": "img/product_153.jpg",
     "page": 16,
@@ -1228,7 +1228,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 154,
-    "name": "Kit x 6 mini favoritos Bloomshell Polvo suelto grande XL 03",
+    "name": "Kit x 6 mini favoritos Bloomshell",
     "price": 24000,
     "image": "img/product_154.jpg",
     "page": 16,
@@ -1236,7 +1236,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 155,
-    "name": "Polvo suelto grande XL 01 White Bloomshell 30g Bloom mini Bloomshell GLOSS lip",
+    "name": "Polvo suelto grande XL 01 White Bloomshell 30g",
     "price": 42000,
     "image": "img/product_155.jpg",
     "page": 16,
@@ -1244,7 +1244,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 156,
-    "name": "Polvo suelto grande XL 03 natural Bloomshell 30g Bloom mini Bloomshell gloss lip oil",
+    "name": "Polvo suelto grande XL 03 natural Bloomshell 30g",
     "price": 42000,
     "image": "img/product_156.jpg",
     "page": 16,
@@ -1252,7 +1252,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 157,
-    "name": "Polvo suelto XL Pink translucent Bloomshell Bloom mini Bloomshell gloss lip oil",
+    "name": "Polvo suelto XL Pink translucent Bloomshell",
     "price": 42000,
     "image": "img/product_157.jpg",
     "page": 16,
@@ -1260,7 +1260,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 158,
-    "name": "Bloom mini Bloomshell GLOSS lip oil labios Bloom podwer kiss (brillo labial)",
+    "name": "Bloom mini Bloomshell GLOSS lip oil labios",
     "price": 6000,
     "image": "img/product_158.jpg",
     "page": 16,
@@ -1268,7 +1268,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 159,
-    "name": "Bloom mini Bloomshell gloss lip oil labios CHERRY Tinta Bloom Bombón",
+    "name": "Bloom mini Bloomshell gloss lip oil labios CHERRY",
     "price": 6000,
     "image": "img/product_159.jpg",
     "page": 16,
@@ -1276,7 +1276,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 160,
-    "name": "Bloom mini Bloomshell gloss lip oil labios MIMOSA Gloss Serum reparador de",
+    "name": "Bloom mini Bloomshell gloss lip oil labios MIMOSA",
     "price": 6000,
     "image": "img/product_160.jpg",
     "page": 16,
@@ -1284,7 +1284,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 161,
-    "name": "Bloom podwer kiss (brillo labial) Labial en polvo efecto mate Gloss mimosa XL",
+    "name": "Bloom podwer kiss (brillo labial) Labial en polvo efecto mate",
     "price": 18000,
     "image": "img/product_161.jpg",
     "page": 16,
@@ -1316,7 +1316,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 165,
-    "name": "Gloss XL Bloom rolon / brillo hidratante rollon Bloomshell Iluminador arcoíris multicolor",
+    "name": "Gloss XL Bloom rolon / brillo hidratante rollon Bloomshell",
     "price": 20000,
     "image": "img/product_165.jpg",
     "page": 17,
@@ -1324,7 +1324,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 166,
-    "name": "Bloom me espejo (brillo hidratante) Bloomshell Paleta de 4 iluminadores",
+    "name": "Bloom me espejo (brillo hidratante) Bloomshell",
     "price": 28000,
     "image": "img/product_166.jpg",
     "page": 17,
@@ -1332,7 +1332,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 167,
-    "name": "Pop bloom mimosa (brillo hidratante) Bloomshell Gloss Trendy Cherry Shine",
+    "name": "Pop bloom mimosa (brillo hidratante) Bloomshell",
     "price": 25000,
     "image": "img/product_167.jpg",
     "page": 17,
@@ -1340,7 +1340,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 168,
-    "name": "Iluminador arcoíris multicolor Kevin y coco Gloss Trendy Cherry color",
+    "name": "Iluminador arcoíris multicolor Kevin y coco",
     "price": 13000,
     "image": "img/product_168.jpg",
     "page": 17,
@@ -1348,7 +1348,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 169,
-    "name": "Paleta de 4 iluminadores surtidos Tinta gloss corazón Trendy",
+    "name": "Paleta de 4 iluminadores surtidos",
     "price": 11000,
     "image": "img/product_169.jpg",
     "page": 17,
@@ -1356,7 +1356,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 170,
-    "name": "Gloss Trendy Cherry Shine Tapa PLATEADA Surtidos Rubor en crema Star",
+    "name": "Gloss Trendy Cherry Shine Tapa PLATEADA Surtidos",
     "price": 8000,
     "image": "img/product_170.jpg",
     "page": 17,
@@ -1364,7 +1364,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 171,
-    "name": "Gloss Trendy Cherry color Tapa DORADA Surtidos Brillo lip oil Sandía",
+    "name": "Gloss Trendy Cherry color Tapa DORADA Surtidos",
     "price": 8000,
     "image": "img/product_171.jpg",
     "page": 17,
@@ -1372,7 +1372,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 172,
-    "name": "Tinta gloss corazón Trendy surtida Lip balm mágico hidratante",
+    "name": "Tinta gloss corazón Trendy surtida",
     "price": 6500,
     "image": "img/product_172.jpg",
     "page": 17,
@@ -1380,7 +1380,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 173,
-    "name": "Rubor en crema Star Trendy Surtido Rubor y labial velvet beauty",
+    "name": "Rubor en crema Star Trendy Surtido",
     "price": 12500,
     "image": "img/product_173.jpg",
     "page": 17,
@@ -1412,7 +1412,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 177,
-    "name": "Set x2 brillos Dolly chic Trendy Iluminador Cloud",
+    "name": "Set x2 brillos Dolly chic Trendy",
     "price": 13000,
     "image": "img/product_177.jpg",
     "page": 18,
@@ -1420,7 +1420,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 178,
-    "name": "Kit de maquillaje para niñas Trendy Party Iluminador líquido the Sun Trendy",
+    "name": "Kit de maquillaje para niñas Trendy Party",
     "price": 10000,
     "image": "img/product_178.jpg",
     "page": 18,
@@ -1428,7 +1428,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 179,
-    "name": "Sombra para niñas Celular Trendy Polvo de hadas",
+    "name": "Sombra para niñas Celular Trendy",
     "price": 10000,
     "image": "img/product_179.jpg",
     "page": 18,
@@ -1436,7 +1436,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 180,
-    "name": "Iluminador Cloud Trendy Brillo labial Gloss con destellos Lula (atenea)",
+    "name": "Iluminador Cloud Trendy",
     "price": 13000,
     "image": "img/product_180.jpg",
     "page": 18,
@@ -1444,7 +1444,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 181,
-    "name": "Iluminador líquido the Sun Trendy Rubor líquido Lula (atenea)",
+    "name": "Iluminador líquido the Sun Trendy",
     "price": 20000,
     "image": "img/product_181.jpg",
     "page": 18,
@@ -1452,7 +1452,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 182,
-    "name": "Polvo de hadas Trendy Bálsamo labial en gel jelly Ph Lula (Atenea) tono #2",
+    "name": "Polvo de hadas Trendy",
     "price": 10000,
     "image": "img/product_182.jpg",
     "page": 18,
@@ -1460,7 +1460,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 183,
-    "name": "Brillo labial Gloss con destellos Lula (atenea) Rubor Atenea Profesional 1st",
+    "name": "Brillo labial Gloss con destellos Lula (atenea)",
     "price": 12500,
     "image": "img/product_183.jpg",
     "page": 18,
@@ -1468,7 +1468,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 184,
-    "name": "Rubor líquido Lula (atenea) Llavero Aceite de labios Lula",
+    "name": "Rubor líquido Lula (atenea)",
     "price": 20000,
     "image": "img/product_184.jpg",
     "page": 18,
@@ -1476,7 +1476,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 185,
-    "name": "Bálsamo labial en gel jelly Ph Lula (Atenea) tono #2 Contorno compacto Lula",
+    "name": "Bálsamo labial en gel jelly Ph Lula (Atenea) tono #2",
     "price": 15000,
     "image": "img/product_185.jpg",
     "page": 18,
@@ -1508,7 +1508,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 189,
-    "name": "Polvo suelto 4 tonos Lula (Atenea) con SPF Primer pore filter Purpure",
+    "name": "Polvo suelto 4 tonos Lula (Atenea) con SPF",
     "price": 19000,
     "image": "img/product_189.jpg",
     "page": 19,
@@ -1516,7 +1516,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 190,
-    "name": "Spray shimmer Lula cabello y cuerpo 100ml Rubor Candy Love Purpure",
+    "name": "Spray shimmer Lula cabello y cuerpo 100ml",
     "price": 12000,
     "image": "img/product_190.jpg",
     "page": 19,
@@ -1524,7 +1524,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 191,
-    "name": "Splash Grande Purpure 200ml Base Purpure alta cobertura",
+    "name": "Splash Grande Purpure 200ml",
     "price": 30500,
     "image": "img/product_191.jpg",
     "page": 19,
@@ -1532,7 +1532,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 192,
-    "name": "Primer pore filter Purpure Corrector de ojeras",
+    "name": "Primer pore filter Purpure",
     "price": 18000,
     "image": "img/product_192.jpg",
     "page": 19,
@@ -1540,7 +1540,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 193,
-    "name": "Rubor Candy Love Purpure Polvo compacto",
+    "name": "Rubor Candy Love Purpure",
     "price": 12000,
     "image": "img/product_193.jpg",
     "page": 19,
@@ -1548,7 +1548,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 194,
-    "name": "Base Purpure alta cobertura Gloss roll on brillo labial lip oil surtido",
+    "name": "Base Purpure alta cobertura",
     "price": 30500,
     "image": "img/product_194.jpg",
     "page": 19,
@@ -1556,7 +1556,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 195,
-    "name": "Corrector de ojeras Purpure Lápiz delineador de labios karite surtido",
+    "name": "Corrector de ojeras Purpure",
     "price": 18000,
     "image": "img/product_195.jpg",
     "page": 19,
@@ -1564,7 +1564,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 196,
-    "name": "Polvo compacto Tinta de labios esmalte Stitch surtida",
+    "name": "Polvo compacto",
     "price": 10000,
     "image": "img/product_196.jpg",
     "page": 19,
@@ -1572,7 +1572,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 197,
-    "name": "Gloss roll on brillo labial lip oil surtido Tinta de labios botella de Vino surtida",
+    "name": "Gloss roll on brillo labial lip oil surtido",
     "price": 3000,
     "image": "img/product_197.jpg",
     "page": 19,
@@ -1604,7 +1604,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 201,
-    "name": "Tinta de labios paleta Bloom Jelly Fusion Primer",
+    "name": "Tinta de labios paleta",
     "price": 3500,
     "image": "img/product_201.jpg",
     "page": 20,
@@ -1612,7 +1612,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 202,
-    "name": "Papel absorbe grasa con polvo suelto natural y espejo Bloomshell My foundation Base liquida Bloomshell Buena cobertura",
+    "name": "Papel absorbe grasa con polvo suelto natural y espejo Bloomshell",
     "price": 24000,
     "image": "img/product_202.jpg",
     "page": 20,
@@ -1620,7 +1620,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 203,
-    "name": "Tinta café Bloomshell con llavero Bloom Latte Kiss MINI corrector Bloomshell",
+    "name": "Tinta café Bloomshell con llavero Bloom Latte Kiss",
     "price": 21000,
     "image": "img/product_203.jpg",
     "page": 20,
@@ -1628,7 +1628,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 204,
-    "name": "Bloom Jelly Fusion Primer en gel spray Laminador de cejas Bloomshell gel",
+    "name": "Bloom Jelly Fusion Primer en gel spray",
     "price": 29000,
     "image": "img/product_204.jpg",
     "page": 20,
@@ -1636,7 +1636,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 205,
-    "name": "My foundation Base liquida Bloomshell Buena cobertura Primer facial leche",
+    "name": "My foundation Base liquida Bloomshell Buena cobertura",
     "price": 31500,
     "image": "img/product_205.jpg",
     "page": 20,
@@ -1644,7 +1644,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 206,
-    "name": "MINI corrector Bloomshell viajero Base líquida de maquillaje",
+    "name": "MINI corrector Bloomshell viajero",
     "price": 15000,
     "image": "img/product_206.jpg",
     "page": 20,
@@ -1652,7 +1652,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 207,
-    "name": "Laminador de cejas Bloomshell gel fijador de cejas Lápiz Negro de ojos o cejas con",
+    "name": "Laminador de cejas Bloomshell gel fijador de cejas",
     "price": 19000,
     "image": "img/product_207.jpg",
     "page": 20,
@@ -1660,7 +1660,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 208,
-    "name": "Primer facial leche esencial Lápiz Café de ojos o cejas con",
+    "name": "Primer facial leche esencial",
     "price": 8000,
     "image": "img/product_208.jpg",
     "page": 20,
@@ -1668,7 +1668,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 209,
-    "name": "Base líquida de maquillaje surtida Lápiz retráctil de cejas",
+    "name": "Base líquida de maquillaje surtida",
     "price": 6500,
     "image": "img/product_209.jpg",
     "page": 20,
@@ -1700,7 +1700,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 213,
-    "name": "Rubor en barra surtido Jabón en barra Bamboo Bioaqua",
+    "name": "Rubor en barra surtido",
     "price": 7500,
     "image": "img/product_213.jpg",
     "page": 21,
@@ -1716,7 +1716,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 215,
-    "name": "Rubor cremoso multi usos labios o mejillas surtido Polvo base cushion 2 en 1",
+    "name": "Rubor cremoso multi usos labios o mejillas surtido",
     "price": 6000,
     "image": "img/product_215.jpg",
     "page": 21,
@@ -1724,7 +1724,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 216,
-    "name": "Jabón en barra Bamboo Bioaqua Bloom floral Rubor serum liquido Bloomshell",
+    "name": "Jabón en barra Bamboo Bioaqua",
     "price": 10000,
     "image": "img/product_216.jpg",
     "page": 21,
@@ -1732,7 +1732,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 217,
-    "name": "Kit de labios Glitter set x Bloom Beige Lápiz beige Bloomshell nude",
+    "name": "Kit de labios Glitter set x",
     "price": 19500,
     "image": "img/product_217.jpg",
     "page": 21,
@@ -1740,7 +1740,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 218,
-    "name": "Polvo base cushion 2 en 1 Labial Bloom lumi gloss Brillo hidratante Bloomshell",
+    "name": "Polvo base cushion 2 en 1",
     "price": 10000,
     "image": "img/product_218.jpg",
     "page": 21,
@@ -1748,7 +1748,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 219,
-    "name": "Bloom floral Rubor serum liquido Bloomshell Llavero Dúo mimosa + mini shell tint Bloomshell",
+    "name": "Bloom floral Rubor serum liquido Bloomshell",
     "price": 22500,
     "image": "img/product_219.jpg",
     "page": 21,
@@ -1756,7 +1756,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 220,
-    "name": "Bloom Beige Lápiz beige Bloomshell nude Llavero Dúo nude + mini gloss hidratante Bloomshell",
+    "name": "Bloom Beige Lápiz beige Bloomshell nude",
     "price": 10000,
     "image": "img/product_220.jpg",
     "page": 21,
@@ -1764,7 +1764,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 221,
-    "name": "Labial Bloom lumi gloss Brillo hidratante Bloomshell Paleta de sombras Nude Allure",
+    "name": "Labial Bloom lumi gloss Brillo hidratante Bloomshell",
     "price": 18000,
     "image": "img/product_221.jpg",
     "page": 21,
@@ -1796,7 +1796,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 225,
-    "name": "Bloom Sublime Gloss XL Bloomshell Nude Trío rubor x3 Pretty Blush Purpure Tono #1 Diva",
+    "name": "Bloom Sublime Gloss XL Bloomshell Nude",
     "price": 23500,
     "image": "img/product_225.jpg",
     "page": 22,
@@ -1804,7 +1804,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 226,
-    "name": "Bloom Black Bloomshell lápiz cremoso negro Dúo rubor e iluminador Purpure",
+    "name": "Bloom Black Bloomshell lápiz cremoso negro",
     "price": 9000,
     "image": "img/product_226.jpg",
     "page": 22,
@@ -1812,7 +1812,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 227,
-    "name": "Lip serum piña colada gloss Purpure Jabón facial activación de Colageno Bioaqua",
+    "name": "Lip serum piña colada gloss Purpure",
     "price": 15000,
     "image": "img/product_227.jpg",
     "page": 22,
@@ -1820,7 +1820,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 228,
-    "name": "Trío rubor x3 Pretty Blush Purpure Tono #1 Diva Beauty blender",
+    "name": "Trío rubor x3 Pretty Blush Purpure Tono #1 Diva",
     "price": 20000,
     "image": "img/product_228.jpg",
     "page": 22,
@@ -1828,7 +1828,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 229,
-    "name": "Dúo rubor e iluminador Purpure Iluminador Lula",
+    "name": "Dúo rubor e iluminador Purpure",
     "price": 15000,
     "image": "img/product_229.jpg",
     "page": 22,
@@ -1836,7 +1836,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 230,
-    "name": "Jabón facial activación de Colageno Bioaqua Primer Lula (Atenea)",
+    "name": "Jabón facial activación de Colageno Bioaqua",
     "price": 10000,
     "image": "img/product_230.jpg",
     "page": 22,
@@ -1844,7 +1844,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 231,
-    "name": "Beauty blender esponja surtida Rubor Lula (atenea) tono 01 pink",
+    "name": "Beauty blender esponja surtida",
     "price": 15000,
     "image": "img/product_231.jpg",
     "page": 22,
@@ -1852,7 +1852,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 232,
-    "name": "Iluminador Lula Dúo rubor iluminador Lula (Atenea)",
+    "name": "Iluminador Lula",
     "price": 15000,
     "image": "img/product_232.jpg",
     "page": 22,
@@ -1860,7 +1860,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 233,
-    "name": "Primer Lula (Atenea) Base Lula (atenea) Buena Cobertura",
+    "name": "Primer Lula (Atenea)",
     "price": 22000,
     "image": "img/product_233.jpg",
     "page": 22,
@@ -1892,7 +1892,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 237,
-    "name": "Corrector líquido Lula (atenea) Buena cobertura Mini gel fijador de cejas Atenea",
+    "name": "Corrector líquido Lula (atenea) Buena cobertura",
     "price": 17000,
     "image": "img/product_237.jpg",
     "page": 23,
@@ -1900,7 +1900,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 238,
-    "name": "Polvo suelto banana Lula (atenea) Bálsamo Hidratante de labios",
+    "name": "Polvo suelto banana Lula (atenea)",
     "price": 15000,
     "image": "img/product_238.jpg",
     "page": 23,
@@ -1908,7 +1908,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 239,
-    "name": "Fijador spray Lula (atenea) Polvo suelto banana",
+    "name": "Fijador spray Lula (atenea)",
     "price": 17000,
     "image": "img/product_239.jpg",
     "page": 23,
@@ -1916,7 +1916,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 240,
-    "name": "Mini gel fijador de cejas Atenea Profesional Lápiz delineador para ojos y",
+    "name": "Mini gel fijador de cejas Atenea Profesional",
     "price": 17500,
     "image": "img/product_240.jpg",
     "page": 23,
@@ -1924,7 +1924,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 241,
-    "name": "Bálsamo Hidratante de labios Durazno Sadoer Lip Balm Glossy",
+    "name": "Bálsamo Hidratante de labios Durazno Sadoer",
     "price": 5000,
     "image": "img/product_241.jpg",
     "page": 23,
@@ -1932,7 +1932,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 242,
-    "name": "Polvo suelto banana Purpure Iluminador Boss Babe",
+    "name": "Polvo suelto banana Purpure",
     "price": 15000,
     "image": "img/product_242.jpg",
     "page": 23,
@@ -1940,7 +1940,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 243,
-    "name": "Lápiz delineador para ojos y labios Purpure Labial en barra S.f.r colors surtido",
+    "name": "Lápiz delineador para ojos y labios Purpure",
     "price": 9500,
     "image": "img/product_243.jpg",
     "page": 23,
@@ -1948,7 +1948,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 244,
-    "name": "Lip Balm Glossy Purpure Paleta de sombras Hudamoji",
+    "name": "Lip Balm Glossy Purpure",
     "price": 16000,
     "image": "img/product_244.jpg",
     "page": 23,
@@ -1956,7 +1956,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 245,
-    "name": "Iluminador Boss Babe Purpure Paleta de maquillaje",
+    "name": "Iluminador Boss Babe Purpure",
     "price": 14500,
     "image": "img/product_245.jpg",
     "page": 23,
@@ -1988,7 +1988,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 249,
-    "name": "Paleta de maquillaje Princesa - Gloss espiral ice cream con",
+    "name": "Paleta de maquillaje Princesa -",
     "price": 15000,
     "image": "img/product_249.jpg",
     "page": 24,
@@ -1996,7 +1996,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 250,
-    "name": "Paleta de maquillaje perrito Polvo en gel matificante control",
+    "name": "Paleta de maquillaje perrito",
     "price": 15000,
     "image": "img/product_250.jpg",
     "page": 24,
@@ -2004,7 +2004,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 251,
-    "name": "Gel de cejas Karité Rubor cremoso Bloom Crush",
+    "name": "Gel de cejas Karité",
     "price": 6800,
     "image": "img/product_251.jpg",
     "page": 24,
@@ -2012,7 +2012,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 252,
-    "name": "Gloss espiral ice cream con llavero surtido Bloom Latte lip balm Gloss",
+    "name": "Gloss espiral ice cream con llavero surtido",
     "price": 5500,
     "image": "img/product_252.jpg",
     "page": 24,
@@ -2020,7 +2020,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 253,
-    "name": "Polvo en gel matificante control grasa Karité Bloom Hydra Tinta velvet 2 en 1",
+    "name": "Polvo en gel matificante control grasa Karité",
     "price": 12000,
     "image": "img/product_253.jpg",
     "page": 24,
@@ -2028,7 +2028,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 254,
-    "name": "Rubor cremoso Bloom Crush amuse Bloomshell Polvo compacto Bloomshell tono",
+    "name": "Rubor cremoso Bloom Crush amuse Bloomshell",
     "price": 18500,
     "image": "img/product_254.jpg",
     "page": 24,
@@ -2036,7 +2036,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 255,
-    "name": "Bloom Latte lip balm Gloss Lápiz blanco en gel Bloomshell",
+    "name": "Bloom Latte lip balm Gloss",
     "price": 17500,
     "image": "img/product_255.jpg",
     "page": 24,
@@ -2044,7 +2044,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 256,
-    "name": "Bloom Hydra Tinta velvet 2 en 1 Bloomshell Bloom Puff Primer en espuma",
+    "name": "Bloom Hydra Tinta velvet 2 en 1 Bloomshell",
     "price": 16000,
     "image": "img/product_256.jpg",
     "page": 24,
@@ -2052,7 +2052,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 257,
-    "name": "Polvo compacto Bloomshell tono #4 Nude Pestañina lash Resistente a prueba de agua Bloomshell",
+    "name": "Polvo compacto Bloomshell tono #4 Nude",
     "price": 28500,
     "image": "img/product_257.jpg",
     "page": 24,
@@ -2108,7 +2108,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 264,
-    "name": "Paleta de sombras 18 tonos LOFSHE Polvo suelto",
+    "name": "Paleta de sombras 18 tonos LOFSHE",
     "price": 15000,
     "image": "img/product_264.jpg",
     "page": 25,
@@ -2116,7 +2116,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 265,
-    "name": "Paleta de sombras LOVE YOURSELF 18 tonos Base tipo tinta Buena cobertura",
+    "name": "Paleta de sombras LOVE YOURSELF 18 tonos",
     "price": 15000,
     "image": "img/product_265.jpg",
     "page": 25,
@@ -2124,7 +2124,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 266,
-    "name": "Brillo magic gloss mágico classic Lápiz de cejas/ojos con",
+    "name": "Brillo magic gloss mágico classic",
     "price": 5500,
     "image": "img/product_266.jpg",
     "page": 25,
@@ -2132,7 +2132,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 267,
-    "name": "Polvo suelto banana Rubor cremoso 2 en 1 surtido",
+    "name": "Polvo suelto banana",
     "price": 10500,
     "image": "img/product_267.jpg",
     "page": 25,
@@ -2140,7 +2140,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 268,
-    "name": "Base tipo tinta Buena cobertura Kiss Beauty Pestañina económica miss ever",
+    "name": "Base tipo tinta Buena cobertura Kiss Beauty",
     "price": 11000,
     "image": "img/product_268.jpg",
     "page": 25,
@@ -2148,7 +2148,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 269,
-    "name": "Lápiz de cejas/ojos con cepillo Lip balm strawberry llavero fresita",
+    "name": "Lápiz de cejas/ojos con cepillo",
     "price": 4000,
     "image": "img/product_269.jpg",
     "page": 25,
@@ -2180,7 +2180,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 273,
-    "name": "Lápiz de ojos negro con sacapuntas Corrector líquido fitme surtido con aplicador",
+    "name": "Lápiz de ojos negro con sacapuntas",
     "price": 3400,
     "image": "img/product_273.jpg",
     "page": 26,
@@ -2188,7 +2188,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 274,
-    "name": "Base líquida For me Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida",
+    "name": "Base líquida For me",
     "price": 6000,
     "image": "img/product_274.jpg",
     "page": 26,
@@ -2196,7 +2196,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 275,
-    "name": "Base líquida Fit surtida Paleta de sombras 18 tonos New Nude",
+    "name": "Base líquida Fit surtida",
     "price": 6000,
     "image": "img/product_275.jpg",
     "page": 26,
@@ -2204,7 +2204,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 276,
-    "name": "Corrector líquido fitme surtido con aplicador Fijador de maquillaje cherry",
+    "name": "Corrector líquido fitme surtido con aplicador",
     "price": 7000,
     "image": "img/product_276.jpg",
     "page": 26,
@@ -2212,7 +2212,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 277,
-    "name": "Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida Kit de primer + fijador de",
+    "name": "Jelly tint gelatina para labios y mejillas blush rubor o tinta surtida",
     "price": 6500,
     "image": "img/product_277.jpg",
     "page": 26,
@@ -2220,7 +2220,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 278,
-    "name": "Paleta de sombras 18 tonos New Nude Lápiz delineador de labios donut",
+    "name": "Paleta de sombras 18 tonos New Nude",
     "price": 15000,
     "image": "img/product_278.jpg",
     "page": 26,
@@ -2228,7 +2228,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 279,
-    "name": "Fijador de maquillaje cherry Rubor en perlas tonos surtidos rubor granulado o",
+    "name": "Fijador de maquillaje cherry",
     "price": 8500,
     "image": "img/product_279.jpg",
     "page": 26,
@@ -2236,7 +2236,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 280,
-    "name": "Kit de primer + fijador de maquillaje Arroz Rubor líquido sweet",
+    "name": "Kit de primer + fijador de maquillaje Arroz",
     "price": 12000,
     "image": "img/product_280.jpg",
     "page": 26,
@@ -2244,7 +2244,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 281,
-    "name": "Lápiz delineador de labios donut Labial Bloom sparkle kiss",
+    "name": "Lápiz delineador de labios donut",
     "price": 3500,
     "image": "img/product_281.jpg",
     "page": 26,
@@ -2276,7 +2276,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 285,
-    "name": "Polvo translucent Grande 2 en 1 Pink Bloomshell suelto y compacto Rubor cherry Blossom Bloomshell",
+    "name": "Polvo translucent Grande 2 en 1 Pink Bloomshell suelto y compacto",
     "price": 38500,
     "image": "img/product_285.jpg",
     "page": 27,
@@ -2284,7 +2284,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 286,
-    "name": "Paleta sombras y rubores Luxury Polvo suelto Bloomshell Mate",
+    "name": "Paleta sombras y rubores Luxury",
     "price": 41000,
     "image": "img/product_286.jpg",
     "page": 27,
@@ -2292,7 +2292,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 287,
-    "name": "Bloom define dark contorno en barra Bloomshell tono 03 Rubor mágico Bloomshell multiusos aplicador jumbo ph",
+    "name": "Bloom define dark contorno en barra Bloomshell tono 03",
     "price": 27500,
     "image": "img/product_287.jpg",
     "page": 27,
@@ -2300,7 +2300,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 288,
-    "name": "Rubor cherry Blossom Bloomshell en barra cremoso tono Surtido Bloom kiss con color formula hidratante no pegajosa gloss lip",
+    "name": "Rubor cherry Blossom Bloomshell en barra cremoso tono Surtido",
     "price": 26500,
     "image": "img/product_288.jpg",
     "page": 27,
@@ -2308,7 +2308,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 289,
-    "name": "Polvo suelto Bloomshell Mate translucent mini Gloss aplicador de",
+    "name": "Polvo suelto Bloomshell Mate translucent mini",
     "price": 28000,
     "image": "img/product_289.jpg",
     "page": 27,
@@ -2316,7 +2316,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 290,
-    "name": "Rubor mágico Bloomshell multiusos aplicador jumbo ph Gloss purpure Lip",
+    "name": "Rubor mágico Bloomshell multiusos aplicador jumbo ph",
     "price": 16000,
     "image": "img/product_290.jpg",
     "page": 27,
@@ -2324,7 +2324,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 291,
-    "name": "Bloom kiss con color formula hidratante no pegajosa gloss lip oil Bloomshell Polvo base Purpure 2 en 1 girl",
+    "name": "Bloom kiss con color formula hidratante no pegajosa gloss lip oil Bloomshell",
     "price": 11500,
     "image": "img/product_291.jpg",
     "page": 27,
@@ -2332,7 +2332,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 292,
-    "name": "Gloss aplicador de silicona Rubor líquido Purpure",
+    "name": "Gloss aplicador de silicona",
     "price": 8500,
     "image": "img/product_292.jpg",
     "page": 27,
@@ -2340,7 +2340,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 293,
-    "name": "Gloss purpure Lip Gloss Glow Base líquida matte Purpure",
+    "name": "Gloss purpure Lip Gloss Glow",
     "price": 12500,
     "image": "img/product_293.jpg",
     "page": 27,
@@ -2372,7 +2372,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 297,
-    "name": "Lip gloss Candy Love Purpure aplicador grueso Gloss Voluminizador con color",
+    "name": "Lip gloss Candy Love Purpure aplicador grueso",
     "price": 16000,
     "image": "img/product_297.jpg",
     "page": 28,
@@ -2380,7 +2380,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 298,
-    "name": "Lápiz delineador de labios Purpure Labial terciopelo velvet BEAR",
+    "name": "Lápiz delineador de labios Purpure",
     "price": 7500,
     "image": "img/product_298.jpg",
     "page": 28,
@@ -2388,7 +2388,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 299,
-    "name": "Pestañina so perfect lash Purpure Labial terciopelo velvet",
+    "name": "Pestañina so perfect lash Purpure",
     "price": 20500,
     "image": "img/product_299.jpg",
     "page": 28,
@@ -2396,7 +2396,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 300,
-    "name": "Gloss Voluminizador con color Purpure Fijador de maquillaje",
+    "name": "Gloss Voluminizador con color Purpure",
     "price": 14000,
     "image": "img/product_300.jpg",
     "page": 28,
@@ -2404,7 +2404,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 301,
-    "name": "Labial terciopelo velvet BEAR Lip balm hidratante de labios",
+    "name": "Labial terciopelo velvet BEAR",
     "price": 8500,
     "image": "img/product_301.jpg",
     "page": 28,
@@ -2412,7 +2412,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 302,
-    "name": "Labial terciopelo velvet Osito Bálsamo labial tipo vaselina",
+    "name": "Labial terciopelo velvet Osito",
     "price": 8500,
     "image": "img/product_302.jpg",
     "page": 28,
@@ -2420,7 +2420,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 303,
-    "name": "Fijador de maquillaje en Spray Bálsamo labial tipo vaselina",
+    "name": "Fijador de maquillaje en Spray",
     "price": 10000,
     "image": "img/product_303.jpg",
     "page": 28,
@@ -2428,7 +2428,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 304,
-    "name": "Lip balm hidratante de labios sin color Primer vitamina c",
+    "name": "Lip balm hidratante de labios sin color",
     "price": 2900,
     "image": "img/product_304.jpg",
     "page": 28,
@@ -2436,7 +2436,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 305,
-    "name": "Bálsamo labial tipo vaselina Lip Care Fijador de maquillaje Atenea",
+    "name": "Bálsamo labial tipo vaselina Lip Care",
     "price": 4000,
     "image": "img/product_305.jpg",
     "page": 28,
@@ -2468,7 +2468,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 309,
-    "name": "Caja x 3 mini lip balm peptidos Rubor stick Atenea Profesional",
+    "name": "Caja x 3 mini lip balm peptidos",
     "price": 45000,
     "image": "img/product_309.jpg",
     "page": 29,
@@ -2476,7 +2476,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 310,
-    "name": "Mini peptide lip balm hot chocolate Atenea profesional Corrector Bloomshell XL 20ml",
+    "name": "Mini peptide lip balm hot chocolate Atenea profesional",
     "price": 19000,
     "image": "img/product_310.jpg",
     "page": 29,
@@ -2484,7 +2484,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 311,
-    "name": "Polvo matificante en gel Atenea profesional Lip oil Bloom one Bloomshell",
+    "name": "Polvo matificante en gel Atenea profesional",
     "price": 36500,
     "image": "img/product_311.jpg",
     "page": 29,
@@ -2492,7 +2492,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 312,
-    "name": "Rubor stick Atenea Profesional cremoso Lip gloss glow color Bloomshell",
+    "name": "Rubor stick Atenea Profesional cremoso",
     "price": 32500,
     "image": "img/product_312.jpg",
     "page": 29,
@@ -2500,7 +2500,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 313,
-    "name": "Corrector Bloomshell XL 20ml BIG GRANDE Glossy color Bloomshell Gloss",
+    "name": "Corrector Bloomshell XL 20ml BIG GRANDE",
     "price": 31500,
     "image": "img/product_313.jpg",
     "page": 29,
@@ -2508,7 +2508,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 314,
-    "name": "Lip oil Bloom one Bloomshell gloss aplicador grueso Dúo delineador de labios más",
+    "name": "Lip oil Bloom one Bloomshell gloss aplicador grueso",
     "price": 16000,
     "image": "img/product_314.jpg",
     "page": 29,
@@ -2516,7 +2516,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 315,
-    "name": "Lip gloss glow color Bloomshell hidratante no pegajoso Polvo suelto Grande Atenea",
+    "name": "Lip gloss glow color Bloomshell hidratante no pegajoso",
     "price": 16000,
     "image": "img/product_315.jpg",
     "page": 29,
@@ -2524,7 +2524,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 316,
-    "name": "Glossy color Bloomshell Gloss con destellos Bloom lip line Delineador de labios Bloomshell larga duración",
+    "name": "Glossy color Bloomshell Gloss con destellos",
     "price": 12500,
     "image": "img/product_316.jpg",
     "page": 29,
@@ -2532,7 +2532,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 317,
-    "name": "Dúo delineador de labios más labial en barra Pestañina prosa",
+    "name": "Dúo delineador de labios más labial en barra",
     "price": 10000,
     "image": "img/product_317.jpg",
     "page": 29,
@@ -2564,7 +2564,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 321,
-    "name": "Polvo MINI 2en1 Bloomshell Suelto y compacto 01 WHITE Base skin cover",
+    "name": "Polvo MINI 2en1 Bloomshell Suelto y compacto 01 WHITE",
     "price": 30000,
     "image": "img/product_321.jpg",
     "page": 30,
@@ -2572,7 +2572,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 322,
-    "name": "Lápiz de cejas Hidratante de labios Sugar daddy",
+    "name": "Lápiz de cejas",
     "price": 3700,
     "image": "img/product_322.jpg",
     "page": 30,
@@ -2580,7 +2580,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 323,
-    "name": "Lip gloss Bloomshell Bloom esplendor nude Gloss coreano Purpure efecto",
+    "name": "Lip gloss Bloomshell Bloom esplendor nude",
     "price": 16000,
     "image": "img/product_323.jpg",
     "page": 30,
@@ -2588,7 +2588,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 324,
-    "name": "Base skin cover Mocmallure Lip Gloss cuadrado con",
+    "name": "Base skin cover Mocmallure",
     "price": 11500,
     "image": "img/product_324.jpg",
     "page": 30,
@@ -2596,7 +2596,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 325,
-    "name": "Hidratante de labios Sugar daddy Gloss serum reparador de labios vitamina E Purpure aplicador grueso",
+    "name": "Hidratante de labios Sugar daddy",
     "price": 7500,
     "image": "img/product_325.jpg",
     "page": 30,
@@ -2604,7 +2604,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 326,
-    "name": "Gloss coreano Purpure efecto tinta gloss Gloss ángel aplicador silicona",
+    "name": "Gloss coreano Purpure efecto tinta gloss",
     "price": 15000,
     "image": "img/product_326.jpg",
     "page": 30,
@@ -2612,7 +2612,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 327,
-    "name": "Lip Gloss cuadrado con color Purpure Kit mini de maquillaje",
+    "name": "Lip Gloss cuadrado con color Purpure",
     "price": 15000,
     "image": "img/product_327.jpg",
     "page": 30,
@@ -2620,7 +2620,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 328,
-    "name": "Gloss serum reparador de labios vitamina E Purpure aplicador grueso Hidratante de labios Bioaqua",
+    "name": "Gloss serum reparador de labios vitamina E Purpure aplicador grueso",
     "price": 15500,
     "image": "img/product_328.jpg",
     "page": 30,
@@ -2628,7 +2628,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 329,
-    "name": "Gloss ángel aplicador silicona Crystal Bear mirellas Iluminador Candy",
+    "name": "Gloss ángel aplicador silicona Crystal Bear mirellas",
     "price": 8500,
     "image": "img/product_329.jpg",
     "page": 30,
@@ -2660,7 +2660,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 333,
-    "name": "Rubor cremoso con borla Bloom Blushy Bloomshell Rubor líquido velvet Atenea",
+    "name": "Rubor cremoso con borla Bloom Blushy Bloomshell",
     "price": 22500,
     "image": "img/product_333.jpg",
     "page": 31,
@@ -2668,7 +2668,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 334,
-    "name": "Gloss Bloom dúo Bloomshell Paleta de sombras Birds Atenea",
+    "name": "Gloss Bloom dúo Bloomshell",
     "price": 17500,
     "image": "img/product_334.jpg",
     "page": 31,
@@ -2676,7 +2676,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 335,
-    "name": "Fijador de maquillaje Purpure 50ml Lip balm Lula (atenea) hidratante",
+    "name": "Fijador de maquillaje Purpure 50ml",
     "price": 15900,
     "image": "img/product_335.jpg",
     "page": 31,
@@ -2684,7 +2684,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 336,
-    "name": "Rubor líquido velvet Atenea profesional Russet orange Labial flor ph",
+    "name": "Rubor líquido velvet Atenea profesional Russet orange",
     "price": 25900,
     "image": "img/product_336.jpg",
     "page": 31,
@@ -2692,7 +2692,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 337,
-    "name": "Paleta de sombras Birds Atenea profesional Corrector Bloomshell nueva",
+    "name": "Paleta de sombras Birds Atenea profesional",
     "price": 60900,
     "image": "img/product_337.jpg",
     "page": 31,
@@ -2700,7 +2700,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 338,
-    "name": "Lip balm Lula (atenea) hidratante con aroma Fresa Polvo suelto traslúcido Pink mini",
+    "name": "Lip balm Lula (atenea) hidratante con aroma Fresa",
     "price": 11500,
     "image": "img/product_338.jpg",
     "page": 31,
@@ -2708,7 +2708,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 339,
-    "name": "Labial flor ph Gloss labial celular con",
+    "name": "Labial flor ph",
     "price": 8000,
     "image": "img/product_339.jpg",
     "page": 31,
@@ -2716,7 +2716,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 340,
-    "name": "Corrector Bloomshell nueva presentación 10ml Lápiz delineador de labios con",
+    "name": "Corrector Bloomshell nueva presentación 10ml",
     "price": 20900,
     "image": "img/product_340.jpg",
     "page": 31,
@@ -2724,7 +2724,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 341,
-    "name": "Polvo suelto traslúcido Pink mini atenea profesional 1st scene Lápiz delineador de",
+    "name": "Polvo suelto traslúcido Pink mini atenea profesional 1st scene",
     "price": 29500,
     "image": "img/product_341.jpg",
     "page": 31,
@@ -2748,7 +2748,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 344,
-    "name": "Lápiz delineador de labios",
+    "name": "",
     "price": 3500,
     "image": "img/product_344.jpg",
     "page": 31,
@@ -2756,7 +2756,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 345,
-    "name": "Desmaquillante bifásico dual 100ml Corrector líquido atenea profesional 1st scene buena",
+    "name": "Desmaquillante bifásico dual 100ml",
     "price": 14500,
     "image": "img/product_345.jpg",
     "page": 32,
@@ -2764,7 +2764,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 346,
-    "name": "Sombras 6 tonos Tinta base serum Atenea",
+    "name": "Sombras 6 tonos",
     "price": 10000,
     "image": "img/product_346.jpg",
     "page": 32,
@@ -2772,7 +2772,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 347,
-    "name": "Gloss aura Trendy aplicador jumbo tono #2 Base atenea profesional",
+    "name": "Gloss aura Trendy aplicador jumbo tono #2",
     "price": 20500,
     "image": "img/product_347.jpg",
     "page": 32,
@@ -2780,7 +2780,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 348,
-    "name": "Corrector líquido atenea profesional 1st scene buena cobertura Base atenea profesional (30ML)",
+    "name": "Corrector líquido atenea profesional 1st scene buena cobertura",
     "price": 35900,
     "image": "img/product_348.jpg",
     "page": 32,
@@ -2788,7 +2788,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 349,
-    "name": "Tinta base serum Atenea Profesional 1st scene Labial líquido velvet terciopelo Atenea profesional",
+    "name": "Tinta base serum Atenea Profesional 1st scene",
     "price": 47900,
     "image": "img/product_349.jpg",
     "page": 32,
@@ -2796,7 +2796,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 350,
-    "name": "Base atenea profesional (50ML) 1st scene buena cobertura - Peptide lip balm Atenea Profesional",
+    "name": "Base atenea profesional (50ML) 1st scene buena cobertura -",
     "price": 48000,
     "image": "img/product_350.jpg",
     "page": 32,
@@ -2812,7 +2812,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 352,
-    "name": "Labial líquido velvet terciopelo Atenea profesional Sombras Marvelous Atenea",
+    "name": "Labial líquido velvet terciopelo Atenea profesional",
     "price": 25900,
     "image": "img/product_352.jpg",
     "page": 32,
@@ -2820,7 +2820,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 353,
-    "name": "Peptide lip balm Atenea Profesional Sombras Atemporal Atenea",
+    "name": "Peptide lip balm Atenea Profesional",
     "price": 27900,
     "image": "img/product_353.jpg",
     "page": 32,
@@ -2852,7 +2852,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 357,
-    "name": "Sombras Hawaii Atenea Sombras Atenea profesional Sublime",
+    "name": "Sombras Hawaii Atenea",
     "price": 66900,
     "image": "img/product_357.jpg",
     "page": 33,
@@ -2860,7 +2860,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 358,
-    "name": "Sombras Majestic Atenea Dúo de rubor en crema y compacto Atenea Profesional",
+    "name": "Sombras Majestic Atenea",
     "price": 66900,
     "image": "img/product_358.jpg",
     "page": 33,
@@ -2868,7 +2868,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 359,
-    "name": "Sombras Art deco Atenea Profesional Iluminador Atenea",
+    "name": "Sombras Art deco Atenea Profesional",
     "price": 41400,
     "image": "img/product_359.jpg",
     "page": 33,
@@ -2876,7 +2876,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 360,
-    "name": "Sombras Atenea profesional Sublime Sombra cremosa Atenea profesional duocromática",
+    "name": "Sombras Atenea profesional Sublime",
     "price": 40900,
     "image": "img/product_360.jpg",
     "page": 33,
@@ -2884,7 +2884,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 361,
-    "name": "Dúo de rubor en crema y compacto Atenea Profesional Lápiz delineador de labios Bloomshell cremoso de larga",
+    "name": "Dúo de rubor en crema y compacto Atenea Profesional",
     "price": 37900,
     "image": "img/product_361.jpg",
     "page": 33,
@@ -2892,7 +2892,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 362,
-    "name": "Iluminador Atenea Profesional Removedor de maquillaje agua limpiadora desmaquillante hello Kitty",
+    "name": "Iluminador Atenea Profesional",
     "price": 26900,
     "image": "img/product_362.jpg",
     "page": 33,
@@ -2900,7 +2900,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 363,
-    "name": "Sombra cremosa Atenea profesional duocromática Sombras mini",
+    "name": "Sombra cremosa Atenea profesional duocromática",
     "price": 16500,
     "image": "img/product_363.jpg",
     "page": 33,
@@ -2908,7 +2908,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 364,
-    "name": "Lápiz delineador de labios Bloomshell cremoso de larga duración Paleta de sombras",
+    "name": "Lápiz delineador de labios Bloomshell cremoso de larga duración",
     "price": 9500,
     "image": "img/product_364.jpg",
     "page": 33,
@@ -2916,7 +2916,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 365,
-    "name": "Removedor de maquillaje agua limpiadora desmaquillante hello Kitty Voluminizador de",
+    "name": "Removedor de maquillaje agua limpiadora desmaquillante hello Kitty",
     "price": 8000,
     "image": "img/product_365.jpg",
     "page": 33,
@@ -2948,7 +2948,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 369,
-    "name": "Polvo suelto Master Touch Trendy Base truly L.a colors",
+    "name": "Polvo suelto Master Touch Trendy",
     "price": 29000,
     "image": "img/product_369.jpg",
     "page": 34,
@@ -2956,7 +2956,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 370,
-    "name": "Gloss heart cojín Tinta para labios peel off wow",
+    "name": "Gloss heart cojín",
     "price": 6000,
     "image": "img/product_370.jpg",
     "page": 34,
@@ -2964,7 +2964,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 371,
-    "name": "Paleta de sombras galleta surtidas Proteína tratamiento en mascara para pestañas Prosa",
+    "name": "Paleta de sombras galleta surtidas",
     "price": 12000,
     "image": "img/product_371.jpg",
     "page": 34,
@@ -2980,7 +2980,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 373,
-    "name": "Tinta para labios peel off wow Hidratante de",
+    "name": "Tinta para labios peel off wow",
     "price": 6000,
     "image": "img/product_373.jpg",
     "page": 34,
@@ -2988,7 +2988,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 374,
-    "name": "Proteína tratamiento en mascara para pestañas Prosa Tratamiento fortalecedor de pestañas con ácido Hialurónico",
+    "name": "Proteína tratamiento en mascara para pestañas Prosa",
     "price": 21000,
     "image": "img/product_374.jpg",
     "page": 34,
@@ -2996,7 +2996,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 375,
-    "name": "Aceite desmaquillante para el crecimiento de las pestañas Prosa Serum crecimiento de pestañas",
+    "name": "Aceite desmaquillante para el crecimiento de las pestañas Prosa",
     "price": 25000,
     "image": "img/product_375.jpg",
     "page": 34,
@@ -3004,7 +3004,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 376,
-    "name": "Hidratante de labios magic Sombra mas plantilla de",
+    "name": "Hidratante de labios magic",
     "price": 6000,
     "image": "img/product_376.jpg",
     "page": 34,
@@ -3012,7 +3012,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 377,
-    "name": "Tratamiento fortalecedor de pestañas con ácido Hialurónico Sombra de ojos o cejas",
+    "name": "Tratamiento fortalecedor de pestañas con ácido Hialurónico",
     "price": 8000,
     "image": "img/product_377.jpg",
     "page": 34,
@@ -3044,7 +3044,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 381,
-    "name": "Hidratante mágico Minnie Click gloss de lujo",
+    "name": "Hidratante mágico Minnie",
     "price": 9000,
     "image": "img/product_381.jpg",
     "page": 35,
@@ -3052,7 +3052,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 382,
-    "name": "Bálsamo labial Click gloss coreano surtido",
+    "name": "",
     "price": 5000,
     "image": "img/product_382.jpg",
     "page": 35,
@@ -3060,7 +3060,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 383,
-    "name": "Tinta heart Click gloss bunny",
+    "name": "Tinta heart",
     "price": 8000,
     "image": "img/product_383.jpg",
     "page": 35,
@@ -3068,7 +3068,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 384,
-    "name": "Click gloss de lujo Labial de",
+    "name": "Click gloss de lujo",
     "price": 9000,
     "image": "img/product_384.jpg",
     "page": 35,
@@ -3076,7 +3076,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 385,
-    "name": "Click gloss coreano surtido Labial de",
+    "name": "Click gloss coreano surtido",
     "price": 9000,
     "image": "img/product_385.jpg",
     "page": 35,
@@ -3084,7 +3084,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 386,
-    "name": "Click gloss bunny Gloss perlado",
+    "name": "Click gloss bunny",
     "price": 8000,
     "image": "img/product_386.jpg",
     "page": 35,
@@ -3092,7 +3092,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 387,
-    "name": "Labial de hadas Lip balm argan bálsamo labial (sin color)",
+    "name": "Labial de hadas",
     "price": 7000,
     "image": "img/product_387.jpg",
     "page": 35,
@@ -3100,7 +3100,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 388,
-    "name": "Labial de hadas Lip balm pink bálsamo labial",
+    "name": "Labial de hadas",
     "price": 7000,
     "image": "img/product_388.jpg",
     "page": 35,
@@ -3108,7 +3108,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 389,
-    "name": "Gloss perlado labios Bálsamo labial vitamina C (sin color)",
+    "name": "Gloss perlado labios",
     "price": 6500,
     "image": "img/product_389.jpg",
     "page": 35,
@@ -3140,7 +3140,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 393,
-    "name": "Gloss húmedo tipo coreano Labial en barra",
+    "name": "Gloss húmedo tipo coreano",
     "price": 5200,
     "image": "img/product_393.jpg",
     "page": 36,
@@ -3148,7 +3148,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 394,
-    "name": "Gloss osito con color Lápiz labial jumbo",
+    "name": "Gloss osito con color",
     "price": 4900,
     "image": "img/product_394.jpg",
     "page": 36,
@@ -3156,7 +3156,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 395,
-    "name": "Labial líquido semi matte efecto terciopelo Base en barra Bloomshell",
+    "name": "Labial líquido semi matte efecto terciopelo",
     "price": 26900,
     "image": "img/product_395.jpg",
     "page": 36,
@@ -3164,7 +3164,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 396,
-    "name": "Labial en barra Corrector Bloomshell",
+    "name": "Labial en barra",
     "price": 19900,
     "image": "img/product_396.jpg",
     "page": 36,
@@ -3172,7 +3172,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 397,
-    "name": "Lápiz labial jumbo Rubor stick",
+    "name": "Lápiz labial jumbo",
     "price": 9500,
     "image": "img/product_397.jpg",
     "page": 36,
@@ -3180,7 +3180,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 398,
-    "name": "Base en barra Bloomshell Rubor black labios y mejillas",
+    "name": "Base en barra Bloomshell",
     "price": 9900,
     "image": "img/product_398.jpg",
     "page": 36,
@@ -3188,7 +3188,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 399,
-    "name": "Corrector Bloomshell Iluminador kuromi",
+    "name": "Corrector Bloomshell",
     "price": 9500,
     "image": "img/product_399.jpg",
     "page": 36,
@@ -3196,7 +3196,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 400,
-    "name": "Rubor stick Sombras cat 9 tonos",
+    "name": "Rubor stick",
     "price": 11300,
     "image": "img/product_400.jpg",
     "page": 36,
@@ -3204,7 +3204,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 401,
-    "name": "Rubor black labios y mejillas Kit de maquillaje en caja",
+    "name": "Rubor black labios y mejillas",
     "price": 27900,
     "image": "img/product_401.jpg",
     "page": 36,
@@ -3236,7 +3236,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 405,
-    "name": "Torre x6 pigmentos Labial y delineador de labios 2en1",
+    "name": "Torre x6 pigmentos",
     "price": 8800,
     "image": "img/product_405.jpg",
     "page": 37,
@@ -3244,7 +3244,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 406,
-    "name": "Primer en barra pore filler Bálsamo hidratante de l abios (sin color)",
+    "name": "Primer en barra pore filler",
     "price": 8900,
     "image": "img/product_406.jpg",
     "page": 37,
@@ -3276,7 +3276,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 410,
-    "name": "Perfume capilar de hadas con shimmer surtido Sachet SHAMPOO capilar colageno Exotic",
+    "name": "Perfume capilar de hadas con shimmer surtido",
     "price": 10700,
     "image": "img/product_410.jpg",
     "page": 38,
@@ -3284,7 +3284,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 411,
-    "name": "Tratamiento capilar Colageno reconstructor Exotic - Sachet SHAMPOO capilar Rizos",
+    "name": "Tratamiento capilar Colageno reconstructor Exotic -",
     "price": 18900,
     "image": "img/product_411.jpg",
     "page": 38,
@@ -3292,7 +3292,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 412,
-    "name": "Sachet SHAMPOO capilar Romero y aceite de argán Sachet TRATAMIENTO capilar Rizos",
+    "name": "Sachet SHAMPOO capilar Romero y aceite de argán",
     "price": 2500,
     "image": "img/product_412.jpg",
     "page": 38,
@@ -3300,7 +3300,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 413,
-    "name": "Sachet SHAMPOO capilar colageno Exotic Shampoo de rizos kids Exotic",
+    "name": "Sachet SHAMPOO capilar colageno Exotic",
     "price": 2500,
     "image": "img/product_413.jpg",
     "page": 38,
@@ -3316,7 +3316,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 415,
-    "name": "Sachet TRATAMIENTO capilar Rizos Kids Exotic Sachet SHAMPOO capilar rizos",
+    "name": "Sachet TRATAMIENTO capilar Rizos Kids Exotic",
     "price": 2500,
     "image": "img/product_415.jpg",
     "page": 38,
@@ -3324,7 +3324,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 416,
-    "name": "Shampoo de rizos kids Exotic Sin sal Sachet TRATAMIENTO capilar",
+    "name": "Shampoo de rizos kids Exotic Sin sal",
     "price": 17900,
     "image": "img/product_416.jpg",
     "page": 38,
@@ -3332,7 +3332,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 417,
-    "name": "Tratamiento de rizos kids Exotic Shampoo rizos",
+    "name": "Tratamiento de rizos kids Exotic",
     "price": 18900,
     "image": "img/product_417.jpg",
     "page": 38,
@@ -3340,7 +3340,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 418,
-    "name": "Sachet SHAMPOO capilar rizos Exotic Tratamiento capilar Melancia",
+    "name": "Sachet SHAMPOO capilar rizos Exotic",
     "price": 2500,
     "image": "img/product_418.jpg",
     "page": 38,
@@ -3372,7 +3372,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 422,
-    "name": "Sachet TRATAMIENTO capilar coco Exotic Shampoo de coco",
+    "name": "Sachet TRATAMIENTO capilar coco Exotic",
     "price": 1000,
     "image": "img/product_422.jpg",
     "page": 39,
@@ -3380,7 +3380,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 423,
-    "name": "Sachet SHAMPOO capilar coco Exotic Shampoo Repolarizacion intensiva",
+    "name": "Sachet SHAMPOO capilar coco Exotic",
     "price": 2500,
     "image": "img/product_423.jpg",
     "page": 39,
@@ -3388,7 +3388,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 424,
-    "name": "Tratamiento capilar coco Exotic 1.000ml Tratamiento Repolarizacion",
+    "name": "Tratamiento capilar coco Exotic 1.000ml",
     "price": 18900,
     "image": "img/product_424.jpg",
     "page": 39,
@@ -3396,7 +3396,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 425,
-    "name": "Shampoo de coco ml Exotic Sachet de SHAMPOO capilar cebolla Exotic",
+    "name": "Shampoo de coco ml Exotic",
     "price": 17900,
     "image": "img/product_425.jpg",
     "page": 39,
@@ -3404,7 +3404,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 426,
-    "name": "Shampoo Repolarizacion intensiva exotic Sachet de TRATAMIENTO",
+    "name": "Shampoo Repolarizacion intensiva exotic",
     "price": 17900,
     "image": "img/product_426.jpg",
     "page": 39,
@@ -3412,7 +3412,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 427,
-    "name": "Tratamiento Repolarizacion intensiva exotic Shampoo de cebolla",
+    "name": "Tratamiento Repolarizacion intensiva exotic",
     "price": 19900,
     "image": "img/product_427.jpg",
     "page": 39,
@@ -3420,7 +3420,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 428,
-    "name": "Sachet de SHAMPOO capilar cebolla Exotic Tratamiento capilar de",
+    "name": "Sachet de SHAMPOO capilar cebolla Exotic",
     "price": 2500,
     "image": "img/product_428.jpg",
     "page": 39,
@@ -3428,7 +3428,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 429,
-    "name": "Sachet de TRATAMIENTO capilar cebolla Exotic Óleo premium Cebolla aceite",
+    "name": "Sachet de TRATAMIENTO capilar cebolla Exotic",
     "price": 2500,
     "image": "img/product_429.jpg",
     "page": 39,
@@ -3436,7 +3436,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 430,
-    "name": "Shampoo de cebolla 1.000ml Exotic Óleo Romero aceite capilar",
+    "name": "Shampoo de cebolla 1.000ml Exotic",
     "price": 17900,
     "image": "img/product_430.jpg",
     "page": 39,
@@ -3468,7 +3468,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 434,
-    "name": "Kit x4 crecimiento capilar y brillo Acondicionador de ají Click hair",
+    "name": "Kit x4 crecimiento capilar y brillo",
     "price": 153700,
     "image": "img/product_434.jpg",
     "page": 40,
@@ -3476,7 +3476,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 435,
-    "name": "Pelinex tónico capilar crecimiento y anti caída Click Hair Energizante capilar Click hair",
+    "name": "Pelinex tónico capilar crecimiento y anti caída Click Hair",
     "price": 35900,
     "image": "img/product_435.jpg",
     "page": 40,
@@ -3484,7 +3484,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 436,
-    "name": "Shampoo de ají crecimiento, control grasa y caída Click Hair Caja kit x 3 perfumes mini Click hair",
+    "name": "Shampoo de ají crecimiento, control grasa y caída Click Hair",
     "price": 45500,
     "image": "img/product_436.jpg",
     "page": 40,
@@ -3492,7 +3492,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 437,
-    "name": "Acondicionador de ají Click hair suavidad y brillo Perfume Miel click hair",
+    "name": "Acondicionador de ají Click hair suavidad y brillo",
     "price": 43900,
     "image": "img/product_437.jpg",
     "page": 40,
@@ -3500,7 +3500,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 438,
-    "name": "Energizante capilar Click hair reparación profunda Termo protector bifásico leche y",
+    "name": "Energizante capilar Click hair reparación profunda",
     "price": 44400,
     "image": "img/product_438.jpg",
     "page": 40,
@@ -3508,7 +3508,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 439,
-    "name": "Caja kit x 3 perfumes mini Click hair cabello y cuerpo Acondicionador de miel Click",
+    "name": "Caja kit x 3 perfumes mini Click hair cabello y cuerpo",
     "price": 46900,
     "image": "img/product_439.jpg",
     "page": 40,
@@ -3516,7 +3516,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 440,
-    "name": "Perfume Miel click hair Mascarilla capilar miel brillo",
+    "name": "Perfume Miel click hair",
     "price": 56400,
     "image": "img/product_440.jpg",
     "page": 40,
@@ -3524,7 +3524,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 441,
-    "name": "Termo protector bifásico leche y miel protección y brillo Miel capilar 50ml repara puntas",
+    "name": "Termo protector bifásico leche y miel protección y brillo",
     "price": 47900,
     "image": "img/product_441.jpg",
     "page": 40,
@@ -3532,7 +3532,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 442,
-    "name": "Acondicionador de miel Click Hair Brillo y suavidad Perfume capilar Click hair",
+    "name": "Acondicionador de miel Click Hair Brillo y suavidad",
     "price": 43600,
     "image": "img/product_442.jpg",
     "page": 40,
@@ -3572,7 +3572,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 447,
-    "name": "ACONDICIONADOR crecimiento Romero y menta Sadoer Aceite capilar Romero y menta",
+    "name": "ACONDICIONADOR crecimiento Romero y menta Sadoer",
     "price": 13500,
     "image": "img/product_447.jpg",
     "page": 41,
@@ -3580,7 +3580,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 448,
-    "name": "SHAMPOO crecimiento Romero y menta Sadoer Tratamiento capilar 500g Coco",
+    "name": "SHAMPOO crecimiento Romero y menta Sadoer",
     "price": 14900,
     "image": "img/product_448.jpg",
     "page": 41,
@@ -3588,7 +3588,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 449,
-    "name": "Gel de ducha Purpure 250ml Gel de ducha Purpure con",
+    "name": "Gel de ducha Purpure 250ml",
     "price": 25700,
     "image": "img/product_449.jpg",
     "page": 41,
@@ -3596,7 +3596,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 450,
-    "name": "Aceite capilar Romero y menta crecimiento Sadoer Gel de cabello Ikt",
+    "name": "Aceite capilar Romero y menta crecimiento Sadoer",
     "price": 11800,
     "image": "img/product_450.jpg",
     "page": 41,
@@ -3604,7 +3604,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 451,
-    "name": "Tratamiento capilar 500g Coco recuperación y brillo Cera wax",
+    "name": "Tratamiento capilar 500g Coco recuperación y brillo",
     "price": 13900,
     "image": "img/product_451.jpg",
     "page": 41,
@@ -3612,7 +3612,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 452,
-    "name": "Gel de ducha Purpure con aromas 300ml Perfume capilar con gatillo",
+    "name": "Gel de ducha Purpure con aromas 300ml",
     "price": 18900,
     "image": "img/product_452.jpg",
     "page": 41,
@@ -3620,7 +3620,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 453,
-    "name": "Gel de cabello Ikt Perfume capilar con provitamina B5",
+    "name": "Gel de cabello Ikt",
     "price": 13500,
     "image": "img/product_453.jpg",
     "page": 41,
@@ -3628,7 +3628,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 454,
-    "name": "Cera wax stick Perfume termo protector desenredante para el cabello",
+    "name": "Cera wax stick",
     "price": 12900,
     "image": "img/product_454.jpg",
     "page": 41,
@@ -3660,7 +3660,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 458,
-    "name": "Tratamiento capilar rizos exotic 1.000ml Acondicionador capilar romero",
+    "name": "Tratamiento capilar rizos exotic 1.000ml",
     "price": 19500,
     "image": "img/product_458.jpg",
     "page": 42,
@@ -3668,7 +3668,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 459,
-    "name": "Mascarilla capilar arroz bioaqua Shampoo capilar romero estimula crecimiento Sadoer",
+    "name": "Mascarilla capilar arroz bioaqua",
     "price": 20500,
     "image": "img/product_459.jpg",
     "page": 42,
@@ -3676,7 +3676,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 460,
-    "name": "Mascarilla capilar romero estimula crecimiento Sadoer Tónico capilar romero y quina",
+    "name": "Mascarilla capilar romero estimula crecimiento Sadoer",
     "price": 19500,
     "image": "img/product_460.jpg",
     "page": 42,
@@ -3692,7 +3692,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 462,
-    "name": "Shampoo capilar romero estimula crecimiento Sadoer Gel de ducha con aroma",
+    "name": "Shampoo capilar romero estimula crecimiento Sadoer",
     "price": 15500,
     "image": "img/product_462.jpg",
     "page": 42,
@@ -3724,7 +3724,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 466,
-    "name": "Cepillo de madera bamboo cuadrado Kit de pinzas Trendy hairclips x8",
+    "name": "Cepillo de madera bamboo cuadrado",
     "price": 15900,
     "image": "img/product_466.jpg",
     "page": 43,
@@ -3732,7 +3732,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 467,
-    "name": "Kit x3 cepillos de cabello pulidores Scrunchie satin bamba cabello moña anti quiebre",
+    "name": "Kit x3 cepillos de cabello pulidores",
     "price": 8500,
     "image": "img/product_467.jpg",
     "page": 43,
@@ -3740,7 +3740,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 468,
-    "name": "Kit moños Barbie Dreams Trendy Set mini ganchos más moñitas",
+    "name": "Kit moños Barbie Dreams Trendy",
     "price": 6500,
     "image": "img/product_468.jpg",
     "page": 43,
@@ -3748,7 +3748,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 469,
-    "name": "Kit de pinzas Trendy hairclips x8 Kit cauchos y moñas",
+    "name": "Kit de pinzas Trendy hairclips x8",
     "price": 7000,
     "image": "img/product_469.jpg",
     "page": 43,
@@ -3756,7 +3756,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 470,
-    "name": "Scrunchie satin bamba cabello moña anti quiebre Kit cauchos",
+    "name": "Scrunchie satin bamba cabello moña anti quiebre",
     "price": 5200,
     "image": "img/product_470.jpg",
     "page": 43,
@@ -3764,7 +3764,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 471,
-    "name": "Set mini ganchos más moñitas Cartón animado moñas y",
+    "name": "Set mini ganchos más moñitas",
     "price": 6500,
     "image": "img/product_471.jpg",
     "page": 43,
@@ -3772,7 +3772,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 472,
-    "name": "Kit cauchos y moñas colorido Cera moldeadora de cabello hello kitty kuromi surtido",
+    "name": "Kit cauchos y moñas colorido",
     "price": 3900,
     "image": "img/product_472.jpg",
     "page": 43,
@@ -3780,7 +3780,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 473,
-    "name": "Kit cauchos Kit de moñas y mini pinzas para el cabello en cajita",
+    "name": "Kit cauchos",
     "price": 3900,
     "image": "img/product_473.jpg",
     "page": 43,
@@ -3788,7 +3788,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 474,
-    "name": "Cartón animado moñas y pinzas surtido Kit de moñas para el cabello en cajita",
+    "name": "Cartón animado moñas y pinzas surtido",
     "price": 5900,
     "image": "img/product_474.jpg",
     "page": 43,
@@ -3820,7 +3820,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 478,
-    "name": "Ondas sin calor tubo de seda más scrunchies Set x3 pinzas Flor color surtido 1",
+    "name": "Ondas sin calor tubo de seda más scrunchies",
     "price": 11900,
     "image": "img/product_478.jpg",
     "page": 44,
@@ -3828,7 +3828,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 479,
-    "name": "Bloom Hair curl pro Cepillo definidor de rizos Bloomshell Perfume capilar Click hair con",
+    "name": "Bloom Hair curl pro Cepillo definidor de rizos Bloomshell",
     "price": 16900,
     "image": "img/product_479.jpg",
     "page": 44,
@@ -3836,7 +3836,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 480,
-    "name": "Pinza flor hawaiana color surtido Diadema clásica Balaca",
+    "name": "Pinza flor hawaiana color surtido",
     "price": 5900,
     "image": "img/product_480.jpg",
     "page": 44,
@@ -3844,7 +3844,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 481,
-    "name": "Set x3 pinzas Flor color surtido 1 grande 2 pequeñas Caimán concha perla",
+    "name": "Set x3 pinzas Flor color surtido 1 grande 2 pequeñas",
     "price": 8500,
     "image": "img/product_481.jpg",
     "page": 44,
@@ -3852,7 +3852,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 482,
-    "name": "Perfume capilar Click hair con termo protector, feromonas y glitter Kit balaca puffy más",
+    "name": "Perfume capilar Click hair con termo protector, feromonas y glitter",
     "price": 46500,
     "image": "img/product_482.jpg",
     "page": 44,
@@ -3860,7 +3860,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 483,
-    "name": "Diadema clásica Balaca casual surtida Gorrito de cabello",
+    "name": "Diadema clásica Balaca casual surtida",
     "price": 7500,
     "image": "img/product_483.jpg",
     "page": 44,
@@ -3868,7 +3868,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 484,
-    "name": "Caimán concha perla surtida Toalla de cabello de micro fibra",
+    "name": "Caimán concha perla surtida",
     "price": 5000,
     "image": "img/product_484.jpg",
     "page": 44,
@@ -3876,7 +3876,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 485,
-    "name": "Kit balaca puffy más muñequeras Caimán tortuga surtida",
+    "name": "Kit balaca puffy más muñequeras",
     "price": 5000,
     "image": "img/product_485.jpg",
     "page": 44,
@@ -3884,7 +3884,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 486,
-    "name": "Gorrito de cabello micro fibra Pinza estrella de mar surtida",
+    "name": "Gorrito de cabello micro fibra",
     "price": 5000,
     "image": "img/product_486.jpg",
     "page": 44,
@@ -3916,7 +3916,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 490,
-    "name": "Pinza flor hawaiana surtida Set x6 pinzas mariposa gancho mini",
+    "name": "Pinza flor hawaiana surtida",
     "price": 5000,
     "image": "img/product_490.jpg",
     "page": 45,
@@ -3924,7 +3924,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 491,
-    "name": "Set x6 pinzas mariposas de cristal Set x2 pinzas flor",
+    "name": "Set x6 pinzas mariposas de cristal",
     "price": 5400,
     "image": "img/product_491.jpg",
     "page": 45,
@@ -3932,7 +3932,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 492,
-    "name": "Set x2 Pinza flor Cepillo de cabello",
+    "name": "Set x2 Pinza flor",
     "price": 7900,
     "image": "img/product_492.jpg",
     "page": 45,
@@ -3940,7 +3940,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 493,
-    "name": "Set x6 pinzas mariposa gancho mini Cera wax stick",
+    "name": "Set x6 pinzas mariposa gancho mini",
     "price": 12900,
     "image": "img/product_493.jpg",
     "page": 45,
@@ -3948,7 +3948,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 494,
-    "name": "Set x2 pinzas flor Cepillo garra masajeador estimulador capilar",
+    "name": "Set x2 pinzas flor",
     "price": 5400,
     "image": "img/product_494.jpg",
     "page": 45,
@@ -3956,7 +3956,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 495,
-    "name": "Cepillo de cabello Moñitas coloridas",
+    "name": "",
     "price": 7900,
     "image": "img/product_495.jpg",
     "page": 45,
@@ -3964,7 +3964,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 496,
-    "name": "Cera wax stick Cepillo masajeador capilar shampoo",
+    "name": "Cera wax stick",
     "price": 12900,
     "image": "img/product_496.jpg",
     "page": 45,
@@ -3972,7 +3972,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 497,
-    "name": "Cepillo garra masajeador estimulador capilar Cepillo de cabello garrita",
+    "name": "Cepillo garra masajeador estimulador capilar",
     "price": 10500,
     "image": "img/product_497.jpg",
     "page": 45,
@@ -3980,7 +3980,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 498,
-    "name": "Moñitas coloridas Balaca elástica",
+    "name": "Moñitas coloridas",
     "price": 3500,
     "image": "img/product_498.jpg",
     "page": 45,
@@ -4012,7 +4012,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 502,
-    "name": "Gorrito para dormir satin surtido Cartón x4 pinzas",
+    "name": "Gorrito para dormir satin surtido",
     "price": 8900,
     "image": "img/product_502.jpg",
     "page": 46,
@@ -4044,7 +4044,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 506,
-    "name": "Kit de brochas kabuki pequeño surtido Paquete x12 beauty blender cada una en su caja individual",
+    "name": "Kit de brochas kabuki pequeño surtido",
     "price": 10500,
     "image": "img/product_506.jpg",
     "page": 47,
@@ -4052,7 +4052,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 507,
-    "name": "Kit de brochas KLXR surtidas Set x3 mini beauty blender",
+    "name": "Kit de brochas KLXR surtidas",
     "price": 8500,
     "image": "img/product_507.jpg",
     "page": 47,
@@ -4060,7 +4060,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 508,
-    "name": "Kit de brochas conejito Set de brochas kabuki tamaño normal surtidas",
+    "name": "Kit de brochas conejito",
     "price": 6900,
     "image": "img/product_508.jpg",
     "page": 47,
@@ -4068,7 +4068,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 509,
-    "name": "Paquete x12 beauty blender cada una en su caja individual Set x3 borlas",
+    "name": "Paquete x12 beauty blender cada una en su caja individual",
     "price": 21500,
     "image": "img/product_509.jpg",
     "page": 47,
@@ -4076,7 +4076,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 510,
-    "name": "Set x3 mini beauty blender Borla individual",
+    "name": "Set x3 mini beauty blender",
     "price": 3600,
     "image": "img/product_510.jpg",
     "page": 47,
@@ -4084,7 +4084,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 511,
-    "name": "Set de brochas kabuki tamaño normal surtidas Kit de brochas mármol",
+    "name": "Set de brochas kabuki tamaño normal surtidas",
     "price": 13500,
     "image": "img/product_511.jpg",
     "page": 47,
@@ -4092,7 +4092,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 512,
-    "name": "Set x3 borlas surtida Set de brochas en cajita",
+    "name": "Set x3 borlas surtida",
     "price": 8900,
     "image": "img/product_512.jpg",
     "page": 47,
@@ -4100,7 +4100,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 513,
-    "name": "Borla individual surtida Bloom stop Bloomshell parches anti acné rosa",
+    "name": "Borla individual surtida",
     "price": 2600,
     "image": "img/product_513.jpg",
     "page": 47,
@@ -4108,7 +4108,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 514,
-    "name": "Kit de brochas mármol surtidas Bloom me espejo (brillo hidratante) Bloomshell",
+    "name": "Kit de brochas mármol surtidas",
     "price": 12900,
     "image": "img/product_514.jpg",
     "page": 47,
@@ -4140,7 +4140,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 518,
-    "name": "Pop bloom mimosa (brillo hidratante) Bloomshell Libro de pestañas punto a punto 640 pestañas aproximadamente, Diferentes tamaños",
+    "name": "Pop bloom mimosa (brillo hidratante) Bloomshell",
     "price": 24500,
     "image": "img/product_518.jpg",
     "page": 48,
@@ -4148,7 +4148,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 519,
-    "name": "Bloom pocket kiss/ brillo hidratante Bloomshell Kit de pestañas punto a punto más Pegante/fijador",
+    "name": "Bloom pocket kiss/ brillo hidratante Bloomshell",
     "price": 25000,
     "image": "img/product_519.jpg",
     "page": 48,
@@ -4156,7 +4156,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 520,
-    "name": "Kit de brochas surtidas Pestañas punto a punto DIY",
+    "name": "Kit de brochas surtidas",
     "price": 7500,
     "image": "img/product_520.jpg",
     "page": 48,
@@ -4188,7 +4188,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 524,
-    "name": "Pega de pestañas Transparente Lula (Atenea) Kit de brochas Rosy Lula (atenea) 8 Pcs",
+    "name": "Pega de pestañas Transparente Lula (Atenea)",
     "price": 18900,
     "image": "img/product_524.jpg",
     "page": 48,
@@ -4196,7 +4196,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 525,
-    "name": "Pega de pestañas Lula (Atenea) Borla mini de precisión borla para el dedo",
+    "name": "Pega de pestañas Lula (Atenea)",
     "price": 10900,
     "image": "img/product_525.jpg",
     "page": 48,
@@ -4204,7 +4204,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 526,
-    "name": "Pestañas completas par Atenea profesional Beauty Blender XL Bloomshell",
+    "name": "Pestañas completas par Atenea profesional",
     "price": 10500,
     "image": "img/product_526.jpg",
     "page": 48,
@@ -4236,7 +4236,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 530,
-    "name": "Fijador Sellante de maquillaje hidratante Bloomshell Fijador de maquillaje en spray",
+    "name": "Fijador Sellante de maquillaje hidratante Bloomshell",
     "price": 25900,
     "image": "img/product_530.jpg",
     "page": 49,
@@ -4244,7 +4244,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 531,
-    "name": "Paquete x 12 beauty blender surtidas tamaño normal Brocha doble de cejas",
+    "name": "Paquete x 12 beauty blender surtidas tamaño normal",
     "price": 18500,
     "image": "img/product_531.jpg",
     "page": 49,
@@ -4252,7 +4252,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 532,
-    "name": "Encrespador de pestañas económico Pestañas punto a punto",
+    "name": "Encrespador de pestañas económico",
     "price": 5900,
     "image": "img/product_532.jpg",
     "page": 49,
@@ -4260,7 +4260,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 533,
-    "name": "Fijador de maquillaje en spray Kormesic Set x 3 par de pestañas Celestiales Bloomshell",
+    "name": "Fijador de maquillaje en spray Kormesic",
     "price": 9900,
     "image": "img/product_533.jpg",
     "page": 49,
@@ -4268,7 +4268,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 534,
-    "name": "Brocha doble de cejas Par de pestañas premium Bloomshell Flower",
+    "name": "Brocha doble de cejas",
     "price": 3500,
     "image": "img/product_534.jpg",
     "page": 49,
@@ -4276,7 +4276,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 535,
-    "name": "Pestañas punto a punto cluster Brocha 2en1 bloomshell rubor/polvo + Base",
+    "name": "Pestañas punto a punto cluster",
     "price": 6800,
     "image": "img/product_535.jpg",
     "page": 49,
@@ -4284,7 +4284,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 536,
-    "name": "Set x 3 par de pestañas Celestiales Bloomshell Fijador sellante aerosol pequeño",
+    "name": "Set x 3 par de pestañas Celestiales Bloomshell",
     "price": 14900,
     "image": "img/product_536.jpg",
     "page": 49,
@@ -4292,7 +4292,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 537,
-    "name": "Par de pestañas premium Bloomshell Flower Fijador sellante de maquillaje",
+    "name": "Par de pestañas premium Bloomshell Flower",
     "price": 9500,
     "image": "img/product_537.jpg",
     "page": 49,
@@ -4300,7 +4300,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 538,
-    "name": "Brocha 2en1 bloomshell rubor/polvo + Base Pomos algodón desmaquillantes Atenea",
+    "name": "Brocha 2en1 bloomshell rubor/polvo + Base",
     "price": 26900,
     "image": "img/product_538.jpg",
     "page": 49,
@@ -4332,7 +4332,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 542,
-    "name": "Cosmetiquera Forever Love Organizador viajero de colgar",
+    "name": "Cosmetiquera Forever Love",
     "price": 15900,
     "image": "img/product_542.jpg",
     "page": 50,
@@ -4340,7 +4340,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 543,
-    "name": "Repuestos encrespador Set de brochas más 2",
+    "name": "Repuestos encrespador",
     "price": 5000,
     "image": "img/product_543.jpg",
     "page": 50,
@@ -4348,7 +4348,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 544,
-    "name": "Beauty blender grande Big Blender Bloomshell Set de brochas viajeras",
+    "name": "Beauty blender grande Big Blender Bloomshell",
     "price": 12500,
     "image": "img/product_544.jpg",
     "page": 50,
@@ -4356,7 +4356,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 545,
-    "name": "Organizador viajero de colgar surtido Piedra guasha masajeador facial",
+    "name": "Organizador viajero de colgar surtido",
     "price": 20000,
     "image": "img/product_545.jpg",
     "page": 50,
@@ -4364,7 +4364,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 546,
-    "name": "Set de brochas más 2 borla mini Brocha para base pequeña",
+    "name": "Set de brochas más 2 borla mini",
     "price": 8900,
     "image": "img/product_546.jpg",
     "page": 50,
@@ -4380,7 +4380,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 548,
-    "name": "Piedra guasha masajeador facial Paquete x9 mini borlas para el maquillaje borla para el dedo",
+    "name": "Piedra guasha masajeador facial",
     "price": 5900,
     "image": "img/product_548.jpg",
     "page": 50,
@@ -4388,7 +4388,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 549,
-    "name": "Brocha para base pequeña viral TikTok Brocha de rostro C",
+    "name": "Brocha para base pequeña viral TikTok",
     "price": 6900,
     "image": "img/product_549.jpg",
     "page": 50,
@@ -4396,7 +4396,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 550,
-    "name": "Set de brochas sirena Brocha de rostro",
+    "name": "Set de brochas sirena",
     "price": 8800,
     "image": "img/product_550.jpg",
     "page": 50,
@@ -4420,7 +4420,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 553,
-    "name": "Brocha de rostro",
+    "name": "",
     "price": 8800,
     "image": "img/product_553.jpg",
     "page": 50,
@@ -4428,7 +4428,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 554,
-    "name": "Brocha de rostro Plantilla multiusos molde delineador",
+    "name": "Brocha de rostro",
     "price": 8500,
     "image": "img/product_554.jpg",
     "page": 51,
@@ -4436,7 +4436,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 555,
-    "name": "Brocha de ojos difuminadora Toalla afelpada multiusos toalla desmaquillante o",
+    "name": "Brocha de ojos difuminadora",
     "price": 6500,
     "image": "img/product_555.jpg",
     "page": 51,
@@ -4444,7 +4444,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 556,
-    "name": "Papel de arroz absorbe grasa Perfilador + Depilador",
+    "name": "Papel de arroz absorbe grasa",
     "price": 6800,
     "image": "img/product_556.jpg",
     "page": 51,
@@ -4452,7 +4452,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 557,
-    "name": "Plantilla multiusos molde delineador Kit de brochas Sunshine Lula",
+    "name": "Plantilla multiusos molde delineador",
     "price": 3900,
     "image": "img/product_557.jpg",
     "page": 51,
@@ -4460,7 +4460,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 558,
-    "name": "Toalla afelpada multiusos toalla desmaquillante o borla Pestañas punto a punto",
+    "name": "Toalla afelpada multiusos toalla desmaquillante o borla",
     "price": 5900,
     "image": "img/product_558.jpg",
     "page": 51,
@@ -4468,7 +4468,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 559,
-    "name": "Perfilador + Depilador Paquete de Pestañas efecto",
+    "name": "Perfilador + Depilador",
     "price": 5900,
     "image": "img/product_559.jpg",
     "page": 51,
@@ -4476,7 +4476,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 560,
-    "name": "Kit de brochas Sunshine Lula by Atenea profesional Set de",
+    "name": "Kit de brochas Sunshine Lula by Atenea profesional",
     "price": 41900,
     "image": "img/product_560.jpg",
     "page": 51,
@@ -4484,7 +4484,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 561,
-    "name": "Pestañas punto a punto foxy eyes Mini pañitos húmedos kitty",
+    "name": "Pestañas punto a punto foxy eyes",
     "price": 11500,
     "image": "img/product_561.jpg",
     "page": 51,
@@ -4492,7 +4492,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 562,
-    "name": "Paquete de Pestañas efecto pestañas de muñeca ojo de gato Kit de brochas Eclipse Lula",
+    "name": "Paquete de Pestañas efecto pestañas de muñeca ojo de gato",
     "price": 12600,
     "image": "img/product_562.jpg",
     "page": 51,
@@ -4500,7 +4500,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 563,
-    "name": "Set de brochas",
+    "name": "",
     "price": 8900,
     "image": "img/product_563.jpg",
     "page": 51,
@@ -4524,7 +4524,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 566,
-    "name": "Fijador de maquillarte spray sellante Par parches",
+    "name": "Fijador de maquillarte spray sellante",
     "price": 9900,
     "image": "img/product_566.jpg",
     "page": 52,
@@ -4532,7 +4532,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 567,
-    "name": "Llaveros Kiut (kuromi) Aceite desmaquillante para el crecimiento de las pestañas Prosa -",
+    "name": "Llaveros Kiut (kuromi)",
     "price": 5900,
     "image": "img/product_567.jpg",
     "page": 52,
@@ -4548,7 +4548,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 569,
-    "name": "Par parches hidrogel Brocha difuminadora",
+    "name": "Par parches hidrogel",
     "price": 1500,
     "image": "img/product_569.jpg",
     "page": 52,
@@ -4556,7 +4556,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 570,
-    "name": "Aceite desmaquillante para el crecimiento de las pestañas Prosa - Brocha para base",
+    "name": "Aceite desmaquillante para el crecimiento de las pestañas Prosa -",
     "price": 25000,
     "image": "img/product_570.jpg",
     "page": 52,
@@ -4564,7 +4564,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 571,
-    "name": "Set de brochas Aplicador dedo silicona",
+    "name": "Set de brochas",
     "price": 13500,
     "image": "img/product_571.jpg",
     "page": 52,
@@ -4572,7 +4572,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 572,
-    "name": "Brocha difuminadora Par de pestañas",
+    "name": "Brocha difuminadora",
     "price": 6500,
     "image": "img/product_572.jpg",
     "page": 52,
@@ -4580,7 +4580,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 573,
-    "name": "Brocha para base plancha Set x3 pares de pestañas trendy glam lashes",
+    "name": "Brocha para base plancha",
     "price": 9900,
     "image": "img/product_573.jpg",
     "page": 52,
@@ -4588,7 +4588,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 574,
-    "name": "Aplicador dedo silicona suave Cepillo cejas y pestañas paquete x10",
+    "name": "Aplicador dedo silicona suave",
     "price": 7500,
     "image": "img/product_574.jpg",
     "page": 52,
@@ -4620,7 +4620,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 578,
-    "name": "Iluminador líquido the Sun Trendy Spray shimmer Lula cabello y cuerpo 100ml",
+    "name": "Iluminador líquido the Sun Trendy",
     "price": 13500,
     "image": "img/product_578.jpg",
     "page": 53,
@@ -4628,7 +4628,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 579,
-    "name": "Mantequilla corporal rosas Trendy Mantequilla importada Purpure Grande 250ml",
+    "name": "Mantequilla corporal rosas Trendy",
     "price": 15000,
     "image": "img/product_579.jpg",
     "page": 53,
@@ -4636,7 +4636,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 580,
-    "name": "Kit corporal Polly Pocket Trendy Mini mantequilla corporal shimmer Purpure 50gr -",
+    "name": "Kit corporal Polly Pocket Trendy",
     "price": 25500,
     "image": "img/product_580.jpg",
     "page": 53,
@@ -4644,7 +4644,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 581,
-    "name": "Spray shimmer Lula cabello y cuerpo 100ml Mini mantequilla Purpure i",
+    "name": "Spray shimmer Lula cabello y cuerpo 100ml",
     "price": 18900,
     "image": "img/product_581.jpg",
     "page": 53,
@@ -4652,7 +4652,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 582,
-    "name": "Mantequilla importada Purpure Grande 250ml Splash Purpure",
+    "name": "Mantequilla importada Purpure Grande 250ml",
     "price": 25500,
     "image": "img/product_582.jpg",
     "page": 53,
@@ -4660,7 +4660,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 583,
-    "name": "Mini mantequilla corporal shimmer Purpure 50gr - Splash purpure",
+    "name": "Mini mantequilla corporal shimmer Purpure 50gr -",
     "price": 12900,
     "image": "img/product_583.jpg",
     "page": 53,
@@ -4668,7 +4668,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 584,
-    "name": "Mini mantequilla Purpure i mportada 50gr Body Splash grande Purpure 250ml",
+    "name": "Mini mantequilla Purpure i mportada 50gr",
     "price": 12600,
     "image": "img/product_584.jpg",
     "page": 53,
@@ -4676,7 +4676,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 585,
-    "name": "Splash Purpure 105ml Kit corporal Purpure Sunset Paradise x",
+    "name": "Splash Purpure 105ml",
     "price": 15900,
     "image": "img/product_585.jpg",
     "page": 53,
@@ -4684,7 +4684,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 586,
-    "name": "Splash purpure 100ml Kit corporal Purpure Donut Crush x",
+    "name": "Splash purpure 100ml",
     "price": 16900,
     "image": "img/product_586.jpg",
     "page": 53,
@@ -4716,7 +4716,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 590,
-    "name": "Kit corporal Purpure Pink Champagne x Crema serum íntimo Truly 50ml",
+    "name": "Kit corporal Purpure Pink Champagne x",
     "price": 36800,
     "image": "img/product_590.jpg",
     "page": 54,
@@ -4724,7 +4724,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 591,
-    "name": "Kit x3 crema y loción corporal Rosa Peony Frost Aceite íntimo Truly 50ml",
+    "name": "Kit x3 crema y loción corporal Rosa Peony Frost",
     "price": 18500,
     "image": "img/product_591.jpg",
     "page": 54,
@@ -4732,7 +4732,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 592,
-    "name": "Perfume capilar de hadas con shimmer surtido Crema serum Unicorn",
+    "name": "Perfume capilar de hadas con shimmer surtido",
     "price": 11700,
     "image": "img/product_592.jpg",
     "page": 54,
@@ -4740,7 +4740,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 593,
-    "name": "Crema serum íntimo Truly 50ml MORADO Aceite íntimo Truly",
+    "name": "Crema serum íntimo Truly 50ml MORADO",
     "price": 23900,
     "image": "img/product_593.jpg",
     "page": 54,
@@ -4756,7 +4756,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 595,
-    "name": "Crema serum Unicorn Truly 50ml Caja kit x 3 perfumes mini Click hair cabello y cuerpo",
+    "name": "Crema serum Unicorn Truly 50ml",
     "price": 23900,
     "image": "img/product_595.jpg",
     "page": 54,
@@ -4764,7 +4764,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 596,
-    "name": "Aceite íntimo Truly 50ml Mantequilla corporal click hair",
+    "name": "Aceite íntimo Truly 50ml",
     "price": 23900,
     "image": "img/product_596.jpg",
     "page": 54,
@@ -4772,7 +4772,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 597,
-    "name": "Perfume de lujo x Dani Duke 30% de concentración Click Perfume Miel click hair",
+    "name": "Perfume de lujo x Dani Duke 30% de concentración Click",
     "price": 68000,
     "image": "img/product_597.jpg",
     "page": 54,
@@ -4780,7 +4780,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 598,
-    "name": "Caja kit x 3 perfumes mini Click hair cabello y cuerpo Perfume capilar Click hair",
+    "name": "Caja kit x 3 perfumes mini Click hair cabello y cuerpo",
     "price": 46900,
     "image": "img/product_598.jpg",
     "page": 54,
@@ -4812,7 +4812,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 602,
-    "name": "Espejo de cartera con peine Mini Agenda argollada",
+    "name": "Espejo de cartera con peine",
     "price": 6500,
     "image": "img/product_602.jpg",
     "page": 55,
@@ -4820,7 +4820,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 603,
-    "name": "Espejo de tocador con soporte base surtido Paquete de Cauchitos",
+    "name": "Espejo de tocador con soporte base surtido",
     "price": 10500,
     "image": "img/product_603.jpg",
     "page": 55,
@@ -4828,7 +4828,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 604,
-    "name": "Termo sanrio surtido Llavero sorpresa labubu",
+    "name": "Termo sanrio surtido",
     "price": 20500,
     "image": "img/product_604.jpg",
     "page": 55,
@@ -4836,7 +4836,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 605,
-    "name": "Mini Agenda argollada Pañitos húmedos en lata",
+    "name": "Mini Agenda argollada",
     "price": 6000,
     "image": "img/product_605.jpg",
     "page": 55,
@@ -4844,7 +4844,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 606,
-    "name": "Paquete de Cauchitos Mini pañitos húmedos kitty",
+    "name": "Paquete de Cauchitos",
     "price": 3900,
     "image": "img/product_606.jpg",
     "page": 55,
@@ -4852,7 +4852,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 607,
-    "name": "Llavero sorpresa labubu Antifaz elegante para dormir",
+    "name": "Llavero sorpresa labubu",
     "price": 8500,
     "image": "img/product_607.jpg",
     "page": 55,
@@ -4860,7 +4860,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 608,
-    "name": "Pañitos húmedos en lata Llavero cola de zorro",
+    "name": "Pañitos húmedos en lata",
     "price": 4000,
     "image": "img/product_608.jpg",
     "page": 55,
@@ -4868,7 +4868,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 609,
-    "name": "Mini pañitos húmedos kitty Antifaz Bluetooth",
+    "name": "Mini pañitos húmedos kitty",
     "price": 3900,
     "image": "img/product_609.jpg",
     "page": 55,
@@ -4876,7 +4876,7 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 610,
-    "name": "Antifaz elegante para dormir Soporte para celular surtido",
+    "name": "Antifaz elegante para dormir",
     "price": 8500,
     "image": "img/product_610.jpg",
     "page": 55,
