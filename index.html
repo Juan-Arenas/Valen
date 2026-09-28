@@ -97,8 +97,17 @@
             </div>
 
             <!-- Catalog Status Row -->
-            <div class="catalog-stats-row">
+            <div class="catalog-stats-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <span class="catalog-counter-text" id="catalog-count-text">Cargando productos...</span>
+                <div class="sort-wrapper">
+                    <label for="sort-select" style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark);">Ordenar por:</label>
+                    <select id="sort-select" style="padding: 6px; border-radius: 8px; border: 1px solid #ddd; outline: none; margin-left: 5px; cursor: pointer;">
+                        <option value="default">Recomendados (Predeterminado)</option>
+                        <option value="price-asc">Precio: Menor a Mayor</option>
+                        <option value="price-desc">Precio: Mayor a Menor</option>
+                        <option value="name-asc">Nombre: A - Z</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Products Grid -->

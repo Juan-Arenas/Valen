@@ -497,6 +497,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return matchesSearch && matchesCat;
         });
 
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            const sortVal = sortSelect.value;
+            if (sortVal === 'price-asc') {
+                filteredProducts.sort((a, b) => Number(a.price) - Number(b.price));
+            } else if (sortVal === 'price-desc') {
+                filteredProducts.sort((a, b) => Number(b.price) - Number(a.price));
+            } else if (sortVal === 'name-asc') {
+                filteredProducts.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+            }
+        }
+
         renderProductsGrid();
     }
 
@@ -581,6 +593,13 @@ document.addEventListener('DOMContentLoaded', () => {
         searchClearBtn.addEventListener('click', () => {
             searchInput.value = '';
             searchClearBtn.classList.add('hidden');
+            applyFilters();
+        });
+    }
+
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
             applyFilters();
         });
     }
