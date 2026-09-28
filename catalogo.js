@@ -174,14 +174,6 @@ const INLINE_PRODUCTS = [
     "category": "Cuidado Facial y Corporal"
   },
   {
-    "id": 614,
-    "name": "Mascarilla en velo Doggy Vitamina C",
-    "price": 0,
-    "image": "",
-    "page": 4,
-    "category": "Cuidado Facial y Corporal"
-  },
-  {
     "id": 22,
     "name": "Mascarilla en velo ácido Hialurónico baby Sadoer",
     "price": 1500,
@@ -998,14 +990,6 @@ const INLINE_PRODUCTS = [
     "category": "Cuidado Facial y Corporal"
   },
   {
-    "id": 615,
-    "name": "Protector solar sachet",
-    "price": 0,
-    "image": "",
-    "page": 13,
-    "category": "Cuidado Facial y Corporal"
-  },
-  {
     "id": 124,
     "name": "Rodillo jade Protector solar cat",
     "price": 11000,
@@ -1730,14 +1714,6 @@ const INLINE_PRODUCTS = [
     "name": "Tinta de labios miss Betty aplicador grueso",
     "price": 8000,
     "image": "img/product_214.jpg",
-    "page": 21,
-    "category": "Maquillaje"
-  },
-  {
-    "id": 616,
-    "name": "Kit de labios Glitter set x3",
-    "price": 0,
-    "image": "",
     "page": 21,
     "category": "Maquillaje"
   },
