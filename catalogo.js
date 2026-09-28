@@ -1,33 +1,30 @@
 const INLINE_PRODUCTS = [
   {
     "id": 1,
-    "name": "Protector solar Whiten Sadoer",
+    "name": "Protector solar Whiten Sadoer Bloom Bubbles parches para el acne bye bye granos Bloomshell",
     "price": 17000,
     "image": "img/product_1.jpg",
-    "page": 1,
-    "category": "Cuidado Facial y Corporal",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 3,
+    "category": "Cuidado Facial y Corporal"
   },
   {
     "id": 2,
-    "name": "Agua micelar grande 500ml Kormesic",
+    "name": "Agua micelar grande 500ml Kormesic Bálsamo desmaquillante",
     "price": 17000,
     "image": "img/product_2.jpg",
+    "page": 3,
+    "category": "Cuidado Facial y Corporal"
+  },
+  {
+    "id": 3,
+    "name": "Bloom stop Bloomshell parches anti acné rosa",
+    "price": 14000,
+    "image": "img/product_3.jpg",
     "page": 1,
     "category": "Cuidado Facial y Corporal",
     "skin_tones_image": "",
     "skin_tones_count": 0,
     "active": true
-  },
-  {
-    "id": 3,
-    "name": "Bloom stop Bloomshell parches anti acné rosa Kit extractores de espinillas y puntos negros",
-    "price": 14000,
-    "image": "img/product_3.jpg",
-    "page": 3,
-    "category": "Cuidado Facial y Corporal"
   },
   {
     "id": 4,
