@@ -225,11 +225,14 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 29,
-    "name": "Fijador de maquillaje en spray Molde de hielo facial",
+    "name": "Fijador de maquillaje en spray",
     "price": 10000,
     "image": "img/product_29.jpg",
-    "page": 5,
-    "category": "Cuidado Facial y Corporal"
+    "page": 1,
+    "category": "Cuidado Facial y Corporal",
+    "skin_tones_image": "",
+    "skin_tones_count": 0,
+    "active": true
   },
   {
     "id": 30,
@@ -249,14 +252,11 @@ const INLINE_PRODUCTS = [
   },
   {
     "id": 32,
-    "name": "Molde de hielo facial",
+    "name": "Molde de hielo facial Tónico facial agua de rosas Purpure 120ml - comprar en",
     "price": 9500,
     "image": "img/product_32.jpg",
-    "page": 1,
-    "category": "Cuidado Facial y Corporal",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "active": true
+    "page": 5,
+    "category": "Cuidado Facial y Corporal"
   },
   {
     "id": 33,
