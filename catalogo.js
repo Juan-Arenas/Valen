@@ -4228,14 +4228,6 @@ const INLINE_PRODUCTS = [
     "category": "Accesorios Maquillaje"
   },
   {
-    "id": 519,
-    "name": "Bloom pocket kiss/ brillo hidratante Bloomshell",
-    "price": 25000,
-    "image": "img/product_519.jpg",
-    "page": 48,
-    "category": "Accesorios Maquillaje"
-  },
-  {
     "id": 520,
     "name": "Kit de brochas surtidas",
     "price": 7500,
