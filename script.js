@@ -98,6 +98,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminSupabaseSeedBtn = document.getElementById('admin-supabase-seed-btn');
     const adminSupabaseMessage = document.getElementById('admin-supabase-message');
 
+    // Admin Tab & Logs Console Elements
+    const adminTabsNav = document.getElementById('admin-tabs-nav');
+    const adminTabButtons = document.querySelectorAll('.admin-tab-btn');
+    const adminTabPanes = document.querySelectorAll('.admin-tab-pane');
+    const valenLogsBadge = document.getElementById('valen-logs-badge');
+    const valenLogsTerminalBody = document.getElementById('valen-logs-terminal-body');
+    const valenLogsSearch = document.getElementById('valen-logs-search');
+    const valenLogsSearchClear = document.getElementById('valen-logs-search-clear');
+    const valenLogsCopyBtn = document.getElementById('valen-logs-copy-btn');
+    const valenLogsDownloadBtn = document.getElementById('valen-logs-download-btn');
+    const valenLogsClearBtn = document.getElementById('valen-logs-clear-btn');
+    const valenLogsFilterGroup = document.getElementById('valen-logs-filter-group');
+    const valenTerminalMeta = document.getElementById('valen-terminal-meta');
+    const valenStatTotal = document.getElementById('valen-stat-total');
+    const valenStatOk = document.getElementById('valen-stat-ok');
+    const valenStatFailed = document.getElementById('valen-stat-failed');
+    const valenStatLast = document.getElementById('valen-stat-last');
+
+    let currentLogFilter = 'ALL';
+    let currentLogSearchQuery = '';
+
     // Global State
     let allProducts = [];
     let filteredProducts = [];
@@ -379,9 +400,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let loaded = false;
         const deletedIds = getDeletedIds();
 
-        // 0. Use INLINE_PRODUCTS from catalogo.js if available (highest priority now since DB is out of quota)
+        // 0. Use INLINE_PRODUCTS from catalogo.js if available, merging with local edits/additions
         if (typeof INLINE_PRODUCTS !== 'undefined' && INLINE_PRODUCTS.length > 0) {
-            allProducts = validateCatalog(INLINE_PRODUCTS);
+            const baseProducts = validateCatalog(INLINE_PRODUCTS);
+            const cached = getLocalCache();
+            if (cached && Array.isArray(cached) && cached.length > 0) {
+                const cachedMap = new Map(cached.map(p => [Number(p.id), p]));
+                allProducts = baseProducts.map(p => cachedMap.get(Number(p.id)) || p);
+                const baseIdSet = new Set(baseProducts.map(p => Number(p.id)));
+                cached.forEach(cp => {
+                    if (!baseIdSet.has(Number(cp.id))) {
+                        allProducts.unshift(cp);
+                    }
+                });
+            } else {
+                allProducts = baseProducts;
+            }
             saveLocalCache(allProducts);
             loaded = true;
         }
@@ -913,12 +947,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!authOk) {
                 if (adminLoginMessage) adminLoginMessage.textContent = 'PIN incorrecto. Intenta de nuevo.';
+                logValenEvent('WARN', 'AUTH_LOGIN', 'Intento de acceso denegado: PIN incorrecto', {
+                    enteredLength: enteredPin.length,
+                    timestamp: new Date().toISOString()
+                }, 'FAILED');
                 return;
             }
 
             adminPassword = enteredPin;
             if (adminPasswordModal) adminPasswordModal.classList.remove('active');
             if (adminPanel) adminPanel.classList.add('active');
+            logValenEvent('INFO', 'AUTH_LOGIN', 'Acceso autorizado al Panel de Administración', {
+                authMode: (enteredPin === '2006' || enteredPin === adminPassword) ? 'PIN_VERIFIED' : 'API_VERIFIED',
+                timestamp: new Date().toISOString()
+            }, 'OK');
             await loadAdminData();
         });
     }
@@ -948,12 +990,348 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAdminCategoryPills();
         renderAdminProductsList();
         updateAdminStats();
+        updateLogsBadge();
     }
 
     function updateAdminStats() {
         if (adminHeaderProductStat) adminHeaderProductStat.textContent = `${adminProducts.length} Productos`;
         if (adminHeaderCategoryStat) adminHeaderCategoryStat.textContent = `${adminCategories.length} Categorías`;
         if (adminTotalProductsBadge) adminTotalProductsBadge.textContent = `${adminProducts.length} productos`;
+        updateLogsBadge();
+    }
+
+    // ==========================================
+    // DEVELOPER AUDIT LOG SYSTEM (VALEN SYSTEM LOGS V1)
+    // ==========================================
+    const VALEN_LOGS_STORAGE_KEY = 'valen_system_logs_v1';
+    const VALEN_MAX_LOGS = 300;
+
+    function getValenLogs() {
+        try {
+            const raw = localStorage.getItem(VALEN_LOGS_STORAGE_KEY);
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            console.error('Error al leer logs locales:', e);
+            return [];
+        }
+    }
+
+    function saveValenLogs(logs) {
+        try {
+            localStorage.setItem(VALEN_LOGS_STORAGE_KEY, JSON.stringify(logs.slice(0, VALEN_MAX_LOGS)));
+        } catch (e) {
+            console.warn('Error al guardar logs en localStorage:', e);
+        }
+    }
+
+    function logValenEvent(level, action, message, details = {}, status = 'OK') {
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const timeFormatted = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+        
+        const entry = {
+            id: 'valen_log_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+            timestamp: now.toISOString(),
+            timeFormatted,
+            level: String(level || 'INFO').toUpperCase(),
+            action: String(action || 'GENERAL').toUpperCase(),
+            status: String(status || 'OK').toUpperCase(), // 'OK' | 'FAILED'
+            message: String(message || ''),
+            details: details && typeof details === 'object' ? details : { raw: details }
+        };
+
+        const logs = getValenLogs();
+        logs.unshift(entry);
+        saveValenLogs(logs);
+
+        updateLogsBadge(logs);
+
+        const logsPane = document.getElementById('admin-tab-logs');
+        if (logsPane && logsPane.classList.contains('active')) {
+            renderValenLogs();
+        }
+
+        return entry;
+    }
+
+    function updateLogsBadge(logs = null) {
+        const allLogs = logs || getValenLogs();
+        if (valenLogsBadge) {
+            valenLogsBadge.textContent = allLogs.length;
+        }
+        if (valenTerminalMeta) {
+            valenTerminalMeta.textContent = `${allLogs.length} evento${allLogs.length === 1 ? '' : 's'}`;
+        }
+    }
+
+    function renderValenLogs() {
+        if (!valenLogsTerminalBody) return;
+
+        const allLogs = getValenLogs();
+        const totalCount = allLogs.length;
+
+        // Count per filter category
+        const okCount = allLogs.filter(l => l.status === 'OK').length;
+        const failedCount = allLogs.filter(l => l.status === 'FAILED').length;
+        const editCount = allLogs.filter(l => l.action === 'PRODUCT_UPDATE').length;
+        const deleteCount = allLogs.filter(l => l.action === 'PRODUCT_DELETE').length;
+        const createCount = allLogs.filter(l => l.action === 'PRODUCT_CREATE').length;
+        const toggleCount = allLogs.filter(l => l.action === 'PRODUCT_TOGGLE').length;
+        const cloudCount = allLogs.filter(l => l.action.startsWith('SUPABASE')).length;
+        const authCount = allLogs.filter(l => l.action.startsWith('AUTH')).length;
+
+        // Update Pill Counts
+        const setPillCount = (id, count) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = count;
+        };
+        setPillCount('log-count-all', totalCount);
+        setPillCount('log-count-ok', okCount);
+        setPillCount('log-count-failed', failedCount);
+        setPillCount('log-count-edit', editCount);
+        setPillCount('log-count-delete', deleteCount);
+        setPillCount('log-count-create', createCount);
+        setPillCount('log-count-toggle', toggleCount);
+        setPillCount('log-count-cloud', cloudCount);
+        setPillCount('log-count-auth', authCount);
+
+        // Update Stats
+        if (valenStatTotal) valenStatTotal.textContent = totalCount;
+        if (valenStatOk) valenStatOk.textContent = okCount;
+        if (valenStatFailed) valenStatFailed.textContent = failedCount;
+        if (valenStatLast) {
+            valenStatLast.textContent = allLogs.length > 0 ? `${allLogs[0].action} (${allLogs[0].timeFormatted})` : 'Ninguno';
+        }
+        if (valenTerminalMeta) {
+            valenTerminalMeta.textContent = `${totalCount} evento${totalCount === 1 ? '' : 's'}`;
+        }
+        if (valenLogsBadge) {
+            valenLogsBadge.textContent = totalCount;
+        }
+
+        // Apply filter
+        let filtered = allLogs;
+        if (currentLogFilter === 'OK') {
+            filtered = filtered.filter(l => l.status === 'OK');
+        } else if (currentLogFilter === 'FAILED') {
+            filtered = filtered.filter(l => l.status === 'FAILED');
+        } else if (currentLogFilter === 'PRODUCT_UPDATE') {
+            filtered = filtered.filter(l => l.action === 'PRODUCT_UPDATE');
+        } else if (currentLogFilter === 'PRODUCT_DELETE') {
+            filtered = filtered.filter(l => l.action === 'PRODUCT_DELETE');
+        } else if (currentLogFilter === 'PRODUCT_CREATE') {
+            filtered = filtered.filter(l => l.action === 'PRODUCT_CREATE');
+        } else if (currentLogFilter === 'PRODUCT_TOGGLE') {
+            filtered = filtered.filter(l => l.action === 'PRODUCT_TOGGLE');
+        } else if (currentLogFilter === 'SUPABASE') {
+            filtered = filtered.filter(l => l.action.startsWith('SUPABASE'));
+        } else if (currentLogFilter === 'AUTH') {
+            filtered = filtered.filter(l => l.action.startsWith('AUTH'));
+        }
+
+        // Apply search
+        if (currentLogSearchQuery) {
+            filtered = filtered.filter(l => {
+                const haystack = `${l.message} ${l.action} ${l.status} ${l.timeFormatted} ${JSON.stringify(l.details || {})}`.toLowerCase();
+                return haystack.includes(currentLogSearchQuery);
+            });
+        }
+
+        if (filtered.length === 0) {
+            valenLogsTerminalBody.innerHTML = `
+                <div class="valen-terminal-empty">
+                    <i class="fas fa-terminal"></i>
+                    <span>valen@system:~$ Sin registros coincidentes para el filtro actual.</span>
+                    <small style="color: #475569;">Las operaciones de productos, categorías, supabase y autenticación aparecerán aquí en vivo.</small>
+                </div>
+            `;
+            return;
+        }
+
+        valenLogsTerminalBody.innerHTML = '';
+        const escapeHtml = (str) => {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        };
+
+        filtered.forEach(log => {
+            const statusClass = log.status === 'FAILED' ? 'status-failed' : (log.status === 'OK' ? 'status-ok' : (log.level === 'WARN' ? 'status-warn' : 'status-info'));
+            const statusLabel = log.status === 'FAILED' ? '[FAILED]' : (log.status === 'OK' ? '[OK]' : `[${log.level}]`);
+
+            const row = document.createElement('div');
+            row.className = `valen-log-row log-${log.status.toLowerCase()}`;
+            row.dataset.logId = log.id;
+
+            const jsonStr = JSON.stringify(log.details || {}, null, 2);
+
+            row.innerHTML = `
+                <div class="valen-log-summary-line">
+                    <span class="valen-log-time">${escapeHtml(log.timeFormatted)}</span>
+                    <span class="valen-badge-status ${statusClass}">${escapeHtml(statusLabel)}</span>
+                    <span class="valen-badge-action">${escapeHtml(log.action)}</span>
+                    <span class="valen-log-message">${escapeHtml(log.message)}</span>
+                    <button type="button" class="valen-log-toggle-json" title="Ver detalles JSON">
+                        <i class="fas fa-chevron-down"></i> Detalles
+                    </button>
+                </div>
+                <div class="valen-log-details-drawer hidden">
+                    <div class="valen-log-diff-header">
+                        <span><i class="fas fa-code"></i> Payload / Datos de la Operación (${escapeHtml(log.action)})</span>
+                        <button type="button" class="btn-copy-entry-json" data-id="${log.id}"><i class="fas fa-copy"></i> Copiar Entrada</button>
+                    </div>
+                    <pre class="valen-log-json-code"><code>${escapeHtml(jsonStr)}</code></pre>
+                </div>
+            `;
+
+            // Toggle drawer on click of summary or button
+            const summaryLine = row.querySelector('.valen-log-summary-line');
+            const drawer = row.querySelector('.valen-log-details-drawer');
+            const toggleBtn = row.querySelector('.valen-log-toggle-json');
+            
+            summaryLine.addEventListener('click', (e) => {
+                if (e.target.closest('.btn-copy-entry-json')) return;
+                const isHidden = drawer.classList.contains('hidden');
+                drawer.classList.toggle('hidden');
+                toggleBtn.innerHTML = isHidden ? '<i class="fas fa-chevron-up"></i> Ocultar' : '<i class="fas fa-chevron-down"></i> Detalles';
+            });
+
+            // Individual copy button
+            const copyEntryBtn = row.querySelector('.btn-copy-entry-json');
+            if (copyEntryBtn) {
+                copyEntryBtn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const text = JSON.stringify(log, null, 2);
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        showNotification('Log copiado al portapapeles', '📋');
+                    } catch (err) {
+                        const ta = document.createElement('textarea');
+                        ta.value = text;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(ta);
+                        showNotification('Log copiado al portapapeles', '📋');
+                    }
+                });
+            }
+
+            valenLogsTerminalBody.appendChild(row);
+        });
+    }
+
+    function initAdminTabs() {
+        if (!adminTabsNav) return;
+        adminTabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+                adminTabButtons.forEach(b => b.classList.remove('active'));
+                adminTabPanes.forEach(p => p.classList.remove('active'));
+
+                btn.classList.add('active');
+                const targetPane = document.getElementById(`admin-tab-${target}`);
+                if (targetPane) targetPane.classList.add('active');
+
+                if (target === 'logs') {
+                    renderValenLogs();
+                }
+            });
+        });
+    }
+
+    function initValenLogsConsole() {
+        if (valenLogsCopyBtn) {
+            valenLogsCopyBtn.addEventListener('click', async () => {
+                const logs = getValenLogs();
+                const text = JSON.stringify(logs, null, 2);
+                try {
+                    await navigator.clipboard.writeText(text);
+                    showNotification('Logs copiados al portapapeles en formato JSON', '📋');
+                } catch (err) {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showNotification('Logs copiados al portapapeles en formato JSON', '📋');
+                }
+            });
+        }
+
+        if (valenLogsDownloadBtn) {
+            valenLogsDownloadBtn.addEventListener('click', () => {
+                const logs = getValenLogs();
+                const now = new Date();
+                const dateStr = now.toISOString().replace(/[:.]/g, '-');
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logs, null, 2));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", `valen_makeup_audit_logs_${dateStr}.json`);
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+                showNotification('Archivo de logs descargado', '💾');
+            });
+        }
+
+        if (valenLogsClearBtn) {
+            valenLogsClearBtn.addEventListener('click', () => {
+                if (!confirm('¿Deseas limpiar todo el historial de logs de auditoría?')) return;
+                localStorage.removeItem(VALEN_LOGS_STORAGE_KEY);
+                logValenEvent('WARN', 'AUDIT_CLEAR', 'Historial de auditoría reiniciado por el administrador.', {}, 'OK');
+                renderValenLogs();
+                showNotification('Historial de logs reiniciado', '🗑️');
+            });
+        }
+
+        if (valenLogsFilterGroup) {
+            valenLogsFilterGroup.addEventListener('click', (e) => {
+                const pill = e.target.closest('.valen-filter-pill');
+                if (!pill) return;
+                valenLogsFilterGroup.querySelectorAll('.valen-filter-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                currentLogFilter = pill.dataset.filter || 'ALL';
+                renderValenLogs();
+            });
+        }
+
+        if (valenLogsSearch) {
+            valenLogsSearch.addEventListener('input', (e) => {
+                currentLogSearchQuery = e.target.value.trim().toLowerCase();
+                if (valenLogsSearchClear) {
+                    if (currentLogSearchQuery) {
+                        valenLogsSearchClear.classList.remove('hidden');
+                    } else {
+                        valenLogsSearchClear.classList.add('hidden');
+                    }
+                }
+                renderValenLogs();
+            });
+        }
+
+        if (valenLogsSearchClear) {
+            valenLogsSearchClear.addEventListener('click', () => {
+                if (valenLogsSearch) valenLogsSearch.value = '';
+                currentLogSearchQuery = '';
+                valenLogsSearchClear.classList.add('hidden');
+                renderValenLogs();
+            });
+        }
+
+        // Seed initial log if empty
+        if (getValenLogs().length === 0) {
+            logValenEvent('INFO', 'SYSTEM_BOOT', 'Consola de auditoría de Valen Makeup inicializada correctamente.', {
+                version: '2.0.0',
+                engine: 'Valen Makeup Core DB',
+                timestamp: new Date().toISOString()
+            }, 'OK');
+        }
+
+        updateLogsBadge();
     }
 
     function populateAdminCategorySelect() {
@@ -1164,6 +1542,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!name) {
                 if (adminProductMessage) adminProductMessage.textContent = 'Ingresa el nombre del producto.';
+                logValenEvent('WARN', 'PRODUCT_VALIDATION', 'Intento de guardar producto sin nombre', {}, 'FAILED');
                 return;
             }
 
@@ -1177,78 +1556,133 @@ document.addEventListener('DOMContentLoaded', () => {
                 active,
                 page: 1
             };
-
-            // 1. Update in Supabase if active
-            if (supabaseClient) {
-                try {
-                    if (editingId) {
-                        await supabaseClient.from('products').update(payload).eq('id', editingId);
-                    } else {
-                        const { data } = await supabaseClient.from('products').insert([payload]).select();
-                        if (data && data[0] && data[0].id) {
-                            payload.id = data[0].id;
-                        }
-                    }
-                } catch (err) {
-                    console.warn('Supabase insert/update error:', err);
-                }
-            }
-
-            // 2. Update memory arrays
             if (editingId) {
-                const idxAll = allProducts.findIndex(p => Number(p.id) === editingId);
-                if (idxAll >= 0) allProducts[idxAll] = { ...allProducts[idxAll], ...payload };
-                const idxAdmin = adminProducts.findIndex(p => Number(p.id) === editingId);
-                if (idxAdmin >= 0) adminProducts[idxAdmin] = { ...adminProducts[idxAdmin], ...payload };
-                removeDeletedId(editingId);
-            } else {
-                if (!payload.id) {
-                    const maxId = allProducts.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
-                    payload.id = maxId + 1;
-                }
-                removeDeletedId(payload.id);
-                allProducts.unshift(payload);
-                adminProducts.unshift(payload);
+                payload.id = editingId;
             }
 
-            saveLocalCache(allProducts);
-            renderProductsGrid();
-            renderAdminProductsList();
-            renderAdminCategoryPills();
-            renderAdminCategoryChips();
-            updateAdminStats();
+            // Snapshot old product before mutation for diff audit
+            const oldProd = editingId ? (allProducts.find(p => Number(p.id) === editingId) || adminProducts.find(p => Number(p.id) === editingId)) : null;
 
-            showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos!', '✅');
-
-            adminProductForm.reset();
-            delete adminProductForm.dataset.editingId;
-            delete adminProductForm.dataset.existingImage;
-            delete adminProductForm.dataset.existingSkinTones;
-            if (document.getElementById('admin-product-skin-tones-count')) document.getElementById('admin-product-skin-tones-count').value = '';
-            if (adminProductMessage) adminProductMessage.textContent = '';
-            if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
-            if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
-            if (adminProductPanel) adminProductPanel.classList.add('hidden');
-
-            // 3. Update server API in background
             try {
-                const endpoint = editingId ? `/api/products/${editingId}` : '/api/products';
-                const method = editingId ? 'PATCH' : 'POST';
-                await fetchApi(endpoint, {
-                    method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Admin-Password': adminPassword
-                    },
-                    body: JSON.stringify(payload)
-                });
-            } catch (err) {}
+                // 1. Update in Supabase if active
+                if (supabaseClient) {
+                    try {
+                        if (editingId) {
+                            await supabaseClient.from('products').update(payload).eq('id', editingId);
+                        } else {
+                            const { data } = await supabaseClient.from('products').insert([payload]).select();
+                            if (data && data[0] && data[0].id) {
+                                payload.id = data[0].id;
+                            }
+                        }
+                    } catch (err) {
+                        console.warn('Supabase insert/update error:', err);
+                        logValenEvent('WARN', 'SUPABASE_SYNC', `Aviso al sincronizar producto en Supabase: ${err.message}`, { error: err.message, payload }, 'FAILED');
+                    }
+                }
+
+                // 2. Update memory arrays
+                if (editingId) {
+                    const idxAll = allProducts.findIndex(p => Number(p.id) === editingId);
+                    if (idxAll >= 0) allProducts[idxAll] = { ...allProducts[idxAll], ...payload };
+                    const idxAdmin = adminProducts.findIndex(p => Number(p.id) === editingId);
+                    if (idxAdmin >= 0) adminProducts[idxAdmin] = { ...adminProducts[idxAdmin], ...payload };
+                    removeDeletedId(editingId);
+                } else {
+                    if (!payload.id) {
+                        const maxId = allProducts.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
+                        payload.id = maxId + 1;
+                    }
+                    removeDeletedId(payload.id);
+                    allProducts.unshift(payload);
+                    adminProducts.unshift(payload);
+                }
+
+                saveLocalCache(allProducts);
+                renderProductsGrid();
+                renderAdminProductsList();
+                renderAdminCategoryPills();
+                renderAdminCategoryChips();
+                updateAdminStats();
+
+                // 3. Log event with full diff or creation details
+                if (editingId) {
+                    const diff = {};
+                    if (oldProd) {
+                        if (oldProd.name !== payload.name) diff.name = { before: oldProd.name, after: payload.name };
+                        if (Number(oldProd.price) !== Number(payload.price)) diff.price = { before: Number(oldProd.price), after: Number(payload.price) };
+                        if (oldProd.category !== payload.category) diff.category = { before: oldProd.category, after: payload.category };
+                        if (Boolean(oldProd.active !== false) !== Boolean(payload.active)) diff.active = { before: Boolean(oldProd.active !== false), after: Boolean(payload.active) };
+                        if (Number(oldProd.skin_tones_count || 0) !== Number(payload.skin_tones_count || 0)) diff.skin_tones_count = { before: oldProd.skin_tones_count || 0, after: payload.skin_tones_count || 0 };
+                        if (oldProd.image !== payload.image) diff.image = { before: oldProd.image ? (oldProd.image.startsWith('data:') ? '[Base64 previo]' : oldProd.image) : '', after: payload.image.startsWith('data:') ? '[Base64 nuevo]' : payload.image };
+                        if (oldProd.skin_tones_image !== payload.skin_tones_image) diff.skin_tones_image = { changed: true };
+                    }
+                    const changedFields = Object.keys(diff);
+                    logValenEvent('OK', 'PRODUCT_UPDATE', `Editado producto #${editingId} "${payload.name}" [${changedFields.length > 0 ? changedFields.join(', ') : 'sin cambios'}]`, {
+                        productId: editingId,
+                        productName: payload.name,
+                        changedFields,
+                        diff,
+                        beforeSnapshot: oldProd ? { id: oldProd.id, name: oldProd.name, price: oldProd.price, category: oldProd.category, active: oldProd.active !== false } : null,
+                        afterSnapshot: { id: payload.id, name: payload.name, price: payload.price, category: payload.category, active: payload.active }
+                    }, 'OK');
+                } else {
+                    logValenEvent('OK', 'PRODUCT_CREATE', `Creado producto nuevo #${payload.id} "${payload.name}" (${formatPrice(payload.price)})`, {
+                        productId: payload.id,
+                        name: payload.name,
+                        price: payload.price,
+                        category: payload.category,
+                        active: payload.active,
+                        skinTonesCount: payload.skin_tones_count || 0,
+                        hasCustomImage: Boolean(payload.image && payload.image !== 'img/product_1.jpg')
+                    }, 'OK');
+                }
+
+                showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos!', '✅');
+
+                adminProductForm.reset();
+                delete adminProductForm.dataset.editingId;
+                delete adminProductForm.dataset.existingImage;
+                delete adminProductForm.dataset.existingSkinTones;
+                if (document.getElementById('admin-product-skin-tones-count')) document.getElementById('admin-product-skin-tones-count').value = '';
+                if (adminProductMessage) adminProductMessage.textContent = '';
+                if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
+                if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
+                if (adminProductPanel) adminProductPanel.classList.add('hidden');
+
+                // 4. Update server API in background
+                try {
+                    const endpoint = editingId ? `/api/products/${editingId}` : '/api/products';
+                    const method = editingId ? 'PATCH' : 'POST';
+                    await fetchApi(endpoint, {
+                        method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Admin-Password': adminPassword
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {}
+            } catch (err) {
+                console.error('Error al guardar producto:', err);
+                if (adminProductMessage) adminProductMessage.textContent = `Error: ${err.message}`;
+                logValenEvent('FAILED', editingId ? 'PRODUCT_UPDATE' : 'PRODUCT_CREATE', `Error al ${editingId ? 'editar' : 'crear'} producto "${name}": ${err.message}`, {
+                    error: err.message,
+                    payload
+                }, 'FAILED');
+            }
         });
     }
 
     function openEditProduct(id) {
         const prod = adminProducts.find(p => Number(p.id) === Number(id));
         if (!prod) return;
+
+        // Ensure Catalog tab is selected
+        const catTabBtn = document.querySelector('.admin-tab-btn[data-tab="catalog"]');
+        if (catTabBtn && !catTabBtn.classList.contains('active')) {
+            catTabBtn.click();
+        }
 
         document.getElementById('admin-product-name').value = prod.name;
         document.getElementById('admin-product-price').value = prod.price;
@@ -1295,10 +1729,21 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAdminStats();
         applyFilters();
 
+        const prodName = p1 ? p1.name : (p2 ? p2.name : `Producto #${numId}`);
+        logValenEvent('OK', 'PRODUCT_TOGGLE', `Visibilidad modificada: #${numId} "${prodName}" pasa a ${newActive ? 'ACTIVO (visible)' : 'OCULTO (inactivo)'}`, {
+            productId: numId,
+            productName: prodName,
+            newState: newActive ? 'ACTIVO' : 'OCULTO',
+            previousState: currentActive ? 'ACTIVO' : 'OCULTO'
+        }, 'OK');
+
         showNotification(newActive ? 'Producto activado' : 'Producto ocultado');
 
         if (supabaseClient) {
-            supabaseClient.from('products').update({ active: newActive }).eq('id', numId).catch(e => console.warn('Supabase toggle error:', e));
+            supabaseClient.from('products').update({ active: newActive }).eq('id', numId).catch(e => {
+                console.warn('Supabase toggle error:', e);
+                logValenEvent('WARN', 'SUPABASE_SYNC', `Error al cambiar visibilidad en Supabase para #${numId}: ${e.message}`, { error: e.message }, 'FAILED');
+            });
         }
 
         fetchApi(`/api/products/${numId}/state`, {
@@ -1331,13 +1776,30 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAdminStats();
         applyFilters();
 
+        logValenEvent('WARN', 'PRODUCT_DELETE', `Eliminado producto #${numId} "${prodName}" del catálogo`, {
+            deletedId: numId,
+            product: prod ? {
+                id: prod.id,
+                name: prod.name,
+                price: prod.price,
+                category: prod.category,
+                active: prod.active !== false
+            } : { id: numId, name: prodName }
+        }, 'OK');
+
         showNotification(`"${prodName}" eliminado correctamente`, '🗑️');
 
         // 3. Sincronizar en la nube en segundo plano (Supabase & Server API)
         if (supabaseClient) {
             supabaseClient.from('products').delete().eq('id', numId).then(({ error }) => {
-                if (error) console.warn('Supabase delete error:', error);
-            }).catch(e => console.warn('Supabase delete error:', e));
+                if (error) {
+                    console.warn('Supabase delete error:', error);
+                    logValenEvent('FAILED', 'SUPABASE_SYNC', `Error al eliminar producto #${numId} en Supabase: ${error.message}`, { error }, 'FAILED');
+                }
+            }).catch(e => {
+                console.warn('Supabase delete error:', e);
+                logValenEvent('FAILED', 'SUPABASE_SYNC', `Error al eliminar producto #${numId} en Supabase: ${e.message}`, { error: e.message }, 'FAILED');
+            });
         }
 
         fetchApi(`/api/products/${numId}`, {
@@ -1359,6 +1821,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     adminSupabaseMessage.textContent = 'Ingresa la URL y el Anon Key de Supabase.';
                     adminSupabaseMessage.style.color = 'var(--bratz-deep-pink)';
                 }
+                logValenEvent('WARN', 'SUPABASE_CONNECT', 'Intento de conexión a Supabase con campos vacíos', {}, 'FAILED');
                 return;
             }
 
@@ -1391,6 +1854,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 setupSupabaseRealtime();
+                logValenEvent('OK', 'SUPABASE_CONNECT', `Conexión establecida con Supabase Cloud DB: ${url}`, {
+                    url,
+                    keyLength: key.length
+                }, 'OK');
                 showNotification('Base de datos Supabase conectada', '🚀');
                 await loadCatalog();
             } catch (err) {
@@ -1398,6 +1865,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     adminSupabaseMessage.textContent = `Error de conexión: ${err.message || 'Verifica que la tabla products exista en Supabase ejecutando el script supabase_schema.sql'}`;
                     adminSupabaseMessage.style.color = 'var(--bratz-deep-pink)';
                 }
+                logValenEvent('FAILED', 'SUPABASE_CONNECT', `Fallo al conectar con Supabase: ${err.message}`, {
+                    url,
+                    error: err.message
+                }, 'FAILED');
             }
         });
     }
@@ -1455,6 +1926,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     adminSupabaseMessage.style.color = '#047857';
                 }
 
+                logValenEvent('OK', 'SUPABASE_SEED', `Migración completa a Supabase: ${inserted} productos subidos a la nube`, {
+                    uploadedCount: inserted,
+                    totalCatalog: prodsToUpload.length
+                }, 'OK');
+
                 showNotification('Catálogo migrado a Supabase con éxito', '🎉');
                 await loadCatalog();
             } catch (err) {
@@ -1462,6 +1938,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     adminSupabaseMessage.textContent = `Error al migrar catálogo: ${err.message}`;
                     adminSupabaseMessage.style.color = 'var(--bratz-deep-pink)';
                 }
+                logValenEvent('FAILED', 'SUPABASE_SEED', `Error al migrar productos a Supabase: ${err.message}`, {
+                    error: err.message
+                }, 'FAILED');
             }
         });
     }
@@ -1486,6 +1965,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             catInput.value = '';
+            logValenEvent('OK', 'CATEGORY_CREATE', `Nueva categoría agregada: "${norm}"`, {
+                categoryName: norm,
+                totalCategories: allCategories.length
+            }, 'OK');
             showNotification('Categoría agregada', '✨');
 
             if (supabaseClient) {
@@ -1514,12 +1997,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const newPin = document.getElementById('admin-new-password').value.trim();
             if (!newPin || newPin.length < 4) {
                 if (adminPasswordMessage) adminPasswordMessage.textContent = 'El PIN debe tener al menos 4 dígitos.';
+                logValenEvent('WARN', 'AUTH_PIN_CHANGE', 'Intento de cambio de PIN rechazado (menos de 4 dígitos)', {}, 'FAILED');
                 return;
             }
 
             adminPassword = newPin;
             document.getElementById('admin-new-password').value = '';
             if (adminPasswordMessage) adminPasswordMessage.textContent = 'PIN actualizado con éxito.';
+            logValenEvent('INFO', 'AUTH_PIN_CHANGE', 'PIN de administrador actualizado exitosamente', {}, 'OK');
             showNotification('PIN de acceso actualizado', '🔒');
 
             try {
@@ -1538,4 +2023,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize App
     loadSavedCart();
     loadCatalog();
+    initAdminTabs();
+    initValenLogsConsole();
 });
