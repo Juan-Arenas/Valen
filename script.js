@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { data, error } = await supabaseClient
                     .from('products')
                     .select('*')
-                    .order('id', { ascending: false });
+                    .order('id', { ascending: true });
 
                 if (!error && data && data.length > 0) {
                     allProducts = data;

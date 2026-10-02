@@ -458,7 +458,7 @@ module.exports = async (req, res) => {
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.active = TRUE AND p.category_id = ${Number(categoryId)}
-                ORDER BY p.id DESC;
+                ORDER BY p.id ASC;
               `;
             } else if (activeOnly) {
               rows = await sql`
@@ -468,7 +468,7 @@ module.exports = async (req, res) => {
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.active = TRUE
-                ORDER BY p.id DESC;
+                ORDER BY p.id ASC;
               `;
             } else if (categoryId) {
               rows = await sql`
@@ -478,7 +478,7 @@ module.exports = async (req, res) => {
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.category_id = ${Number(categoryId)}
-                ORDER BY p.id DESC;
+                ORDER BY p.id ASC;
               `;
             } else {
               rows = await sql`
@@ -487,7 +487,7 @@ module.exports = async (req, res) => {
                        p.skin_tones_image, p.skin_tones_count
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
-                ORDER BY p.id DESC;
+                ORDER BY p.id ASC;
               `;
             }
           }
@@ -554,7 +554,7 @@ module.exports = async (req, res) => {
           });
 
           // Trigger background GitHub sync if configured
-          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
+          sql`SELECT * FROM products ORDER BY id ASC`.then(allProds => {
             backgroundSyncToGithub(allProds).catch(() => {});
           }).catch(() => {});
 
@@ -651,7 +651,7 @@ module.exports = async (req, res) => {
           });
 
           // Background sync
-          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
+          sql`SELECT * FROM products ORDER BY id ASC`.then(allProds => {
             backgroundSyncToGithub(allProds).catch(() => {});
           }).catch(() => {});
 
@@ -684,7 +684,7 @@ module.exports = async (req, res) => {
           });
 
           // Background sync
-          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
+          sql`SELECT * FROM products ORDER BY id ASC`.then(allProds => {
             backgroundSyncToGithub(allProds).catch(() => {});
           }).catch(() => {});
 
