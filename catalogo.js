@@ -1,17 +1,5 @@
 const INLINE_PRODUCTS = [
   {
-    "id": 615,
-    "name": "Pene De Juan",
-    "price": 1,
-    "image": "img/product_1.jpg",
-    "page": 1,
-    "active": true,
-    "category_id": 5,
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "category": "Maquillaje"
-  },
-  {
     "id": 614,
     "name": "Paquete pomos desmaquillantes",
     "price": 6900,
