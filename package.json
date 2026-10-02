@@ -1,0 +1,9 @@
+{
+  "name": "valen-makeup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Valen Makeup Catálogo y Tienda Oficial",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0"
+  }
+}

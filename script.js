@@ -400,27 +400,23 @@ document.addEventListener('DOMContentLoaded', () => {
         let loaded = false;
         const deletedIds = getDeletedIds();
 
-        // 0. Use INLINE_PRODUCTS from catalogo.js if available, merging with local edits/additions
-        if (typeof INLINE_PRODUCTS !== 'undefined' && INLINE_PRODUCTS.length > 0) {
-            const baseProducts = validateCatalog(INLINE_PRODUCTS);
-            const cached = getLocalCache();
-            if (cached && Array.isArray(cached) && cached.length > 0) {
-                const cachedMap = new Map(cached.map(p => [Number(p.id), p]));
-                allProducts = baseProducts.map(p => cachedMap.get(Number(p.id)) || p);
-                const baseIdSet = new Set(baseProducts.map(p => Number(p.id)));
-                cached.forEach(cp => {
-                    if (!baseIdSet.has(Number(cp.id))) {
-                        allProducts.unshift(cp);
-                    }
-                });
-            } else {
-                allProducts = baseProducts;
+        // 1. Try Server API (Neon PostgreSQL - Global Shared Database for all devices)
+        try {
+            const res = await fetchApi('/api/products?active=false');
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    allProducts = data;
+                    saveLocalCache(data);
+                    loaded = true;
+                    console.log(`[Catálogo] Conectado a base de datos central: ${data.length} productos cargados.`);
+                }
             }
-            saveLocalCache(allProducts);
-            loaded = true;
+        } catch (e) {
+            console.warn('[Catálogo] No se pudo conectar a la base de datos central, cargando respaldo local:', e);
         }
 
-        // 1. Try Supabase Cloud DB (Single source of truth)
+        // 2. Try Supabase Cloud DB if connected
         if (!loaded && supabaseClient) {
             try {
                 const { data, error } = await supabaseClient
@@ -438,22 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 2. Try Server API
-        if (!loaded) {
-            try {
-                const res = await fetchApi('/api/products?active=false');
-                if (res.ok) {
-                    const data = await res.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        allProducts = data;
-                        saveLocalCache(data);
-                        loaded = true;
-                    }
-                }
-            } catch (e) {}
-        }
-
-        // 3. Try Local Cache
+        // 3. Fallback to Local Cache
         if (!loaded) {
             const cached = getLocalCache();
             if (cached && Array.isArray(cached) && cached.length > 0) {
@@ -462,7 +443,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 4. Try extracted JSON file
+        // 4. Fallback to INLINE_PRODUCTS from catalogo.js
+        if (!loaded && typeof INLINE_PRODUCTS !== 'undefined' && INLINE_PRODUCTS.length > 0) {
+            allProducts = validateCatalog(INLINE_PRODUCTS);
+            saveLocalCache(allProducts);
+            loaded = true;
+        }
+
+        // 5. Try extracted JSON file
         if (!loaded) {
             try {
                 const res = await fetchApi('/extracted_products.json');
@@ -965,22 +953,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let logsPollingInterval = null;
+
     async function loadAdminData() {
-        if (supabaseClient) {
+        try {
+            const prodsRes = await fetchApi('/api/products?active=false');
+            if (prodsRes.ok) {
+                const data = await prodsRes.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    allProducts = data;
+                    adminProducts = data.slice();
+                    saveLocalCache(allProducts);
+                }
+            }
+        } catch (e) {
+            console.warn('[Admin] Fallo al cargar productos del servidor:', e);
+            if (adminProducts.length === 0) {
+                adminProducts = allProducts.slice();
+            }
+        }
+
+        if (supabaseClient && adminProducts.length === 0) {
             try {
                 const { data } = await supabaseClient.from('products').select('*').order('id', { ascending: false });
                 if (data) adminProducts = data;
             } catch (e) {}
-        }
-
-        if (adminProducts.length === 0) {
-            try {
-                const prodsRes = await fetchApi('/api/products?active=false');
-                if (prodsRes.ok) adminProducts = await prodsRes.json();
-                else adminProducts = allProducts.slice();
-            } catch (e) {
-                adminProducts = allProducts.slice();
-            }
         }
 
         adminCategories = allCategories.map((name, id) => ({ id: id + 1, name }));
@@ -990,7 +987,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderAdminCategoryPills();
         renderAdminProductsList();
         updateAdminStats();
-        updateLogsBadge();
+        await fetchRemoteLogs();
+        startLogsPolling();
     }
 
     function updateAdminStats() {
@@ -1001,7 +999,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // DEVELOPER AUDIT LOG SYSTEM (VALEN SYSTEM LOGS V1)
+    // DEVELOPER AUDIT LOG SYSTEM (CENTRALIZADO EN NUBE)
     // ==========================================
     const VALEN_LOGS_STORAGE_KEY = 'valen_system_logs_v1';
     const VALEN_MAX_LOGS = 300;
@@ -1024,6 +1022,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function fetchRemoteLogs() {
+        try {
+            const res = await fetchApi('/api/logs?limit=300');
+            if (res.ok) {
+                const remoteLogs = await res.json();
+                if (Array.isArray(remoteLogs)) {
+                    const localLogs = getValenLogs();
+                    const logMap = new Map();
+                    // Put remote logs in map
+                    remoteLogs.forEach(l => logMap.set(l.id, l));
+                    // Keep any local logs that haven't synced yet
+                    localLogs.forEach(l => {
+                        if (!logMap.has(l.id)) logMap.set(l.id, l);
+                    });
+                    const merged = Array.from(logMap.values());
+                    // Sort descending by timestamp
+                    merged.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+                    saveValenLogs(merged);
+                    updateLogsBadge(merged);
+                    const logsPane = document.getElementById('admin-tab-logs');
+                    if (logsPane && logsPane.classList.contains('active')) {
+                        renderValenLogs();
+                    }
+                    return merged;
+                }
+            }
+        } catch (e) {
+            console.warn('[Logs] No se pudieron sincronizar logs remotos:', e);
+        }
+        return getValenLogs();
+    }
+
+    function startLogsPolling() {
+        if (logsPollingInterval) clearInterval(logsPollingInterval);
+        logsPollingInterval = setInterval(() => {
+            if (adminPanel && adminPanel.classList.contains('active')) {
+                fetchRemoteLogs();
+            }
+        }, 5000);
+    }
+
     function logValenEvent(level, action, message, details = {}, status = 'OK') {
         const now = new Date();
         const pad = (n) => String(n).padStart(2, '0');
@@ -1035,9 +1074,10 @@ document.addEventListener('DOMContentLoaded', () => {
             timeFormatted,
             level: String(level || 'INFO').toUpperCase(),
             action: String(action || 'GENERAL').toUpperCase(),
-            status: String(status || 'OK').toUpperCase(), // 'OK' | 'FAILED'
+            status: String(status || 'OK').toUpperCase(),
             message: String(message || ''),
-            details: details && typeof details === 'object' ? details : { raw: details }
+            details: details && typeof details === 'object' ? details : { raw: details },
+            deviceInfo: 'Dispositivo Actual 💻'
         };
 
         const logs = getValenLogs();
@@ -1050,6 +1090,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (logsPane && logsPane.classList.contains('active')) {
             renderValenLogs();
         }
+
+        // Enviar a la base de datos central en la nube para que otros dispositivos lo vean
+        fetchApi('/api/logs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(entry)
+        }).then(() => {
+            // Refrescar lista remota
+            fetchRemoteLogs();
+        }).catch(err => {
+            console.warn('[Logs] Error al enviar log a la nube:', err);
+        });
 
         return entry;
     }
@@ -1077,7 +1129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const deleteCount = allLogs.filter(l => l.action === 'PRODUCT_DELETE').length;
         const createCount = allLogs.filter(l => l.action === 'PRODUCT_CREATE').length;
         const toggleCount = allLogs.filter(l => l.action === 'PRODUCT_TOGGLE').length;
-        const cloudCount = allLogs.filter(l => l.action.startsWith('SUPABASE')).length;
+        const cloudCount = allLogs.filter(l => l.action.startsWith('SUPABASE') || l.action.includes('DB') || l.action.includes('CLOUD')).length;
         const authCount = allLogs.filter(l => l.action.startsWith('AUTH')).length;
 
         // Update Pill Counts
@@ -1124,7 +1176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (currentLogFilter === 'PRODUCT_TOGGLE') {
             filtered = filtered.filter(l => l.action === 'PRODUCT_TOGGLE');
         } else if (currentLogFilter === 'SUPABASE') {
-            filtered = filtered.filter(l => l.action.startsWith('SUPABASE'));
+            filtered = filtered.filter(l => l.action.startsWith('SUPABASE') || l.action.includes('DB') || l.action.includes('CLOUD'));
         } else if (currentLogFilter === 'AUTH') {
             filtered = filtered.filter(l => l.action.startsWith('AUTH'));
         }
@@ -1132,7 +1184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Apply search
         if (currentLogSearchQuery) {
             filtered = filtered.filter(l => {
-                const haystack = `${l.message} ${l.action} ${l.status} ${l.timeFormatted} ${JSON.stringify(l.details || {})}`.toLowerCase();
+                const haystack = `${l.message} ${l.action} ${l.status} ${l.timeFormatted} ${l.deviceInfo || ''} ${l.ipAddress || ''} ${JSON.stringify(l.details || {})}`.toLowerCase();
                 return haystack.includes(currentLogSearchQuery);
             });
         }
@@ -1142,7 +1194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="valen-terminal-empty">
                     <i class="fas fa-terminal"></i>
                     <span>valen@system:~$ Sin registros coincidentes para el filtro actual.</span>
-                    <small style="color: #475569;">Las operaciones de productos, categorías, supabase y autenticación aparecerán aquí en vivo.</small>
+                    <small style="color: #475569;">Los eventos de todos los dispositivos conectados aparecerán aquí en vivo.</small>
                 </div>
             `;
             return;
@@ -1150,7 +1202,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         valenLogsTerminalBody.innerHTML = '';
         const escapeHtml = (str) => {
-            return String(str)
+            return String(str || '')
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
@@ -1165,13 +1217,23 @@ document.addEventListener('DOMContentLoaded', () => {
             row.className = `valen-log-row log-${log.status.toLowerCase()}`;
             row.dataset.logId = log.id;
 
-            const jsonStr = JSON.stringify(log.details || {}, null, 2);
+            const devBadge = log.deviceInfo ? `<span class="valen-badge-device" style="background: rgba(147, 51, 234, 0.15); color: #c084fc; font-size: 0.72rem; padding: 2px 7px; border-radius: 4px; font-weight: 600; margin-right: 6px;">${escapeHtml(log.deviceInfo)}</span>` : '';
+
+            const jsonStr = JSON.stringify({
+                id: log.id,
+                timestamp: log.timestamp,
+                ipAddress: log.ipAddress || 'N/A',
+                userAgent: log.userAgent || 'N/A',
+                deviceInfo: log.deviceInfo || 'N/A',
+                details: log.details || {}
+            }, null, 2);
 
             row.innerHTML = `
                 <div class="valen-log-summary-line">
                     <span class="valen-log-time">${escapeHtml(log.timeFormatted)}</span>
                     <span class="valen-badge-status ${statusClass}">${escapeHtml(statusLabel)}</span>
                     <span class="valen-badge-action">${escapeHtml(log.action)}</span>
+                    ${devBadge}
                     <span class="valen-log-message">${escapeHtml(log.message)}</span>
                     <button type="button" class="valen-log-toggle-json" title="Ver detalles JSON">
                         <i class="fas fa-chevron-down"></i> Detalles
@@ -1179,7 +1241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="valen-log-details-drawer hidden">
                     <div class="valen-log-diff-header">
-                        <span><i class="fas fa-code"></i> Payload / Datos de la Operación (${escapeHtml(log.action)})</span>
+                        <span><i class="fas fa-code"></i> Datos de Auditoría Central (${escapeHtml(log.action)}) - ${escapeHtml(log.deviceInfo || 'Dispositivo')} [IP: ${escapeHtml(log.ipAddress || 'N/A')}]</span>
                         <button type="button" class="btn-copy-entry-json" data-id="${log.id}"><i class="fas fa-copy"></i> Copiar Entrada</button>
                     </div>
                     <pre class="valen-log-json-code"><code>${escapeHtml(jsonStr)}</code></pre>
@@ -1237,6 +1299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (target === 'logs') {
                     renderValenLogs();
+                    fetchRemoteLogs();
                 }
             });
         });
@@ -1280,11 +1343,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (valenLogsClearBtn) {
             valenLogsClearBtn.addEventListener('click', () => {
-                if (!confirm('¿Deseas limpiar todo el historial de logs de auditoría?')) return;
+                if (!confirm('¿Deseas limpiar todo el historial de logs de auditoría en la nube y local?')) return;
                 localStorage.removeItem(VALEN_LOGS_STORAGE_KEY);
-                logValenEvent('WARN', 'AUDIT_CLEAR', 'Historial de auditoría reiniciado por el administrador.', {}, 'OK');
                 renderValenLogs();
                 showNotification('Historial de logs reiniciado', '🗑️');
+
+                fetchApi('/api/logs', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    }
+                }).then(() => {
+                    fetchRemoteLogs();
+                }).catch(() => {});
             });
         }
 
@@ -1322,15 +1394,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Seed initial log if empty
-        if (getValenLogs().length === 0) {
-            logValenEvent('INFO', 'SYSTEM_BOOT', 'Consola de auditoría de Valen Makeup inicializada correctamente.', {
-                version: '2.0.0',
-                engine: 'Valen Makeup Core DB',
-                timestamp: new Date().toISOString()
-            }, 'OK');
-        }
-
+        // Fetch remote logs on startup
+        fetchRemoteLogs();
         updateLogsBadge();
     }
 
@@ -1564,7 +1629,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const oldProd = editingId ? (allProducts.find(p => Number(p.id) === editingId) || adminProducts.find(p => Number(p.id) === editingId)) : null;
 
             try {
-                // 1. Update in Supabase if active
+                // 1. Guardar en Base de Datos Central (Neon PostgreSQL en la nube)
+                const endpoint = editingId ? `/api/products/${editingId}` : '/api/products';
+                const method = editingId ? 'PATCH' : 'POST';
+                let savedProduct = null;
+
+                try {
+                    const apiRes = await fetchApi(endpoint, {
+                        method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Admin-Password': adminPassword
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    if (apiRes.ok) {
+                        savedProduct = await apiRes.json();
+                        if (savedProduct && savedProduct.id) {
+                            payload.id = savedProduct.id;
+                        }
+                    }
+                } catch (err) {
+                    console.warn('[Admin Save] Aviso al enviar a API central:', err);
+                }
+
+                // 2. Sincronizar en Supabase si está configurado
                 if (supabaseClient) {
                     try {
                         if (editingId) {
@@ -1577,11 +1666,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     } catch (err) {
                         console.warn('Supabase insert/update error:', err);
-                        logValenEvent('WARN', 'SUPABASE_SYNC', `Aviso al sincronizar producto en Supabase: ${err.message}`, { error: err.message, payload }, 'FAILED');
                     }
                 }
 
-                // 2. Update memory arrays
+                // 3. Actualizar estado local en memoria
                 if (editingId) {
                     const idxAll = allProducts.findIndex(p => Number(p.id) === editingId);
                     if (idxAll >= 0) allProducts[idxAll] = { ...allProducts[idxAll], ...payload };
@@ -1605,7 +1693,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderAdminCategoryChips();
                 updateAdminStats();
 
-                // 3. Log event with full diff or creation details
+                // 4. Registrar evento de auditoría central
                 if (editingId) {
                     const diff = {};
                     if (oldProd) {
@@ -1614,8 +1702,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (oldProd.category !== payload.category) diff.category = { before: oldProd.category, after: payload.category };
                         if (Boolean(oldProd.active !== false) !== Boolean(payload.active)) diff.active = { before: Boolean(oldProd.active !== false), after: Boolean(payload.active) };
                         if (Number(oldProd.skin_tones_count || 0) !== Number(payload.skin_tones_count || 0)) diff.skin_tones_count = { before: oldProd.skin_tones_count || 0, after: payload.skin_tones_count || 0 };
-                        if (oldProd.image !== payload.image) diff.image = { before: oldProd.image ? (oldProd.image.startsWith('data:') ? '[Base64 previo]' : oldProd.image) : '', after: payload.image.startsWith('data:') ? '[Base64 nuevo]' : payload.image };
-                        if (oldProd.skin_tones_image !== payload.skin_tones_image) diff.skin_tones_image = { changed: true };
                     }
                     const changedFields = Object.keys(diff);
                     logValenEvent('OK', 'PRODUCT_UPDATE', `Editado producto #${editingId} "${payload.name}" [${changedFields.length > 0 ? changedFields.join(', ') : 'sin cambios'}]`, {
@@ -1633,12 +1719,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         price: payload.price,
                         category: payload.category,
                         active: payload.active,
-                        skinTonesCount: payload.skin_tones_count || 0,
-                        hasCustomImage: Boolean(payload.image && payload.image !== 'img/product_1.jpg')
+                        skinTonesCount: payload.skin_tones_count || 0
                     }, 'OK');
                 }
 
-                showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos!', '✅');
+                showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos central!', '✅');
 
                 adminProductForm.reset();
                 delete adminProductForm.dataset.editingId;
@@ -1650,19 +1735,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
                 if (adminProductPanel) adminProductPanel.classList.add('hidden');
 
-                // 4. Update server API in background
-                try {
-                    const endpoint = editingId ? `/api/products/${editingId}` : '/api/products';
-                    const method = editingId ? 'PATCH' : 'POST';
-                    await fetchApi(endpoint, {
-                        method,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Admin-Password': adminPassword
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                } catch (err) {}
+                // Refrescar logs remotos
+                fetchRemoteLogs();
             } catch (err) {
                 console.error('Error al guardar producto:', err);
                 if (adminProductMessage) adminProductMessage.textContent = `Error: ${err.message}`;
@@ -1753,6 +1827,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'X-Admin-Password': adminPassword
             },
             body: JSON.stringify({ active: newActive })
+        }).then(() => {
+            fetchRemoteLogs();
         }).catch(() => {});
     }
 
@@ -1794,17 +1870,17 @@ document.addEventListener('DOMContentLoaded', () => {
             supabaseClient.from('products').delete().eq('id', numId).then(({ error }) => {
                 if (error) {
                     console.warn('Supabase delete error:', error);
-                    logValenEvent('FAILED', 'SUPABASE_SYNC', `Error al eliminar producto #${numId} en Supabase: ${error.message}`, { error }, 'FAILED');
                 }
             }).catch(e => {
                 console.warn('Supabase delete error:', e);
-                logValenEvent('FAILED', 'SUPABASE_SYNC', `Error al eliminar producto #${numId} en Supabase: ${e.message}`, { error: e.message }, 'FAILED');
             });
         }
 
         fetchApi(`/api/products/${numId}`, {
             method: 'DELETE',
             headers: { 'X-Admin-Password': adminPassword }
+        }).then(() => {
+            fetchRemoteLogs();
         }).catch(() => {});
     }
 

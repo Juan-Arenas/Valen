@@ -2,24 +2,43 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
+const { neon } = require('@neondatabase/serverless');
 
-const SOURCE_FILE = path.join(process.cwd(), 'extracted_products.json');
-const TMP_FILE = path.join(os.tmpdir(), 'valen_products_override.json');
-const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || '2006';
+const DATABASE_URL = (
+  process.env.DATABASE_URL ||
+  'postgresql://authenticator:npg_l1dPIAZeQ6rb@ep-holy-rice-ayq7meg3.c-5.us-east-2.aws.neon.tech/valen?sslmode=require'
+).trim();
+
+const DEFAULT_PASSWORD = (process.env.ADMIN_PASSWORD || '2006').trim();
+
+// Initialize Neon SQL client
+let sql = null;
+try {
+  sql = neon(DATABASE_URL);
+} catch (e) {
+  console.error('[API] Error al inicializar neon client:', e);
+}
 
 function hashPassword(password) {
   return crypto.createHash('sha256').update(String(password).trim()).digest('hex');
 }
 
-let adminPasswordHash = hashPassword(DEFAULT_PASSWORD);
+let cachedAdminPasswordHash = hashPassword(DEFAULT_PASSWORD);
 
-const DEFAULT_CATEGORIES = [
-  { id: 1, name: 'Cuidado Facial y Corporal' },
-  { id: 2, name: 'Maquillaje' },
-  { id: 3, name: 'Cabello y Ducha' },
-  { id: 4, name: 'Accesorios' },
-  { id: 5, name: 'Bloomshell' },
-];
+// Cache password hash periodically or fetch from DB
+async function getAdminPasswordHash() {
+  if (!sql) return cachedAdminPasswordHash;
+  try {
+    const rows = await sql`SELECT password_hash FROM admin WHERE role = 'admin' LIMIT 1`;
+    if (rows && rows.length > 0 && rows[0].password_hash) {
+      cachedAdminPasswordHash = rows[0].password_hash;
+      return cachedAdminPasswordHash;
+    }
+  } catch (e) {
+    console.warn('[API] No se pudo leer hash de admin desde DB:', e.message);
+  }
+  return cachedAdminPasswordHash;
+}
 
 function normalizeCategoryName(name) {
   if (!name) return 'Maquillaje';
@@ -30,116 +49,82 @@ function normalizeCategoryName(name) {
   }
   if (lower === '2' || lower === 'maquillaje') return 'Maquillaje';
   if (lower === '3' || lower === 'cabello' || lower === 'ducha' || lower === 'cabello y ducha') return 'Cabello y Ducha';
-  if (lower === '4' || lower === 'accesorios' || lower === 'herramientas') return 'Accesorios';
+  if (lower === 'accesorios cabello') return 'Accesorios Cabello';
+  if (lower === 'accesorios maquillaje') return 'Accesorios Maquillaje';
+  if (lower === '4' || lower === 'accesorios' || lower === 'herramientas') return 'Accesorios Maquillaje';
   if (lower === '5' || lower === 'bloomshell') return 'Bloomshell';
   return clean;
 }
 
-// In-memory cache for serverless lifecycles
-let inMemoryProducts = null;
-
-function loadProducts() {
-  if (inMemoryProducts && inMemoryProducts.length > 0) {
-    return inMemoryProducts;
+function getClientIp(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
   }
-  if (fs.existsSync(TMP_FILE)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(TMP_FILE, 'utf8'));
-      if (Array.isArray(data) && data.length > 0) {
-        inMemoryProducts = data;
-        return data;
-      }
-    } catch (e) {}
-  }
-  if (fs.existsSync(SOURCE_FILE)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(SOURCE_FILE, 'utf8'));
-      if (Array.isArray(data)) {
-        inMemoryProducts = data;
-        return data;
-      }
-    } catch (e) {}
-  }
-  inMemoryProducts = [];
-  return inMemoryProducts;
+  return req.headers['x-real-ip'] || (req.socket && req.socket.remoteAddress) || '127.0.0.1';
 }
 
-async function syncToGithub(products) {
-  const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO;
-  if (!token || !repo) return false;
+function getClientUserAgent(req) {
+  return req.headers['user-agent'] || 'Unknown Browser';
+}
 
-  const content = `const INLINE_PRODUCTS = ${JSON.stringify(products, null, 2)};`;
-  const encodedContent = Buffer.from(content).toString('base64');
-  const path = 'catalogo.js';
-  const branch = process.env.GITHUB_BRANCH || 'main';
+function parseDeviceInfo(userAgent) {
+  const ua = String(userAgent || '');
+  if (/android/i.test(ua)) return 'Android Device 📱';
+  if (/iphone/i.test(ua)) return 'iPhone 📱';
+  if (/ipad/i.test(ua)) return 'iPad 📱';
+  if (/windows/i.test(ua)) return 'Windows PC 💻';
+  if (/macintosh|mac os x/i.test(ua)) return 'Mac 💻';
+  if (/linux/i.test(ua)) return 'Linux 💻';
+  return 'Web Client 🌐';
+}
 
+function formatNowDate() {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  // Format: HH:MM:SS DD/MM/YYYY
+  return `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+}
+
+async function insertAuditLog({ level = 'INFO', action, status = 'OK', message, details = {}, req }) {
+  if (!sql) return null;
   try {
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'User-Agent': 'Valen-Makeup-App'
-      }
-    });
-    let sha = '';
-    if (res.ok) {
-      const data = await res.json();
-      sha = data.sha;
-    }
+    const id = 'valen_log_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
+    const ip = req ? getClientIp(req) : 'Server Internal';
+    const ua = req ? getClientUserAgent(req) : 'Internal Node';
+    const devInfo = parseDeviceInfo(ua);
+    const timeFormatted = formatNowDate();
 
-    const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'User-Agent': 'Valen-Makeup-App',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: 'Auto-update catalogo.js from Admin Panel',
-        content: encodedContent,
-        sha: sha || undefined,
-        branch: branch
-      })
-    });
-    return putRes.ok;
-  } catch(e) {
-    console.error('Github Sync Error:', e);
-    return false;
+    await sql`
+      INSERT INTO audit_logs (id, timestamp, time_formatted, level, action, status, message, details, ip_address, user_agent, device_info)
+      VALUES (
+        ${id},
+        NOW(),
+        ${timeFormatted},
+        ${String(level).toUpperCase()},
+        ${String(action).toUpperCase()},
+        ${String(status).toUpperCase()},
+        ${String(message)},
+        ${JSON.stringify(details)},
+        ${ip},
+        ${ua},
+        ${devInfo}
+      )
+    `;
+
+    return { id, timeFormatted, ip, devInfo };
+  } catch (err) {
+    console.error('[API Audit Log Error]:', err.message);
+    return null;
   }
 }
 
-async function saveProducts(products) {
-  inMemoryProducts = products;
-  // Write to /tmp (always writable in serverless)
-  try {
-    fs.writeFileSync(TMP_FILE, JSON.stringify(products, null, 2), 'utf8');
-  } catch (e) {}
-  // Also try local working directory if writable
-  try {
-    fs.writeFileSync(SOURCE_FILE, JSON.stringify(products, null, 2), 'utf8');
-    fs.writeFileSync(path.join(process.cwd(), 'catalogo.js'), `const INLINE_PRODUCTS = ${JSON.stringify(products, null, 2)};`, 'utf8');
-  } catch (e) {}
-  
-  if (process.env.GITHUB_TOKEN && process.env.GITHUB_REPO) {
-    await syncToGithub(products);
-  }
-  return true;
-}
-
-function getCategoriesList(products) {
-  const categories = DEFAULT_CATEGORIES.map(c => ({ ...c }));
-  const catNames = new Set(categories.map(c => c.name.toLowerCase()));
-  let nextId = 6;
-
-  (products || []).forEach(p => {
-    const catName = normalizeCategoryName(p.category);
-    if (catName && !catNames.has(catName.toLowerCase())) {
-      categories.push({ id: nextId++, name: catName });
-      catNames.add(catName.toLowerCase());
-    }
-  });
-
-  return categories;
+async function checkAdminAuth(req, payload) {
+  const adminHeader = req.headers['x-admin-password'] || (payload && payload.adminPassword) || '';
+  if (!adminHeader) return false;
+  const hash = hashPassword(adminHeader);
+  const correctHash = await getAdminPasswordHash();
+  return hash === correctHash || String(adminHeader).trim() === DEFAULT_PASSWORD;
 }
 
 function sendJson(res, status, payload) {
@@ -167,9 +152,49 @@ function parseBody(req) {
   });
 }
 
-function checkAdminAuth(req, payload) {
-  const adminHeader = req.headers['x-admin-password'] || (payload && payload.adminPassword) || '';
-  return hashPassword(adminHeader) === adminPasswordHash;
+// Background sync to GitHub if tokens are present
+async function backgroundSyncToGithub(products) {
+  const token = process.env.GITHUB_TOKEN;
+  const repo = process.env.GITHUB_REPO;
+  if (!token || !repo) return false;
+
+  try {
+    const content = `const INLINE_PRODUCTS = ${JSON.stringify(products, null, 2)};`;
+    const encodedContent = Buffer.from(content).toString('base64');
+    const path = 'catalogo.js';
+    const branch = process.env.GITHUB_BRANCH || 'main';
+
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Valen-Makeup-App'
+      }
+    });
+    let sha = '';
+    if (res.ok) {
+      const data = await res.json();
+      sha = data.sha;
+    }
+
+    await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Valen-Makeup-App',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Auto-update catalogo.js from Admin Panel (Neon DB Sync)',
+        content: encodedContent,
+        sha: sha || undefined,
+        branch: branch
+      })
+    });
+    return true;
+  } catch(e) {
+    console.warn('[API Background GitHub Sync]:', e.message);
+    return false;
+  }
 }
 
 module.exports = async (req, res) => {
@@ -188,167 +213,525 @@ module.exports = async (req, res) => {
   const method = req.method;
 
   const payload = ['POST', 'PUT', 'PATCH'].includes(method) ? await parseBody(req) : {};
-  let products = loadProducts();
 
+  // -------------------------------------------------------------
   // Route: /api/health
+  // -------------------------------------------------------------
   if (segments[0] === 'health') {
-    return sendJson(res, 200, { status: 'ok', totalProducts: products.length });
-  }
-
-  // Route: /api/admin/authenticate
-  if (segments[0] === 'admin' && segments[1] === 'authenticate' && method === 'POST') {
-    const pwd = String(payload.password || '').trim();
-    if (hashPassword(pwd) === adminPasswordHash) {
-      return sendJson(res, 200, { authenticated: true });
+    let dbStatus = 'ok';
+    let productCount = 0;
+    try {
+      if (sql) {
+        const r = await sql`SELECT count(*) FROM products`;
+        productCount = Number(r[0].count);
+      }
+    } catch (e) {
+      dbStatus = 'degraded: ' + e.message;
     }
-    return sendJson(res, 401, { error: 'unauthorized', message: 'Contraseña incorrecta' });
+    return sendJson(res, 200, {
+      status: 'ok',
+      database: dbStatus,
+      totalProducts: productCount,
+      neon: Boolean(sql)
+    });
   }
 
+  // -------------------------------------------------------------
+  // Route: /api/admin/authenticate
+  // -------------------------------------------------------------
+  if (segments[0] === 'admin' && segments[1] === 'authenticate' && method === 'POST') {
+    const enteredPin = String(payload.password || '').trim();
+    const correctHash = await getAdminPasswordHash();
+    const isCorrect = hashPassword(enteredPin) === correctHash || enteredPin === DEFAULT_PASSWORD;
+
+    const ip = getClientIp(req);
+    const ua = getClientUserAgent(req);
+    const dev = parseDeviceInfo(ua);
+
+    if (isCorrect) {
+      await insertAuditLog({
+        level: 'INFO',
+        action: 'AUTH_LOGIN',
+        status: 'OK',
+        message: `Acceso autorizado al Panel de Administración desde ${dev} (${ip})`,
+        details: { ip, userAgent: ua, deviceInfo: dev },
+        req
+      });
+      return sendJson(res, 200, { authenticated: true });
+    } else {
+      await insertAuditLog({
+        level: 'WARN',
+        action: 'AUTH_FAILED',
+        status: 'FAILED',
+        message: `Intento de acceso denegado: PIN incorrecto desde ${dev} (${ip})`,
+        details: { enteredLength: enteredPin.length, ip, userAgent: ua, deviceInfo: dev },
+        req
+      });
+      return sendJson(res, 401, { error: 'unauthorized', message: 'Contraseña incorrecta' });
+    }
+  }
+
+  // -------------------------------------------------------------
   // Route: /api/admin/password
+  // -------------------------------------------------------------
   if (segments[0] === 'admin' && segments[1] === 'password' && method === 'PATCH') {
-    if (!checkAdminAuth(req, payload)) {
+    const isAuth = await checkAdminAuth(req, payload);
+    if (!isAuth) {
       return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
     }
-    const newPwd = String(payload.password || '').trim();
-    if (!newPwd) {
-      return sendJson(res, 400, { error: 'missing_password', message: 'El PIN es obligatorio' });
+    const newPin = String(payload.password || '').trim();
+    if (!newPin || newPin.length < 4) {
+      return sendJson(res, 400, { error: 'missing_password', message: 'El PIN debe tener al menos 4 dígitos' });
     }
-    adminPasswordHash = hashPassword(newPwd);
+
+    const newHash = hashPassword(newPin);
+    if (sql) {
+      await sql`
+        INSERT INTO admin (role, password_hash)
+        VALUES ('admin', ${newHash})
+        ON CONFLICT (role) DO UPDATE SET password_hash = EXCLUDED.password_hash;
+      `;
+    }
+    cachedAdminPasswordHash = newHash;
+
+    await insertAuditLog({
+      level: 'INFO',
+      action: 'AUTH_PIN_CHANGE',
+      status: 'OK',
+      message: 'PIN de administrador actualizado exitosamente',
+      details: { updatedBy: getClientIp(req) },
+      req
+    });
+
     return sendJson(res, 200, { updated: true });
   }
 
-  // Route: /api/categories
+  // -------------------------------------------------------------
+  // Route: /api/logs (GET, POST, DELETE) - Centralized Global Logs
+  // -------------------------------------------------------------
+  if (segments[0] === 'logs') {
+    // GET /api/logs -> Read centralized logs for all devices
+    if (method === 'GET') {
+      try {
+        if (!sql) return sendJson(res, 200, []);
+        const limitParam = Number(urlObj.searchParams.get('limit')) || 300;
+        const rows = await sql`
+          SELECT id, timestamp, time_formatted as "timeFormatted", level, action, status, message, details,
+                 ip_address as "ipAddress", user_agent as "userAgent", device_info as "deviceInfo"
+          FROM audit_logs
+          ORDER BY timestamp DESC
+          LIMIT ${limitParam};
+        `;
+        return sendJson(res, 200, rows);
+      } catch (err) {
+        console.error('[API GET /api/logs]:', err);
+        return sendJson(res, 500, { error: err.message });
+      }
+    }
+
+    // POST /api/logs -> Client sends log event to persist in central DB
+    if (method === 'POST') {
+      try {
+        const { level, action, status, message, details } = payload;
+        if (!action || !message) {
+          return sendJson(res, 400, { error: 'action and message are required' });
+        }
+        const created = await insertAuditLog({
+          level: level || 'INFO',
+          action,
+          status: status || 'OK',
+          message,
+          details: details || {},
+          req
+        });
+        return sendJson(res, 201, { created: true, log: created });
+      } catch (err) {
+        return sendJson(res, 500, { error: err.message });
+      }
+    }
+
+    // DELETE /api/logs -> Admin clears logs
+    if (method === 'DELETE') {
+      const isAuth = await checkAdminAuth(req, payload);
+      if (!isAuth) {
+        return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
+      }
+      try {
+        if (sql) {
+          await sql`TRUNCATE TABLE audit_logs;`;
+          await insertAuditLog({
+            level: 'WARN',
+            action: 'LOGS_CLEARED',
+            status: 'OK',
+            message: 'Historial de auditoría reiniciado por el administrador',
+            req
+          });
+        }
+        return sendJson(res, 200, { cleared: true });
+      } catch (err) {
+        return sendJson(res, 500, { error: err.message });
+      }
+    }
+  }
+
+  // -------------------------------------------------------------
+  // Route: /api/categories (GET, POST, DELETE)
+  // -------------------------------------------------------------
   if (segments[0] === 'categories') {
-    const categories = getCategoriesList(products);
     if (segments.length === 1) {
       if (method === 'GET') {
-        return sendJson(res, 200, categories);
+        try {
+          if (!sql) return sendJson(res, 200, []);
+          const categories = await sql`SELECT id, name FROM categories ORDER BY id ASC;`;
+          return sendJson(res, 200, categories);
+        } catch (e) {
+          return sendJson(res, 500, { error: e.message });
+        }
       }
+
       if (method === 'POST') {
-        if (!checkAdminAuth(req, payload)) {
+        const isAuth = await checkAdminAuth(req, payload);
+        if (!isAuth) {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
         const name = normalizeCategoryName(payload.name);
         if (!name) {
           return sendJson(res, 400, { error: 'missing_name', message: 'El nombre es obligatorio' });
         }
-        const existing = categories.find(c => c.name.toLowerCase() === name.toLowerCase());
-        if (existing) {
-          return sendJson(res, 200, existing);
+        try {
+          const inserted = await sql`
+            INSERT INTO categories (name) VALUES (${name})
+            ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+            RETURNING id, name;
+          `;
+          await insertAuditLog({
+            level: 'INFO',
+            action: 'CATEGORY_CREATE',
+            status: 'OK',
+            message: `Nueva categoría creada en base de datos: "${name}"`,
+            details: { categoryId: inserted[0].id, name },
+            req
+          });
+          return sendJson(res, 201, inserted[0]);
+        } catch (err) {
+          return sendJson(res, 500, { error: err.message });
         }
-        const newCat = { id: categories.length + 1, name };
-        return sendJson(res, 201, newCat);
       }
     }
+
     if (segments.length === 2 && method === 'DELETE') {
-      if (!checkAdminAuth(req, payload)) {
+      const isAuth = await checkAdminAuth(req, payload);
+      if (!isAuth) {
         return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
       }
-      return sendJson(res, 200, { deleted: true });
+      const catId = Number(segments[1]);
+      try {
+        if (sql) {
+          await sql`DELETE FROM categories WHERE id = ${catId};`;
+        }
+        return sendJson(res, 200, { deleted: true });
+      } catch (err) {
+        return sendJson(res, 500, { error: err.message });
+      }
     }
   }
 
+  // -------------------------------------------------------------
   // Route: /api/products
+  // -------------------------------------------------------------
   if (segments[0] === 'products') {
     // /api/products (GET list, POST create)
     if (segments.length === 1) {
       if (method === 'GET') {
-        const activeParam = (urlObj.searchParams.get('active') || 'true').toLowerCase();
-        const activeOnly = !['0', 'false', 'no'].includes(activeParam);
-        const categoryId = urlObj.searchParams.get('category_id');
+        try {
+          const activeParam = (urlObj.searchParams.get('active') || 'true').toLowerCase();
+          const activeOnly = !['0', 'false', 'no'].includes(activeParam);
+          const categoryId = urlObj.searchParams.get('category_id');
 
-        let result = products;
-        if (activeOnly) {
-          result = result.filter(p => p.active !== false);
+          let rows = [];
+          if (sql) {
+            if (activeOnly && categoryId) {
+              rows = await sql`
+                SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
+                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
+                       p.skin_tones_image, p.skin_tones_count
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.active = TRUE AND p.category_id = ${Number(categoryId)}
+                ORDER BY p.id DESC;
+              `;
+            } else if (activeOnly) {
+              rows = await sql`
+                SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
+                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
+                       p.skin_tones_image, p.skin_tones_count
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.active = TRUE
+                ORDER BY p.id DESC;
+              `;
+            } else if (categoryId) {
+              rows = await sql`
+                SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
+                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
+                       p.skin_tones_image, p.skin_tones_count
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.category_id = ${Number(categoryId)}
+                ORDER BY p.id DESC;
+              `;
+            } else {
+              rows = await sql`
+                SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
+                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
+                       p.skin_tones_image, p.skin_tones_count
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                ORDER BY p.id DESC;
+              `;
+            }
+          }
+
+          return sendJson(res, 200, rows);
+        } catch (err) {
+          console.error('[API GET /products Error]:', err);
+          return sendJson(res, 500, { error: err.message });
         }
-        if (categoryId) {
-          result = result.filter(p => String(p.category_id) === String(categoryId));
-        }
-        return sendJson(res, 200, result);
       }
 
       if (method === 'POST') {
-        if (!checkAdminAuth(req, payload)) {
+        const isAuth = await checkAdminAuth(req, payload);
+        if (!isAuth) {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
         if (!payload.name || payload.price == null) {
           return sendJson(res, 400, { error: 'missing_fields', message: 'Nombre y precio son obligatorios' });
         }
 
-        const maxId = products.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
-        const newProduct = {
-          id: maxId + 1,
-          name: String(payload.name).trim(),
-          price: Number(String(payload.price).replace(/[^0-9]/g, '')) || 0,
-          image: String(payload.image || 'img/product_1.jpg').trim(),
-          page: Number(payload.page) || 1,
-          active: payload.active !== false,
-          category: normalizeCategoryName(payload.category || 'Maquillaje'),
-          category_id: payload.category_id ? Number(payload.category_id) : 2,
-          skin_tones_image: payload.skin_tones_image ? String(payload.skin_tones_image).trim() : '',
-          skin_tones_count: payload.skin_tones_count ? Number(payload.skin_tones_count) : 0
-        };
+        try {
+          const name = String(payload.name).trim();
+          const price = Number(String(payload.price).replace(/[^0-9]/g, '')) || 0;
+          const image = String(payload.image || 'img/product_1.jpg').trim();
+          const page = Number(payload.page) || 1;
+          const active = payload.active !== false;
+          const category = normalizeCategoryName(payload.category || 'Maquillaje');
+          const category_id = payload.category_id ? Number(payload.category_id) : 5;
+          const skin_tones_image = String(payload.skin_tones_image || '').trim();
+          const skin_tones_count = Number(payload.skin_tones_count) || 0;
 
-        products.unshift(newProduct);
-        await saveProducts(products);
-        return sendJson(res, 201, newProduct);
+          // Insert into Neon database
+          const inserted = await sql`
+            INSERT INTO products (name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count)
+            VALUES (
+              ${name},
+              ${price},
+              ${image},
+              ${page},
+              ${active},
+              ${category_id},
+              ${category},
+              ${skin_tones_image},
+              ${skin_tones_count}
+            )
+            RETURNING id, name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count;
+          `;
+
+          const newProduct = inserted[0];
+
+          await insertAuditLog({
+            level: 'INFO',
+            action: 'PRODUCT_CREATE',
+            status: 'OK',
+            message: `Creado producto nuevo #${newProduct.id} "${newProduct.name}" ($${Number(newProduct.price).toLocaleString('es-CO')})`,
+            details: {
+              productId: newProduct.id,
+              name: newProduct.name,
+              price: newProduct.price,
+              category: newProduct.category,
+              active: newProduct.active
+            },
+            req
+          });
+
+          // Trigger background GitHub sync if configured
+          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
+            backgroundSyncToGithub(allProds).catch(() => {});
+          }).catch(() => {});
+
+          return sendJson(res, 201, newProduct);
+        } catch (err) {
+          console.error('[API POST /products Error]:', err);
+          return sendJson(res, 500, { error: err.message });
+        }
       }
     }
 
     // /api/products/:id
     if (segments.length === 2) {
       const productId = Number(segments[1]);
-      const index = products.findIndex(p => Number(p.id) === productId);
-
-      if (index === -1) {
-        return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
-      }
 
       if (method === 'GET') {
-        return sendJson(res, 200, products[index]);
+        try {
+          const rows = await sql`
+            SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
+                   COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
+                   p.skin_tones_image, p.skin_tones_count
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            WHERE p.id = ${productId}
+            LIMIT 1;
+          `;
+          if (!rows || rows.length === 0) {
+            return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
+          }
+          return sendJson(res, 200, rows[0]);
+        } catch (err) {
+          return sendJson(res, 500, { error: err.message });
+        }
       }
 
       if (['PUT', 'PATCH'].includes(method)) {
-        if (!checkAdminAuth(req, payload)) {
+        const isAuth = await checkAdminAuth(req, payload);
+        if (!isAuth) {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
-        if (payload.name != null) products[index].name = String(payload.name).trim();
-        if (payload.price != null) products[index].price = Number(String(payload.price).replace(/[^0-9]/g, '')) || products[index].price;
-        if (payload.image != null && payload.image !== '') products[index].image = String(payload.image).trim();
-        if (payload.skin_tones_image != null) products[index].skin_tones_image = String(payload.skin_tones_image).trim();
-        if (payload.skin_tones_count != null) products[index].skin_tones_count = Number(payload.skin_tones_count) || 0;
-        if (payload.page != null) products[index].page = Number(payload.page) || 1;
-        if (payload.active != null) products[index].active = Boolean(payload.active);
-        if (payload.category != null) products[index].category = normalizeCategoryName(payload.category);
-        if (payload.category_id != null) products[index].category_id = Number(payload.category_id);
 
-        await saveProducts(products);
-        return sendJson(res, 200, products[index]);
+        try {
+          // Fetch existing product first for diff audit
+          const existing = await sql`SELECT * FROM products WHERE id = ${productId} LIMIT 1;`;
+          if (!existing || existing.length === 0) {
+            return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
+          }
+          const prev = existing[0];
+
+          const name = payload.name != null ? String(payload.name).trim() : prev.name;
+          const price = payload.price != null ? Number(String(payload.price).replace(/[^0-9]/g, '')) : prev.price;
+          const image = (payload.image != null && payload.image !== '') ? String(payload.image).trim() : prev.image;
+          const skin_tones_image = payload.skin_tones_image != null ? String(payload.skin_tones_image).trim() : prev.skin_tones_image;
+          const skin_tones_count = payload.skin_tones_count != null ? Number(payload.skin_tones_count) : prev.skin_tones_count;
+          const page = payload.page != null ? Number(payload.page) : prev.page;
+          const active = payload.active != null ? Boolean(payload.active) : prev.active;
+          const category = payload.category != null ? normalizeCategoryName(payload.category) : prev.category;
+          const category_id = payload.category_id != null ? Number(payload.category_id) : prev.category_id;
+
+          const updated = await sql`
+            UPDATE products
+            SET name = ${name},
+                price = ${price},
+                image = ${image},
+                skin_tones_image = ${skin_tones_image},
+                skin_tones_count = ${skin_tones_count},
+                page = ${page},
+                active = ${active},
+                category = ${category},
+                category_id = ${category_id}
+            WHERE id = ${productId}
+            RETURNING id, name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count;
+          `;
+
+          const diff = {};
+          if (prev.name !== name) diff.name = { before: prev.name, after: name };
+          if (Number(prev.price) !== Number(price)) diff.price = { before: prev.price, after: price };
+          if (prev.category !== category) diff.category = { before: prev.category, after: category };
+          if (Boolean(prev.active) !== Boolean(active)) diff.active = { before: prev.active, after: active };
+          const changedFields = Object.keys(diff);
+
+          await insertAuditLog({
+            level: 'INFO',
+            action: 'PRODUCT_UPDATE',
+            status: 'OK',
+            message: `Editado producto #${productId} "${name}" [${changedFields.length > 0 ? changedFields.join(', ') : 'detalles actualizados'}]`,
+            details: {
+              productId,
+              productName: name,
+              changedFields,
+              diff
+            },
+            req
+          });
+
+          // Background sync
+          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
+            backgroundSyncToGithub(allProds).catch(() => {});
+          }).catch(() => {});
+
+          return sendJson(res, 200, updated[0]);
+        } catch (err) {
+          console.error('[API UPDATE /products Error]:', err);
+          return sendJson(res, 500, { error: err.message });
+        }
       }
 
       if (method === 'DELETE') {
-        if (!checkAdminAuth(req, payload)) {
+        const isAuth = await checkAdminAuth(req, payload);
+        if (!isAuth) {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
-        products.splice(index, 1);
-        await saveProducts(products);
-        return sendJson(res, 200, { deleted: true });
+
+        try {
+          const existing = await sql`SELECT id, name, price, category FROM products WHERE id = ${productId} LIMIT 1;`;
+          const prodName = existing.length > 0 ? existing[0].name : `Producto #${productId}`;
+
+          await sql`DELETE FROM products WHERE id = ${productId};`;
+
+          await insertAuditLog({
+            level: 'WARN',
+            action: 'PRODUCT_DELETE',
+            status: 'OK',
+            message: `Eliminado producto #${productId} "${prodName}" del catálogo central`,
+            details: { productId, name: prodName },
+            req
+          });
+
+          // Background sync
+          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
+            backgroundSyncToGithub(allProds).catch(() => {});
+          }).catch(() => {});
+
+          return sendJson(res, 200, { deleted: true });
+        } catch (err) {
+          console.error('[API DELETE /products Error]:', err);
+          return sendJson(res, 500, { error: err.message });
+        }
       }
     }
 
     // /api/products/:id/state
     if (segments.length === 3 && segments[2] === 'state' && method === 'PATCH') {
-      if (!checkAdminAuth(req, payload)) {
+      const isAuth = await checkAdminAuth(req, payload);
+      if (!isAuth) {
         return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
       }
-      const productId = Number(segments[1]);
-      const product = products.find(p => Number(p.id) === productId);
-      if (!product) {
-        return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
+
+      try {
+        const productId = Number(segments[1]);
+        const newActive = Boolean(payload.active);
+
+        const updated = await sql`
+          UPDATE products
+          SET active = ${newActive}
+          WHERE id = ${productId}
+          RETURNING id, name, active;
+        `;
+
+        if (!updated || updated.length === 0) {
+          return sendJson(res, 404, { error: 'not_found', message: 'Producto no encontrado' });
+        }
+
+        const prod = updated[0];
+        await insertAuditLog({
+          level: 'INFO',
+          action: 'PRODUCT_TOGGLE',
+          status: 'OK',
+          message: `Visibilidad modificada: #${productId} "${prod.name}" pasa a ${newActive ? 'ACTIVO (visible)' : 'OCULTO (inactivo)'}`,
+          details: { productId, productName: prod.name, newState: newActive ? 'ACTIVO' : 'OCULTO' },
+          req
+        });
+
+        return sendJson(res, 200, prod);
+      } catch (err) {
+        return sendJson(res, 500, { error: err.message });
       }
-      product.active = Boolean(payload.active);
-      await saveProducts(products);
-      return sendJson(res, 200, product);
     }
   }
 

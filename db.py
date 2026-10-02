@@ -137,6 +137,24 @@ def _execute_schema_updates(cursor):
             """
         )
         cursor.execute("ALTER TABLE products ADD COLUMN IF NOT EXISTS category_id INTEGER REFERENCES categories(id)")
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS audit_logs (
+                id TEXT PRIMARY KEY,
+                timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                time_formatted TEXT NOT NULL,
+                level TEXT NOT NULL DEFAULT 'INFO',
+                action TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'OK',
+                message TEXT NOT NULL,
+                details JSONB DEFAULT '{}'::jsonb,
+                ip_address TEXT DEFAULT '',
+                user_agent TEXT DEFAULT '',
+                device_info TEXT DEFAULT ''
+            )
+            """
+        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_audit_logs_timestamp ON audit_logs (timestamp DESC)")
     else:
         cursor.execute(
             """
@@ -169,6 +187,23 @@ def _execute_schema_updates(cursor):
         )
         if not _column_exists(cursor, "products", "category_id"):
             cursor.execute("ALTER TABLE products ADD COLUMN category_id INTEGER")
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS audit_logs (
+                id TEXT PRIMARY KEY,
+                timestamp TEXT NOT NULL,
+                time_formatted TEXT NOT NULL,
+                level TEXT NOT NULL DEFAULT 'INFO',
+                action TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'OK',
+                message TEXT NOT NULL,
+                details TEXT DEFAULT '{}',
+                ip_address TEXT DEFAULT '',
+                user_agent TEXT DEFAULT '',
+                device_info TEXT DEFAULT ''
+            )
+            """
+        )
 
 
 def _column_exists(cursor, table_name: str, column_name: str) -> bool:
@@ -556,3 +591,102 @@ def set_admin_password(password: str) -> bool:
     conn.commit()
     conn.close()
     return changed
+
+
+def create_audit_log(
+    level: str,
+    action: str,
+    status: str,
+    message: str,
+    details: Optional[Dict[str, Any]] = None,
+    ip_address: str = "",
+    user_agent: str = "",
+    device_info: str = "",
+) -> Dict[str, Any]:
+    from datetime import datetime
+    import random
+    import string
+
+    now = datetime.now()
+    time_formatted = now.strftime("%H:%M:%S %d/%m/%Y")
+    rand_suffix = "".join(random.choices(string.ascii_lowercase + string.digits, k=4))
+    log_id = f"valen_log_{int(now.timestamp() * 1000)}_{rand_suffix}"
+    details_json = json.dumps(details or {})
+
+    conn = _get_connection()
+    cursor = conn.cursor()
+    p = _placeholder()
+
+    if _POSTGRES_ACTIVE:
+        cursor.execute(
+            f"""
+            INSERT INTO audit_logs (id, timestamp, time_formatted, level, action, status, message, details, ip_address, user_agent, device_info)
+            VALUES ({p}, NOW(), {p}, {p}, {p}, {p}, {p}, {p}::jsonb, {p}, {p}, {p})
+            """,
+            (log_id, time_formatted, level.upper(), action.upper(), status.upper(), message, details_json, ip_address, user_agent, device_info),
+        )
+    else:
+        cursor.execute(
+            f"""
+            INSERT INTO audit_logs (id, timestamp, time_formatted, level, action, status, message, details, ip_address, user_agent, device_info)
+            VALUES ({p}, {p}, {p}, {p}, {p}, {p}, {p}, {p}, {p}, {p}, {p})
+            """,
+            (log_id, now.isoformat(), time_formatted, level.upper(), action.upper(), status.upper(), message, details_json, ip_address, user_agent, device_info),
+        )
+    conn.commit()
+    conn.close()
+
+    return {
+        "id": log_id,
+        "timeFormatted": time_formatted,
+        "level": level.upper(),
+        "action": action.upper(),
+        "status": status.upper(),
+        "message": message,
+        "details": details or {},
+        "ipAddress": ip_address,
+        "deviceInfo": device_info,
+    }
+
+
+def get_audit_logs(limit: int = 300) -> List[Dict[str, Any]]:
+    conn = _get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        f"SELECT id, timestamp, time_formatted, level, action, status, message, details, ip_address, user_agent, device_info FROM audit_logs ORDER BY timestamp DESC LIMIT {limit}"
+    )
+    rows = cursor.fetchall()
+    conn.close()
+
+    logs = []
+    for r in rows:
+        details_val = r["details"] if isinstance(r, dict) else r[7]
+        if isinstance(details_val, str):
+            try:
+                details_val = json.loads(details_val)
+            except Exception:
+                details_val = {}
+        logs.append({
+            "id": r["id"] if isinstance(r, dict) else r[0],
+            "timestamp": str(r["timestamp"] if isinstance(r, dict) else r[1]),
+            "timeFormatted": r["time_formatted"] if isinstance(r, dict) else r[2],
+            "level": r["level"] if isinstance(r, dict) else r[3],
+            "action": r["action"] if isinstance(r, dict) else r[4],
+            "status": r["status"] if isinstance(r, dict) else r[5],
+            "message": r["message"] if isinstance(r, dict) else r[6],
+            "details": details_val,
+            "ipAddress": r["ip_address"] if isinstance(r, dict) else r[8],
+            "userAgent": r["user_agent"] if isinstance(r, dict) else r[9],
+            "deviceInfo": r["device_info"] if isinstance(r, dict) else r[10],
+        })
+    return logs
+
+
+def clear_audit_logs() -> bool:
+    conn = _get_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM audit_logs")
+    conn.commit()
+    conn.close()
+    return True
+
