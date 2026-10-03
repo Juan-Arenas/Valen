@@ -429,6 +429,16 @@ def update_category(category_id: int, name: str) -> bool:
 def delete_category(category_id: int) -> bool:
     conn = _get_connection()
     cursor = conn.cursor()
+    # Find category name before deletion
+    cursor.execute(f"SELECT name FROM categories WHERE id = {_placeholder()}", (category_id,))
+    row = cursor.fetchone()
+    cat_name = row[0] if row and not isinstance(row, dict) else (row["name"] if row else "")
+
+    # Reassign products referencing this category to avoid foreign key issues
+    cursor.execute(f"UPDATE products SET category_id = NULL WHERE category_id = {_placeholder()}", (category_id,))
+    if cat_name:
+        cursor.execute(f"UPDATE products SET category = 'Maquillaje' WHERE category = {_placeholder()}", (cat_name,))
+
     cursor.execute(f"DELETE FROM categories WHERE id = {_placeholder()}", (category_id,))
     deleted = cursor.rowcount > 0
     conn.commit()
@@ -451,17 +461,17 @@ def get_products(active_only: bool = True, category_id: Optional[int] = None) ->
     if active_only:
         if _POSTGRES_ACTIVE:
             cursor.execute(
-                f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.active = TRUE {category_filter} ORDER BY p.id ASC",
+                f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.active = TRUE {category_filter} ORDER BY p.id DESC",
                 tuple(params),
             )
         else:
             cursor.execute(
-                f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.active = 1 {category_filter} ORDER BY p.id ASC",
+                f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.active = 1 {category_filter} ORDER BY p.id DESC",
                 tuple(params),
             )
     else:
         cursor.execute(
-            f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE 1=1 {category_filter} ORDER BY p.id ASC",
+            f"SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE 1=1 {category_filter} ORDER BY p.id DESC",
             tuple(params),
         )
 

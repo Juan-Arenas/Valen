@@ -178,6 +178,35 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
     }
 
+    function getDeletedCategories() {
+        try {
+            const raw = localStorage.getItem('valen_deleted_categories');
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function addDeletedCategory(name) {
+        try {
+            const list = getDeletedCategories();
+            const norm = String(name || '').trim().toLowerCase();
+            if (norm && !list.includes(norm)) {
+                list.push(norm);
+                localStorage.setItem('valen_deleted_categories', JSON.stringify(list));
+            }
+        } catch (e) {}
+    }
+
+    function removeDeletedCategory(name) {
+        try {
+            const list = getDeletedCategories();
+            const norm = String(name || '').trim().toLowerCase();
+            const filtered = list.filter(c => c !== norm);
+            localStorage.setItem('valen_deleted_categories', JSON.stringify(filtered));
+        } catch (e) {}
+    }
+
     function setupSupabaseRealtime() {
         if (!supabaseClient || realtimeChannel) return;
         try {
@@ -422,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { data, error } = await supabaseClient
                     .from('products')
                     .select('*')
-                    .order('id', { ascending: true });
+                    .order('id', { ascending: false });
 
                 if (!error && data && data.length > 0) {
                     allProducts = data;
@@ -472,6 +501,9 @@ document.addEventListener('DOMContentLoaded', () => {
             category: normalizeCategoryName(p.category)
         }));
 
+        // Always order products newest first (highest ID first)
+        allProducts.sort((a, b) => Number(b.id) - Number(a.id));
+
         saveLocalCache(allProducts);
         adminProducts = allProducts.slice();
 
@@ -480,10 +512,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadCategories() {
+        let dbCategories = [];
         if (supabaseClient) {
             try {
                 const { data, error } = await supabaseClient.from('categories').select('*').order('id', { ascending: true });
                 if (!error && data && data.length > 0) {
+                    dbCategories = data;
                     allCategories = data.map(c => c.name);
                 }
             } catch (e) {}
@@ -494,21 +528,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await fetchApi('/api/categories');
                 if (res.ok) {
                     const data = await res.json();
-                    allCategories = data.map(c => c.name || c);
+                    if (Array.isArray(data) && data.length > 0) {
+                        dbCategories = data;
+                        allCategories = data.map(c => c.name || c);
+                    }
                 }
             } catch (e) {}
         }
 
+        const deletedCats = getDeletedCategories();
         const catMap = new Map();
-        allCategories.forEach(c => catMap.set(normalizeCategoryName(c).toLowerCase(), normalizeCategoryName(c)));
+        allCategories.forEach(c => {
+            const norm = normalizeCategoryName(c);
+            if (!deletedCats.includes(norm.toLowerCase())) {
+                catMap.set(norm.toLowerCase(), norm);
+            }
+        });
         CANONICAL_CATEGORIES.forEach(c => {
-            if (!catMap.has(c.toLowerCase())) {
-                catMap.set(c.toLowerCase(), c);
+            const norm = normalizeCategoryName(c);
+            if (!catMap.has(norm.toLowerCase()) && !deletedCats.includes(norm.toLowerCase())) {
+                catMap.set(norm.toLowerCase(), norm);
             }
         });
 
         allCategories = Array.from(catMap.values());
+
+        // Map adminCategories preserving real database IDs when available
+        adminCategories = allCategories.map((name, idx) => {
+            const match = dbCategories.find(dbCat => (dbCat.name || '').toLowerCase() === name.toLowerCase());
+            return {
+                id: match && match.id ? match.id : idx + 1,
+                name: name
+            };
+        });
+
         renderCategoryFilterPills();
+        populateAdminCategorySelect();
+        renderAdminCategoryChips();
+        renderAdminCategoryPills();
+        updateAdminStats();
     }
 
     function renderCategoryFilterPills() {
@@ -570,7 +628,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 filteredProducts.sort((a, b) => Number(b.price) - Number(a.price));
             } else if (sortVal === 'name-asc') {
                 filteredProducts.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+            } else if (sortVal === 'oldest') {
+                filteredProducts.sort((a, b) => Number(a.id) - Number(b.id));
+            } else {
+                // Predeterminado: lo más nuevo primero
+                filteredProducts.sort((a, b) => Number(b.id) - Number(a.id));
             }
+        } else {
+            filteredProducts.sort((a, b) => Number(b.id) - Number(a.id));
         }
 
         renderProductsGrid();
@@ -599,12 +664,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const fragment = document.createDocumentFragment();
 
         filteredProducts.forEach(product => {
+            const isNew = Number(product.id) > 613;
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
                 <div class="product-image-container">
                     <img src="${product.image || 'Logo.jpeg'}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='Logo.jpeg';">
                     <span class="product-category-tag">${product.category || 'Maquillaje'}</span>
+                    ${isNew ? '<span class="product-badge-new"><i class="fas fa-sparkles"></i> NUEVO</span>' : ''}
                 </div>
                 <div class="product-info">
                     <h3 class="product-title" title="${product.name}">${product.name}</h3>
@@ -1413,16 +1480,208 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderAdminCategoryChips() {
         if (!adminCategoryList) return;
         adminCategoryList.innerHTML = '';
+        const badge = document.getElementById('admin-category-count-badge');
+        if (badge) badge.textContent = `${adminCategories.length} Categorías`;
+
+        if (adminCategories.length === 0) {
+            adminCategoryList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem; padding: 4px;">No hay categorías registradas.</p>';
+            return;
+        }
+
         adminCategories.forEach(cat => {
             const count = adminProducts.filter(p => normalizeCategoryName(p.category).toLowerCase() === cat.name.toLowerCase()).length;
             const chip = document.createElement('div');
             chip.className = 'admin-category-chip';
             chip.innerHTML = `
-                <span>${cat.name}</span>
-                <span class="chip-count">${count}</span>
+                <span class="chip-name" title="${cat.name}">${cat.name}</span>
+                <span class="chip-count" title="${count} productos asociados">${count}</span>
+                <div class="chip-actions">
+                    <button type="button" class="chip-action-btn chip-edit-btn" title="Renombrar categoría"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="chip-action-btn chip-delete-btn" title="Eliminar categoría"><i class="fas fa-trash-alt"></i></button>
+                </div>
             `;
+
+            chip.querySelector('.chip-edit-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                editAdminCategory(cat.name, cat.id);
+            });
+
+            chip.querySelector('.chip-delete-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteAdminCategory(cat.name, cat.id);
+            });
+
             adminCategoryList.appendChild(chip);
         });
+    }
+
+    async function deleteAdminCategory(name, id) {
+        const normName = normalizeCategoryName(name);
+        const count = adminProducts.filter(p => normalizeCategoryName(p.category).toLowerCase() === normName.toLowerCase()).length;
+        const msg = count > 0 
+            ? `¿Estás seguro de que deseas eliminar la categoría "${normName}"?\n\n⚠️ Tiene ${count} producto(s) asociado(s). Se reasignarán automáticamente a la categoría "Maquillaje" sin perderse.`
+            : `¿Deseas eliminar la categoría "${normName}"?`;
+
+        if (!confirm(msg)) return;
+
+        const categoryMsg = document.getElementById('admin-category-message');
+        if (categoryMsg) categoryMsg.textContent = 'Eliminando categoría...';
+
+        // 1. Guardar en lista de categorías borradas localmente
+        addDeletedCategory(normName);
+
+        // 2. Reasignar productos en memoria
+        allProducts.forEach(p => {
+            if (normalizeCategoryName(p.category).toLowerCase() === normName.toLowerCase()) {
+                p.category = 'Maquillaje';
+                p.category_id = 2;
+            }
+        });
+        adminProducts.forEach(p => {
+            if (normalizeCategoryName(p.category).toLowerCase() === normName.toLowerCase()) {
+                p.category = 'Maquillaje';
+                p.category_id = 2;
+            }
+        });
+
+        // 3. Remover categoría del estado
+        allCategories = allCategories.filter(c => normalizeCategoryName(c).toLowerCase() !== normName.toLowerCase());
+        adminCategories = adminCategories.filter(c => normalizeCategoryName(c.name).toLowerCase() !== normName.toLowerCase());
+
+        if (selectedCategory.toLowerCase() === normName.toLowerCase()) {
+            selectedCategory = 'all';
+        }
+        if (adminSelectedCat.toLowerCase() === normName.toLowerCase()) {
+            adminSelectedCat = 'all';
+        }
+
+        saveLocalCache(allProducts);
+        renderCategoryFilterPills();
+        populateAdminCategorySelect();
+        renderAdminCategoryChips();
+        renderAdminCategoryPills();
+        updateAdminStats();
+        applyFilters();
+        renderAdminProductsList();
+
+        // 4. Sincronizar con API central (Neon DB)
+        try {
+            await fetchApi(`/api/categories/${encodeURIComponent(id || normName)}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Password': adminPassword
+                },
+                body: JSON.stringify({ adminPassword })
+            });
+        } catch (err) {
+            console.warn('[Admin Category] Error al borrar en API central:', err);
+        }
+
+        // 5. Sincronizar con Supabase si está activo
+        if (supabaseClient) {
+            try {
+                await supabaseClient.from('products').update({ category: 'Maquillaje' }).eq('category', normName);
+                if (id) {
+                    await supabaseClient.from('categories').delete().eq('id', id);
+                }
+                await supabaseClient.from('categories').delete().eq('name', normName);
+            } catch (err) {
+                console.warn('[Admin Category] Error al borrar en Supabase:', err);
+            }
+        }
+
+        logValenEvent('OK', 'CATEGORY_DELETE', `Categoría eliminada: "${normName}" (${count} productos reasignados a Maquillaje)`, {
+            categoryName: normName,
+            categoryId: id,
+            reassignedCount: count
+        }, 'OK');
+
+        if (categoryMsg) categoryMsg.textContent = '';
+        showNotification(`Categoría "${normName}" eliminada correctamente`, '🗑️');
+    }
+
+    async function editAdminCategory(oldName, id) {
+        const normOld = normalizeCategoryName(oldName);
+        const input = prompt(`Ingresa el nuevo nombre para la categoría "${normOld}":`, normOld);
+        if (input === null) return;
+        const newName = input.trim();
+        if (!newName || newName.toLowerCase() === normOld.toLowerCase()) return;
+        const normNew = normalizeCategoryName(newName);
+
+        if (allCategories.some(c => c.toLowerCase() === normNew.toLowerCase())) {
+            alert(`Ya existe una categoría llamada "${normNew}".`);
+            return;
+        }
+
+        const categoryMsg = document.getElementById('admin-category-message');
+        if (categoryMsg) categoryMsg.textContent = 'Actualizando categoría...';
+
+        removeDeletedCategory(normNew);
+        addDeletedCategory(normOld);
+
+        // Actualizar en memoria
+        allProducts.forEach(p => {
+            if (normalizeCategoryName(p.category).toLowerCase() === normOld.toLowerCase()) {
+                p.category = normNew;
+            }
+        });
+        adminProducts.forEach(p => {
+            if (normalizeCategoryName(p.category).toLowerCase() === normOld.toLowerCase()) {
+                p.category = normNew;
+            }
+        });
+
+        allCategories = allCategories.map(c => normalizeCategoryName(c).toLowerCase() === normOld.toLowerCase() ? normNew : c);
+        adminCategories = adminCategories.map(c => normalizeCategoryName(c.name).toLowerCase() === normOld.toLowerCase() ? { ...c, name: normNew } : c);
+
+        if (selectedCategory.toLowerCase() === normOld.toLowerCase()) selectedCategory = normNew;
+        if (adminSelectedCat.toLowerCase() === normOld.toLowerCase()) adminSelectedCat = normNew;
+
+        saveLocalCache(allProducts);
+        renderCategoryFilterPills();
+        populateAdminCategorySelect();
+        renderAdminCategoryChips();
+        renderAdminCategoryPills();
+        updateAdminStats();
+        applyFilters();
+        renderAdminProductsList();
+
+        // API Sync
+        try {
+            await fetchApi(`/api/categories/${encodeURIComponent(id || normOld)}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Password': adminPassword
+                },
+                body: JSON.stringify({ name: normNew, adminPassword })
+            });
+        } catch (err) {
+            console.warn('[Admin Category] Error al actualizar en API:', err);
+        }
+
+        // Supabase Sync
+        if (supabaseClient) {
+            try {
+                await supabaseClient.from('products').update({ category: normNew }).eq('category', normOld);
+                if (id) {
+                    await supabaseClient.from('categories').update({ name: normNew }).eq('id', id);
+                } else {
+                    await supabaseClient.from('categories').update({ name: normNew }).eq('name', normOld);
+                }
+            } catch (err) {
+                console.warn('[Admin Category] Error al actualizar en Supabase:', err);
+            }
+        }
+
+        logValenEvent('OK', 'CATEGORY_UPDATE', `Categoría "${normOld}" renombrada a "${normNew}"`, {
+            oldName: normOld,
+            newName: normNew
+        }, 'OK');
+
+        if (categoryMsg) categoryMsg.textContent = '';
+        showNotification(`Categoría renombrada a "${normNew}"`, '✏️');
     }
 
     function renderAdminCategoryPills() {
@@ -2030,9 +2289,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!name) return;
 
             const norm = normalizeCategoryName(name);
+            removeDeletedCategory(norm);
+
+            let newCatId = adminCategories.length + 1;
             if (!allCategories.some(c => c.toLowerCase() === norm.toLowerCase())) {
                 allCategories.push(norm);
-                adminCategories.push({ id: adminCategories.length + 1, name: norm });
+                adminCategories.push({ id: newCatId, name: norm });
                 renderCategoryFilterPills();
                 populateAdminCategorySelect();
                 renderAdminCategoryChips();
@@ -2049,12 +2311,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (supabaseClient) {
                 try {
-                    await supabaseClient.from('categories').insert([{ name: norm }]);
+                    const { data } = await supabaseClient.from('categories').insert([{ name: norm }]).select();
+                    if (data && data[0] && data[0].id) {
+                        const target = adminCategories.find(c => c.name.toLowerCase() === norm.toLowerCase());
+                        if (target) target.id = data[0].id;
+                    }
                 } catch (e) {}
             }
 
             try {
-                await fetchApi('/api/categories', {
+                const res = await fetchApi('/api/categories', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -2062,6 +2328,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify({ name: norm })
                 });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.id) {
+                        const target = adminCategories.find(c => c.name.toLowerCase() === norm.toLowerCase());
+                        if (target) target.id = data.id;
+                    }
+                }
             } catch (err) {}
         });
     }

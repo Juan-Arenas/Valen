@@ -102,10 +102,11 @@
                 <div class="sort-wrapper">
                     <label for="sort-select" style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark);">Ordenar por:</label>
                     <select id="sort-select" style="padding: 6px; border-radius: 8px; border: 1px solid #ddd; outline: none; margin-left: 5px; cursor: pointer;">
-                        <option value="default">Recomendados (Predeterminado)</option>
+                        <option value="default">✨ Lo más nuevo (Predeterminado)</option>
                         <option value="price-asc">Precio: Menor a Mayor</option>
                         <option value="price-desc">Precio: Mayor a Menor</option>
                         <option value="name-asc">Nombre: A - Z</option>
+                        <option value="oldest">Más antiguos</option>
                     </select>
                 </div>
             </div>
@@ -374,21 +375,24 @@
 
                         <!-- Categories Manager -->
                         <div class="admin-card">
-                            <div class="admin-card-header">
+                            <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
                                 <h3><i class="fas fa-tags" style="color: var(--bratz-pink);"></i> Categorías</h3>
+                                <span id="admin-category-count-badge" style="font-size: 0.75rem; font-weight: 800; background: #fdf2f8; color: var(--bratz-deep-pink); padding: 2px 8px; border-radius: var(--radius-full); border: 1px solid var(--border-pink);">0 Categorías</span>
                             </div>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">Gestiona las categorías de la tienda. Puedes crear, renombrar o eliminar categorías (los productos asociados se reasignarán a Maquillaje).</p>
                             <form id="admin-category-form" class="admin-form">
-                                <div class="form-group">
+                                <div class="form-group" style="margin-bottom: 10px;">
                                     <label for="admin-new-category">Nueva categoría:</label>
                                     <div style="display: flex; gap: 8px;">
-                                        <input type="text" id="admin-new-category" placeholder="Nombre de categoría" required>
-                                        <button class="btn-primary" type="submit"><i class="fas fa-plus"></i></button>
+                                        <input type="text" id="admin-new-category" placeholder="Ej. Perfumes, Labiales..." required>
+                                        <button class="btn-primary" type="submit" title="Agregar Categoría"><i class="fas fa-plus"></i></button>
                                     </div>
                                 </div>
                             </form>
 
-                            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Categorías actuales:</label>
+                            <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); display: block; margin-top: 8px;">Categorías actuales (Toca el lápiz para renombrar o el tarro para eliminar):</label>
                             <div id="admin-category-list" class="admin-category-list"></div>
+                            <p class="admin-message" id="admin-category-message" style="color: var(--bratz-deep-pink); font-size: 0.82rem; margin-top: 8px; font-weight: 700;"></p>
                         </div>
                     </div>
 

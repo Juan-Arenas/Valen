@@ -424,13 +424,116 @@ module.exports = async (req, res) => {
       if (!isAuth) {
         return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
       }
-      const catId = Number(segments[1]);
+      const rawParam = decodeURIComponent(segments[1]).trim();
+      const catId = Number(rawParam);
       try {
         if (sql) {
-          await sql`DELETE FROM categories WHERE id = ${catId};`;
+          let catName = '';
+          let actualId = null;
+
+          if (!isNaN(catId) && String(catId) === rawParam) {
+            actualId = catId;
+            const rows = await sql`SELECT id, name FROM categories WHERE id = ${catId} LIMIT 1;`;
+            if (rows.length > 0) catName = rows[0].name;
+          } else {
+            catName = rawParam;
+            const rows = await sql`SELECT id, name FROM categories WHERE LOWER(name) = LOWER(${rawParam}) LIMIT 1;`;
+            if (rows.length > 0) {
+              actualId = rows[0].id;
+              catName = rows[0].name;
+            }
+          }
+
+          // Step 1: Reassign products to avoid foreign key violation
+          if (actualId) {
+            await sql`
+              UPDATE products 
+              SET category_id = NULL, category = 'Maquillaje' 
+              WHERE category_id = ${actualId};
+            `;
+          }
+          if (catName) {
+            await sql`
+              UPDATE products 
+              SET category = 'Maquillaje' 
+              WHERE LOWER(category) = LOWER(${catName});
+            `;
+          }
+
+          // Step 2: Delete from categories
+          if (actualId) {
+            await sql`DELETE FROM categories WHERE id = ${actualId};`;
+          } else if (catName) {
+            await sql`DELETE FROM categories WHERE LOWER(name) = LOWER(${catName});`;
+          }
+
+          await insertAuditLog({
+            level: 'INFO',
+            action: 'CATEGORY_DELETE',
+            status: 'OK',
+            message: `Categoría "${catName || rawParam}" eliminada del catálogo por el administrador`,
+            details: { categoryId: actualId, name: catName || rawParam },
+            req
+          });
         }
         return sendJson(res, 200, { deleted: true });
       } catch (err) {
+        console.error('[API DELETE /categories Error]:', err);
+        return sendJson(res, 500, { error: err.message });
+      }
+    }
+
+    if (segments.length === 2 && (method === 'PUT' || method === 'PATCH')) {
+      const isAuth = await checkAdminAuth(req, payload);
+      if (!isAuth) {
+        return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
+      }
+      const rawParam = decodeURIComponent(segments[1]).trim();
+      const catId = Number(rawParam);
+      const newName = normalizeCategoryName(payload && payload.name);
+      if (!newName) {
+        return sendJson(res, 400, { error: 'missing_name', message: 'El nuevo nombre es obligatorio' });
+      }
+      try {
+        if (sql) {
+          let oldName = '';
+          let actualId = null;
+
+          if (!isNaN(catId) && String(catId) === rawParam) {
+            actualId = catId;
+            const rows = await sql`SELECT id, name FROM categories WHERE id = ${catId} LIMIT 1;`;
+            if (rows.length > 0) oldName = rows[0].name;
+          } else {
+            oldName = rawParam;
+            const rows = await sql`SELECT id, name FROM categories WHERE LOWER(name) = LOWER(${rawParam}) LIMIT 1;`;
+            if (rows.length > 0) {
+              actualId = rows[0].id;
+              oldName = rows[0].name;
+            }
+          }
+
+          if (actualId) {
+            await sql`UPDATE categories SET name = ${newName} WHERE id = ${actualId};`;
+          } else if (oldName) {
+            await sql`UPDATE categories SET name = ${newName} WHERE LOWER(name) = LOWER(${oldName});`;
+          }
+
+          if (oldName) {
+            await sql`UPDATE products SET category = ${newName} WHERE LOWER(category) = LOWER(${oldName});`;
+          }
+
+          await insertAuditLog({
+            level: 'INFO',
+            action: 'CATEGORY_UPDATE',
+            status: 'OK',
+            message: `Categoría "${oldName || rawParam}" renombrada a "${newName}"`,
+            details: { categoryId: actualId, oldName, newName },
+            req
+          });
+        }
+        return sendJson(res, 200, { updated: true, name: newName });
+      } catch (err) {
+        console.error('[API UPDATE /categories Error]:', err);
         return sendJson(res, 500, { error: err.message });
       }
     }
@@ -458,7 +561,7 @@ module.exports = async (req, res) => {
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.active = TRUE AND p.category_id = ${Number(categoryId)}
-                ORDER BY p.id ASC;
+                ORDER BY p.id DESC;
               `;
             } else if (activeOnly) {
               rows = await sql`
@@ -468,7 +571,7 @@ module.exports = async (req, res) => {
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.active = TRUE
-                ORDER BY p.id ASC;
+                ORDER BY p.id DESC;
               `;
             } else if (categoryId) {
               rows = await sql`
@@ -478,7 +581,7 @@ module.exports = async (req, res) => {
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.category_id = ${Number(categoryId)}
-                ORDER BY p.id ASC;
+                ORDER BY p.id DESC;
               `;
             } else {
               rows = await sql`
@@ -487,7 +590,7 @@ module.exports = async (req, res) => {
                        p.skin_tones_image, p.skin_tones_count
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
-                ORDER BY p.id ASC;
+                ORDER BY p.id DESC;
               `;
             }
           }
@@ -554,7 +657,7 @@ module.exports = async (req, res) => {
           });
 
           // Trigger background GitHub sync if configured
-          sql`SELECT * FROM products ORDER BY id ASC`.then(allProds => {
+          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
             backgroundSyncToGithub(allProds).catch(() => {});
           }).catch(() => {});
 
@@ -651,7 +754,7 @@ module.exports = async (req, res) => {
           });
 
           // Background sync
-          sql`SELECT * FROM products ORDER BY id ASC`.then(allProds => {
+          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
             backgroundSyncToGithub(allProds).catch(() => {});
           }).catch(() => {});
 
@@ -684,7 +787,7 @@ module.exports = async (req, res) => {
           });
 
           // Background sync
-          sql`SELECT * FROM products ORDER BY id ASC`.then(allProds => {
+          sql`SELECT * FROM products ORDER BY id DESC`.then(allProds => {
             backgroundSyncToGithub(allProds).catch(() => {});
           }).catch(() => {});
 
