@@ -139,8 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Maquillaje',
         'Cabello y Ducha',
         'Accesorios Cabello',
-        'Accesorios Maquillaje',
-        'Bloomshell'
+        'Accesorios Maquillaje'
     ];
 
     // ==========================================
@@ -181,16 +180,32 @@ document.addEventListener('DOMContentLoaded', () => {
     function getDeletedCategories() {
         try {
             const raw = localStorage.getItem('valen_deleted_categories');
-            return raw ? JSON.parse(raw) : [];
+            const list = raw ? JSON.parse(raw) : [];
+            const protectedCore = CANONICAL_CATEGORIES.map(c => c.toLowerCase());
+            // Las categorías principales nunca pueden ser bloqueadas como eliminadas
+            return list.filter(c => !protectedCore.includes(String(c).trim().toLowerCase()));
         } catch (e) {
             return [];
         }
     }
 
+    // Auto-sanitizar localStorage para desbloquear categorías principales
+    try {
+        const raw = localStorage.getItem('valen_deleted_categories');
+        if (raw) {
+            const list = JSON.parse(raw);
+            const protectedCore = CANONICAL_CATEGORIES.map(c => c.toLowerCase());
+            const cleaned = list.filter(c => !protectedCore.includes(String(c).trim().toLowerCase()));
+            localStorage.setItem('valen_deleted_categories', JSON.stringify(cleaned));
+        }
+    } catch (e) {}
+
     function addDeletedCategory(name) {
         try {
-            const list = getDeletedCategories();
             const norm = String(name || '').trim().toLowerCase();
+            const protectedCore = CANONICAL_CATEGORIES.map(c => c.toLowerCase());
+            if (protectedCore.includes(norm)) return; // No permitir marcar como borrada una categoría principal
+            const list = getDeletedCategories();
             if (norm && !list.includes(norm)) {
                 list.push(norm);
                 localStorage.setItem('valen_deleted_categories', JSON.stringify(list));
@@ -1490,6 +1505,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         adminCategories.forEach(cat => {
             const count = adminProducts.filter(p => normalizeCategoryName(p.category).toLowerCase() === cat.name.toLowerCase()).length;
+            const isCanonical = CANONICAL_CATEGORIES.some(c => c.toLowerCase() === cat.name.toLowerCase());
             const chip = document.createElement('div');
             chip.className = 'admin-category-chip';
             chip.innerHTML = `
@@ -1497,26 +1513,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="chip-count" title="${count} productos asociados">${count}</span>
                 <div class="chip-actions">
                     <button type="button" class="chip-action-btn chip-edit-btn" title="Renombrar categoría"><i class="fas fa-pen"></i></button>
-                    <button type="button" class="chip-action-btn chip-delete-btn" title="Eliminar categoría"><i class="fas fa-trash-alt"></i></button>
+                    ${isCanonical ? '' : '<button type="button" class="chip-action-btn chip-delete-btn" title="Eliminar categoría personalizada"><i class="fas fa-trash-alt"></i></button>'}
                 </div>
             `;
 
             chip.querySelector('.chip-edit-btn').addEventListener('click', (e) => {
                 e.stopPropagation();
-                editAdminCategory(cat.name, cat.id);
+                editAdminCategory(cat.name);
             });
 
-            chip.querySelector('.chip-delete-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteAdminCategory(cat.name, cat.id);
-            });
+            const delBtn = chip.querySelector('.chip-delete-btn');
+            if (delBtn) {
+                delBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteAdminCategory(cat.name);
+                });
+            }
 
             adminCategoryList.appendChild(chip);
         });
     }
 
-    async function deleteAdminCategory(name, id) {
+    async function deleteAdminCategory(name) {
         const normName = normalizeCategoryName(name);
+        if (CANONICAL_CATEGORIES.some(c => c.toLowerCase() === normName.toLowerCase())) {
+            alert(`"${normName}" es una categoría principal del catálogo y no se puede eliminar.`);
+            return;
+        }
+
         const count = adminProducts.filter(p => normalizeCategoryName(p.category).toLowerCase() === normName.toLowerCase()).length;
         const msg = count > 0 
             ? `¿Estás seguro de que deseas eliminar la categoría "${normName}"?\n\n⚠️ Tiene ${count} producto(s) asociado(s). Se reasignarán automáticamente a la categoría "Maquillaje" sin perderse.`
@@ -1534,13 +1558,11 @@ document.addEventListener('DOMContentLoaded', () => {
         allProducts.forEach(p => {
             if (normalizeCategoryName(p.category).toLowerCase() === normName.toLowerCase()) {
                 p.category = 'Maquillaje';
-                p.category_id = 2;
             }
         });
         adminProducts.forEach(p => {
             if (normalizeCategoryName(p.category).toLowerCase() === normName.toLowerCase()) {
                 p.category = 'Maquillaje';
-                p.category_id = 2;
             }
         });
 
@@ -1564,9 +1586,9 @@ document.addEventListener('DOMContentLoaded', () => {
         applyFilters();
         renderAdminProductsList();
 
-        // 4. Sincronizar con API central (Neon DB)
+        // 4. Sincronizar con API central (Neon DB) pasando únicamente el nombre
         try {
-            await fetchApi(`/api/categories/${encodeURIComponent(id || normName)}`, {
+            await fetchApi(`/api/categories/${encodeURIComponent(normName)}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1582,9 +1604,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (supabaseClient) {
             try {
                 await supabaseClient.from('products').update({ category: 'Maquillaje' }).eq('category', normName);
-                if (id) {
-                    await supabaseClient.from('categories').delete().eq('id', id);
-                }
                 await supabaseClient.from('categories').delete().eq('name', normName);
             } catch (err) {
                 console.warn('[Admin Category] Error al borrar en Supabase:', err);
@@ -1593,7 +1612,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         logValenEvent('OK', 'CATEGORY_DELETE', `Categoría eliminada: "${normName}" (${count} productos reasignados a Maquillaje)`, {
             categoryName: normName,
-            categoryId: id,
             reassignedCount: count
         }, 'OK');
 
@@ -1601,7 +1619,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotification(`Categoría "${normName}" eliminada correctamente`, '🗑️');
     }
 
-    async function editAdminCategory(oldName, id) {
+    async function editAdminCategory(oldName) {
         const normOld = normalizeCategoryName(oldName);
         const input = prompt(`Ingresa el nuevo nombre para la categoría "${normOld}":`, normOld);
         if (input === null) return;
@@ -1647,9 +1665,9 @@ document.addEventListener('DOMContentLoaded', () => {
         applyFilters();
         renderAdminProductsList();
 
-        // API Sync
+        // API Sync pasando únicamente el nombre
         try {
-            await fetchApi(`/api/categories/${encodeURIComponent(id || normOld)}`, {
+            await fetchApi(`/api/categories/${encodeURIComponent(normOld)}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1665,11 +1683,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (supabaseClient) {
             try {
                 await supabaseClient.from('products').update({ category: normNew }).eq('category', normOld);
-                if (id) {
-                    await supabaseClient.from('categories').update({ name: normNew }).eq('id', id);
-                } else {
-                    await supabaseClient.from('categories').update({ name: normNew }).eq('name', normOld);
-                }
+                await supabaseClient.from('categories').update({ name: normNew }).eq('name', normOld);
             } catch (err) {
                 console.warn('[Admin Category] Error al actualizar en Supabase:', err);
             }

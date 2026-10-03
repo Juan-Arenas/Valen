@@ -429,52 +429,35 @@ module.exports = async (req, res) => {
       try {
         if (sql) {
           let catName = '';
-          let actualId = null;
 
           if (!isNaN(catId) && String(catId) === rawParam) {
-            actualId = catId;
-            const rows = await sql`SELECT id, name FROM categories WHERE id = ${catId} LIMIT 1;`;
+            const rows = await sql`SELECT name FROM categories WHERE id = ${catId} LIMIT 1;`;
             if (rows.length > 0) catName = rows[0].name;
           } else {
             catName = rawParam;
-            const rows = await sql`SELECT id, name FROM categories WHERE LOWER(name) = LOWER(${rawParam}) LIMIT 1;`;
-            if (rows.length > 0) {
-              actualId = rows[0].id;
-              catName = rows[0].name;
-            }
           }
 
-          // Step 1: Reassign products to avoid foreign key violation
-          if (actualId) {
-            await sql`
-              UPDATE products 
-              SET category_id = NULL, category = 'Maquillaje' 
-              WHERE category_id = ${actualId};
-            `;
-          }
           if (catName) {
+            // Reassign ONLY products with this exact category name
             await sql`
               UPDATE products 
               SET category = 'Maquillaje' 
               WHERE LOWER(category) = LOWER(${catName});
             `;
-          }
+            await sql`
+              DELETE FROM categories 
+              WHERE LOWER(name) = LOWER(${catName});
+            `;
 
-          // Step 2: Delete from categories
-          if (actualId) {
-            await sql`DELETE FROM categories WHERE id = ${actualId};`;
-          } else if (catName) {
-            await sql`DELETE FROM categories WHERE LOWER(name) = LOWER(${catName});`;
+            await insertAuditLog({
+              level: 'INFO',
+              action: 'CATEGORY_DELETE',
+              status: 'OK',
+              message: `Categoría "${catName}" eliminada del catálogo`,
+              details: { name: catName },
+              req
+            });
           }
-
-          await insertAuditLog({
-            level: 'INFO',
-            action: 'CATEGORY_DELETE',
-            status: 'OK',
-            message: `Categoría "${catName || rawParam}" eliminada del catálogo por el administrador`,
-            details: { categoryId: actualId, name: catName || rawParam },
-            req
-          });
         }
         return sendJson(res, 200, { deleted: true });
       } catch (err) {
@@ -497,39 +480,27 @@ module.exports = async (req, res) => {
       try {
         if (sql) {
           let oldName = '';
-          let actualId = null;
 
           if (!isNaN(catId) && String(catId) === rawParam) {
-            actualId = catId;
-            const rows = await sql`SELECT id, name FROM categories WHERE id = ${catId} LIMIT 1;`;
+            const rows = await sql`SELECT name FROM categories WHERE id = ${catId} LIMIT 1;`;
             if (rows.length > 0) oldName = rows[0].name;
           } else {
             oldName = rawParam;
-            const rows = await sql`SELECT id, name FROM categories WHERE LOWER(name) = LOWER(${rawParam}) LIMIT 1;`;
-            if (rows.length > 0) {
-              actualId = rows[0].id;
-              oldName = rows[0].name;
-            }
-          }
-
-          if (actualId) {
-            await sql`UPDATE categories SET name = ${newName} WHERE id = ${actualId};`;
-          } else if (oldName) {
-            await sql`UPDATE categories SET name = ${newName} WHERE LOWER(name) = LOWER(${oldName});`;
           }
 
           if (oldName) {
+            await sql`UPDATE categories SET name = ${newName} WHERE LOWER(name) = LOWER(${oldName});`;
             await sql`UPDATE products SET category = ${newName} WHERE LOWER(category) = LOWER(${oldName});`;
-          }
 
-          await insertAuditLog({
-            level: 'INFO',
-            action: 'CATEGORY_UPDATE',
-            status: 'OK',
-            message: `Categoría "${oldName || rawParam}" renombrada a "${newName}"`,
-            details: { categoryId: actualId, oldName, newName },
-            req
-          });
+            await insertAuditLog({
+              level: 'INFO',
+              action: 'CATEGORY_UPDATE',
+              status: 'OK',
+              message: `Categoría "${oldName}" renombrada a "${newName}"`,
+              details: { oldName, newName },
+              req
+            });
+          }
         }
         return sendJson(res, 200, { updated: true, name: newName });
       } catch (err) {
@@ -549,47 +520,39 @@ module.exports = async (req, res) => {
         try {
           const activeParam = (urlObj.searchParams.get('active') || 'true').toLowerCase();
           const activeOnly = !['0', 'false', 'no'].includes(activeParam);
-          const categoryId = urlObj.searchParams.get('category_id');
+          const categoryParam = urlObj.searchParams.get('category');
 
           let rows = [];
           if (sql) {
-            if (activeOnly && categoryId) {
+            if (activeOnly && categoryParam) {
               rows = await sql`
                 SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
-                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
-                       p.skin_tones_image, p.skin_tones_count
+                       p.category, p.skin_tones_image, p.skin_tones_count
                 FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
-                WHERE p.active = TRUE AND p.category_id = ${Number(categoryId)}
+                WHERE p.active = TRUE AND LOWER(p.category) = LOWER(${categoryParam})
                 ORDER BY p.id DESC;
               `;
             } else if (activeOnly) {
               rows = await sql`
                 SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
-                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
-                       p.skin_tones_image, p.skin_tones_count
+                       p.category, p.skin_tones_image, p.skin_tones_count
                 FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.active = TRUE
                 ORDER BY p.id DESC;
               `;
-            } else if (categoryId) {
+            } else if (categoryParam) {
               rows = await sql`
                 SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
-                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
-                       p.skin_tones_image, p.skin_tones_count
+                       p.category, p.skin_tones_image, p.skin_tones_count
                 FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
-                WHERE p.category_id = ${Number(categoryId)}
+                WHERE LOWER(p.category) = LOWER(${categoryParam})
                 ORDER BY p.id DESC;
               `;
             } else {
               rows = await sql`
                 SELECT p.id, p.name, p.price, p.image, p.page, p.active, p.category_id,
-                       COALESCE(NULLIF(p.category, ''), c.name, 'Maquillaje') as category,
-                       p.skin_tones_image, p.skin_tones_count
+                       p.category, p.skin_tones_image, p.skin_tones_count
                 FROM products p
-                LEFT JOIN categories c ON p.category_id = c.id
                 ORDER BY p.id DESC;
               `;
             }
