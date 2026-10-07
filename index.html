@@ -178,7 +178,10 @@
             </div>
             <div>
                 <div style="font-size: 0.72rem; opacity: 0.9; text-transform: uppercase;">Total en Carrito</div>
-                <div style="font-size: 1.05rem; font-weight: 900;" id="floating-cart-total">$0</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="font-size: 1.05rem; font-weight: 900;" id="floating-cart-total">$0</div>
+                    <span class="floating-min-badge" id="floating-min-badge" style="display: none;">🔒 Mínimo $35k</span>
+                </div>
             </div>
         </div>
         <div class="floating-bottom-action">
@@ -215,6 +218,27 @@
                 </div>
             </div>
 
+            <!-- Futuristic Live Min-Order Cyber Tracker -->
+            <div class="cart-min-order-card" id="cart-min-order-card" style="display: none;">
+                <div class="cart-min-order-header">
+                    <div class="cart-min-order-status" id="cart-min-order-status">
+                        <span class="cart-min-status-dot"></span>
+                        <span class="cart-min-status-text" id="cart-min-status-text">PEDIDO MÍNIMO: $35.000 COP</span>
+                    </div>
+                    <span class="cart-min-order-tag" id="cart-min-order-tag">BLOQUEADO</span>
+                </div>
+                <div class="cart-min-progress-track">
+                    <div class="cart-min-progress-fill" id="cart-min-progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="cart-min-order-footer">
+                    <span class="cart-min-order-desc" id="cart-min-order-desc">
+                        <i class="fas fa-lock" id="cart-min-order-desc-icon"></i>
+                        <span id="cart-min-order-desc-text">Te faltan $35.000 para habilitar el despacho</span>
+                    </span>
+                    <span class="cart-min-order-pct" id="cart-min-order-pct">0%</span>
+                </div>
+            </div>
+
             <div class="cart-total-box">
                 <div class="cart-total-row">
                     <span class="cart-total-label">Total a Pagar:</span>
@@ -225,6 +249,95 @@
             <button class="btn-whatsapp-checkout" id="btn-checkout">
                 <i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp
             </button>
+        </div>
+    </div>
+
+    <!-- Futuristic Min Order Restriction Modal (HUD Cyber Restriction) -->
+    <div id="min-order-modal" class="modal cyber-restriction-modal">
+        <div class="modal-content cyber-modal-card">
+            <!-- Glowing Sci-Fi Corner Accents -->
+            <div class="cyber-corner cyber-corner-tl"></div>
+            <div class="cyber-corner cyber-corner-tr"></div>
+            <div class="cyber-corner cyber-corner-bl"></div>
+            <div class="cyber-corner cyber-corner-br"></div>
+
+            <!-- Close Button -->
+            <button class="modal-close-btn cyber-close-btn" id="min-order-close-btn" aria-label="Cerrar modal">&times;</button>
+
+            <!-- Holographic Animated Reactor Icon -->
+            <div class="cyber-reactor-wrap">
+                <div class="cyber-radar-ring outer"></div>
+                <div class="cyber-radar-ring middle"></div>
+                <div class="cyber-radar-ring inner"></div>
+                <div class="cyber-icon-glow">
+                    <div class="cyber-icon-core">
+                        <i class="fas fa-lock" id="cyber-icon-glyph"></i>
+                    </div>
+                </div>
+                <div class="cyber-pulse-aura"></div>
+            </div>
+
+            <!-- Terminal Sci-Fi Badge -->
+            <div class="cyber-badge">
+                <span class="cyber-beacon-dot"></span>
+                <span>PROTOCOLO DE RESTRICCIÓN // MIN_ORDER_35K</span>
+            </div>
+
+            <h3 class="cyber-title">¡PEDIDO MÍNIMO REQUERIDO! ✨</h3>
+            <p class="cyber-subtitle">Tu orden aún no alcanza el monto mínimo para despacho</p>
+
+            <!-- Futuristic HUD Telemetry Data Grid -->
+            <div class="cyber-telemetry-grid">
+                <div class="cyber-telemetry-card">
+                    <div class="cyber-telemetry-label">
+                        <i class="fas fa-bag-shopping"></i> Tu Carrito
+                    </div>
+                    <div class="cyber-telemetry-value" id="min-order-current-val">$0</div>
+                </div>
+                <div class="cyber-telemetry-card highlight-need">
+                    <div class="cyber-telemetry-label">
+                        <i class="fas fa-bolt"></i> Te Faltan
+                    </div>
+                    <div class="cyber-telemetry-value pulse-neon" id="min-order-diff-val">$35.000</div>
+                </div>
+                <div class="cyber-telemetry-card">
+                    <div class="cyber-telemetry-label">
+                        <i class="fas fa-flag-checkered"></i> Mínimo
+                    </div>
+                    <div class="cyber-telemetry-value text-gold" id="min-order-target-val">$35.000</div>
+                </div>
+            </div>
+
+            <!-- Futuristic Energy Progress Bar -->
+            <div class="cyber-progress-container">
+                <div class="cyber-progress-header">
+                    <span class="cyber-progress-label"><i class="fas fa-microchip"></i> Nivel de desbloqueo:</span>
+                    <span class="cyber-progress-percent" id="min-order-progress-percent">0%</span>
+                </div>
+                <div class="cyber-progress-track">
+                    <div class="cyber-progress-bar" id="min-order-progress-bar" style="width: 0%;">
+                        <div class="cyber-progress-glare"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Explanatory Notice -->
+            <div class="cyber-notice-box">
+                <i class="fas fa-circle-exclamation cyber-notice-icon"></i>
+                <p>
+                    Para procesar pedidos y sostener nuestros <strong>precios mayoristas</strong>, la tienda despacha compras a partir de <strong>$35.000 COP</strong> en adelante. ¡Agrega tu labial, rubor o producto favorito y desbloquea tu pedido! 💖
+                </p>
+            </div>
+
+            <!-- Action CTA Buttons -->
+            <div class="cyber-actions">
+                <button class="cyber-btn-primary" id="min-order-add-more-btn">
+                    <i class="fas fa-sparkles"></i> <span>¡Agregar Más Productos al Carrito!</span> <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="cyber-btn-secondary" id="min-order-keep-review-btn">
+                    <i class="fas fa-cart-shopping"></i> <span>Seguir Revisando Carrito</span>
+                </button>
+            </div>
         </div>
     </div>
 

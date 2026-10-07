@@ -44,6 +44,98 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutCustomerAddress = document.getElementById('checkout-customer-address');
     const btnCheckout = document.getElementById('btn-checkout');
 
+    // Minimum Order Protocol Elements (System 35k)
+    const MIN_ORDER_AMOUNT = 35000;
+    const floatingMinBadge = document.getElementById('floating-min-badge');
+    const cartMinOrderCard = document.getElementById('cart-min-order-card');
+    const cartMinStatusText = document.getElementById('cart-min-status-text');
+    const cartMinOrderTag = document.getElementById('cart-min-order-tag');
+    const cartMinProgressFill = document.getElementById('cart-min-progress-fill');
+    const cartMinOrderDescIcon = document.getElementById('cart-min-order-desc-icon');
+    const cartMinOrderDescText = document.getElementById('cart-min-order-desc-text');
+    const cartMinOrderPct = document.getElementById('cart-min-order-pct');
+    const minOrderModal = document.getElementById('min-order-modal');
+    const minOrderCloseBtn = document.getElementById('min-order-close-btn');
+    const minOrderAddMoreBtn = document.getElementById('min-order-add-more-btn');
+    const minOrderKeepReviewBtn = document.getElementById('min-order-keep-review-btn');
+    const minOrderCurrentVal = document.getElementById('min-order-current-val');
+    const minOrderDiffVal = document.getElementById('min-order-diff-val');
+    const minOrderTargetVal = document.getElementById('min-order-target-val');
+    const minOrderProgressBar = document.getElementById('min-order-progress-bar');
+    const minOrderProgressPercent = document.getElementById('min-order-progress-percent');
+
+    // Futuristic Sound Generator via Web Audio API (Zero external assets needed)
+    function playFuturisticAlertSound() {
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            const ctx = new AudioContext();
+            if (ctx.state === 'suspended') {
+                ctx.resume();
+            }
+            const now = ctx.currentTime;
+            
+            // Oscillator 1: Sci-fi cyber frequency sweep
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(320, now);
+            osc1.frequency.exponentialRampToValueAtTime(760, now + 0.12);
+            osc1.frequency.exponentialRampToValueAtTime(540, now + 0.28);
+            
+            gain1.gain.setValueAtTime(0.001, now);
+            gain1.gain.linearRampToValueAtTime(0.18, now + 0.04);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+            
+            osc1.connect(gain1);
+            gain1.connect(ctx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.35);
+
+            // Oscillator 2: Sub-harmonic cyber tone
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(580, now + 0.08);
+            osc2.frequency.exponentialRampToValueAtTime(880, now + 0.22);
+            
+            gain2.gain.setValueAtTime(0.001, now + 0.08);
+            gain2.gain.linearRampToValueAtTime(0.12, now + 0.14);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.start(now + 0.08);
+            osc2.stop(now + 0.4);
+        } catch (e) {
+            // Silently handled
+        }
+    }
+
+    function openMinOrderRestrictionModal() {
+        const total = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+        const diff = Math.max(0, MIN_ORDER_AMOUNT - total);
+        const pct = Math.min(100, Math.round((total / MIN_ORDER_AMOUNT) * 100));
+
+        if (minOrderCurrentVal) minOrderCurrentVal.textContent = formatPrice(total);
+        if (minOrderDiffVal) minOrderDiffVal.textContent = `+${formatPrice(diff)}`;
+        if (minOrderTargetVal) minOrderTargetVal.textContent = formatPrice(MIN_ORDER_AMOUNT);
+
+        if (minOrderProgressBar) {
+            minOrderProgressBar.style.width = '0%';
+            setTimeout(() => {
+                minOrderProgressBar.style.width = `${pct}%`;
+            }, 60);
+        }
+        if (minOrderProgressPercent) minOrderProgressPercent.textContent = `${pct}%`;
+
+        playFuturisticAlertSound();
+
+        if (minOrderModal) {
+            minOrderModal.classList.add('active');
+        }
+    }
+
     // Thank You Modal Elements
     const thankyouModal = document.getElementById('thankyou-modal');
     const thankyouCloseBtn = document.getElementById('thankyou-close-btn');
@@ -784,10 +876,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCartUi() {
         const totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
         const total = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+        const pct = Math.min(100, Math.round((total / MIN_ORDER_AMOUNT) * 100));
+        const diff = Math.max(0, MIN_ORDER_AMOUNT - total);
 
         if (headerCartCount) headerCartCount.textContent = totalCount;
         if (floatingCartCount) floatingCartCount.textContent = totalCount;
         if (floatingCartTotal) floatingCartTotal.textContent = formatPrice(total);
+
+        // Update floating min badge in bottom bar
+        if (floatingMinBadge) {
+            if (totalCount === 0) {
+                floatingMinBadge.style.display = 'none';
+            } else if (total < MIN_ORDER_AMOUNT) {
+                floatingMinBadge.style.display = 'inline-flex';
+                floatingMinBadge.className = 'floating-min-badge locked';
+                floatingMinBadge.innerHTML = `<i class="fas fa-lock"></i> Faltan ${formatPrice(diff)}`;
+            } else {
+                floatingMinBadge.style.display = 'inline-flex';
+                floatingMinBadge.className = 'floating-min-badge unlocked';
+                floatingMinBadge.innerHTML = `<i class="fas fa-circle-check"></i> ¡Mínimo listo!`;
+            }
+        }
 
         if (floatingCartBar) {
             if (totalCount > 0) {
@@ -850,6 +959,57 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cartTotalPrice) {
             cartTotalPrice.textContent = formatPrice(total);
         }
+
+        // Live Min-Order Cyber Tracker inside Cart Drawer
+        if (cartMinOrderCard) {
+            if (cart.length === 0) {
+                cartMinOrderCard.style.display = 'none';
+            } else {
+                cartMinOrderCard.style.display = 'block';
+                if (cartMinProgressFill) {
+                    cartMinProgressFill.style.width = `${pct}%`;
+                }
+                if (cartMinOrderPct) {
+                    cartMinOrderPct.textContent = `${pct}%`;
+                }
+
+                if (total < MIN_ORDER_AMOUNT) {
+                    cartMinOrderCard.classList.remove('unlocked');
+                    cartMinOrderCard.classList.add('locked');
+                    if (cartMinStatusText) cartMinStatusText.textContent = `PEDIDO MÍNIMO: ${formatPrice(MIN_ORDER_AMOUNT)} COP`;
+                    if (cartMinOrderTag) {
+                        cartMinOrderTag.className = 'cart-min-order-tag locked';
+                        cartMinOrderTag.textContent = 'RESTRINGIDO';
+                    }
+                    if (cartMinOrderDescIcon) cartMinOrderDescIcon.className = 'fas fa-lock';
+                    if (cartMinOrderDescText) cartMinOrderDescText.textContent = `Te faltan ${formatPrice(diff)} para habilitar el despacho`;
+                } else {
+                    cartMinOrderCard.classList.remove('locked');
+                    cartMinOrderCard.classList.add('unlocked');
+                    if (cartMinStatusText) cartMinStatusText.textContent = `¡DESBLOQUEADO! PEDIDO AUTORIZADO ✨`;
+                    if (cartMinOrderTag) {
+                        cartMinOrderTag.className = 'cart-min-order-tag unlocked';
+                        cartMinOrderTag.textContent = 'LISTO';
+                    }
+                    if (cartMinOrderDescIcon) cartMinOrderDescIcon.className = 'fas fa-circle-check';
+                    if (cartMinOrderDescText) cartMinOrderDescText.textContent = `¡Excelente! Cumples con el monto mínimo para envío`;
+                }
+            }
+        }
+
+        // Update Checkout Button State
+        if (btnCheckout) {
+            if (cart.length === 0) {
+                btnCheckout.classList.remove('locked');
+                btnCheckout.innerHTML = `<i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp`;
+            } else if (total < MIN_ORDER_AMOUNT) {
+                btnCheckout.classList.add('locked');
+                btnCheckout.innerHTML = `<i class="fas fa-lock" style="font-size: 1.15rem;"></i> Pedido Mínimo ${formatPrice(MIN_ORDER_AMOUNT)} <span class="checkout-missing-badge">(Faltan ${formatPrice(diff)})</span>`;
+            } else {
+                btnCheckout.classList.remove('locked');
+                btnCheckout.innerHTML = `<i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp (${formatPrice(total)})`;
+            }
+        }
     }
 
     if (floatingCartBar && cartModal) {
@@ -871,11 +1031,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Checkout WhatsApp button
+    // Checkout WhatsApp button with strict minimum order protocol
     if (btnCheckout) {
         btnCheckout.addEventListener('click', () => {
             if (cart.length === 0) {
                 alert('Tu carrito está vacío. Agrega productos para realizar tu pedido.');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+
+            // RESTRICTION: Block any order below $35,000 COP
+            if (total < MIN_ORDER_AMOUNT) {
+                openMinOrderRestrictionModal();
                 return;
             }
 
@@ -890,7 +1058,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            let total = 0;
             let msg = `✨ *NUEVO PEDIDO - VALEN MAKEUP* ✨\n\n`;
             msg += `📋 *DATOS DEL CLIENTE:*\n`;
             msg += `👤 *Nombre:* ${name}\n`;
@@ -900,7 +1067,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cart.forEach((item, idx) => {
                 const sub = (Number(item.price || 0)) * (item.quantity || 1);
-                total += sub;
                 msg += `*${idx + 1}.* ${item.name} ${item.selectedTone ? `(Tono ${item.selectedTone})` : ''}\n`;
                 msg += `   └ Cantidad: ${item.quantity} x ${formatPrice(item.price)} = ${formatPrice(sub)}\n`;
             });
@@ -916,6 +1082,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (cartModal) cartModal.classList.remove('active');
             if (thankyouModal) thankyouModal.classList.add('active');
+        });
+    }
+
+    // Listeners for Futuristic Min-Order Modal
+    if (minOrderCloseBtn && minOrderModal) {
+        minOrderCloseBtn.addEventListener('click', () => {
+            minOrderModal.classList.remove('active');
+        });
+    }
+
+    if (minOrderKeepReviewBtn && minOrderModal) {
+        minOrderKeepReviewBtn.addEventListener('click', () => {
+            minOrderModal.classList.remove('active');
+        });
+    }
+
+    if (minOrderAddMoreBtn) {
+        minOrderAddMoreBtn.addEventListener('click', () => {
+            if (minOrderModal) minOrderModal.classList.remove('active');
+            if (cartModal) cartModal.classList.remove('active');
+
+            const target = productsGrid || document.querySelector('.catalog-section') || document.body;
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            if (productsGrid) {
+                productsGrid.classList.add('products-attention-glow');
+                setTimeout(() => {
+                    productsGrid.classList.remove('products-attention-glow');
+                }, 2400);
+            }
+        });
+    }
+
+    if (minOrderModal) {
+        minOrderModal.addEventListener('click', (e) => {
+            if (e.target === minOrderModal) {
+                minOrderModal.classList.remove('active');
+            }
         });
     }
 
