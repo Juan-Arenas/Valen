@@ -98,6 +98,7 @@ def create_product_endpoint():
     page = payload.get("page", 1)
     active = payload.get("active", True)
     category_id = payload.get("category_id")
+    category = payload.get("category")
 
     if not name or price is None or image is None:
         abort(400, description="name, price and image are required")
@@ -110,7 +111,7 @@ def create_product_endpoint():
     except (TypeError, ValueError):
         abort(400, description="price, page and category_id must be numbers")
 
-    product_id = create_product(name, price, image, page=page, active=active, category_id=category_id)
+    product_id = create_product(name, price, image, page=page, active=active, category_id=category_id, category=category)
     product = get_product(product_id)
     return jsonify(product), 201
 

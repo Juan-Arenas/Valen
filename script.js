@@ -2088,6 +2088,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const matchedCat = (adminCategories || []).find(c => c.name.toLowerCase() === category.toLowerCase());
+            const category_id = matchedCat && matchedCat.id ? Number(matchedCat.id) : undefined;
+
             const payload = {
                 name,
                 price,
@@ -2095,6 +2098,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 skin_tones_image,
                 skin_tones_count,
                 category,
+                category_id,
                 active,
                 page: 1
             };
@@ -2111,23 +2115,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const method = editingId ? 'PATCH' : 'POST';
                 let savedProduct = null;
 
-                try {
-                    const apiRes = await fetchApi(endpoint, {
-                        method,
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Admin-Password': adminPassword
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                    if (apiRes.ok) {
-                        savedProduct = await apiRes.json();
-                        if (savedProduct && savedProduct.id) {
-                            payload.id = savedProduct.id;
-                        }
+                const apiRes = await fetchApi(endpoint, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Admin-Password': adminPassword
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (apiRes.ok) {
+                    savedProduct = await apiRes.json();
+                    if (savedProduct && savedProduct.id) {
+                        payload.id = savedProduct.id;
                     }
-                } catch (err) {
-                    console.warn('[Admin Save] Aviso al enviar a API central:', err);
+                } else {
+                    const errData = await apiRes.json().catch(() => ({}));
+                    throw new Error(errData.message || errData.error || `Error en la base de datos (${apiRes.status})`);
                 }
 
                 // 2. Sincronizar en Supabase si está configurado

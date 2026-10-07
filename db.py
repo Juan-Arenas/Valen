@@ -499,22 +499,56 @@ def create_product(
     page: int = 1,
     active: bool = True,
     category_id: Optional[int] = None,
+    category: Optional[str] = None,
 ) -> int:
     conn = _get_connection()
     cursor = conn.cursor()
     placeholder = _placeholder()
     active_value = _active_true() if active else _active_false()
 
+    # Resolve category and category_id safely
+    if not category_id and category:
+        try:
+            cursor.execute(f"SELECT id, name FROM categories WHERE LOWER(name) = LOWER({placeholder}) LIMIT 1", (category.strip(),))
+            c_row = cursor.fetchone()
+            if c_row:
+                category_id = c_row["id"] if isinstance(c_row, dict) else c_row[0]
+                category = c_row["name"] if isinstance(c_row, dict) else c_row[1]
+        except Exception:
+            pass
+    elif category_id and not category:
+        try:
+            cursor.execute(f"SELECT id, name FROM categories WHERE id = {placeholder} LIMIT 1", (category_id,))
+            c_row = cursor.fetchone()
+            if c_row:
+                category = c_row["name"] if isinstance(c_row, dict) else c_row[1]
+        except Exception:
+            pass
+
+    if not category_id:
+        try:
+            cursor.execute("SELECT id, name FROM categories WHERE name = 'Maquillaje' LIMIT 1")
+            c_row = cursor.fetchone()
+            if c_row:
+                category_id = c_row["id"] if isinstance(c_row, dict) else c_row[0]
+                category = c_row["name"] if isinstance(c_row, dict) else c_row[1]
+            else:
+                category_id = 22
+                category = "Maquillaje"
+        except Exception:
+            category_id = 22
+            category = "Maquillaje"
+
     if _POSTGRES_ACTIVE:
         cursor.execute(
-            f"INSERT INTO products (name, price, image, page, active, category_id) VALUES ({placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}) RETURNING id",
-            (name.strip(), price, image.strip(), page, active_value, category_id),
+            f"INSERT INTO products (name, price, image, page, active, category_id, category) VALUES ({placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}) RETURNING id",
+            (name.strip(), price, image.strip(), page, active_value, category_id, category or "Maquillaje"),
         )
         product_id = cursor.fetchone()["id"]
     else:
         cursor.execute(
-            f"INSERT INTO products (name, price, image, page, active, category_id) VALUES ({placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder})",
-            (name.strip(), price, image.strip(), page, active_value, category_id),
+            f"INSERT INTO products (name, price, image, page, active, category_id, category) VALUES ({placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder}, {placeholder})",
+            (name.strip(), price, image.strip(), page, active_value, category_id, category or "Maquillaje"),
         )
         product_id = cursor.lastrowid
 
@@ -525,7 +559,7 @@ def create_product(
 
 
 def update_product(product_id: int, **fields: Any) -> bool:
-    allowed_fields = {"name", "price", "image", "page", "active", "category_id"}
+    allowed_fields = {"name", "price", "image", "page", "active", "category_id", "category"}
     updates = []
     values: List[Any] = []
     placeholder = _placeholder()

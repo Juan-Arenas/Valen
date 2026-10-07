@@ -56,6 +56,44 @@ function normalizeCategoryName(name) {
   return clean;
 }
 
+async function resolveCategoryId(sql, categoryName, givenId = null) {
+  if (!sql) return null;
+  // 1. If given an ID, check if it exists in categories table
+  if (givenId && Number(givenId) > 0) {
+    try {
+      const check = await sql`SELECT id FROM categories WHERE id = ${Number(givenId)} LIMIT 1;`;
+      if (check.length > 0) return check[0].id;
+    } catch (e) {}
+  }
+
+  // 2. Look up by normalized category name
+  const normName = normalizeCategoryName(categoryName || 'Maquillaje');
+  try {
+    const match = await sql`SELECT id FROM categories WHERE LOWER(name) = LOWER(${normName}) LIMIT 1;`;
+    if (match.length > 0) return match[0].id;
+  } catch (e) {}
+
+  // 3. Try to insert new category into categories table
+  try {
+    const inserted = await sql`
+      INSERT INTO categories (name) VALUES (${normName})
+      ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+      RETURNING id;
+    `;
+    if (inserted.length > 0) return inserted[0].id;
+  } catch (e) {}
+
+  // 4. Fallback to any valid category (e.g. Maquillaje)
+  try {
+    const fallback = await sql`SELECT id FROM categories WHERE name = 'Maquillaje' LIMIT 1;`;
+    if (fallback.length > 0) return fallback[0].id;
+    const anyCat = await sql`SELECT id FROM categories ORDER BY id ASC LIMIT 1;`;
+    if (anyCat.length > 0) return anyCat[0].id;
+  } catch (e) {}
+
+  return null;
+}
+
 function getClientIp(req) {
   const forwarded = req.headers['x-forwarded-for'];
   if (forwarded) {
@@ -581,26 +619,58 @@ module.exports = async (req, res) => {
           const page = Number(payload.page) || 1;
           const active = payload.active !== false;
           const category = normalizeCategoryName(payload.category || 'Maquillaje');
-          const category_id = payload.category_id ? Number(payload.category_id) : 5;
+          const category_id = await resolveCategoryId(sql, category, payload.category_id);
           const skin_tones_image = String(payload.skin_tones_image || '').trim();
           const skin_tones_count = Number(payload.skin_tones_count) || 0;
 
-          // Insert into Neon database
-          const inserted = await sql`
-            INSERT INTO products (name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count)
-            VALUES (
-              ${name},
-              ${price},
-              ${image},
-              ${page},
-              ${active},
-              ${category_id},
-              ${category},
-              ${skin_tones_image},
-              ${skin_tones_count}
-            )
-            RETURNING id, name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count;
-          `;
+          // Insert into Neon database (with upsert if ID is provided)
+          let inserted;
+          if (payload.id && Number(payload.id) > 0) {
+            const reqId = Number(payload.id);
+            inserted = await sql`
+              INSERT INTO products (id, name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count)
+              VALUES (
+                ${reqId},
+                ${name},
+                ${price},
+                ${image},
+                ${page},
+                ${active},
+                ${category_id},
+                ${category},
+                ${skin_tones_image},
+                ${skin_tones_count}
+              )
+              ON CONFLICT (id) DO UPDATE SET
+                name = EXCLUDED.name,
+                price = EXCLUDED.price,
+                image = EXCLUDED.image,
+                page = EXCLUDED.page,
+                active = EXCLUDED.active,
+                category_id = EXCLUDED.category_id,
+                category = EXCLUDED.category,
+                skin_tones_image = EXCLUDED.skin_tones_image,
+                skin_tones_count = EXCLUDED.skin_tones_count
+              RETURNING id, name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count;
+            `;
+            await sql`SELECT setval('products_id_seq', (SELECT GREATEST(MAX(id), ${reqId}) FROM products));`.catch(() => {});
+          } else {
+            inserted = await sql`
+              INSERT INTO products (name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count)
+              VALUES (
+                ${name},
+                ${price},
+                ${image},
+                ${page},
+                ${active},
+                ${category_id},
+                ${category},
+                ${skin_tones_image},
+                ${skin_tones_count}
+              )
+              RETURNING id, name, price, image, page, active, category_id, category, skin_tones_image, skin_tones_count;
+            `;
+          }
 
           const newProduct = inserted[0];
 
@@ -678,7 +748,7 @@ module.exports = async (req, res) => {
           const page = payload.page != null ? Number(payload.page) : prev.page;
           const active = payload.active != null ? Boolean(payload.active) : prev.active;
           const category = payload.category != null ? normalizeCategoryName(payload.category) : prev.category;
-          const category_id = payload.category_id != null ? Number(payload.category_id) : prev.category_id;
+          const category_id = await resolveCategoryId(sql, category, payload.category_id != null ? payload.category_id : prev.category_id);
 
           const updated = await sql`
             UPDATE products
