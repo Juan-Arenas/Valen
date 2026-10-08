@@ -2796,3 +2796,1523 @@ body {
   animation: productsAttentionGlow 1.2s ease-in-out 2;
   border-radius: 16px;
 }
+
+/* ============================================================ */
+/* ❤️ PRODUCT CARD WISHLIST / FAVORITES BUTTON                  */
+/* ============================================================ */
+.product-image-container {
+  position: relative;
+}
+
+.btn-product-fav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 42, 133, 0.2);
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-product-fav:hover {
+  transform: scale(1.12);
+  color: var(--bratz-pink);
+  background: #ffffff;
+}
+
+.btn-product-fav.active {
+  color: #ff2a85;
+  background: #fff0f6;
+  border-color: #ff2a85;
+  animation: heartPop 0.35s ease;
+}
+
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================================ */
+/* ✨ STORE FEATURES BANNER (ADVISOR & LUCKY WHEEL HIGHLIGHTS)  */
+/* ============================================================ */
+.store-features-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 16px 0 24px;
+}
+
+.feature-action-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1.5px solid #f1e2ee;
+  box-shadow: 0 4px 18px rgba(138, 43, 226, 0.05);
+  transition: all 0.28s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 42, 133, 0.12);
+  border-color: var(--bratz-pink);
+}
+
+.feature-action-card.advisor-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fff7fb 100%);
+}
+
+.feature-action-card.wheel-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f3ff 100%);
+}
+
+.feature-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(255, 42, 133, 0.25);
+}
+
+.feature-card-icon.spin-icon {
+  background: linear-gradient(135deg, #8a2be2, #ff2a85);
+}
+
+.feature-card-content {
+  flex: 1;
+}
+
+.feature-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: var(--bratz-pink);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.feature-tag.highlight {
+  color: var(--bratz-purple);
+}
+
+.feature-title {
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+.feature-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.feature-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--bratz-pink);
+  font-size: 0.82rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.feature-btn:hover {
+  gap: 12px;
+  color: var(--bratz-purple);
+}
+
+.feature-btn.wheel-btn {
+  color: var(--bratz-purple);
+}
+
+/* ============================================================ */
+/* 💕 COMPRA EL LOOK (KITS & BUNDLES)                          */
+/* ============================================================ */
+.looks-section {
+  padding: 40px 0;
+  background: linear-gradient(180deg, rgba(255, 240, 246, 0.35) 0%, rgba(255, 255, 255, 1) 100%);
+  border-top: 1px solid #fae6f2;
+}
+
+.section-title-wrap {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 30px;
+}
+
+.section-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: #fdf2f8;
+  color: var(--bratz-pink);
+  border: 1px solid var(--border-pink);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.section-heading {
+  font-family: var(--font-title);
+  font-size: 1.85rem;
+  font-weight: 900;
+  color: var(--text-main);
+  margin: 0 0 8px;
+}
+
+.section-subheading {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.looks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.look-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1.5px solid #f1e2ee;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(138, 43, 226, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.look-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--bratz-pink);
+  box-shadow: 0 12px 32px rgba(255, 42, 133, 0.14);
+}
+
+.look-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: #f9f5f8;
+}
+
+.look-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.look-card:hover .look-card-img-wrap img {
+  transform: scale(1.05);
+}
+
+.look-savings-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.look-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.look-card-title {
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 4px;
+}
+
+.look-card-tagline {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--bratz-pink);
+  margin-bottom: 12px;
+}
+
+.look-items-included {
+  background: #fdf8fb;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #fae6f2;
+}
+
+.look-items-label {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.look-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.look-items-list li {
+  font-size: 0.82rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.look-items-list li i {
+  color: var(--bratz-pink);
+  font-size: 0.75rem;
+}
+
+.look-pricing-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #f3e8f1;
+}
+
+.look-prices-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.look-ind-price {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.look-bnd-price {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--bratz-deep-pink);
+}
+
+.btn-buy-look {
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(255, 42, 133, 0.28);
+}
+
+.btn-buy-look:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 42, 133, 0.4);
+}
+
+/* ============================================================ */
+/* ⭐ RESEÑAS REALES DE CLIENTAS VERIFICADAS                   */
+/* ============================================================ */
+.reviews-section {
+  padding: 45px 0;
+  background: #ffffff;
+  border-top: 1px solid #f1e2ee;
+}
+
+.reviews-header-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.reviews-title-col {
+  max-width: 580px;
+}
+
+.reviews-stats-card {
+  background: linear-gradient(135deg, #fff7fb, #ffffff);
+  border: 1.5px solid var(--border-pink);
+  border-radius: 18px;
+  padding: 16px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 16px rgba(255, 42, 133, 0.06);
+}
+
+.rating-huge {
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.rating-stars {
+  color: #fbbf24;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+}
+
+.rating-meta {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.btn-leave-review {
+  background: #ffffff;
+  color: var(--bratz-pink);
+  border: 1.5px solid var(--bratz-pink);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-leave-review:hover {
+  background: var(--bratz-pink);
+  color: #ffffff;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.review-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #ebdbe8;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--bratz-pink);
+}
+
+.review-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.review-client-name {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid #a7f3d0;
+}
+
+.review-card-comment {
+  font-size: 0.86rem;
+  color: #4b5563;
+  line-height: 1.45;
+  margin: 8px 0 12px;
+  font-style: italic;
+}
+
+.review-card-meta {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #f5ecf3;
+  padding-top: 8px;
+}
+
+/* ============================================================ */
+/* 🧠 ASISTENTE DIGITAL: AYÚDAME A ELEGIR (QUIZ MODAL)          */
+/* ============================================================ */
+.quiz-modal-card {
+  max-width: 580px;
+  border-radius: 24px;
+  padding: 28px 24px;
+  background: #ffffff;
+  border: 1.5px solid var(--border-pink);
+  position: relative;
+  box-shadow: 0 16px 48px rgba(74, 14, 102, 0.18);
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.quiz-avatar-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 18px rgba(255, 42, 133, 0.3);
+}
+
+.quiz-title {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 4px;
+}
+
+.quiz-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 14px;
+}
+
+.quiz-steps-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.step-dot {
+  width: 24px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: #e5e7eb;
+  transition: all 0.25s ease;
+}
+
+.step-dot.active {
+  background: linear-gradient(90deg, var(--bratz-pink), var(--bratz-purple));
+  width: 38px;
+}
+
+.quiz-step-pane {
+  display: none;
+  animation: quizStepFade 0.28s ease;
+}
+
+.quiz-step-pane.active {
+  display: block;
+}
+
+@keyframes quizStepFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.quiz-step-question {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 4px;
+  text-align: center;
+}
+
+.quiz-step-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+.quiz-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-opt-btn {
+  background: #fdfafc;
+  border: 1.5px solid #ebdbe8;
+  border-radius: 14px;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.quiz-opt-btn:hover {
+  background: #ffffff;
+  border-color: var(--bratz-pink);
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px rgba(255, 42, 133, 0.1);
+}
+
+.quiz-opt-btn .opt-emoji {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+}
+
+.quiz-opt-btn .opt-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.quiz-opt-btn small {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.quiz-options-grid.grid-chips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.chip-opt {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 14px 10px;
+}
+
+.quiz-nav-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 16px;
+}
+
+.btn-quiz-back {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+}
+
+.btn-quiz-back:hover {
+  color: var(--bratz-pink);
+}
+
+.quiz-results-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.results-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: var(--bratz-pink);
+  margin-bottom: 4px;
+}
+
+.quiz-results-summary {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.quiz-recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.quiz-rec-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #ebdbe8;
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.quiz-rec-item img {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.quiz-rec-info {
+  flex: 1;
+}
+
+.quiz-rec-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 2px;
+}
+
+.quiz-rec-price {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--bratz-pink);
+}
+
+.quiz-rec-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-rec-add {
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 7px 12px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-restart-quiz {
+  background: #fdf2f8;
+  color: var(--bratz-deep-pink);
+  border: 1.5px solid var(--border-pink);
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px auto 0;
+  display: block;
+}
+
+/* ============================================================ */
+/* 🎡 RULETA DE PREMIOS (LUCKY WHEEL)                          */
+/* ============================================================ */
+.wheel-modal-card {
+  max-width: 440px;
+  text-align: center;
+  padding: 26px 20px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 2px solid var(--border-pink);
+  box-shadow: 0 20px 50px rgba(138, 43, 226, 0.2);
+}
+
+.wheel-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: var(--bratz-pink);
+  background: #fff0f6;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.wheel-title {
+  font-family: var(--font-title);
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--text-main);
+  margin: 0 0 4px;
+}
+
+.wheel-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0 0 16px;
+}
+
+.wheel-stage-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto 16px;
+}
+
+.wheel-ticker-arrow {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 22px solid #ff2a85;
+  z-index: 10;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.wheel-canvas-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(255, 42, 133, 0.3), inset 0 0 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+#lucky-wheel-canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.wheel-center-cap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #ff2a85;
+  color: #ff2a85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.btn-spin-wheel {
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 12px 32px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 42, 133, 0.35);
+  transition: all 0.25s ease;
+}
+
+.btn-spin-wheel:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 8px 26px rgba(255, 42, 133, 0.5);
+}
+
+.btn-spin-wheel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wheel-limits-notice {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.wheel-win-card {
+  background: linear-gradient(135deg, #fff7fb, #fdf2f8);
+  border: 1.5px solid var(--border-pink);
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 14px;
+  animation: winFadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes winFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.win-sparkles {
+  font-size: 2rem;
+  color: #f59e0b;
+  margin-bottom: 4px;
+}
+
+.win-title {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin: 0 0 6px;
+  font-weight: 800;
+}
+
+.win-prize-text {
+  font-family: var(--font-title);
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--bratz-pink);
+  margin-bottom: 10px;
+}
+
+.coupon-code-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px dashed var(--bratz-pink);
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--bratz-dark-purple);
+  margin-bottom: 12px;
+}
+
+.btn-copy-coupon {
+  background: transparent;
+  border: none;
+  color: var(--bratz-pink);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.btn-apply-prize {
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ============================================================ */
+/* ❤️ MIS FAVORITOS (DRAWER)                                   */
+/* ============================================================ */
+.favorites-drawer-content {
+  max-width: 480px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.favorites-items-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fav-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #ebdbe8;
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.fav-item-row img {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.fav-item-details {
+  flex: 1;
+}
+
+.fav-item-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 2px;
+}
+
+.fav-item-price {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--bratz-pink);
+}
+
+.fav-item-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.btn-fav-add-cart {
+  background: #fdf2f8;
+  color: var(--bratz-pink);
+  border: 1px solid var(--bratz-pink);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btn-fav-remove {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.btn-fav-remove:hover {
+  color: #ef4444;
+}
+
+/* ============================================================ */
+/* 🚚 SMART DELIVERY & PAYMENT SELECTOR IN CHECKOUT            */
+/* ============================================================ */
+.city-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.city-btn {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-btn .city-name {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.city-btn .city-fee-tag {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.city-btn.active {
+  background: #fff7fb;
+  border-color: var(--bratz-pink);
+}
+
+.city-btn.active .city-name {
+  color: var(--bratz-pink);
+}
+
+.city-btn.active .city-fee-tag {
+  color: var(--bratz-deep-pink);
+}
+
+.delivery-perk-card {
+  background: #fdfafc;
+  border: 1px solid #fae6f2;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 10px;
+}
+
+.delivery-perk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.delivery-perk-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.delivery-perk-title i {
+  color: var(--bratz-pink);
+}
+
+.delivery-perk-badge {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--bratz-deep-pink);
+}
+
+.delivery-perk-badge.free {
+  color: #047857;
+  background: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.delivery-perk-track {
+  width: 100%;
+  height: 6px;
+  background: #f1e2ee;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.delivery-perk-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bratz-pink), #10b981);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.payment-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.payment-option-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.payment-option-card input[type="radio"] {
+  display: none;
+}
+
+.payment-option-card .pay-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+.payment-option-card .pay-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-option-card .pay-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.payment-option-card .pay-desc {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.payment-option-card.active {
+  background: #fff7fb;
+  border-color: var(--bratz-pink);
+}
+
+.payment-option-card.active .pay-icon {
+  background: #fff0f6;
+  color: var(--bratz-pink);
+}
+
+.payment-instructions-box {
+  background: #fdfafc;
+  border: 1px dashed var(--border-pink);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: 0.82rem;
+}
+
+.pay-instruction-item code {
+  background: #f1e2ee;
+  color: var(--bratz-dark-purple);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.coupon-input-group {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-apply-coupon {
+  background: var(--bratz-pink);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.applied-coupon-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.btn-remove-coupon {
+  background: transparent;
+  border: none;
+  color: #047857;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.cart-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.cart-breakdown-row.discount-row {
+  color: #047857;
+  font-weight: 700;
+}
+
+/* ============================================================ */
+/* 📱 NATIVE APP-LIKE MOBILE BOTTOM FIXED NAVIGATION            */
+/* ============================================================ */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(251, 230, 242, 0.9);
+    padding: 6px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    justify-content: space-around;
+    align-items: center;
+    z-index: 999;
+    box-shadow: 0 -4px 16px rgba(74, 14, 102, 0.08);
+  }
+
+  .mob-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.68rem;
+    font-weight: 700;
+    gap: 3px;
+    position: relative;
+    padding: 4px 10px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .mob-nav-item i {
+    font-size: 1.15rem;
+    transition: transform 0.2s ease;
+  }
+
+  .mob-nav-item.active,
+  .mob-nav-item:hover {
+    color: var(--bratz-pink);
+  }
+
+  .mob-nav-item.active i {
+    transform: scale(1.1);
+  }
+
+  .mob-badge {
+    position: absolute;
+    top: 0px;
+    right: 6px;
+    background: var(--bratz-pink);
+    color: #ffffff;
+    font-size: 0.62rem;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: var(--radius-full);
+    min-width: 16px;
+    text-align: center;
+  }
+
+  .floating-bottom-bar {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .floating-wheel-btn {
+    bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* ============================================================ */
+/* 🎁 FLOATING LUCKY WHEEL BUTTON & CART TOAST                 */
+/* ============================================================ */
+.floating-wheel-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 20px;
+  z-index: 990;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--bratz-pink), var(--bratz-purple));
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 20px rgba(255, 42, 133, 0.35);
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+}
+
+.floating-wheel-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 26px rgba(255, 42, 133, 0.5);
+}
+
+.wheel-icon-bounce {
+  animation: wheelBounce 2s infinite ease-in-out;
+}
+
+@keyframes wheelBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.persistent-cart-toast {
+  position: fixed;
+  top: 75px;
+  right: 20px;
+  z-index: 1000;
+  background: #ffffff;
+  border: 1.5px solid var(--border-pink);
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 28px rgba(74, 14, 102, 0.15);
+  max-width: 340px;
+  animation: toastSlideIn 0.35s ease;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.persistent-cart-toast .toast-icon {
+  font-size: 1.3rem;
+  color: var(--bratz-pink);
+}
+
+.persistent-cart-toast .toast-body strong {
+  font-size: 0.82rem;
+  display: block;
+  color: var(--text-main);
+}
+
+.persistent-cart-toast .toast-body p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.btn-toast-view {
+  background: var(--bratz-pink);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 5px 12px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btn-toast-close {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* ============================================================ */
+/* ⭐ REVIEW FORM MODAL & STAR PICKER                           */
+/* ============================================================ */
+.star-rating-picker {
+  display: flex;
+  gap: 6px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.star-pick {
+  color: #cbd5e1;
+  transition: color 0.15s ease;
+}
+
+.star-pick.active {
+  color: #fbbf24;
+}
+
+/* ============================================================ */
+/* 🛠️ ADMIN TABLE ENHANCEMENTS                                  */
+/* ============================================================ */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.admin-table th {
+  background: #f8fafc;
+  padding: 10px 12px;
+  color: var(--text-muted);
+  font-weight: 800;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.order-status-pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.72rem;
+}
+
+.order-status-pill.pendiente { background: #fef3c7; color: #b45309; }
+.order-status-pill.confirmado { background: #dbeafe; color: #1d4ed8; }
+.order-status-pill.preparando { background: #f3e8ff; color: #7e22ce; }
+.order-status-pill.en-camino { background: #e0f2fe; color: #0369a1; }
+.order-status-pill.entregado { background: #dcfce7; color: #15803d; }
+.order-status-pill.cancelado { background: #fee2e2; color: #b91c1c; }

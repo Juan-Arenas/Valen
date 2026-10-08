@@ -56,10 +56,17 @@
             <nav class="navbar">
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="#catalogo" class="active"><i class="fas fa-sparkles"></i> Catálogo</a></li>
-                    <li><a href="#como-pedir"><i class="fas fa-clipboard-list"></i> Cómo Pedir</a></li>
-                    <li><a href="#contacto"><i class="fab fa-whatsapp"></i> Contacto</a></li>
+                    <li><a href="javascript:void(0)" id="nav-advisor-btn"><i class="fas fa-wand-magic-sparkles"></i> Ayúdame a elegir</a></li>
+                    <li><a href="#compra-el-look"><i class="fas fa-gem"></i> Compra el Look</a></li>
+                    <li><a href="#resenas"><i class="fas fa-star"></i> Reseñas</a></li>
                     <li>
-                        <a href="#carrito" class="cart-icon-btn cart-icon" id="header-cart-btn">
+                        <a href="javascript:void(0)" class="fav-icon-btn" id="header-fav-btn" title="Mis Favoritos">
+                            <i class="fas fa-heart"></i> Favoritos
+                            <span class="cart-badge fav-count" id="header-fav-count">0</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#carrito" class="cart-icon-btn cart-icon" id="header-cart-btn" title="Carrito de compras">
                             <i class="fas fa-shopping-bag"></i> Carrito
                             <span class="cart-badge cart-count" id="header-cart-count">0</span>
                         </a>
@@ -81,6 +88,39 @@
             <div class="catalog-header-bar">
                 <h2 class="catalog-title">Catálogo Oficial Valen Makeup</h2>
                 <p class="catalog-subtitle">Explora nuestra colección completa de maquillaje, cuidado facial y accesorios</p>
+            </div>
+
+            <!-- Smart Beauty Assistant & Surprise Wheel Highlight Cards -->
+            <div class="store-features-banner">
+                <div class="feature-action-card advisor-card" id="card-trigger-advisor">
+                    <div class="feature-card-icon">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="feature-card-content">
+                        <span class="feature-tag">ASESORA DIGITAL DE BELLEZA</span>
+                        <h3 class="feature-title">💕 ¿No sabes qué elegir?</h3>
+                        <p class="feature-desc">Responde 3 preguntas rápidas y te recomendamos los productos ideales para tu piel.</p>
+                        <button type="button" class="feature-btn advisor-btn" id="btn-hero-advisor">
+                            <span>Encontrar Mi Maquillaje</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-action-card wheel-card" id="card-trigger-wheel">
+                    <div class="feature-card-icon spin-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="feature-card-content">
+                        <span class="feature-tag highlight">SORPRESA DEL DÍA</span>
+                        <h3 class="feature-title">🎀 ¡Tienes un premio esperándote!</h3>
+                        <p class="feature-desc">Gira la ruleta mágica y gana descuentos, domicilio gratis o regalos para tu compra.</p>
+                        <button type="button" class="feature-btn wheel-btn" id="btn-hero-wheel">
+                            <span>🎡 Girar Ruleta</span>
+                            <i class="fas fa-sparkles"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Sticky Search & Filter Bar -->
@@ -123,6 +163,52 @@
             </div>
         </div>
     </main>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: COMPRA EL LOOK (KITS / BUNDLES CON AHORRO REAL)     -->
+    <!-- ============================================================ -->
+    <section id="compra-el-look" class="looks-section">
+        <div class="container">
+            <div class="section-title-wrap">
+                <span class="section-badge-pill"><i class="fas fa-sparkles"></i> COMBOS ESPECIALES</span>
+                <h2 class="section-heading">💕 Compra el Look de Valen</h2>
+                <p class="section-subheading">Kits de maquillaje curados por expertas para un acabado perfecto y ahorro asegurado.</p>
+            </div>
+
+            <div class="looks-grid" id="looks-grid">
+                <!-- Loaded dynamically from DB / fallback -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: RESEÑAS REALES DE CLIENTAS VERIFICADAS               -->
+    <!-- ============================================================ -->
+    <section id="resenas" class="reviews-section">
+        <div class="container">
+            <div class="reviews-header-block">
+                <div class="reviews-title-col">
+                    <span class="section-badge-pill"><i class="fas fa-heart"></i> EXPERIENCIAS REALES</span>
+                    <h2 class="section-heading">⭐ Reseñas de Nuestras Clientas</h2>
+                    <p class="section-subheading">Clientas reales en Pereira, Dosquebradas y toda Colombia que confían en Valen Makeup.</p>
+                </div>
+                <div class="reviews-stats-card">
+                    <div class="rating-huge">4.9</div>
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <span class="rating-meta">Calificación promedio verificada</span>
+                    <button type="button" class="btn-leave-review" id="btn-open-review-modal">
+                        <i class="fas fa-pen-fancy"></i> Dejar mi reseña
+                    </button>
+                </div>
+            </div>
+
+            <div class="reviews-grid" id="reviews-grid">
+                <!-- Loaded dynamically from DB / fallback -->
+            </div>
+        </div>
+    </section>
 
     <!-- Order Instructions Section (Image 2 Inspired) -->
     <section id="como-pedir" class="order-info-section">
@@ -204,17 +290,148 @@
 
             <!-- Customer Details for WhatsApp Message -->
             <div class="checkout-form-section">
-                <h4><i class="fas fa-id-card"></i> Datos para tu pedido en WhatsApp:</h4>
+                <h4><i class="fas fa-id-card"></i> Datos para tu despacho oficial:</h4>
                 <div class="checkout-inputs-grid">
                     <div class="checkout-field">
-                        <input type="text" id="checkout-customer-name" placeholder="Tu Nombre completo *" required>
+                        <label for="checkout-customer-name" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">Nombre y Apellido *</label>
+                        <input type="text" id="checkout-customer-name" placeholder="Ej. María Pérez" required>
                     </div>
                     <div class="checkout-field">
-                        <input type="tel" id="checkout-customer-phone" placeholder="Número de WhatsApp">
+                        <label for="checkout-customer-phone" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">WhatsApp de contacto *</label>
+                        <input type="tel" id="checkout-customer-phone" placeholder="Ej. 300 123 4567" required>
+                    </div>
+                </div>
+
+                <!-- 🚚 Domicilios Inteligentes (Pereira / Dosquebradas) -->
+                <div class="delivery-city-selector-wrap" style="margin-top: 12px;">
+                    <label class="checkout-subheading" style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                        <i class="fas fa-location-dot" style="color: var(--bratz-pink);"></i> ¿Dónde quieres recibir tu pedido? *
+                    </label>
+                    <div class="city-toggle-group">
+                        <button type="button" class="city-btn active" data-city="Pereira" id="city-pereira-btn">
+                            <span class="city-name">📍 Pereira</span>
+                            <span class="city-fee-tag" id="city-pereira-fee-tag">Dom: $7.000</span>
+                        </button>
+                        <button type="button" class="city-btn" data-city="Dosquebradas" id="city-dosquebradas-btn">
+                            <span class="city-name">📍 Dosquebradas</span>
+                            <span class="city-fee-tag" id="city-dosquebradas-fee-tag">Dom: $8.000</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="checkout-inputs-grid" style="margin-top: 10px;">
+                    <div class="checkout-field">
+                        <label for="checkout-customer-barrio" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">Barrio *</label>
+                        <input type="text" id="checkout-customer-barrio" list="barrios-datalist" placeholder="Escribe o selecciona tu barrio..." required>
+                        <datalist id="barrios-datalist">
+                            <!-- Populated dynamically via JS -->
+                        </datalist>
+                    </div>
+                    <div class="checkout-field">
+                        <label for="checkout-customer-address" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">Dirección exacta *</label>
+                        <input type="text" id="checkout-customer-address" placeholder="Ej. Cra 7 # 19-24 Apto 401" required>
                     </div>
                     <div class="checkout-field full-width">
-                        <input type="text" id="checkout-customer-address" placeholder="Dirección, Barrio y Ciudad *" required>
+                        <label for="checkout-customer-reference" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">Punto de referencia (opcional)</label>
+                        <input type="text" id="checkout-customer-reference" placeholder="Ej. Al lado de la panadería, reja negra...">
                     </div>
+                </div>
+
+                <!-- 🚚 Free Shipping Progress Tracker -->
+                <div class="delivery-perk-card" id="delivery-perk-card">
+                    <div class="delivery-perk-header">
+                        <div class="delivery-perk-title" id="delivery-perk-title">
+                            <i class="fas fa-truck-fast"></i>
+                            <span id="delivery-perk-text">Calculando envío...</span>
+                        </div>
+                        <span class="delivery-perk-badge" id="delivery-fee-badge">$7.000</span>
+                    </div>
+                    <div class="delivery-perk-track">
+                        <div class="delivery-perk-fill" id="delivery-perk-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- 💳 Métodos de Pago Claros -->
+                <div class="payment-method-section" style="margin-top: 14px;">
+                    <label class="checkout-subheading" style="font-size: 0.84rem; font-weight: 800; color: var(--text-dark); display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+                        <i class="fas fa-credit-card" style="color: var(--bratz-pink);"></i> ¿Cómo quieres pagar? *
+                    </label>
+                    <div class="payment-options-grid">
+                        <label class="payment-option-card active" for="pay-contraentrega">
+                            <input type="radio" name="payment-method" id="pay-contraentrega" value="Contraentrega" checked>
+                            <div class="pay-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                            <div class="pay-info">
+                                <span class="pay-title">💵 Contraentrega</span>
+                                <span class="pay-desc">Pagas en efectivo al recibir</span>
+                            </div>
+                        </label>
+
+                        <label class="payment-option-card" for="pay-nequi">
+                            <input type="radio" name="payment-method" id="pay-nequi" value="Nequi">
+                            <div class="pay-icon icon-nequi"><i class="fas fa-mobile-screen-button"></i></div>
+                            <div class="pay-info">
+                                <span class="pay-title">💚 Nequi</span>
+                                <span class="pay-desc">300 252 5489</span>
+                            </div>
+                        </label>
+
+                        <label class="payment-option-card" for="pay-bancolombia">
+                            <input type="radio" name="payment-method" id="pay-bancolombia" value="Bancolombia">
+                            <div class="pay-icon icon-bancolombia"><i class="fas fa-building-columns"></i></div>
+                            <div class="pay-info">
+                                <span class="pay-title">🏦 Bancolombia</span>
+                                <span class="pay-desc">Transferencia / QR</span>
+                            </div>
+                        </label>
+
+                        <label class="payment-option-card" for="pay-tarjeta">
+                            <input type="radio" name="payment-method" id="pay-tarjeta" value="Tarjeta Débito/Crédito">
+                            <div class="pay-icon icon-card"><i class="fas fa-credit-card"></i></div>
+                            <div class="pay-info">
+                                <span class="pay-title">💳 Tarjeta</span>
+                                <span class="pay-desc">Link seguro con tu asesora</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Payment Details Dropdown Info -->
+                    <div class="payment-instructions-box" id="payment-instructions-box" style="display: none;">
+                        <div id="nequi-info-box" class="pay-instruction-item" style="display: none;">
+                            <p><strong>💚 Transferencia Nequi:</strong> <code>300 252 5489</code></p>
+                            <small>A nombre de: Valentina Arenas. Al enviar tu pedido por WhatsApp adjuntas el comprobante.</small>
+                        </div>
+                        <div id="bancolombia-info-box" class="pay-instruction-item" style="display: none;">
+                            <p><strong>🏦 Transferencia Bancolombia Ahorros:</strong> <code>717-252548-91</code></p>
+                            <small>A nombre de: Valentina Arenas. O solicita el código QR por el chat de WhatsApp.</small>
+                        </div>
+                        <div id="tarjeta-info-box" class="pay-instruction-item" style="display: none;">
+                            <p><strong>💳 Pago Seguro con Tarjeta:</strong></p>
+                            <small>Tu asesora te enviará el link de pago seguro de datáfono virtual directamente a WhatsApp.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🎟️ Cupón de Descuento -->
+                <div class="coupon-field-wrap" style="margin-top: 14px;">
+                    <label for="cart-coupon-input" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">
+                        <i class="fas fa-ticket"></i> ¿Tienes un cupón de descuento o premio de la ruleta?
+                    </label>
+                    <div class="coupon-input-group">
+                        <input type="text" id="cart-coupon-input" placeholder="Ej. VALEN10, VALEN5K, ENVIOGRATIS">
+                        <button type="button" class="btn-apply-coupon" id="btn-apply-coupon">Aplicar</button>
+                    </div>
+                    <div id="applied-coupon-tag" class="applied-coupon-tag" style="display: none;">
+                        <span id="applied-coupon-text">🎟️ Cupón aplicado</span>
+                        <button type="button" id="btn-remove-coupon" class="btn-remove-coupon" title="Quitar cupón">&times;</button>
+                    </div>
+                    <small id="coupon-message" style="font-size: 0.78rem; font-weight: 700; display: block; margin-top: 4px;"></small>
+                </div>
+
+                <div class="checkout-field full-width" style="margin-top: 10px;">
+                    <label for="checkout-customer-notes" style="font-size: 0.78rem; font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;">
+                        <i class="fas fa-note-sticky"></i> Notas o instrucciones especiales (opcional)
+                    </label>
+                    <input type="text" id="checkout-customer-notes" placeholder="Ej. Llamar antes de entregar, timbre dañado, etc.">
                 </div>
             </div>
 
@@ -240,6 +457,18 @@
             </div>
 
             <div class="cart-total-box">
+                <div class="cart-breakdown-row">
+                    <span>Subtotal Productos:</span>
+                    <span id="cart-subtotal-val">$0</span>
+                </div>
+                <div class="cart-breakdown-row">
+                    <span>🚚 Domicilio (<span id="cart-delivery-city-label">Pereira</span>):</span>
+                    <span id="cart-delivery-val">$7.000</span>
+                </div>
+                <div class="cart-breakdown-row discount-row" id="cart-discount-row" style="display: none;">
+                    <span>🎟️ Descuento:</span>
+                    <span id="cart-discount-val">-$0</span>
+                </div>
                 <div class="cart-total-row">
                     <span class="cart-total-label">Total a Pagar:</span>
                     <span class="cart-total-price" id="cart-total-price">$0</span>
@@ -354,6 +583,313 @@
         </div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- 🧠 ASISTENTE DIGITAL: AYÚDAME A ELEGIR (BEAUTY ADVISOR MODAL) -->
+    <!-- ============================================================ -->
+    <div id="beauty-quiz-modal" class="modal quiz-modal">
+        <div class="modal-content quiz-modal-card">
+            <button class="modal-close-btn" id="quiz-close-btn" aria-label="Cerrar asistente">&times;</button>
+
+            <!-- Header -->
+            <div class="quiz-header">
+                <div class="quiz-avatar-badge">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="quiz-title">💕 Encontremos tu maquillaje</h3>
+                <p class="quiz-subtitle">Responde unas preguntas y te recomendamos productos ideales para ti.</p>
+                <div class="quiz-steps-indicator">
+                    <span class="step-dot active" data-step="1"></span>
+                    <span class="step-dot" data-step="2"></span>
+                    <span class="step-dot" data-step="3"></span>
+                    <span class="step-dot" data-step="4"></span>
+                </div>
+            </div>
+
+            <!-- Quiz Step 1: Look Style -->
+            <div class="quiz-step-pane active" id="quiz-step-1">
+                <h4 class="quiz-step-question">¿Qué estás buscando?</h4>
+                <p class="quiz-step-hint">Selecciona el estilo que mejor describe tu objetivo:</p>
+                <div class="quiz-options-grid">
+                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="natural">
+                        <span class="opt-emoji">🌸</span>
+                        <span class="opt-label">Algo natural</span>
+                        <small>Efecto piel fresca, ligera y luminosa</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="glam">
+                        <span class="opt-emoji">✨</span>
+                        <span class="opt-label">Algo glam</span>
+                        <small>Alta cobertura, brillo e impacto</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="fiesta">
+                        <span class="opt-emoji">🎉</span>
+                        <span class="opt-label">Algo para fiesta</span>
+                        <small>Larga duración e intensidad a prueba de agua</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="economico">
+                        <span class="opt-emoji">💸</span>
+                        <span class="opt-label">Algo económico</span>
+                        <small>Máximo rendimiento al mejor precio</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="diario">
+                        <span class="opt-emoji">☀️</span>
+                        <span class="opt-label">Algo para uso diario</span>
+                        <small>Práctico, rápido y cómodo para el día</small>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Step 2: Skin Type -->
+            <div class="quiz-step-pane" id="quiz-step-2">
+                <h4 class="quiz-step-question">¿Qué tipo de piel tienes?</h4>
+                <p class="quiz-step-hint">Para recomendarte texturas e hidratación adecuadas:</p>
+                <div class="quiz-options-grid">
+                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="seca">
+                        <span class="opt-emoji">💧</span>
+                        <span class="opt-label">Seca</span>
+                        <small>Sensación tirante, busca hidratación y glow</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="mixta">
+                        <span class="opt-emoji">⚖️</span>
+                        <span class="opt-label">Mixta</span>
+                        <small>Brillo en zona T, normal en mejillas</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="grasa">
+                        <span class="opt-emoji">✨</span>
+                        <span class="opt-label">Grasa</span>
+                        <small>Tendencia a brillo, prefiere acabado matte</small>
+                    </button>
+                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="nose">
+                        <span class="opt-emoji">🤷‍♀️</span>
+                        <span class="opt-label">No lo sé</span>
+                        <small>Te mostraremos fórmulas balanceadas y universales</small>
+                    </button>
+                </div>
+                <div class="quiz-nav-row">
+                    <button type="button" class="btn-quiz-back" data-goto="1"><i class="fas fa-arrow-left"></i> Anterior</button>
+                </div>
+            </div>
+
+            <!-- Quiz Step 3: Product Category -->
+            <div class="quiz-step-pane" id="quiz-step-3">
+                <h4 class="quiz-step-question">¿Qué producto buscas?</h4>
+                <p class="quiz-step-hint">Elige la categoría principal que necesitas:</p>
+                <div class="quiz-options-grid grid-chips">
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="base">Base</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="corrector">Corrector</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="rubor">Rubor</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="iluminador">Iluminador</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="labios">Labios</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="ojos">Ojos</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="skincare">Skincare</button>
+                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="all">No estoy segura</button>
+                </div>
+                <div class="quiz-nav-row">
+                    <button type="button" class="btn-quiz-back" data-goto="2"><i class="fas fa-arrow-left"></i> Anterior</button>
+                </div>
+            </div>
+
+            <!-- Quiz Step 4: Recommendations -->
+            <div class="quiz-step-pane" id="quiz-step-4">
+                <div class="quiz-results-header">
+                    <span class="results-tag">✨ RECOMENDACIÓN PERSONALIZADA</span>
+                    <h4 class="quiz-step-question">💖 Estos productos podrían gustarte:</h4>
+                    <p class="quiz-results-summary" id="quiz-results-summary">Basado en tus preferencias seleccionadas</p>
+                </div>
+
+                <div class="quiz-recommendations-list" id="quiz-recommendations-list">
+                    <!-- Populated dynamically with 3-5 real catalog products -->
+                </div>
+
+                <div class="quiz-results-actions">
+                    <button type="button" class="btn-restart-quiz" id="btn-restart-quiz">
+                        <i class="fas fa-rotate-left"></i> Volver a empezar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 🎡 RULETA DE PREMIOS (LUCKY WHEEL GAMIFICATION)             -->
+    <!-- ============================================================ -->
+    <div id="lucky-wheel-modal" class="modal wheel-modal">
+        <div class="modal-content wheel-modal-card">
+            <button class="modal-close-btn" id="wheel-close-btn" aria-label="Cerrar ruleta">&times;</button>
+
+            <div class="wheel-header">
+                <span class="wheel-badge">🎀 ¡TIENES UNA SORPRESA!</span>
+                <h3 class="wheel-title">Gira la Ruleta de la Suerte</h3>
+                <p class="wheel-subtitle">Prueba tu suerte y desbloquea beneficios exclusivos para tu pedido hoy.</p>
+            </div>
+
+            <div class="wheel-stage-container">
+                <div class="wheel-ticker-arrow"></div>
+                <div class="wheel-canvas-wrap">
+                    <canvas id="lucky-wheel-canvas" width="340" height="340"></canvas>
+                    <div class="wheel-center-cap">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wheel-action-wrap" id="wheel-action-section">
+                <button type="button" class="btn-spin-wheel" id="btn-spin-action">
+                    <i class="fas fa-play"></i> <span>GIRAR RULETA</span>
+                </button>
+                <p class="wheel-limits-notice" id="wheel-status-notice">
+                    <i class="fas fa-shield-halved"></i> 1 giro válido por cliente
+                </p>
+            </div>
+
+            <!-- Winning Celebration Card (Shown after spin) -->
+            <div class="wheel-win-card" id="wheel-win-card" style="display: none;">
+                <div class="win-sparkles"><i class="fas fa-trophy"></i></div>
+                <h4 class="win-title">🎉 ¡Felicitaciones! Has ganado:</h4>
+                <div class="win-prize-text" id="win-prize-label">10% de descuento</div>
+                <div class="win-coupon-box">
+                    <span class="coupon-label">Tu código de descuento:</span>
+                    <div class="coupon-code-pill">
+                        <span id="win-coupon-code">VALEN10</span>
+                        <button type="button" class="btn-copy-coupon" id="btn-copy-prize-code" title="Copiar código">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="button" class="btn-apply-prize" id="btn-apply-prize-to-cart">
+                    <i class="fas fa-cart-shopping"></i> Aplicar y Ver Carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ❤️ MIS FAVORITOS (WISHLIST DRAWER)                          -->
+    <!-- ============================================================ -->
+    <div id="favorites-modal" class="modal favorites-drawer-modal">
+        <div class="modal-content favorites-drawer-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-heart" style="color: var(--bratz-pink);"></i> Mis Favoritos (<span id="fav-modal-count">0</span>)</h3>
+                <button class="modal-close-btn" id="fav-close-btn">&times;</button>
+            </div>
+
+            <div class="favorites-items-container" id="favorites-items-container">
+                <!-- Dynamically populated -->
+            </div>
+
+            <div class="favorites-drawer-footer">
+                <button type="button" class="btn-primary" id="btn-add-all-favs" style="width: 100%;">
+                    <i class="fas fa-cart-plus"></i> Agregar Todos al Carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ⭐ MODAL DEJAR RESEÑA (CUSTOMER REVIEWS FORM)                -->
+    <!-- ============================================================ -->
+    <div id="review-modal" class="modal review-submission-modal">
+        <div class="modal-content review-form-card">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-star" style="color: #fbbf24;"></i> Deja tu Calificación</h3>
+                <button class="modal-close-btn" id="review-close-btn">&times;</button>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Tu opinión ayuda a otras clientas a elegir su maquillaje ideal con confianza.</p>
+
+            <form id="customer-review-form" class="review-form">
+                <div class="form-group">
+                    <label>Tu Calificación:</label>
+                    <div class="star-rating-picker" id="star-rating-picker">
+                        <span class="star-pick active" data-rating="1"><i class="fas fa-star"></i></span>
+                        <span class="star-pick active" data-rating="2"><i class="fas fa-star"></i></span>
+                        <span class="star-pick active" data-rating="3"><i class="fas fa-star"></i></span>
+                        <span class="star-pick active" data-rating="4"><i class="fas fa-star"></i></span>
+                        <span class="star-pick active" data-rating="5"><i class="fas fa-star"></i></span>
+                    </div>
+                    <input type="hidden" id="review-rating-val" value="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="review-customer-name">Tu Nombre *</label>
+                    <input type="text" id="review-customer-name" placeholder="Ej. Camila G." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="review-customer-city">Ciudad / Barrio</label>
+                    <input type="text" id="review-customer-city" placeholder="Ej. Pereira - Cuba">
+                </div>
+
+                <div class="form-group">
+                    <label for="review-product-name">Producto calificado (opcional)</label>
+                    <input type="text" id="review-product-name" placeholder="Ej. Gloss húmedo tipo coreano">
+                </div>
+
+                <div class="form-group">
+                    <label for="review-comment">Tu experiencia y reseña *</label>
+                    <textarea id="review-comment" rows="3" placeholder="¿Qué tal te pareció la textura, duración y entrega del pedido? 😍" required></textarea>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="review-photo-permission" checked>
+                    <label for="review-photo-permission" style="margin: 0; font-size: 0.8rem; cursor: pointer;">
+                        Autorizo publicar mi testimonio verificado en Valen Makeup ✨
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">
+                    <i class="fas fa-paper-plane"></i> Publicar Mi Reseña
+                </button>
+                <p id="review-form-message" style="font-size: 0.85rem; font-weight: 700; margin-top: 8px; text-align: center;"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 📱 NATIVE APP-LIKE MOBILE BOTTOM FIXED NAV BAR               -->
+    <!-- ============================================================ -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Navegación móvil">
+        <a href="#catalogo" class="mob-nav-item active" id="mob-nav-home">
+            <i class="fas fa-house"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="javascript:void(0)" class="mob-nav-item" id="mob-nav-search">
+            <i class="fas fa-search"></i>
+            <span>Buscar</span>
+        </a>
+        <a href="javascript:void(0)" class="mob-nav-item" id="mob-nav-favs">
+            <i class="fas fa-heart"></i>
+            <span>Favoritos</span>
+            <span class="mob-badge" id="mob-fav-count">0</span>
+        </a>
+        <a href="javascript:void(0)" class="mob-nav-item" id="mob-nav-cart">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Carrito</span>
+            <span class="mob-badge" id="mob-cart-count">0</span>
+        </a>
+        <a href="javascript:void(0)" class="mob-nav-item" id="mob-nav-advisor">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>Asistente</span>
+        </a>
+    </nav>
+
+    <!-- Floating Lucky Wheel Trigger Button -->
+    <div class="floating-wheel-btn" id="floating-wheel-btn" title="Gira la ruleta y gana premios!">
+        <div class="wheel-icon-bounce">
+            <i class="fas fa-gift"></i>
+        </div>
+        <span class="wheel-text">¡Sorpresa! 🎁</span>
+    </div>
+
+    <!-- Persistent Returning Cart Notification Toast -->
+    <div class="persistent-cart-toast" id="persistent-cart-toast" style="display: none;">
+        <div class="toast-icon"><i class="fas fa-bag-shopping"></i></div>
+        <div class="toast-body">
+            <strong>👀 Dejaste productos en tu carrito</strong>
+            <p id="persistent-cart-desc">Tus productos te están esperando.</p>
+        </div>
+        <button type="button" class="btn-toast-view" id="persistent-cart-view-btn">Ver</button>
+        <button type="button" class="btn-toast-close" id="persistent-cart-close-btn" aria-label="Cerrar">&times;</button>
+    </div>
+
     <!-- Admin Authentication Modal -->
     <div id="admin-password-modal" class="modal">
         <div class="modal-content" style="max-width: 420px; text-align: center;">
@@ -398,11 +934,28 @@
                 <button type="button" class="admin-tab-btn active" data-tab="catalog">
                     <i class="fas fa-boxes-stacked"></i> Catálogo & Inventario
                 </button>
+                <button type="button" class="admin-tab-btn" data-tab="orders">
+                    <i class="fas fa-bag-shopping"></i> 📦 Pedidos
+                    <span class="admin-tab-badge" id="valen-orders-badge">0</span>
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="delivery">
+                    <i class="fas fa-motorcycle"></i> 🚚 Domicilios
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="looks">
+                    <i class="fas fa-gem"></i> 💕 Looks / Kits
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="reviews">
+                    <i class="fas fa-star"></i> ⭐ Reseñas
+                    <span class="admin-tab-badge" id="valen-reviews-badge">0</span>
+                </button>
+                <button type="button" class="admin-tab-btn" data-tab="coupons">
+                    <i class="fas fa-ticket"></i> 🎟️ Cupones & Ruleta
+                </button>
                 <button type="button" class="admin-tab-btn" data-tab="categories-cloud">
                     <i class="fas fa-cloud-arrow-up"></i> Base de Datos & Nube
                 </button>
                 <button type="button" class="admin-tab-btn" data-tab="logs">
-                    <i class="fas fa-terminal"></i> Logs / Dev Auditoría
+                    <i class="fas fa-terminal"></i> Logs Auditoría
                     <span class="admin-tab-badge" id="valen-logs-badge">0</span>
                 </button>
             </div>
@@ -529,6 +1082,293 @@
 
                         <div class="admin-prods-grid" id="admin-product-list">
                             <!-- Populated dynamically by script.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Orders History -->
+                <div id="admin-tab-orders" class="admin-tab-pane">
+                    <div class="admin-card">
+                        <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                            <div>
+                                <h3><i class="fas fa-bag-shopping" style="color: var(--bratz-pink);"></i> Historial de Pedidos WhatsApp</h3>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Pedidos recibidos desde la tienda web con datos de clientas, dirección, método de pago y estado.</p>
+                            </div>
+                            <span id="admin-orders-count-badge" class="admin-stat-pill">0 Pedidos</span>
+                        </div>
+
+                        <div class="admin-orders-toolbar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center;">
+                            <div class="admin-search-box" style="flex: 1; min-width: 200px;">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="admin-orders-search" placeholder="Buscar por cliente, teléfono, barrio...">
+                            </div>
+                            <button type="button" class="btn-secondary btn-sm" id="btn-refresh-orders">
+                                <i class="fas fa-rotate"></i> Actualizar
+                            </button>
+                        </div>
+
+                        <div class="admin-orders-table-wrapper" style="overflow-x: auto;">
+                            <table class="admin-table" id="admin-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Destino</th>
+                                        <th>Productos</th>
+                                        <th>Pago</th>
+                                        <th>Total</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-orders-table-body">
+                                    <!-- Populated dynamically via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Smart Delivery Settings -->
+                <div id="admin-tab-delivery" class="admin-tab-pane">
+                    <div class="admin-card" style="max-width: 720px; margin: 0 auto;">
+                        <div class="admin-card-header">
+                            <h3><i class="fas fa-motorcycle" style="color: var(--bratz-pink);"></i> Tarifas de Domicilios (Pereira & Dosquebradas)</h3>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+                            Configura los valores de entrega local y el monto mínimo para desbloquear domicilio gratis automáticamente en el checkout.
+                        </p>
+
+                        <form id="admin-delivery-form" class="admin-form">
+                            <div class="checkout-inputs-grid">
+                                <div class="checkout-field">
+                                    <label for="admin-delivery-pereira-input">Tarifa Pereira ($ COP) *</label>
+                                    <input type="number" id="admin-delivery-pereira-input" min="0" step="500" placeholder="7000" required>
+                                    <small style="color: var(--text-muted);">Costo por defecto para barrios de Pereira.</small>
+                                </div>
+                                <div class="checkout-field">
+                                    <label for="admin-delivery-dosquebradas-input">Tarifa Dosquebradas ($ COP) *</label>
+                                    <input type="number" id="admin-delivery-dosquebradas-input" min="0" step="500" placeholder="8000" required>
+                                    <small style="color: var(--text-muted);">Costo por defecto para Dosquebradas.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 14px;">
+                                <label for="admin-free-delivery-min-input">Compra Mínima para Domicilio GRATIS ($ COP) *</label>
+                                <input type="number" id="admin-free-delivery-min-input" min="0" step="5000" placeholder="100000" required>
+                                <small style="color: var(--text-muted);">Si el subtotal del pedido supera este valor, el domicilio pasa a $0 automáticamente.</small>
+                            </div>
+
+                            <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="admin-free-delivery-active-input" checked>
+                                <label for="admin-free-delivery-active-input" style="margin: 0; cursor: pointer; font-weight: 700;">
+                                    🎉 Beneficio de Domicilio Gratis Activado
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-primary" style="margin-top: 12px; width: 100%;">
+                                <i class="fas fa-save"></i> Guardar Tarifas de Domicilio
+                            </button>
+                            <p class="admin-message" id="admin-delivery-message" style="margin-top: 8px; font-weight: 700;"></p>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- TAB: Looks / Kits ("Compra el Look") -->
+                <div id="admin-tab-looks" class="admin-tab-pane">
+                    <div class="admin-grid-two">
+                        <!-- Create Look Form Card -->
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h3 id="admin-look-form-title"><i class="fas fa-gem" style="color: var(--bratz-pink);"></i> Crear Kit "Compra el Look"</h3>
+                            </div>
+                            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Arma combinaciones de productos para vender paquetes completos con descuento especial.</p>
+                            
+                            <form id="admin-look-form" class="admin-form">
+                                <input type="hidden" id="admin-look-id" value="">
+                                
+                                <div class="form-group">
+                                    <label for="admin-look-title">Nombre del Look *</label>
+                                    <input type="text" id="admin-look-title" placeholder="Ej. Look Glow de Valen ✨" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-look-tagline">Frase Destacada (Tagline)</label>
+                                    <input type="text" id="admin-look-tagline" placeholder="Ej. Piel luminosa, mejillas jugosas y labios cristal">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-look-desc">Descripción del Kit</label>
+                                    <textarea id="admin-look-desc" rows="2" placeholder="Explica por qué estos productos combinan a la perfección..."></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-look-image">Imagen del Look (URL o Foto)</label>
+                                    <input type="text" id="admin-look-image" placeholder="img/product_578.jpg">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Productos Incluidos en el Kit *</label>
+                                    <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 6px;">Selecciona los productos del catálogo que componen este look:</p>
+                                    <div class="admin-look-prod-picker" id="admin-look-prod-picker" style="max-height: 180px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 8px;">
+                                        <!-- Checkboxes of catalog products populated dynamically -->
+                                    </div>
+                                </div>
+
+                                <div class="checkout-inputs-grid">
+                                    <div class="checkout-field">
+                                        <label>Precio Individual Total:</label>
+                                        <input type="number" id="admin-look-ind-price" min="0" placeholder="$0" readonly style="background: #f8fafc;">
+                                    </div>
+                                    <div class="checkout-field">
+                                        <label for="admin-look-bnd-price">Precio Especial Kit *:</label>
+                                        <input type="number" id="admin-look-bnd-price" min="0" placeholder="Ej. 69900" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-top: 8px;">
+                                    <span style="font-size: 0.85rem; font-weight: 700; color: #047857;" id="admin-look-savings-preview">Ahorro para la clienta: $0</span>
+                                </div>
+
+                                <div class="admin-form-actions">
+                                    <button type="submit" class="btn-primary" id="btn-save-look">
+                                        <i class="fas fa-save"></i> Guardar Look
+                                    </button>
+                                    <button type="button" class="btn-secondary" id="btn-cancel-look">
+                                        Cancelar
+                                    </button>
+                                </div>
+                                <p class="admin-message" id="admin-look-message" style="margin-top: 8px; font-weight: 700;"></p>
+                            </form>
+                        </div>
+
+                        <!-- Existing Looks List -->
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h3><i class="fas fa-list-check" style="color: var(--bratz-pink);"></i> Looks Actuales</h3>
+                            </div>
+                            <div class="admin-looks-list" id="admin-looks-list">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Customer Reviews Manager -->
+                <div id="admin-tab-reviews" class="admin-tab-pane">
+                    <div class="admin-card">
+                        <div class="admin-card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3><i class="fas fa-star" style="color: #fbbf24;"></i> Moderación de Reseñas de Clientas</h3>
+                                <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">Aprueba, rechaza, destaca o elimina testimonios enviados por usuarias.</p>
+                            </div>
+                            <span id="admin-reviews-stat-badge" class="admin-stat-pill">0 Reseñas</span>
+                        </div>
+
+                        <div class="admin-reviews-table-wrapper" style="overflow-x: auto; margin-top: 12px;">
+                            <table class="admin-table" id="admin-reviews-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Rating</th>
+                                        <th>Comentario</th>
+                                        <th>Producto</th>
+                                        <th>Verificada</th>
+                                        <th>Aprobada</th>
+                                        <th>Destacada</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-reviews-table-body">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: Coupons & Lucky Wheel Settings -->
+                <div id="admin-tab-coupons" class="admin-tab-pane">
+                    <div class="admin-grid-two">
+                        <!-- Add Coupon Card -->
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h3><i class="fas fa-ticket" style="color: var(--bratz-pink);"></i> Crear Cupón de Descuento</h3>
+                            </div>
+                            <form id="admin-coupon-form" class="admin-form">
+                                <div class="form-group">
+                                    <label for="admin-coupon-code">Código del Cupón *</label>
+                                    <input type="text" id="admin-coupon-code" placeholder="Ej. VALEN10, VIP2026" required style="text-transform: uppercase;">
+                                </div>
+
+                                <div class="checkout-inputs-grid">
+                                    <div class="checkout-field">
+                                        <label for="admin-coupon-type">Tipo de Descuento *</label>
+                                        <select id="admin-coupon-type" required>
+                                            <option value="percent">Porcentaje (%)</option>
+                                            <option value="fixed">Valor Fijo ($ COP)</option>
+                                            <option value="free_delivery">Envío Gratis</option>
+                                        </select>
+                                    </div>
+                                    <div class="checkout-field">
+                                        <label for="admin-coupon-value">Valor del Descuento *</label>
+                                        <input type="number" id="admin-coupon-value" min="0" placeholder="Ej. 10 para %, 5000 para fijo" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="admin-coupon-min">Compra Mínima Requerida ($ COP)</label>
+                                    <input type="number" id="admin-coupon-min" min="0" placeholder="Ej. 35000">
+                                </div>
+
+                                <button type="submit" class="btn-primary" style="width: 100%;">
+                                    <i class="fas fa-plus"></i> Guardar Cupón
+                                </button>
+                                <p class="admin-message" id="admin-coupon-message" style="margin-top: 8px; font-weight: 700;"></p>
+                            </form>
+
+                            <hr style="border: none; border-top: 1px solid #eee; margin: 18px 0;">
+
+                            <h4 style="font-size: 0.92rem; font-weight: 800; margin-bottom: 8px;">Cupones Activos</h4>
+                            <div id="admin-coupons-list" class="admin-coupons-list">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Lucky Wheel Config Card -->
+                        <div class="admin-card">
+                            <div class="admin-card-header">
+                                <h3><i class="fas fa-gift" style="color: var(--bratz-pink);"></i> Configuración de la Ruleta</h3>
+                            </div>
+                            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Activa o desactiva la ruleta flotante y los premios entregados.</p>
+
+                            <form id="admin-wheel-config-form" class="admin-form">
+                                <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="checkbox" id="admin-wheel-enabled" checked>
+                                    <label for="admin-wheel-enabled" style="margin: 0; cursor: pointer; font-weight: 700;">
+                                        🎡 Ruleta de Premios Activada en la Tienda
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Premios configurados en los sectores:</label>
+                                    <div style="background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px solid var(--border-pink); font-size: 0.82rem;">
+                                        <p style="margin-bottom: 4px;">• <strong>10% DTO</strong> (Código: <code>VALEN10</code> - Probabilidad: 25%)</p>
+                                        <p style="margin-bottom: 4px;">• <strong>Envío Gratis</strong> (Código: <code>ENVIOGRATIS</code> - Probabilidad: 20%)</p>
+                                        <p style="margin-bottom: 4px;">• <strong>$5.000 DTO</strong> (Código: <code>VALEN5K</code> - Probabilidad: 25%)</p>
+                                        <p style="margin-bottom: 4px;">• <strong>15% DTO</strong> (Código: <code>VALEN15</code> - Probabilidad: 15%)</p>
+                                        <p style="margin-bottom: 0;">• <strong>Gloss de Regalo</strong> (Código: <code>REGALOGLOSS</code> - Probabilidad: 15%)</p>
+                                    </div>
+                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">El sistema limita rigurosamente a 1 giro por usuaria vía almacenamiento local.</small>
+                                </div>
+
+                                <button type="submit" class="btn-primary" style="width: 100%;">
+                                    <i class="fas fa-save"></i> Guardar Ajustes de Ruleta
+                                </button>
+                                <p class="admin-message" id="admin-wheel-message" style="margin-top: 8px; font-weight: 700;"></p>
+                            </form>
                         </div>
                     </div>
                 </div>

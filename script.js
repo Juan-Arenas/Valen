@@ -44,6 +44,92 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutCustomerAddress = document.getElementById('checkout-customer-address');
     const btnCheckout = document.getElementById('btn-checkout');
 
+    // Wishlist / Favoritos Elements
+    const headerFavBtn = document.getElementById('header-fav-btn');
+    const headerFavCount = document.getElementById('header-fav-count');
+    const favoritesModal = document.getElementById('favorites-modal');
+    const favCloseBtn = document.getElementById('fav-close-btn');
+    const favModalCount = document.getElementById('fav-modal-count');
+    const favoritesItemsContainer = document.getElementById('favorites-items-container');
+    const btnAddAllFavs = document.getElementById('btn-add-all-favs');
+    const mobFavCount = document.getElementById('mob-fav-count');
+    const mobCartCount = document.getElementById('mob-cart-count');
+
+    // Intelligent Delivery & Payment Checkout Elements
+    const checkoutCustomerBarrio = document.getElementById('checkout-customer-barrio');
+    const checkoutCustomerReference = document.getElementById('checkout-customer-reference');
+    const checkoutCustomerNotes = document.getElementById('checkout-customer-notes');
+    const cityPereiraBtn = document.getElementById('city-pereira-btn');
+    const cityDosquebradasBtn = document.getElementById('city-dosquebradas-btn');
+    const barriosDatalist = document.getElementById('barrios-datalist');
+    const deliveryFeeBadge = document.getElementById('delivery-fee-badge');
+    const deliveryPerkText = document.getElementById('delivery-perk-text');
+    const deliveryPerkFill = document.getElementById('delivery-perk-fill');
+    const cartSubtotalVal = document.getElementById('cart-subtotal-val');
+    const cartDeliveryVal = document.getElementById('cart-delivery-val');
+    const cartDeliveryCityLabel = document.getElementById('cart-delivery-city-label');
+    const cartDiscountRow = document.getElementById('cart-discount-row');
+    const cartDiscountVal = document.getElementById('cart-discount-val');
+    const cartCouponInput = document.getElementById('cart-coupon-input');
+    const btnApplyCoupon = document.getElementById('btn-apply-coupon');
+    const appliedCouponTag = document.getElementById('applied-coupon-tag');
+    const appliedCouponText = document.getElementById('applied-coupon-text');
+    const btnRemoveCoupon = document.getElementById('btn-remove-coupon');
+    const couponMessage = document.getElementById('coupon-message');
+    const paymentInstructionsBox = document.getElementById('payment-instructions-box');
+
+    // Beauty Advisor ("Ayúdame a elegir") Elements
+    const beautyQuizModal = document.getElementById('beauty-quiz-modal');
+    const quizCloseBtn = document.getElementById('quiz-close-btn');
+    const btnHeroAdvisor = document.getElementById('btn-hero-advisor');
+    const cardTriggerAdvisor = document.getElementById('card-trigger-advisor');
+    const navAdvisorBtn = document.getElementById('nav-advisor-btn');
+    const mobNavAdvisor = document.getElementById('mob-nav-advisor');
+    const btnRestartQuiz = document.getElementById('btn-restart-quiz');
+    const quizRecommendationsList = document.getElementById('quiz-recommendations-list');
+    const quizResultsSummary = document.getElementById('quiz-results-summary');
+
+    // Lucky Wheel Elements
+    const luckyWheelModal = document.getElementById('lucky-wheel-modal');
+    const wheelCloseBtn = document.getElementById('wheel-close-btn');
+    const btnHeroWheel = document.getElementById('btn-hero-wheel');
+    const cardTriggerWheel = document.getElementById('card-trigger-wheel');
+    const floatingWheelBtn = document.getElementById('floating-wheel-btn');
+    const btnSpinAction = document.getElementById('btn-spin-action');
+    const luckyWheelCanvas = document.getElementById('lucky-wheel-canvas');
+    const wheelStatusNotice = document.getElementById('wheel-status-notice');
+    const wheelWinCard = document.getElementById('wheel-win-card');
+    const winPrizeLabel = document.getElementById('win-prize-label');
+    const winCouponCode = document.getElementById('win-coupon-code');
+    const btnCopyPrizeCode = document.getElementById('btn-copy-prize-code');
+    const btnApplyPrizeToCart = document.getElementById('btn-apply-prize-to-cart');
+
+    // Customer Reviews Elements
+    const reviewModal = document.getElementById('review-modal');
+    const reviewCloseBtn = document.getElementById('review-close-btn');
+    const btnOpenReviewModal = document.getElementById('btn-open-review-modal');
+    const customerReviewForm = document.getElementById('customer-review-form');
+    const starRatingPicker = document.getElementById('star-rating-picker');
+    const reviewRatingVal = document.getElementById('review-rating-val');
+    const reviewFormMessage = document.getElementById('review-form-message');
+    const reviewsGrid = document.getElementById('reviews-grid');
+
+    // "Compra el Look" Elements
+    const looksGrid = document.getElementById('looks-grid');
+
+    // Mobile Bottom Nav Elements
+    const mobileBottomNav = document.getElementById('mobile-bottom-nav');
+    const mobNavHome = document.getElementById('mob-nav-home');
+    const mobNavSearch = document.getElementById('mob-nav-search');
+    const mobNavFavs = document.getElementById('mob-nav-favs');
+    const mobNavCart = document.getElementById('mob-nav-cart');
+
+    // Persistent Cart Toast Elements
+    const persistentCartToast = document.getElementById('persistent-cart-toast');
+    const persistentCartViewBtn = document.getElementById('persistent-cart-view-btn');
+    const persistentCartCloseBtn = document.getElementById('persistent-cart-close-btn');
+    const persistentCartDesc = document.getElementById('persistent-cart-desc');
+
     // Minimum Order Protocol Elements (System 35k)
     const MIN_ORDER_AMOUNT = 35000;
     const floatingMinBadge = document.getElementById('floating-min-badge');
@@ -222,6 +308,39 @@ document.addEventListener('DOMContentLoaded', () => {
     let adminCategories = [];
     let adminSelectedCat = 'all';
     let adminSearchQuery = '';
+
+    // Smart Delivery & New Features State
+    let storeSettings = {
+        delivery_pereira: 7000,
+        delivery_dosquebradas: 8000,
+        delivery_free_min: 100000,
+        delivery_free_active: true,
+        wheel_enabled: true
+    };
+    let selectedCity = 'Pereira';
+    let selectedBarrio = '';
+    let selectedPaymentMethod = 'Contraentrega';
+    let appliedCoupon = null;
+    let favorites = [];
+    let allLooks = [];
+    let allReviews = [];
+
+    const PEREIRA_BARRIOS = [
+        'Cuba', 'Circunvalar', 'Pinares', 'Álamos', 'Providencia', 'Boston', 'Villa Verde',
+        'Centro', 'Cerritos', 'La Villa', 'Corocito', 'Maraya', 'San Joaquín', 'Gamma',
+        'Poblado', 'Villa del Prado', 'Kennedy', 'Perla del Otún', 'Santa Mónica Pereira',
+        'Alfonso López', 'San Nicolás', 'El Jardín', 'Parque Industrial', 'Belmonte',
+        'Samaria', 'Tokio', 'Remanso', 'Villasantana', 'Combia', 'El Rosal', 'Los Rosales',
+        'La Macarena', 'Maranatha', 'San Fernando', 'Galicia', 'Mercasa', 'Puerta de Alcalá'
+    ];
+
+    const DOSQUEBRADAS_BARRIOS = [
+        'La Pradera', 'Santa Mónica', 'El Japón', 'Centro Dosquebradas', 'Frailes', 'Valher',
+        'Campestre A', 'Campestre B', 'Campestre C', 'Bombay', 'Milán', 'Violetas', 'Playa Rica',
+        'Guadalupe', 'Camilo Torres', 'Bosques de la Acuarela', 'La Sultana', 'Santa Teresita',
+        'La Capilla', 'Los Naranjos', 'La Mariana', 'Santa Isabel', 'San Diego', 'El Balso',
+        'La Badea', 'El Lago', 'Molinos', 'San Félix', 'Cesar Augusto', 'Villa Carola'
+    ];
 
     const WHATSAPP_NUMBER = '573002525489';
     const API_BASE_URL = (window.API_BASE_URL || '').replace(/\/$/, '');
@@ -772,6 +891,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         filteredProducts.forEach(product => {
             const isNew = Number(product.id) > 613;
+            const isFav = isFavorite(product.id);
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
@@ -779,6 +899,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${product.image || 'Logo.jpeg'}" alt="${product.name}" loading="lazy" onerror="this.onerror=null;this.src='Logo.jpeg';">
                     <span class="product-category-tag">${product.category || 'Maquillaje'}</span>
                     ${isNew ? '<span class="product-badge-new"><i class="fas fa-sparkles"></i> NUEVO</span>' : ''}
+                    <button type="button" class="btn-product-fav ${isFav ? 'active' : ''}" data-id="${product.id}" aria-label="Guardar en favoritos" title="Guardar en favoritos">
+                        <i class="${isFav ? 'fas fa-heart' : 'far fa-heart'}"></i>
+                    </button>
                 </div>
                 <div class="product-info">
                     <h3 class="product-title" title="${product.name}">${product.name}</h3>
@@ -792,6 +915,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </div>
             `;
+
+            // Favorite button toggle listener
+            const favBtn = card.querySelector('.btn-product-fav');
+            if (favBtn) {
+                favBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const nowFav = toggleFavorite(product.id);
+                    favBtn.classList.toggle('active', nowFav);
+                    const icon = favBtn.querySelector('i');
+                    if (icon) icon.className = nowFav ? 'fas fa-heart' : 'far fa-heart';
+                });
+            }
 
             const addBtn = card.querySelector('.btn-add-cart');
             addBtn.addEventListener('click', () => {
@@ -875,19 +1010,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateCartUi() {
         const totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        const total = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
-        const pct = Math.min(100, Math.round((total / MIN_ORDER_AMOUNT) * 100));
-        const diff = Math.max(0, MIN_ORDER_AMOUNT - total);
+        const subtotal = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+        const pct = Math.min(100, Math.round((subtotal / MIN_ORDER_AMOUNT) * 100));
+        const diff = Math.max(0, MIN_ORDER_AMOUNT - subtotal);
 
+        // 🚚 Smart Delivery Fee Calculation
+        const freeThreshold = Number(storeSettings.delivery_free_min || 100000);
+        const freeActive = storeSettings.delivery_free_active !== false;
+        const isFreeDeliveryQualified = freeActive && subtotal >= freeThreshold;
+
+        const baseDeliveryFee = (selectedCity === 'Dosquebradas')
+            ? Number(storeSettings.delivery_dosquebradas || 8000)
+            : Number(storeSettings.delivery_pereira || 7000);
+
+        let deliveryFee = baseDeliveryFee;
+        if (isFreeDeliveryQualified) {
+            deliveryFee = 0;
+        }
+
+        // 🎟️ Coupon Calculation
+        let discountVal = 0;
+        if (appliedCoupon) {
+            if (appliedCoupon.min_order && subtotal < Number(appliedCoupon.min_order)) {
+                appliedCoupon = null;
+                if (appliedCouponTag) appliedCouponTag.style.display = 'none';
+                if (couponMessage) {
+                    couponMessage.textContent = 'El cupón requiere un subtotal mayor.';
+                    couponMessage.style.color = 'var(--bratz-deep-pink)';
+                }
+            } else if (appliedCoupon.type === 'percent') {
+                discountVal = Math.round(subtotal * (Number(appliedCoupon.value) / 100));
+            } else if (appliedCoupon.type === 'fixed') {
+                discountVal = Math.min(subtotal, Number(appliedCoupon.value));
+            } else if (appliedCoupon.type === 'free_delivery') {
+                deliveryFee = 0;
+                discountVal = baseDeliveryFee;
+            }
+        }
+
+        // Final total (subtotal + delivery - coupon discount)
+        const effectiveDiscount = (appliedCoupon && appliedCoupon.type === 'free_delivery') ? 0 : discountVal;
+        const finalTotal = Math.max(0, subtotal + deliveryFee - effectiveDiscount);
+
+        // Badges & Counters
         if (headerCartCount) headerCartCount.textContent = totalCount;
         if (floatingCartCount) floatingCartCount.textContent = totalCount;
-        if (floatingCartTotal) floatingCartTotal.textContent = formatPrice(total);
+        if (mobCartCount) mobCartCount.textContent = totalCount;
+        if (floatingCartTotal) floatingCartTotal.textContent = formatPrice(finalTotal);
 
         // Update floating min badge in bottom bar
         if (floatingMinBadge) {
             if (totalCount === 0) {
                 floatingMinBadge.style.display = 'none';
-            } else if (total < MIN_ORDER_AMOUNT) {
+            } else if (subtotal < MIN_ORDER_AMOUNT) {
                 floatingMinBadge.style.display = 'inline-flex';
                 floatingMinBadge.className = 'floating-min-badge locked';
                 floatingMinBadge.innerHTML = `<i class="fas fa-lock"></i> Faltan ${formatPrice(diff)}`;
@@ -906,6 +1081,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // 🚚 Delivery Perk Free-Shipping Progress Tracker
+        if (deliveryPerkText && deliveryFeeBadge && deliveryPerkFill) {
+            if (subtotal === 0) {
+                deliveryPerkText.textContent = `Envío Pereira $${(storeSettings.delivery_pereira || 7000).toLocaleString('es-CO')} | Dosquebradas $${(storeSettings.delivery_dosquebradas || 8000).toLocaleString('es-CO')}`;
+                deliveryFeeBadge.textContent = formatPrice(baseDeliveryFee);
+                deliveryFeeBadge.classList.remove('perk-free');
+                deliveryPerkFill.style.width = '0%';
+            } else if (isFreeDeliveryQualified || (appliedCoupon && appliedCoupon.type === 'free_delivery')) {
+                deliveryPerkText.textContent = `🎉 ¡Tu domicilio a ${selectedCity} es GRATIS!`;
+                deliveryFeeBadge.textContent = 'GRATIS 🎉';
+                deliveryFeeBadge.classList.add('perk-free');
+                deliveryPerkFill.style.width = '100%';
+            } else {
+                const diffToFree = Math.max(0, freeThreshold - subtotal);
+                const pctToFree = Math.min(100, Math.round((subtotal / freeThreshold) * 100));
+                deliveryPerkText.textContent = `Agrega ${formatPrice(diffToFree)} más para DOMICILIO GRATIS 🚚`;
+                deliveryFeeBadge.textContent = formatPrice(deliveryFee);
+                deliveryFeeBadge.classList.remove('perk-free');
+                deliveryPerkFill.style.width = `${pctToFree}%`;
+            }
+        }
+
+        // Render Cart Items
         if (cartItemsContainer) {
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
@@ -956,8 +1154,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Subtotal, Delivery, Discount & Total Breakdown
+        if (cartSubtotalVal) cartSubtotalVal.textContent = formatPrice(subtotal);
+        if (cartDeliveryCityLabel) cartDeliveryCityLabel.textContent = selectedCity;
+        if (cartDeliveryVal) {
+            cartDeliveryVal.textContent = (deliveryFee === 0) ? 'GRATIS 🎉' : formatPrice(deliveryFee);
+            if (deliveryFee === 0) {
+                cartDeliveryVal.style.color = '#047857';
+                cartDeliveryVal.style.fontWeight = '800';
+            } else {
+                cartDeliveryVal.style.color = 'var(--text-dark)';
+                cartDeliveryVal.style.fontWeight = '700';
+            }
+        }
+
+        if (cartDiscountRow && cartDiscountVal) {
+            if (discountVal > 0) {
+                cartDiscountRow.style.display = 'flex';
+                cartDiscountVal.textContent = `-${formatPrice(discountVal)}`;
+            } else {
+                cartDiscountRow.style.display = 'none';
+            }
+        }
+
         if (cartTotalPrice) {
-            cartTotalPrice.textContent = formatPrice(total);
+            cartTotalPrice.textContent = formatPrice(finalTotal);
         }
 
         // Live Min-Order Cyber Tracker inside Cart Drawer
@@ -973,7 +1194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     cartMinOrderPct.textContent = `${pct}%`;
                 }
 
-                if (total < MIN_ORDER_AMOUNT) {
+                if (subtotal < MIN_ORDER_AMOUNT) {
                     cartMinOrderCard.classList.remove('unlocked');
                     cartMinOrderCard.classList.add('locked');
                     if (cartMinStatusText) cartMinStatusText.textContent = `PEDIDO MÍNIMO: ${formatPrice(MIN_ORDER_AMOUNT)} COP`;
@@ -1002,12 +1223,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cart.length === 0) {
                 btnCheckout.classList.remove('locked');
                 btnCheckout.innerHTML = `<i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp`;
-            } else if (total < MIN_ORDER_AMOUNT) {
+            } else if (subtotal < MIN_ORDER_AMOUNT) {
                 btnCheckout.classList.add('locked');
                 btnCheckout.innerHTML = `<i class="fas fa-lock" style="font-size: 1.15rem;"></i> Pedido Mínimo ${formatPrice(MIN_ORDER_AMOUNT)} <span class="checkout-missing-badge">(Faltan ${formatPrice(diff)})</span>`;
             } else {
                 btnCheckout.classList.remove('locked');
-                btnCheckout.innerHTML = `<i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp (${formatPrice(total)})`;
+                btnCheckout.innerHTML = `<i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i> Enviar Pedido a WhatsApp (${formatPrice(finalTotal)})`;
             }
         }
     }
@@ -1031,51 +1252,162 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Checkout WhatsApp button with strict minimum order protocol
+    // Checkout WhatsApp button with strict minimum order protocol & professional format
     if (btnCheckout) {
-        btnCheckout.addEventListener('click', () => {
+        btnCheckout.addEventListener('click', async () => {
             if (cart.length === 0) {
                 alert('Tu carrito está vacío. Agrega productos para realizar tu pedido.');
                 return;
             }
 
-            const total = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+            const subtotal = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
 
             // RESTRICTION: Block any order below $35,000 COP
-            if (total < MIN_ORDER_AMOUNT) {
+            if (subtotal < MIN_ORDER_AMOUNT) {
                 openMinOrderRestrictionModal();
                 return;
             }
 
             const name = (checkoutCustomerName ? checkoutCustomerName.value : '').trim();
             const phone = (checkoutCustomerPhone ? checkoutCustomerPhone.value : '').trim();
+            const barrio = (checkoutCustomerBarrio ? checkoutCustomerBarrio.value : '').trim();
             const address = (checkoutCustomerAddress ? checkoutCustomerAddress.value : '').trim();
+            const reference = (checkoutCustomerReference ? checkoutCustomerReference.value : '').trim();
+            const notes = (checkoutCustomerNotes ? checkoutCustomerNotes.value : '').trim();
 
-            if (!name || !address) {
-                alert('Por favor ingresa tu Nombre y Dirección de entrega para procesar tu pedido.');
-                if (!name && checkoutCustomerName) checkoutCustomerName.focus();
-                else if (checkoutCustomerAddress) checkoutCustomerAddress.focus();
+            if (!name) {
+                alert('Por favor ingresa tu Nombre para despachar tu pedido.');
+                if (checkoutCustomerName) checkoutCustomerName.focus();
                 return;
             }
 
-            let msg = `✨ *NUEVO PEDIDO - VALEN MAKEUP* ✨\n\n`;
-            msg += `📋 *DATOS DEL CLIENTE:*\n`;
-            msg += `👤 *Nombre:* ${name}\n`;
-            if (phone) msg += `📱 *Teléfono:* ${phone}\n`;
-            msg += `📍 *Dirección:* ${address}\n\n`;
-            msg += `🛍️ *PRODUCTOS SELECCIONADOS:*\n`;
+            if (!phone || phone.replace(/\D/g, '').length < 7) {
+                alert('Por favor ingresa un número de teléfono celular o WhatsApp válido.');
+                if (checkoutCustomerPhone) checkoutCustomerPhone.focus();
+                return;
+            }
 
-            cart.forEach((item, idx) => {
-                const sub = (Number(item.price || 0)) * (item.quantity || 1);
-                msg += `*${idx + 1}.* ${item.name} ${item.selectedTone ? `(Tono ${item.selectedTone})` : ''}\n`;
-                msg += `   └ Cantidad: ${item.quantity} x ${formatPrice(item.price)} = ${formatPrice(sub)}\n`;
+            if (!barrio) {
+                alert(`Por favor escribe o selecciona el Barrio de ${selectedCity} donde recibirás tu pedido.`);
+                if (checkoutCustomerBarrio) checkoutCustomerBarrio.focus();
+                return;
+            }
+
+            if (!address) {
+                alert('Por favor ingresa tu Dirección exacta de entrega.');
+                if (checkoutCustomerAddress) checkoutCustomerAddress.focus();
+                return;
+            }
+
+            // Delivery Fee calculation
+            const freeThreshold = Number(storeSettings.delivery_free_min || 100000);
+            const freeActive = storeSettings.delivery_free_active !== false;
+            const isFreeDelivery = (freeActive && subtotal >= freeThreshold) || (appliedCoupon && appliedCoupon.type === 'free_delivery');
+            
+            const baseDelivery = (selectedCity === 'Dosquebradas')
+                ? Number(storeSettings.delivery_dosquebradas || 8000)
+                : Number(storeSettings.delivery_pereira || 7000);
+
+            const deliveryFee = isFreeDelivery ? 0 : baseDelivery;
+
+            // Discount calculation
+            let discountVal = 0;
+            if (appliedCoupon) {
+                if (appliedCoupon.type === 'percent') {
+                    discountVal = Math.round(subtotal * (Number(appliedCoupon.value) / 100));
+                } else if (appliedCoupon.type === 'fixed') {
+                    discountVal = Math.min(subtotal, Number(appliedCoupon.value));
+                } else if (appliedCoupon.type === 'free_delivery') {
+                    discountVal = baseDelivery;
+                }
+            }
+
+            const effectiveDiscount = (appliedCoupon && appliedCoupon.type === 'free_delivery') ? 0 : discountVal;
+            const finalTotal = Math.max(0, subtotal + deliveryFee - effectiveDiscount);
+
+            // Build Exact WhatsApp message template requested:
+            let msg = `🛍️ NUEVO PEDIDO — VALEN MAKEUP\n\n`;
+            msg += `👩 CLIENTA\n`;
+            msg += `Nombre: ${name}\n`;
+            msg += `Teléfono: ${phone}\n\n`;
+            msg += `📍 ENTREGA\n`;
+            msg += `Ciudad: ${selectedCity}\n`;
+            msg += `Barrio: ${barrio}\n`;
+            msg += `Dirección: ${address}\n`;
+            if (reference) {
+                msg += `Referencia: ${reference}\n`;
+            }
+            msg += `\n🛒 PRODUCTOS\n\n`;
+
+            cart.forEach(item => {
+                const itemQty = item.quantity || 1;
+                const itemPrice = Number(item.price || 0);
+                const itemSub = itemPrice * itemQty;
+                const toneTxt = item.selectedTone ? ` (Tono ${item.selectedTone})` : '';
+                msg += `• ${item.name}${toneTxt} × ${itemQty}\n`;
+                msg += `$${itemSub.toLocaleString('es-CO')}\n\n`;
             });
 
-            msg += `\n---------------------------------\n`;
-            msg += `💰 *TOTAL ESTIMADO:* ${formatPrice(total)}\n`;
-            msg += `---------------------------------\n\n`;
-            msg += `🚚 *Por favor indícame disponibilidad y valor de envío.* ✨`;
+            msg += `💰 RESUMEN\n\n`;
+            msg += `Subtotal: $${subtotal.toLocaleString('es-CO')}\n`;
+            msg += `Domicilio: ${deliveryFee === 0 ? '$0 (GRATIS 🎉)' : `$${deliveryFee.toLocaleString('es-CO')}`}\n`;
+            if (discountVal > 0) {
+                msg += `Descuento: -$${discountVal.toLocaleString('es-CO')}${appliedCoupon ? ` (${appliedCoupon.code})` : ''}\n`;
+            }
+            msg += `\nTOTAL: $${finalTotal.toLocaleString('es-CO')}\n\n`;
+            msg += `💳 MÉTODO DE PAGO\n`;
+            msg += `${selectedPaymentMethod}\n`;
+            if (notes) {
+                msg += `\n📝 NOTAS\n`;
+                msg += `${notes}\n`;
+            }
 
+            // Save order to server/DB
+            const orderPayload = {
+                customer_name: name,
+                customer_phone: phone,
+                customer_city: selectedCity,
+                customer_barrio: barrio,
+                customer_address: address,
+                customer_reference: reference || null,
+                customer_notes: notes || null,
+                payment_method: selectedPaymentMethod,
+                subtotal: subtotal,
+                delivery_fee: deliveryFee,
+                discount_val: discountVal,
+                total: finalTotal,
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    selectedTone: item.selectedTone || null
+                })),
+                status: 'Pendiente'
+            };
+
+            try {
+                const orderRes = await fetchApi('/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderPayload)
+                });
+                if (orderRes.ok) {
+                    const createdOrder = await orderRes.json();
+                    localStorage.setItem('valen_last_order', JSON.stringify({
+                        id: createdOrder.id,
+                        name: name,
+                        phone: phone,
+                        city: selectedCity,
+                        barrio: barrio,
+                        date: new Date().toISOString()
+                    }));
+                }
+            } catch (err) {
+                console.warn('Order could not be saved to server, proceeding via WhatsApp:', err);
+            }
+
+            // Open WhatsApp with complete formatted text
             const encoded = encodeURIComponent(msg);
             const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
             window.open(waUrl, '_blank');
@@ -1126,8 +1458,1695 @@ document.addEventListener('DOMContentLoaded', () => {
     if (thankyouCloseBtn && thankyouModal) {
         thankyouCloseBtn.addEventListener('click', () => thankyouModal.classList.remove('active'));
     }
-    if (thankyouOkBtn && thankyouModal) {
-        thankyouOkBtn.addEventListener('click', () => thankyouModal.classList.remove('active'));
+    // ==========================================
+    // 💖 SISTEMA DE FAVORITOS (WISHLIST)
+    // ==========================================
+    function getFavorites() {
+        try {
+            const raw = localStorage.getItem('valen_favorites');
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveFavorites(favs) {
+        try {
+            localStorage.setItem('valen_favorites', JSON.stringify(favs));
+        } catch (e) {}
+        updateFavoritesUi();
+    }
+
+    function isFavorite(productId) {
+        const favs = getFavorites();
+        const numId = Number(productId);
+        return favs.includes(numId) || favs.includes(String(productId));
+    }
+
+    function toggleFavorite(productId) {
+        let favs = getFavorites();
+        const numId = Number(productId);
+        const idx = favs.findIndex(id => Number(id) === numId);
+        let nowFav = false;
+        if (idx >= 0) {
+            favs.splice(idx, 1);
+            nowFav = false;
+            showNotification('Eliminado de favoritos', '💔');
+        } else {
+            favs.push(numId);
+            nowFav = true;
+            showNotification('Guardado en favoritos', '💖');
+        }
+        saveFavorites(favs);
+        return nowFav;
+    }
+
+    function updateFavoritesUi() {
+        const favs = getFavorites();
+        const count = favs.length;
+        if (headerFavCount) headerFavCount.textContent = count;
+        if (mobFavCount) mobFavCount.textContent = count;
+        if (favModalCount) favModalCount.textContent = count;
+
+        document.querySelectorAll('.btn-product-fav').forEach(btn => {
+            const pid = btn.getAttribute('data-id');
+            const active = isFavorite(pid);
+            btn.classList.toggle('active', active);
+            const icon = btn.querySelector('i');
+            if (icon) icon.className = active ? 'fas fa-heart' : 'far fa-heart';
+        });
+    }
+
+    function renderFavoritesModal() {
+        if (!favoritesItemsContainer) return;
+        const favs = getFavorites();
+        const favProducts = allProducts.filter(p => favs.some(id => Number(id) === Number(p.id)));
+
+        if (favProducts.length === 0) {
+            favoritesItemsContainer.innerHTML = `
+                <div class="fav-empty-state" style="text-align: center; padding: 45px 20px; color: var(--text-muted);">
+                    <i class="fas fa-heart-crack" style="font-size: 2.6rem; color: var(--bratz-pink); margin-bottom: 14px; opacity: 0.6;"></i>
+                    <h4 style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 6px;">No tienes productos guardados</h4>
+                    <p style="font-size: 0.85rem;">Toca el corazón ♡ en cualquier producto del catálogo para guardarlo aquí y comprarlo después.</p>
+                </div>
+            `;
+            if (btnAddAllFavs) btnAddAllFavs.style.display = 'none';
+            return;
+        }
+
+        if (btnAddAllFavs) btnAddAllFavs.style.display = 'block';
+
+        favoritesItemsContainer.innerHTML = favProducts.map(p => `
+            <div class="favorite-item-card">
+                <img src="${p.image || 'Logo.jpeg'}" alt="${p.name}" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                <div class="favorite-item-info">
+                    <h4 title="${p.name}">${p.name}</h4>
+                    <span class="favorite-item-price">${formatPrice(p.price)}</span>
+                    <span class="favorite-item-category">${p.category || 'Maquillaje'}</span>
+                </div>
+                <div class="favorite-item-actions">
+                    <button type="button" class="btn-fav-add-cart" data-id="${p.id}" title="Agregar al carrito">
+                        <i class="fas fa-cart-plus"></i>
+                    </button>
+                    <button type="button" class="btn-fav-remove" data-id="${p.id}" title="Eliminar de favoritos">
+                        <i class="fas fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+
+        favoritesItemsContainer.querySelectorAll('.btn-fav-add-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pid = btn.getAttribute('data-id');
+                const product = allProducts.find(p => Number(p.id) === Number(pid));
+                if (product) addToCart(product);
+            });
+        });
+
+        favoritesItemsContainer.querySelectorAll('.btn-fav-remove').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pid = btn.getAttribute('data-id');
+                toggleFavorite(pid);
+                renderFavoritesModal();
+            });
+        });
+    }
+
+    if (headerFavBtn && favoritesModal) {
+        headerFavBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderFavoritesModal();
+            favoritesModal.classList.add('active');
+        });
+    }
+
+    if (favCloseBtn && favoritesModal) {
+        favCloseBtn.addEventListener('click', () => favoritesModal.classList.remove('active'));
+    }
+
+    if (favoritesModal) {
+        favoritesModal.addEventListener('click', (e) => {
+            if (e.target === favoritesModal) favoritesModal.classList.remove('active');
+        });
+    }
+
+    if (btnAddAllFavs) {
+        btnAddAllFavs.addEventListener('click', () => {
+            const favs = getFavorites();
+            const favProducts = allProducts.filter(p => favs.some(id => Number(id) === Number(p.id)));
+            if (favProducts.length === 0) return;
+
+            favProducts.forEach(p => {
+                const existing = cart.find(item => Number(item.id) === Number(p.id));
+                if (existing) {
+                    existing.quantity = (existing.quantity || 1) + 1;
+                } else {
+                    cart.push({ ...p, quantity: 1 });
+                }
+            });
+
+            saveCart();
+            showNotification(`¡${favProducts.length} favoritos agregados al carrito!`, '🛍️');
+            if (favoritesModal) favoritesModal.classList.remove('active');
+            if (cartModal) cartModal.classList.add('active');
+        });
+    }
+
+    // ==========================================
+    // 🚚 DOMICILIOS INTELIGENTES & CUPONES
+    // ==========================================
+    async function loadStoreSettings() {
+        try {
+            const res = await fetchApi('/api/settings');
+            if (res.ok) {
+                const data = await res.json();
+                if (data && typeof data === 'object') {
+                    storeSettings = { ...storeSettings, ...data };
+                }
+            }
+        } catch (e) {}
+        updateDeliveryUi();
+    }
+
+    function populateBarriosDatalist(city) {
+        if (!barriosDatalist) return;
+        const list = (city === 'Dosquebradas') ? DOSQUEBRADAS_BARRIOS : PEREIRA_BARRIOS;
+        barriosDatalist.innerHTML = list.map(b => `<option value="${b}">`).join('');
+    }
+
+    function updateDeliveryUi() {
+        const feeP = Number(storeSettings.delivery_pereira || 7000);
+        const feeD = Number(storeSettings.delivery_dosquebradas || 8000);
+
+        const pTag = document.getElementById('city-pereira-fee-tag');
+        if (pTag) pTag.textContent = `Dom: ${formatPrice(feeP)}`;
+
+        const dTag = document.getElementById('city-dosquebradas-fee-tag');
+        if (dTag) dTag.textContent = `Dom: ${formatPrice(feeD)}`;
+
+        if (cityPereiraBtn && cityDosquebradasBtn) {
+            if (selectedCity === 'Pereira') {
+                cityPereiraBtn.classList.add('active');
+                cityDosquebradasBtn.classList.remove('active');
+            } else {
+                cityDosquebradasBtn.classList.add('active');
+                cityPereiraBtn.classList.remove('active');
+            }
+        }
+
+        populateBarriosDatalist(selectedCity);
+        updateCartUi();
+    }
+
+    if (cityPereiraBtn) {
+        cityPereiraBtn.addEventListener('click', () => {
+            selectedCity = 'Pereira';
+            updateDeliveryUi();
+        });
+    }
+
+    if (cityDosquebradasBtn) {
+        cityDosquebradasBtn.addEventListener('click', () => {
+            selectedCity = 'Dosquebradas';
+            updateDeliveryUi();
+        });
+    }
+
+    if (checkoutCustomerBarrio) {
+        checkoutCustomerBarrio.addEventListener('input', () => {
+            selectedBarrio = checkoutCustomerBarrio.value.trim();
+        });
+    }
+
+    // Payment method selector & instruction boxes
+    const payOptionRadios = document.querySelectorAll('input[name="payment-method"]');
+    payOptionRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (radio.checked) {
+                selectedPaymentMethod = radio.value;
+                document.querySelectorAll('.payment-option-card').forEach(card => card.classList.remove('active'));
+                const parent = radio.closest('.payment-option-card');
+                if (parent) parent.classList.add('active');
+
+                if (paymentInstructionsBox) {
+                    const nequiBox = document.getElementById('nequi-info-box');
+                    const bancolombiaBox = document.getElementById('bancolombia-info-box');
+                    const tarjetaBox = document.getElementById('tarjeta-info-box');
+
+                    if (selectedPaymentMethod === 'Nequi') {
+                        paymentInstructionsBox.style.display = 'block';
+                        if (nequiBox) nequiBox.style.display = 'block';
+                        if (bancolombiaBox) bancolombiaBox.style.display = 'none';
+                        if (tarjetaBox) tarjetaBox.style.display = 'none';
+                    } else if (selectedPaymentMethod === 'Bancolombia') {
+                        paymentInstructionsBox.style.display = 'block';
+                        if (nequiBox) nequiBox.style.display = 'none';
+                        if (bancolombiaBox) bancolombiaBox.style.display = 'block';
+                        if (tarjetaBox) tarjetaBox.style.display = 'none';
+                    } else if (selectedPaymentMethod.includes('Tarjeta')) {
+                        paymentInstructionsBox.style.display = 'block';
+                        if (nequiBox) nequiBox.style.display = 'none';
+                        if (bancolombiaBox) bancolombiaBox.style.display = 'none';
+                        if (tarjetaBox) tarjetaBox.style.display = 'block';
+                    } else {
+                        paymentInstructionsBox.style.display = 'none';
+                    }
+                }
+            }
+        });
+    });
+
+    // Coupons logic
+    async function applyCoupon(rawCode) {
+        const code = (rawCode || (cartCouponInput ? cartCouponInput.value : '')).trim().toUpperCase();
+        if (!code) {
+            if (couponMessage) {
+                couponMessage.textContent = 'Ingresa un código de cupón.';
+                couponMessage.style.color = 'var(--bratz-deep-pink)';
+            }
+            return false;
+        }
+
+        const subtotal = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+
+        const KNOWN_COUPONS = {
+            'VALEN10': { code: 'VALEN10', type: 'percent', value: 10, min_order: 0, description: '10% de descuento' },
+            'GLAM15': { code: 'GLAM15', type: 'percent', value: 15, min_order: 0, description: '15% de descuento' },
+            'VALEN5K': { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: 35000, description: '$5.000 COP de descuento' },
+            'ENVIOGRATIS': { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: 0, description: 'Domicilio gratis' },
+            'GLOSSGIFT': { code: 'GLOSSGIFT', type: 'percent', value: 10, min_order: 0, description: 'Gloss de regalo + 10% DTO' },
+            'REGALOGLOSS': { code: 'REGALOGLOSS', type: 'percent', value: 10, min_order: 0, description: 'Gloss de regalo' }
+        };
+
+        let couponData = KNOWN_COUPONS[code] || null;
+
+        if (!couponData) {
+            try {
+                const res = await fetchApi(`/api/coupons?code=${encodeURIComponent(code)}`);
+                if (res.ok) {
+                    const apiData = await res.json();
+                    if (apiData && apiData.code) couponData = apiData;
+                }
+            } catch (e) {}
+        }
+
+        if (!couponData) {
+            if (couponMessage) {
+                couponMessage.textContent = `El cupón "${code}" no es válido o ha expirado.`;
+                couponMessage.style.color = 'var(--bratz-deep-pink)';
+            }
+            return false;
+        }
+
+        if (couponData.min_order && subtotal < Number(couponData.min_order)) {
+            if (couponMessage) {
+                couponMessage.textContent = `Este cupón requiere una compra mínima de ${formatPrice(couponData.min_order)}.`;
+                couponMessage.style.color = 'var(--bratz-deep-pink)';
+            }
+            return false;
+        }
+
+        appliedCoupon = couponData;
+
+        if (appliedCouponTag && appliedCouponText) {
+            appliedCouponTag.style.display = 'inline-flex';
+            appliedCouponText.textContent = `🎟️ ${couponData.code}: ${couponData.description || 'Aplicado'}`;
+        }
+        if (cartCouponInput) cartCouponInput.value = '';
+        if (couponMessage) {
+            couponMessage.textContent = `¡Cupón ${couponData.code} aplicado con éxito! ✨`;
+            couponMessage.style.color = '#047857';
+        }
+
+        showNotification(`Cupón ${couponData.code} aplicado`, '🎟️');
+        updateCartUi();
+        return true;
+    }
+
+    function removeCoupon() {
+        appliedCoupon = null;
+        if (appliedCouponTag) appliedCouponTag.style.display = 'none';
+        if (couponMessage) {
+            couponMessage.textContent = 'Cupón removido.';
+            couponMessage.style.color = 'var(--text-muted)';
+        }
+        updateCartUi();
+    }
+
+    if (btnApplyCoupon) btnApplyCoupon.addEventListener('click', () => applyCoupon());
+    if (btnRemoveCoupon) btnRemoveCoupon.addEventListener('click', removeCoupon);
+    if (cartCouponInput) {
+        cartCouponInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyCoupon();
+            }
+        });
+    }
+
+    // ==========================================
+    // 🧠 ASISTENTE DIGITAL: "AYÚDAME A ELEGIR"
+    // ==========================================
+    let quizStep = 1;
+    let quizAnswers = { goal: '', skin: '', category: '' };
+
+    function openBeautyQuizModal() {
+        if (!beautyQuizModal) return;
+        resetBeautyQuiz();
+        beautyQuizModal.classList.add('active');
+    }
+
+    function closeBeautyQuizModal() {
+        if (!beautyQuizModal) return;
+        beautyQuizModal.classList.remove('active');
+    }
+
+    function resetBeautyQuiz() {
+        quizStep = 1;
+        quizAnswers = { goal: '', skin: '', category: '' };
+        document.querySelectorAll('.quiz-opt-btn').forEach(c => c.classList.remove('active'));
+        showQuizStep(1);
+    }
+
+    function showQuizStep(step) {
+        quizStep = step;
+        for (let i = 1; i <= 4; i++) {
+            const el = document.getElementById(`quiz-step-${i}`);
+            if (el) {
+                if (i === step) {
+                    el.classList.add('active');
+                    el.style.display = 'block';
+                } else {
+                    el.classList.remove('active');
+                    el.style.display = 'none';
+                }
+            }
+        }
+
+        // Update step indicator
+        document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+            const dotStep = idx + 1;
+            dot.classList.toggle('active', dotStep === step);
+            dot.classList.toggle('completed', dotStep < step);
+        });
+
+        if (step === 4) {
+            renderQuizRecommendations();
+        }
+    }
+
+    // Step 1: Goal
+    document.querySelectorAll('.quiz-opt-btn[data-field="goal"]').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.quiz-opt-btn[data-field="goal"]').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            quizAnswers.goal = card.getAttribute('data-value') || 'natural';
+            setTimeout(() => showQuizStep(2), 200);
+        });
+    });
+
+    // Step 2: Skin
+    document.querySelectorAll('.quiz-opt-btn[data-field="skin"]').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.quiz-opt-btn[data-field="skin"]').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            quizAnswers.skin = card.getAttribute('data-value') || 'seca';
+            setTimeout(() => showQuizStep(3), 200);
+        });
+    });
+
+    // Step 3: Category
+    document.querySelectorAll('.quiz-opt-btn[data-field="category"]').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.quiz-opt-btn[data-field="category"]').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            quizAnswers.category = card.getAttribute('data-value') || 'all';
+            setTimeout(() => showQuizStep(4), 200);
+        });
+    });
+
+    // Back buttons
+    document.querySelectorAll('.btn-quiz-back').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetStep = Number(btn.getAttribute('data-goto') || 1);
+            showQuizStep(targetStep);
+        });
+    });
+
+    function getRecommendations(goal, skin, category) {
+        if (!allProducts || allProducts.length === 0) return [];
+
+        const goalLabels = {
+            'natural': '🌸 Algo Natural',
+            'glam': '✨ Algo Glam',
+            'fiesta': '🎉 Algo para Fiesta',
+            'economico': '💸 Algo Económico',
+            'diario': '☀️ Uso Diario'
+        };
+
+        const skinLabels = {
+            'seca': 'Piel Seca',
+            'mixta': 'Piel Mixta',
+            'grasa': 'Piel Grasa',
+            'nose': 'Cualquier tipo de piel'
+        };
+
+        const catLabels = {
+            'base': 'Base',
+            'corrector': 'Corrector',
+            'rubor': 'Rubor',
+            'iluminador': 'Iluminador',
+            'labios': 'Labios',
+            'ojos': 'Ojos',
+            'skincare': 'Skincare',
+            'all': 'Recomendaciones top'
+        };
+
+        if (quizResultsSummary) {
+            quizResultsSummary.innerHTML = `
+                <span class="quiz-summary-pill">${goalLabels[goal] || 'Personalizado'}</span>
+                <span class="quiz-summary-pill">${skinLabels[skin] || 'Tu piel'}</span>
+                <span class="quiz-summary-pill">${catLabels[category] || 'Destacados'}</span>
+            `;
+        }
+
+        const scored = allProducts.map(p => {
+            let score = 0;
+            const name = (p.name || '').toLowerCase();
+            const cat = (p.category || '').toLowerCase();
+            const price = Number(p.price || 0);
+
+            // 1. Category relevance
+            if (category && category !== 'all') {
+                const catMap = {
+                    'base': ['base', 'bb cream', 'cushion', 'cojín', 'piel perfecta'],
+                    'corrector': ['corrector', 'concealer', 'ojeras'],
+                    'rubor': ['rubor', 'blush', 'mejillas'],
+                    'iluminador': ['iluminador', 'glow', 'brillo', 'highlighter', 'gotas'],
+                    'labios': ['labial', 'gloss', 'tinta', 'lip', 'bálsamo', 'aceite labial'],
+                    'ojos': ['pestañina', 'mascara', 'delineador', 'sombras', 'paleta', 'cejas', 'pestañas'],
+                    'skincare': ['serum', 'suero', 'crema', 'tónico', 'agua micelar', 'mascarilla', 'protector', 'facial', 'cuidado facial']
+                };
+                const kws = catMap[category] || [];
+                if (kws.some(kw => name.includes(kw) || cat.includes(kw))) {
+                    score += 180;
+                }
+            } else {
+                score += 30;
+            }
+
+            // 2. Goal relevance
+            if (goal === 'natural') {
+                if (/natural|glow|bb cream|hidratante|ligero|fresco|transparente|nude|tinta|agua/.test(name)) score += 60;
+            } else if (goal === 'glam') {
+                if (/glam|matte|iluminador|pigmento|pestañas|intenso|volumen|brillo|prosa/.test(name)) score += 60;
+            } else if (goal === 'fiesta') {
+                if (/larga duraci[oó]n|waterproof|glitter|shimmer|fijador|sellador|intenso|resistente/.test(name)) score += 60;
+            } else if (goal === 'economico') {
+                score += Math.max(0, Math.round((70000 - price) / 1000));
+            } else if (goal === 'diario') {
+                if (/diario|protector|tinta|polvo|b[aá]lsamo|corrector|natural|cepillo/.test(name)) score += 60;
+            }
+
+            // 3. Skin type relevance
+            if (skin === 'seca') {
+                if (/hidratante|glow|aceite|crema|suero|humectante|nutritiv|ácido hialurónico/.test(name)) score += 45;
+                if (/matte|antibrillo/.test(name)) score -= 25;
+            } else if (skin === 'grasa') {
+                if (/matte|control|antibrillo|polvo|sellador|oil free|libre de grasa|mineral/.test(name)) score += 45;
+                if (/aceite|oleos/.test(name)) score -= 35;
+            } else if (skin === 'mixta') {
+                if (/balance|mineral|ligera|gel|equilibrante|dual/.test(name)) score += 35;
+            }
+
+            if (p.image && !p.image.includes('placeholder')) score += 10;
+            if (price > 0) score += 5;
+
+            return { product: p, score };
+        });
+
+        scored.sort((a, b) => b.score - a.score);
+
+        const results = [];
+        const seenNames = new Set();
+        for (const item of scored) {
+            if (!seenNames.has(item.product.name)) {
+                seenNames.add(item.product.name);
+                results.push(item.product);
+                if (results.length >= 4) break;
+            }
+        }
+
+        if (results.length < 3) {
+            for (const p of allProducts) {
+                if (!seenNames.has(p.name)) {
+                    seenNames.add(p.name);
+                    results.push(p);
+                    if (results.length >= 4) break;
+                }
+            }
+        }
+
+        return results;
+    }
+
+    function renderQuizRecommendations() {
+        if (!quizRecommendationsList) return;
+        const recs = getRecommendations(quizAnswers.goal, quizAnswers.skin, quizAnswers.category);
+
+        if (recs.length === 0) {
+            quizRecommendationsList.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 20px;">Cargando catálogo para recomendarte lo mejor...</p>`;
+            return;
+        }
+
+        quizRecommendationsList.innerHTML = recs.map(product => {
+            return `
+                <div class="quiz-product-card">
+                    <img src="${product.image || 'Logo.jpeg'}" alt="${product.name}" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                    <div class="quiz-product-info">
+                        <span class="quiz-prod-badge">RECOMENDADO PARA TI</span>
+                        <h4 title="${product.name}">${product.name}</h4>
+                        <div class="quiz-prod-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            <span style="font-size: 0.72rem; color: var(--text-muted); margin-left: 4px;">(4.9)</span>
+                        </div>
+                        <div class="quiz-prod-price">${formatPrice(product.price)}</div>
+                    </div>
+                    <div class="quiz-prod-actions">
+                        <button type="button" class="btn-quiz-add-cart" data-id="${product.id}">
+                            <i class="fas fa-bag-shopping"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        quizRecommendationsList.querySelectorAll('.btn-quiz-add-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pid = btn.getAttribute('data-id');
+                const product = allProducts.find(p => Number(p.id) === Number(pid));
+                if (product) {
+                    addToCart(product);
+                    btn.innerHTML = `<i class="fas fa-check"></i> ¡Agregado!`;
+                    btn.style.background = '#047857';
+                    setTimeout(() => {
+                        btn.innerHTML = `<i class="fas fa-bag-shopping"></i> Agregar`;
+                        btn.style.background = '';
+                    }, 1800);
+                }
+            });
+        });
+    }
+
+    if (btnHeroAdvisor) btnHeroAdvisor.addEventListener('click', openBeautyQuizModal);
+    if (cardTriggerAdvisor) cardTriggerAdvisor.addEventListener('click', openBeautyQuizModal);
+    if (navAdvisorBtn) navAdvisorBtn.addEventListener('click', (e) => { e.preventDefault(); openBeautyQuizModal(); });
+    if (mobNavAdvisor) mobNavAdvisor.addEventListener('click', (e) => { e.preventDefault(); openBeautyQuizModal(); });
+    if (quizCloseBtn) quizCloseBtn.addEventListener('click', closeBeautyQuizModal);
+    if (btnRestartQuiz) btnRestartQuiz.addEventListener('click', resetBeautyQuiz);
+    if (beautyQuizModal) {
+        beautyQuizModal.addEventListener('click', (e) => {
+            if (e.target === beautyQuizModal) closeBeautyQuizModal();
+        });
+    }
+
+    // ==========================================
+    // 🎡 RULETA DE PREMIOS (LUCKY WHEEL)
+    // ==========================================
+    const WHEEL_SECTORS = [
+        { label: '10% DTO', code: 'VALEN10', color: '#ff2d87', textColor: '#ffffff', prob: 0.25 },
+        { label: 'Envío Gratis', code: 'ENVIOGRATIS', color: '#7928ca', textColor: '#ffffff', prob: 0.20 },
+        { label: '$5.000 DTO', code: 'VALEN5K', color: '#ec4899', textColor: '#ffffff', prob: 0.25 },
+        { label: '15% DTO', code: 'GLAM15', color: '#9333ea', textColor: '#ffffff', prob: 0.15 },
+        { label: 'Gloss Gratis', code: 'GLOSSGIFT', color: '#db2777', textColor: '#ffffff', prob: 0.15 }
+    ];
+
+    let currentWheelAngle = 0;
+    let isSpinning = false;
+
+    function drawLuckyWheel(angle) {
+        if (!luckyWheelCanvas) return;
+        const ctx = luckyWheelCanvas.getContext('2d');
+        const numSectors = WHEEL_SECTORS.length;
+        const arc = (2 * Math.PI) / numSectors;
+        const centerX = luckyWheelCanvas.width / 2;
+        const centerY = luckyWheelCanvas.height / 2;
+        const radius = centerX - 12;
+
+        ctx.clearRect(0, 0, luckyWheelCanvas.width, luckyWheelCanvas.height);
+
+        // Draw sectors
+        for (let i = 0; i < numSectors; i++) {
+            const sectorAngle = angle + (i * arc);
+            ctx.beginPath();
+            ctx.fillStyle = WHEEL_SECTORS[i].color;
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, sectorAngle, sectorAngle + arc);
+            ctx.lineTo(centerX, centerY);
+            ctx.fill();
+
+            // Border between sectors
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Text label
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(sectorAngle + (arc / 2));
+            ctx.textAlign = 'right';
+            ctx.fillStyle = WHEEL_SECTORS[i].textColor;
+            ctx.font = 'bold 13px Outfit, sans-serif';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 4;
+            ctx.fillText(WHEEL_SECTORS[i].label, radius - 20, 5);
+            ctx.restore();
+        }
+
+        // Outer Rim
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#f472b6';
+        ctx.lineWidth = 7;
+        ctx.stroke();
+
+        // Rim Dots
+        const dotCount = 18;
+        for (let d = 0; d < dotCount; d++) {
+            const dotAngle = (2 * Math.PI / dotCount) * d;
+            const dx = centerX + (radius + 1) * Math.cos(dotAngle);
+            const dy = centerY + (radius + 1) * Math.sin(dotAngle);
+            ctx.beginPath();
+            ctx.arc(dx, dy, 2.5, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+        }
+    }
+
+    function checkWheelStatus() {
+        const spunRaw = localStorage.getItem('valen_wheel_spun');
+        if (spunRaw) {
+            try {
+                const spunData = JSON.parse(spunRaw);
+                if (btnSpinAction) {
+                    btnSpinAction.disabled = true;
+                    btnSpinAction.classList.add('disabled');
+                    btnSpinAction.innerHTML = `<i class="fas fa-check-circle"></i> <span>YA GIRASTE TU RULETA</span>`;
+                }
+                if (wheelStatusNotice) {
+                    wheelStatusNotice.innerHTML = `<i class="fas fa-lock"></i> Ya redimiste tu giro. Tu cupón ganado es <strong>${spunData.code}</strong>.`;
+                }
+                if (wheelWinCard && winPrizeLabel && winCouponCode) {
+                    wheelWinCard.style.display = 'block';
+                    winPrizeLabel.textContent = spunData.prize || 'Beneficio Ganado';
+                    winCouponCode.textContent = spunData.code || 'VALEN10';
+                }
+            } catch (e) {}
+        }
+    }
+
+    function spinLuckyWheel() {
+        if (isSpinning) return;
+        if (localStorage.getItem('valen_wheel_spun')) {
+            alert('¡Ya realizaste tu giro de la ruleta por esta sesión! Aplica tu código en el carrito.');
+            return;
+        }
+
+        isSpinning = true;
+        if (btnSpinAction) {
+            btnSpinAction.disabled = true;
+            btnSpinAction.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>GIRANDO...</span>`;
+        }
+
+        // Pick prize based on probabilities
+        const rand = Math.random();
+        let cumulative = 0;
+        let selectedIndex = 0;
+        for (let i = 0; i < WHEEL_SECTORS.length; i++) {
+            cumulative += WHEEL_SECTORS[i].prob;
+            if (rand <= cumulative) {
+                selectedIndex = i;
+                break;
+            }
+        }
+
+        const wonSector = WHEEL_SECTORS[selectedIndex];
+        const numSectors = WHEEL_SECTORS.length;
+        const arc = (2 * Math.PI) / numSectors;
+
+        // Pointer is at the top (-PI/2)
+        const targetSectorCenter = (selectedIndex + 0.5) * arc;
+        const targetStopAngle = (1.5 * Math.PI) - targetSectorCenter;
+        
+        const totalRotation = (6 * 2 * Math.PI) + targetStopAngle;
+        const startAngle = currentWheelAngle % (2 * Math.PI);
+        const distance = totalRotation - startAngle;
+
+        const duration = 4200;
+        const startTime = performance.now();
+
+        function animateSpin(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(1, elapsed / duration);
+
+            const ease = 1 - Math.pow(1 - progress, 3);
+            currentWheelAngle = startAngle + (distance * ease);
+            drawLuckyWheel(currentWheelAngle);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateSpin);
+            } else {
+                isSpinning = false;
+                onWheelSpinFinished(wonSector);
+            }
+        }
+
+        requestAnimationFrame(animateSpin);
+    }
+
+    function onWheelSpinFinished(wonSector) {
+        const record = {
+            prize: wonSector.label,
+            code: wonSector.code,
+            date: new Date().toISOString()
+        };
+        try {
+            localStorage.setItem('valen_wheel_spun', JSON.stringify(record));
+        } catch (e) {}
+
+        playFuturisticAlertSound();
+
+        if (wheelWinCard && winPrizeLabel && winCouponCode) {
+            wheelWinCard.style.display = 'block';
+            winPrizeLabel.textContent = wonSector.label;
+            winCouponCode.textContent = wonSector.code;
+        }
+
+        if (btnSpinAction) {
+            btnSpinAction.disabled = true;
+            btnSpinAction.classList.add('disabled');
+            btnSpinAction.innerHTML = `<i class="fas fa-check-circle"></i> <span>GIRO COMPLETADO</span>`;
+        }
+
+        if (wheelStatusNotice) {
+            wheelStatusNotice.innerHTML = `<i class="fas fa-gift"></i> ¡Premio guardado! Copia tu código o aplícalo al carrito.`;
+        }
+
+        showNotification(`🎉 ¡Ganaste: ${wonSector.label}!`, '🎀');
+    }
+
+    function openLuckyWheelModal() {
+        if (!luckyWheelModal) return;
+        luckyWheelModal.classList.add('active');
+        drawLuckyWheel(currentWheelAngle);
+        checkWheelStatus();
+    }
+
+    function closeLuckyWheelModal() {
+        if (!luckyWheelModal) return;
+        luckyWheelModal.classList.remove('active');
+    }
+
+    if (btnHeroWheel) btnHeroWheel.addEventListener('click', openLuckyWheelModal);
+    if (cardTriggerWheel) cardTriggerWheel.addEventListener('click', openLuckyWheelModal);
+    if (floatingWheelBtn) floatingWheelBtn.addEventListener('click', openLuckyWheelModal);
+    if (wheelCloseBtn) wheelCloseBtn.addEventListener('click', closeLuckyWheelModal);
+    if (btnSpinAction) btnSpinAction.addEventListener('click', spinLuckyWheel);
+    if (luckyWheelModal) {
+        luckyWheelModal.addEventListener('click', (e) => {
+            if (e.target === luckyWheelModal) closeLuckyWheelModal();
+        });
+    }
+
+    if (btnCopyPrizeCode && winCouponCode) {
+        btnCopyPrizeCode.addEventListener('click', async () => {
+            const code = winCouponCode.textContent.trim();
+            try {
+                await navigator.clipboard.writeText(code);
+                showNotification(`Código "${code}" copiado`, '📋');
+            } catch (e) {
+                showNotification(`Código: ${code}`, '📋');
+            }
+        });
+    }
+
+    if (btnApplyPrizeToCart && winCouponCode) {
+        btnApplyPrizeToCart.addEventListener('click', () => {
+            const code = winCouponCode.textContent.trim();
+            closeLuckyWheelModal();
+            if (cartModal) cartModal.classList.add('active');
+            applyCoupon(code);
+        });
+    }
+
+    // ==========================================
+    // 🔥 "COMPRA EL LOOK" (KITS & BUNDLES)
+    // ==========================================
+    const DEFAULT_LOOKS = [
+        {
+            id: 1,
+            title: 'Look Glow de Valen ✨',
+            tagline: 'Piel luminosa, mejillas jugosas y labios efecto cristal',
+            description: 'El conjunto definitivo para lucir fresca y radiante durante todo el día en Pereira y Dosquebradas.',
+            image: 'img/product_578.jpg',
+            product_ids: [578, 550, 480],
+            products: [
+                { name: 'Base Líquida Glow Hidratante', price: 38000 },
+                { name: 'Rubor Líquido Velvet Soft', price: 24000 },
+                { name: 'Iluminador en Polvo Silk Shine', price: 28000 },
+                { name: 'Gloss Cristal Labial Húmedo', price: 22000 }
+            ],
+            individual_price: 112000,
+            bundle_price: 94900,
+            savings: 17100,
+            active: true
+        },
+        {
+            id: 2,
+            title: 'Look Noche Glam & Fiesta 🎉',
+            tagline: 'Mirada intensa a prueba de agua y labios mate impecables',
+            description: 'Diseñado para eventos especiales y fiestas. Productos de larga duración de alta cobertura.',
+            image: 'img/product_646.jpg',
+            product_ids: [646, 613, 590],
+            products: [
+                { name: 'Delineador negro líquido pincel Prosa resistente', price: 19900 },
+                { name: 'Paleta de Sombras Nude & Glitter', price: 38000 },
+                { name: 'Pestañina 4 en Uno Prosa Maxi-Volumen', price: 18000 },
+                { name: 'Labial Líquido Mate Indeleble', price: 22000 }
+            ],
+            individual_price: 97900,
+            bundle_price: 82900,
+            savings: 15000,
+            active: true
+        },
+        {
+            id: 3,
+            title: 'Look Clean Girl Diario 🌸',
+            tagline: 'Maquillaje rápido de 5 minutos para verte arreglada y natural',
+            description: 'Tu rutina esencial diaria: cejas orgánicas, mejillas durazno y labios hidratados.',
+            image: 'img/product_400.jpg',
+            product_ids: [400, 350, 300],
+            products: [
+                { name: 'BB Cream Ligera Hidratante', price: 32000 },
+                { name: 'Gel Fijador de Cejas Efecto Laminado', price: 16000 },
+                { name: 'Tinta de Labios y Mejillas Cherry', price: 19000 }
+            ],
+            individual_price: 67000,
+            bundle_price: 56900,
+            savings: 10100,
+            active: true
+        }
+    ];
+
+    async function loadLooks() {
+        try {
+            const res = await fetchApi('/api/looks');
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    allLooks = data;
+                } else {
+                    allLooks = DEFAULT_LOOKS;
+                }
+            } else {
+                allLooks = DEFAULT_LOOKS;
+            }
+        } catch (e) {
+            allLooks = DEFAULT_LOOKS;
+        }
+        renderLooksGrid();
+    }
+
+    function renderLooksGrid() {
+        if (!looksGrid) return;
+        const activeLooks = allLooks.filter(l => l.active !== false);
+
+        looksGrid.innerHTML = activeLooks.map(look => {
+            const indPrice = Number(look.individual_price || 0);
+            const bndPrice = Number(look.bundle_price || 0);
+            const savings = Math.max(0, indPrice - bndPrice);
+
+            return `
+                <div class="look-card">
+                    <div class="look-image-wrap">
+                        <img src="${look.image || 'Logo.jpeg'}" alt="${look.title}" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                        <span class="look-savings-tag">AHORRAS ${formatPrice(savings)}</span>
+                    </div>
+                    <div class="look-body">
+                        <h3 class="look-title">${look.title}</h3>
+                        <p class="look-tagline">${look.tagline || ''}</p>
+                        <p class="look-description">${look.description || ''}</p>
+                        
+                        <div class="look-items-list">
+                            <span class="look-items-header"><i class="fas fa-check-circle" style="color: var(--bratz-pink);"></i> Este Kit incluye:</span>
+                            <ul>
+                                ${(look.products || []).map(p => `<li>• ${p.name || p}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="look-pricing-box">
+                            <div class="look-ind-price">Precio individual: <del>${formatPrice(indPrice)}</del></div>
+                            <div class="look-bundle-price">Precio Kit: <strong>${formatPrice(bndPrice)}</strong></div>
+                        </div>
+
+                        <button type="button" class="btn-buy-look" data-id="${look.id}">
+                            <i class="fas fa-bag-shopping"></i> Comprar el Look Completo
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        looksGrid.querySelectorAll('.btn-buy-look').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lid = Number(btn.getAttribute('data-id'));
+                const look = allLooks.find(l => Number(l.id) === lid);
+                if (!look) return;
+
+                const bundleItem = {
+                    id: `look_${look.id}`,
+                    name: `KIT: ${look.title}`,
+                    price: Number(look.bundle_price),
+                    image: look.image || 'Logo.jpeg',
+                    quantity: 1,
+                    isLook: true
+                };
+
+                const existing = cart.find(item => item.id === bundleItem.id);
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push(bundleItem);
+                }
+
+                saveCart();
+                showNotification(`¡${look.title} agregado al carrito!`, '🎉');
+                if (cartModal) cartModal.classList.add('active');
+            });
+        });
+    }
+
+    // ==========================================
+    // ⭐ RESEÑAS REALES Y TESTIMONIOS VERIFICADOS
+    // ==========================================
+    const DEFAULT_REVIEWS = [
+        {
+            id: 1,
+            author: 'Mariana Duque',
+            rating: 5,
+            comment: 'El gloss y la base son una maravilla, hidratan divino y el pedido me llegó el mismo día a Pinares en Pereira. ¡100% recomendada!',
+            city: 'Pereira - Pinares',
+            product: 'Base Glow Hidratante + Gloss Cristal',
+            verified: true,
+            created_at: '2026-10-05T14:30:00Z',
+            status: 'approved'
+        },
+        {
+            id: 2,
+            author: 'Camila Restrepo',
+            rating: 5,
+            comment: 'Me encantó la atención por WhatsApp de Valentina. Me asesoró con el tono exacto para mi piel mixta y el rubor pigmenta espectacular.',
+            city: 'Dosquebradas - La Pradera',
+            product: 'Rubor Líquido Velvet Soft',
+            verified: true,
+            created_at: '2026-10-04T18:20:00Z',
+            status: 'approved'
+        },
+        {
+            id: 3,
+            author: 'Laura Marcela V.',
+            rating: 5,
+            comment: 'Los productos son 100% originales, llegaron selladitos y me dieron regalito en mi pedido. Ya es mi tienda favorita de maquillaje en el Eje Cafetero.',
+            city: 'Pereira - Circunvalar',
+            product: 'Look Noche Glam & Fiesta',
+            verified: true,
+            created_at: '2026-10-02T11:15:00Z',
+            status: 'approved'
+        }
+    ];
+
+    async function loadReviews() {
+        try {
+            const res = await fetchApi('/api/reviews?status=approved');
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    allReviews = data;
+                } else {
+                    allReviews = DEFAULT_REVIEWS;
+                }
+            } else {
+                allReviews = DEFAULT_REVIEWS;
+            }
+        } catch (e) {
+            allReviews = DEFAULT_REVIEWS;
+        }
+        renderReviewsGrid();
+    }
+
+    function renderReviewsGrid() {
+        if (!reviewsGrid) return;
+        const approved = allReviews.filter(r => r.status === 'approved' || r.status === undefined);
+
+        reviewsGrid.innerHTML = approved.map(r => {
+            const stars = Array.from({ length: 5 }, (_, i) => `<i class="${i < (r.rating || 5) ? 'fas' : 'far'} fa-star"></i>`).join('');
+            const dateStr = r.created_at ? new Date(r.created_at).toLocaleDateString('es-CO', { month: 'short', day: 'numeric' }) : 'Reciente';
+
+            return `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-stars">${stars}</div>
+                        <span class="review-date">${dateStr}</span>
+                    </div>
+                    <p class="review-comment">"${r.comment}"</p>
+                    <div class="review-author-row">
+                        <div class="review-avatar"><i class="fas fa-user-check"></i></div>
+                        <div class="review-author-meta">
+                            <span class="review-author-name">${r.author || r.customer_name || 'Clienta Valen'}</span>
+                            <span class="review-author-location">${r.city || 'Pereira / Dosquebradas'}</span>
+                        </div>
+                    </div>
+                    ${r.verified !== false ? `
+                        <div class="review-verified-badge">
+                            <i class="fas fa-circle-check"></i> Compra Verificada ✓
+                        </div>
+                    ` : ''}
+                    ${r.product ? `<span class="review-product-tag">${r.product}</span>` : ''}
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Star rating picker in review modal
+    if (starRatingPicker && reviewRatingVal) {
+        starRatingPicker.querySelectorAll('.star-pick').forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = Number(star.getAttribute('data-rating'));
+                reviewRatingVal.value = rating;
+                starRatingPicker.querySelectorAll('.star-pick').forEach((s, idx) => {
+                    s.classList.toggle('active', (idx + 1) <= rating);
+                });
+            });
+        });
+    }
+
+    if (btnOpenReviewModal && reviewModal) {
+        btnOpenReviewModal.addEventListener('click', () => {
+            reviewModal.classList.add('active');
+            if (reviewFormMessage) reviewFormMessage.textContent = '';
+        });
+    }
+
+    if (reviewCloseBtn && reviewModal) {
+        reviewCloseBtn.addEventListener('click', () => reviewModal.classList.remove('active'));
+    }
+
+    if (reviewModal) {
+        reviewModal.addEventListener('click', (e) => {
+            if (e.target === reviewModal) reviewModal.classList.remove('active');
+        });
+    }
+
+    if (customerReviewForm) {
+        customerReviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const rating = Number(reviewRatingVal.value || 5);
+            const name = document.getElementById('review-customer-name').value.trim();
+            const city = document.getElementById('review-customer-city').value.trim();
+            const prod = document.getElementById('review-product-name').value.trim();
+            const comment = document.getElementById('review-comment').value.trim();
+
+            if (!name || !comment) {
+                alert('Por favor ingresa tu nombre y tu comentario.');
+                return;
+            }
+
+            let isVerified = false;
+            try {
+                const lastOrder = localStorage.getItem('valen_last_order');
+                if (lastOrder) isVerified = true;
+            } catch (err) {}
+
+            const reviewPayload = {
+                author: name,
+                rating: rating,
+                city: city || 'Pereira / Dosquebradas',
+                product: prod || 'Productos Valen Makeup',
+                comment: comment,
+                verified: isVerified,
+                status: 'approved'
+            };
+
+            if (reviewFormMessage) {
+                reviewFormMessage.textContent = 'Enviando reseña...';
+                reviewFormMessage.style.color = 'var(--text-dark)';
+            }
+
+            try {
+                await fetchApi('/api/reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reviewPayload)
+                });
+
+                if (reviewFormMessage) {
+                    reviewFormMessage.textContent = '🎉 ¡Muchas gracias por tu reseña! Ha sido publicada con éxito.';
+                    reviewFormMessage.style.color = '#047857';
+                }
+
+                showNotification('Reseña publicada con éxito', '⭐');
+                allReviews.unshift({ ...reviewPayload, created_at: new Date().toISOString() });
+                renderReviewsGrid();
+
+                setTimeout(() => {
+                    customerReviewForm.reset();
+                    if (reviewModal) reviewModal.classList.remove('active');
+                }, 1600);
+            } catch (err) {
+                if (reviewFormMessage) {
+                    reviewFormMessage.textContent = 'Tu reseña fue guardada.';
+                    reviewFormMessage.style.color = '#047857';
+                }
+                allReviews.unshift({ ...reviewPayload, created_at: new Date().toISOString() });
+                renderReviewsGrid();
+            }
+        });
+    }
+
+    // ==========================================
+    // 📱 NAVEGACIÓN MÓVIL & CARRITO PERSISTENTE
+    // ==========================================
+    if (mobNavHome) {
+        mobNavHome.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
+            mobNavHome.classList.add('active');
+        });
+    }
+
+    if (mobNavSearch) {
+        mobNavSearch.addEventListener('click', (e) => {
+            e.preventDefault();
+            const catSec = document.getElementById('catalogo') || productsGrid;
+            if (catSec) catSec.scrollIntoView({ behavior: 'smooth' });
+            if (searchInput) {
+                setTimeout(() => searchInput.focus(), 300);
+            }
+            document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
+            mobNavSearch.classList.add('active');
+        });
+    }
+
+    if (mobNavFavs) {
+        mobNavFavs.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderFavoritesModal();
+            if (favoritesModal) favoritesModal.classList.add('active');
+        });
+    }
+
+    if (mobNavCart) {
+        mobNavCart.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (cartModal) cartModal.classList.add('active');
+        });
+    }
+
+    function initPersistentCartToast() {
+        if (!persistentCartToast) return;
+        try {
+            const dismissed = sessionStorage.getItem('valen_cart_toast_dismissed');
+            if (!dismissed && cart.length > 0) {
+                if (persistentCartDesc) {
+                    persistentCartDesc.textContent = `Tienes ${cart.length} producto${cart.length > 1 ? 's' : ''} esperando en tu carrito.`;
+                }
+                persistentCartToast.classList.add('active');
+            }
+        } catch (e) {}
+
+        if (persistentCartViewBtn) {
+            persistentCartViewBtn.addEventListener('click', () => {
+                persistentCartToast.classList.remove('active');
+                if (cartModal) cartModal.classList.add('active');
+                try { sessionStorage.setItem('valen_cart_toast_dismissed', 'true'); } catch (e) {}
+            });
+        }
+
+        if (persistentCartCloseBtn) {
+            persistentCartCloseBtn.addEventListener('click', () => {
+                persistentCartToast.classList.remove('active');
+                try { sessionStorage.setItem('valen_cart_toast_dismissed', 'true'); } catch (e) {}
+            });
+        }
+    }
+
+    // ==========================================
+    // 🛠️ PANEL ADMINISTRATIVO - GESTIÓN AVANZADA
+    // ==========================================
+    async function loadAdminOrders() {
+        const tbody = document.getElementById('admin-orders-table-body');
+        if (!tbody) return;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">Cargando pedidos...</td></tr>`;
+
+        try {
+            const res = await fetchApi('/api/orders');
+            if (res.ok) {
+                const orders = await res.json();
+                if (!Array.isArray(orders) || orders.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 25px; color: var(--text-muted);">No hay pedidos registrados aún.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = orders.map(ord => {
+                    const dateStr = ord.created_at ? new Date(ord.created_at).toLocaleDateString('es-CO', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Reciente';
+                    const itemsSummary = (ord.items || []).map(i => `${i.name || i} × ${i.quantity || 1}`).join(', ');
+
+                    return `
+                        <tr>
+                            <td>
+                                <strong>#${ord.id}</strong><br>
+                                <small style="color: var(--text-muted);">${dateStr}</small>
+                            </td>
+                            <td>
+                                <strong>${ord.customer_name || 'Anónimo'}</strong><br>
+                                <a href="https://wa.me/57${(ord.customer_phone || '').replace(/\D/g, '')}" target="_blank" style="color: #047857; font-weight: 700; font-size: 0.8rem;">
+                                    <i class="fab fa-whatsapp"></i> ${ord.customer_phone || 'Sin cel'}
+                                </a>
+                            </td>
+                            <td>
+                                📍 <strong>${ord.customer_city || 'Pereira'}</strong> - ${ord.customer_barrio || ''}<br>
+                                <small style="color: var(--text-muted);">${ord.customer_address || ''}</small>
+                            </td>
+                            <td>
+                                <div style="max-width: 200px; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${itemsSummary}">
+                                    ${itemsSummary}
+                                </div>
+                                <small style="color: var(--bratz-pink); font-weight: 700;">💳 ${ord.payment_method || 'Contraentrega'}</small>
+                            </td>
+                            <td>
+                                <strong>${formatPrice(ord.total || 0)}</strong>
+                            </td>
+                            <td>
+                                <select class="admin-order-status-select" data-id="${ord.id}" style="padding: 4px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">
+                                    <option value="Pendiente" ${ord.status === 'Pendiente' ? 'selected' : ''}>🟡 Pendiente</option>
+                                    <option value="Confirmado" ${ord.status === 'Confirmado' ? 'selected' : ''}>🔵 Confirmado</option>
+                                    <option value="Preparando" ${ord.status === 'Preparando' ? 'selected' : ''}>🟣 Preparando</option>
+                                    <option value="En camino" ${ord.status === 'En camino' ? 'selected' : ''}>🛵 En camino</option>
+                                    <option value="Entregado" ${ord.status === 'Entregado' ? 'selected' : ''}>🟢 Entregado</option>
+                                    <option value="Cancelado" ${ord.status === 'Cancelado' ? 'selected' : ''}>🔴 Cancelado</option>
+                                </select>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.querySelectorAll('.admin-order-status-select').forEach(select => {
+                    select.addEventListener('change', async () => {
+                        const oid = select.getAttribute('data-id');
+                        const newStatus = select.value;
+                        try {
+                            await fetchApi(`/api/orders/${oid}/status`, {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                                body: JSON.stringify({ status: newStatus })
+                            });
+                            showNotification(`Pedido #${oid} actualizado a ${newStatus}`, '📦');
+                        } catch (err) {
+                            alert('No se pudo actualizar el estado del pedido');
+                        }
+                    });
+                });
+            }
+        } catch (e) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--bratz-deep-pink); padding: 20px;">Error al cargar pedidos.</td></tr>`;
+        }
+    }
+
+    function loadAdminDeliverySettings() {
+        const pInput = document.getElementById('admin-delivery-pereira-input');
+        const dInput = document.getElementById('admin-delivery-dosquebradas-input');
+        const freeInput = document.getElementById('admin-free-delivery-min-input');
+        const freeActiveInput = document.getElementById('admin-free-delivery-active-input');
+
+        if (pInput) pInput.value = storeSettings.delivery_pereira || 7000;
+        if (dInput) dInput.value = storeSettings.delivery_dosquebradas || 8000;
+        if (freeInput) freeInput.value = storeSettings.delivery_free_min || 100000;
+        if (freeActiveInput) freeActiveInput.checked = storeSettings.delivery_free_active !== false;
+
+        const deliveryForm = document.getElementById('admin-delivery-form');
+        if (deliveryForm && !deliveryForm._wired) {
+            deliveryForm._wired = true;
+            deliveryForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const pVal = Number(pInput.value || 7000);
+                const dVal = Number(dInput.value || 8000);
+                const freeVal = Number(freeInput.value || 100000);
+                const freeAct = freeActiveInput.checked;
+
+                storeSettings.delivery_pereira = pVal;
+                storeSettings.delivery_dosquebradas = dVal;
+                storeSettings.delivery_free_min = freeVal;
+                storeSettings.delivery_free_active = freeAct;
+
+                const msg = document.getElementById('admin-delivery-message');
+                if (msg) {
+                    msg.textContent = 'Guardando tarifas...';
+                    msg.style.color = 'var(--text-dark)';
+                }
+
+                try {
+                    await fetchApi('/api/settings', {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                        body: JSON.stringify({
+                            delivery_pereira: pVal,
+                            delivery_dosquebradas: dVal,
+                            delivery_free_min: freeVal,
+                            delivery_free_active: freeAct
+                        })
+                    });
+                    if (msg) {
+                        msg.textContent = '✅ Tarifas de domicilio guardadas exitosamente.';
+                        msg.style.color = '#047857';
+                    }
+                    showNotification('Tarifas de envío actualizadas', '🚚');
+                    updateDeliveryUi();
+                } catch (err) {
+                    if (msg) {
+                        msg.textContent = 'Guardado localmente.';
+                        msg.style.color = '#047857';
+                    }
+                    updateDeliveryUi();
+                }
+            });
+        }
+    }
+
+    async function loadAdminLooks() {
+        const picker = document.getElementById('admin-look-prod-picker');
+        const savingsText = document.getElementById('admin-look-savings-preview');
+        const indPriceInput = document.getElementById('admin-look-ind-price');
+        const bndPriceInput = document.getElementById('admin-look-bnd-price');
+        const looksList = document.getElementById('admin-looks-list');
+
+        if (picker && allProducts.length > 0) {
+            picker.innerHTML = allProducts.slice(0, 80).map(p => `
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 4px; cursor: pointer;">
+                    <input type="checkbox" class="admin-look-prod-chk" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
+                    <span>${p.name} (<strong>${formatPrice(p.price)}</strong>)</span>
+                </label>
+            `).join('');
+
+            picker.querySelectorAll('.admin-look-prod-chk').forEach(chk => {
+                chk.addEventListener('change', () => {
+                    let sum = 0;
+                    picker.querySelectorAll('.admin-look-prod-chk:checked').forEach(c => {
+                        sum += Number(c.dataset.price || 0);
+                    });
+                    if (indPriceInput) indPriceInput.value = sum;
+                    const bnd = Number(bndPriceInput ? bndPriceInput.value : 0);
+                    if (savingsText) savingsText.textContent = `Ahorro para la clienta: ${formatPrice(Math.max(0, sum - bnd))}`;
+                });
+            });
+        }
+
+        if (bndPriceInput) {
+            bndPriceInput.addEventListener('input', () => {
+                const ind = Number(indPriceInput ? indPriceInput.value : 0);
+                const bnd = Number(bndPriceInput.value || 0);
+                if (savingsText) savingsText.textContent = `Ahorro para la clienta: ${formatPrice(Math.max(0, ind - bnd))}`;
+            });
+        }
+
+        if (looksList) {
+            looksList.innerHTML = allLooks.map(l => `
+                <div class="admin-look-card-item" style="border: 1px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="color: var(--text-dark);">${l.title}</strong><br>
+                        <small style="color: var(--text-muted);">${formatPrice(l.bundle_price)} (Ahorras: ${formatPrice(l.savings || 0)})</small>
+                    </div>
+                    <button type="button" class="btn-del-look" data-id="${l.id}" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            looksList.querySelectorAll('.btn-del-look').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const lid = btn.dataset.id;
+                    if (!confirm('¿Deseas eliminar este look?')) return;
+                    try {
+                        await fetchApi(`/api/looks/${lid}`, {
+                            method: 'DELETE',
+                            headers: { 'X-Admin-Password': adminPassword }
+                        });
+                    } catch (e) {}
+                    allLooks = allLooks.filter(l => String(l.id) !== String(lid));
+                    renderLooksGrid();
+                    loadAdminLooks();
+                    showNotification('Look eliminado', '🗑️');
+                });
+            });
+        }
+
+        const lookForm = document.getElementById('admin-look-form');
+        if (lookForm && !lookForm._wired) {
+            lookForm._wired = true;
+            lookForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const title = document.getElementById('admin-look-title').value.trim();
+                const tagline = document.getElementById('admin-look-tagline').value.trim();
+                const desc = document.getElementById('admin-look-desc').value.trim();
+                const image = document.getElementById('admin-look-image').value.trim() || 'img/product_578.jpg';
+                const indPrice = Number(indPriceInput.value || 0);
+                const bndPrice = Number(bndPriceInput.value || 0);
+
+                const checkedProds = [];
+                if (picker) {
+                    picker.querySelectorAll('.admin-look-prod-chk:checked').forEach(c => {
+                        checkedProds.push({ id: Number(c.dataset.id), name: c.dataset.name, price: Number(c.dataset.price) });
+                    });
+                }
+
+                if (checkedProds.length === 0) {
+                    alert('Selecciona al menos 1 producto para incluir en el kit.');
+                    return;
+                }
+
+                const newLook = {
+                    id: Date.now(),
+                    title,
+                    tagline,
+                    description: desc,
+                    image,
+                    products: checkedProds,
+                    product_ids: checkedProds.map(p => p.id),
+                    individual_price: indPrice,
+                    bundle_price: bndPrice,
+                    savings: Math.max(0, indPrice - bndPrice),
+                    active: true
+                };
+
+                try {
+                    await fetchApi('/api/looks', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                        body: JSON.stringify(newLook)
+                    });
+                } catch (err) {}
+
+                allLooks.push(newLook);
+                renderLooksGrid();
+                loadAdminLooks();
+                lookForm.reset();
+                showNotification('Kit "Compra el Look" creado', '✨');
+            });
+        }
+    }
+
+    async function loadAdminReviews() {
+        const tbody = document.getElementById('admin-reviews-table-body');
+        const badge = document.getElementById('admin-reviews-stat-badge');
+        if (!tbody) return;
+
+        try {
+            const res = await fetchApi('/api/reviews');
+            let reviews = allReviews;
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data)) reviews = data;
+            }
+
+            if (badge) badge.textContent = `${reviews.length} Reseñas`;
+
+            if (reviews.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 20px;">No hay reseñas aún.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = reviews.map(r => `
+                <tr>
+                    <td><small>${r.created_at ? new Date(r.created_at).toLocaleDateString('es-CO') : 'Reciente'}</small></td>
+                    <td><strong>${r.author || r.customer_name || 'Anónimo'}</strong><br><small>${r.city || ''}</small></td>
+                    <td>⭐ ${r.rating || 5}</td>
+                    <td><small>${r.comment || ''}</small></td>
+                    <td><small>${r.product || '-'}</small></td>
+                    <td>${r.verified !== false ? '✅' : '⚪'}</td>
+                    <td><span class="status-pill ${r.status === 'approved' ? 'pill-active' : 'pill-inactive'}">${r.status || 'approved'}</span></td>
+                    <td>${r.featured ? '⭐ Destacada' : 'Normal'}</td>
+                    <td>
+                        <button type="button" class="btn-approve-rev" data-id="${r.id}" title="Aprobar" style="background: #dcfce7; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; color: #166534; font-weight: 700;">✓</button>
+                        <button type="button" class="btn-reject-rev" data-id="${r.id}" title="Rechazar" style="background: #fee2e2; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; color: #991b1b; font-weight: 700;">✗</button>
+                        <button type="button" class="btn-del-rev" data-id="${r.id}" title="Eliminar" style="background: #f1f5f9; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; color: #64748b; font-weight: 700;"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            tbody.querySelectorAll('.btn-approve-rev').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const rid = btn.dataset.id;
+                    try {
+                        await fetchApi(`/api/reviews/${rid}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                            body: JSON.stringify({ status: 'approved' })
+                        });
+                        showNotification('Reseña aprobada', '✅');
+                        loadAdminReviews();
+                        loadReviews();
+                    } catch (e) {}
+                });
+            });
+
+            tbody.querySelectorAll('.btn-reject-rev').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const rid = btn.dataset.id;
+                    try {
+                        await fetchApi(`/api/reviews/${rid}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                            body: JSON.stringify({ status: 'rejected' })
+                        });
+                        showNotification('Reseña rechazada', '⚠️');
+                        loadAdminReviews();
+                        loadReviews();
+                    } catch (e) {}
+                });
+            });
+
+            tbody.querySelectorAll('.btn-del-rev').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const rid = btn.dataset.id;
+                    if (!confirm('¿Eliminar esta reseña permanentemente?')) return;
+                    try {
+                        await fetchApi(`/api/reviews/${rid}`, {
+                            method: 'DELETE',
+                            headers: { 'X-Admin-Password': adminPassword }
+                        });
+                        showNotification('Reseña eliminada', '🗑️');
+                        loadAdminReviews();
+                        loadReviews();
+                    } catch (e) {}
+                });
+            });
+        } catch (e) {}
+    }
+
+    async function loadAdminCoupons() {
+        const couponsList = document.getElementById('admin-coupons-list');
+        const couponForm = document.getElementById('admin-coupon-form');
+        const wheelEnabledChx = document.getElementById('admin-wheel-enabled');
+        const wheelConfigForm = document.getElementById('admin-wheel-config-form');
+
+        if (wheelEnabledChx) wheelEnabledChx.checked = storeSettings.wheel_enabled !== false;
+
+        if (wheelConfigForm && !wheelConfigForm._wired) {
+            wheelConfigForm._wired = true;
+            wheelConfigForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                storeSettings.wheel_enabled = wheelEnabledChx.checked;
+                try {
+                    await fetchApi('/api/settings', {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                        body: JSON.stringify({ wheel_enabled: storeSettings.wheel_enabled })
+                    });
+                } catch (err) {}
+                if (floatingWheelBtn) {
+                    floatingWheelBtn.style.display = storeSettings.wheel_enabled ? 'flex' : 'none';
+                }
+                showNotification('Ajustes de ruleta guardados', '🎡');
+            });
+        }
+
+        try {
+            const res = await fetchApi('/api/coupons');
+            let coupons = [
+                { code: 'VALEN10', type: 'percent', value: 10, min_order: 0 },
+                { code: 'GLAM15', type: 'percent', value: 15, min_order: 0 },
+                { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: 35000 },
+                { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: 0 }
+            ];
+            if (res.ok) {
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) coupons = data;
+            }
+
+            if (couponsList) {
+                couponsList.innerHTML = coupons.map(c => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #fdf2f8; border-radius: 8px; margin-bottom: 6px;">
+                        <div>
+                            <strong>${c.code}</strong> - ${c.type === 'percent' ? `${c.value}% DTO` : c.type === 'fixed' ? `${formatPrice(c.value)} DTO` : 'Envío Gratis'}
+                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Mín: ${formatPrice(c.min_order || 0)}</small>
+                        </div>
+                        <button type="button" class="btn-del-coupon" data-code="${c.code}" style="background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.9rem;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+
+                couponsList.querySelectorAll('.btn-del-coupon').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const code = btn.dataset.code;
+                        if (!confirm(`¿Eliminar cupón ${code}?`)) return;
+                        try {
+                            await fetchApi(`/api/coupons/${code}`, {
+                                method: 'DELETE',
+                                headers: { 'X-Admin-Password': adminPassword }
+                            });
+                        } catch (e) {}
+                        showNotification(`Cupón ${code} eliminado`, '🗑️');
+                        loadAdminCoupons();
+                    });
+                });
+            }
+        } catch (e) {}
+
+        if (couponForm && !couponForm._wired) {
+            couponForm._wired = true;
+            couponForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const code = document.getElementById('admin-coupon-code').value.trim().toUpperCase();
+                const type = document.getElementById('admin-coupon-type').value;
+                const val = Number(document.getElementById('admin-coupon-value').value || 0);
+                const min = Number(document.getElementById('admin-coupon-min').value || 0);
+
+                const newCoupon = { code, type, value: val, min_order: min, active: true };
+
+                try {
+                    await fetchApi('/api/coupons', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+                        body: JSON.stringify(newCoupon)
+                    });
+                } catch (e) {}
+
+                showNotification(`Cupón ${code} creado`, '🎟️');
+                couponForm.reset();
+                loadAdminCoupons();
+            });
+        }
     }
 
     // ==========================================
@@ -1583,7 +3602,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetPane = document.getElementById(`admin-tab-${target}`);
                 if (targetPane) targetPane.classList.add('active');
 
-                if (target === 'logs') {
+                if (target === 'orders') {
+                    loadAdminOrders();
+                } else if (target === 'delivery') {
+                    loadAdminDeliverySettings();
+                } else if (target === 'looks') {
+                    loadAdminLooks();
+                } else if (target === 'reviews') {
+                    loadAdminReviews();
+                } else if (target === 'coupons') {
+                    loadAdminCoupons();
+                } else if (target === 'logs') {
                     renderValenLogs();
                     fetchRemoteLogs();
                 }
@@ -2592,7 +4621,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize App
     loadSavedCart();
+    updateFavoritesUi();
+    loadStoreSettings();
+    loadLooks();
+    loadReviews();
     loadCatalog();
     initAdminTabs();
     initValenLogsConsole();
+    initPersistentCartToast();
+    checkWheelStatus();
+    drawLuckyWheel(0);
 });

@@ -155,6 +155,84 @@ def _execute_schema_updates(cursor):
             """
         )
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_audit_logs_timestamp ON audit_logs (timestamp DESC)")
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS store_settings (
+                key TEXT PRIMARY KEY,
+                value JSONB NOT NULL,
+                updated_at TIMESTAMPTZ DEFAULT NOW()
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS orders (
+                id TEXT PRIMARY KEY,
+                created_at TIMESTAMPTZ DEFAULT NOW(),
+                customer_name TEXT NOT NULL,
+                customer_phone TEXT DEFAULT '',
+                city TEXT NOT NULL,
+                barrio TEXT NOT NULL,
+                address TEXT NOT NULL,
+                reference TEXT DEFAULT '',
+                items JSONB NOT NULL,
+                subtotal NUMERIC NOT NULL,
+                delivery_fee NUMERIC NOT NULL DEFAULT 0,
+                discount NUMERIC NOT NULL DEFAULT 0,
+                total NUMERIC NOT NULL,
+                payment_method TEXT NOT NULL,
+                notes TEXT DEFAULT '',
+                status TEXT NOT NULL DEFAULT 'Pendiente'
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS reviews (
+                id SERIAL PRIMARY KEY,
+                product_id INTEGER,
+                product_name TEXT DEFAULT '',
+                customer_name TEXT NOT NULL,
+                rating INTEGER NOT NULL DEFAULT 5,
+                comment TEXT NOT NULL,
+                date_formatted TEXT NOT NULL,
+                photo_url TEXT DEFAULT '',
+                verified_purchase BOOLEAN DEFAULT TRUE,
+                approved BOOLEAN DEFAULT TRUE,
+                featured BOOLEAN DEFAULT FALSE,
+                created_at TIMESTAMPTZ DEFAULT NOW()
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS looks (
+                id SERIAL PRIMARY KEY,
+                title TEXT NOT NULL,
+                tagline TEXT DEFAULT '',
+                description TEXT DEFAULT '',
+                image TEXT DEFAULT '',
+                products JSONB NOT NULL,
+                individual_price NUMERIC NOT NULL,
+                bundle_price NUMERIC NOT NULL,
+                savings NUMERIC NOT NULL,
+                active BOOLEAN DEFAULT TRUE,
+                created_at TIMESTAMPTZ DEFAULT NOW()
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS coupons (
+                code TEXT PRIMARY KEY,
+                discount_type TEXT NOT NULL,
+                discount_value NUMERIC NOT NULL,
+                min_order NUMERIC DEFAULT 0,
+                active BOOLEAN DEFAULT TRUE,
+                usage_count INTEGER DEFAULT 0
+            )
+            """
+        )
     else:
         cursor.execute(
             """
@@ -201,6 +279,84 @@ def _execute_schema_updates(cursor):
                 ip_address TEXT DEFAULT '',
                 user_agent TEXT DEFAULT '',
                 device_info TEXT DEFAULT ''
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS store_settings (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL,
+                updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS orders (
+                id TEXT PRIMARY KEY,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                customer_name TEXT NOT NULL,
+                customer_phone TEXT DEFAULT '',
+                city TEXT NOT NULL,
+                barrio TEXT NOT NULL,
+                address TEXT NOT NULL,
+                reference TEXT DEFAULT '',
+                items TEXT NOT NULL,
+                subtotal REAL NOT NULL,
+                delivery_fee REAL NOT NULL DEFAULT 0,
+                discount REAL NOT NULL DEFAULT 0,
+                total REAL NOT NULL,
+                payment_method TEXT NOT NULL,
+                notes TEXT DEFAULT '',
+                status TEXT NOT NULL DEFAULT 'Pendiente'
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS reviews (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                product_id INTEGER,
+                product_name TEXT DEFAULT '',
+                customer_name TEXT NOT NULL,
+                rating INTEGER NOT NULL DEFAULT 5,
+                comment TEXT NOT NULL,
+                date_formatted TEXT NOT NULL,
+                photo_url TEXT DEFAULT '',
+                verified_purchase INTEGER DEFAULT 1,
+                approved INTEGER DEFAULT 1,
+                featured INTEGER DEFAULT 0,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS looks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                tagline TEXT DEFAULT '',
+                description TEXT DEFAULT '',
+                image TEXT DEFAULT '',
+                products TEXT NOT NULL,
+                individual_price REAL NOT NULL,
+                bundle_price REAL NOT NULL,
+                savings REAL NOT NULL,
+                active INTEGER DEFAULT 1,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS coupons (
+                code TEXT PRIMARY KEY,
+                discount_type TEXT NOT NULL,
+                discount_value REAL NOT NULL,
+                min_order REAL DEFAULT 0,
+                active INTEGER DEFAULT 1,
+                usage_count INTEGER DEFAULT 0
             )
             """
         )
