@@ -881,6 +881,7 @@ module.exports = async (req, res) => {
       delivery_free_min: 100000,
       delivery_free_enabled: true,
       wheel_enabled: true,
+      wheel_min_purchase: 50000,
       wheel_prizes: [
         { id: 1, label: '10% DTO', type: 'percent', value: 10, code: 'VALEN10', prob: 25 },
         { id: 2, label: 'Envío Gratis', type: 'free_delivery', value: 0, code: 'ENVIOGRATIS', prob: 20 },

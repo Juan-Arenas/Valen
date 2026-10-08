@@ -186,26 +186,54 @@
     <!-- ============================================================ -->
     <section id="resenas" class="reviews-section">
         <div class="container">
-            <div class="reviews-header-block">
-                <div class="reviews-title-col">
-                    <span class="section-badge-pill"><i class="fas fa-heart"></i> EXPERIENCIAS REALES</span>
-                    <h2 class="section-heading">⭐ Reseñas de Nuestras Clientas</h2>
-                    <p class="section-subheading">Clientas reales en Pereira, Dosquebradas y toda Colombia que confían en Valen Makeup.</p>
-                </div>
-                <div class="reviews-stats-card">
-                    <div class="rating-huge">4.9</div>
-                    <div class="rating-stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            <!-- 💫 Barra elegante de reseñas (Cerrada por defecto, se abre con clic) -->
+            <div class="reviews-accordion-bar" id="reviews-accordion-bar" role="button" tabindex="0" aria-expanded="false" title="Toca para desplegar las reseñas">
+                <div class="reviews-bar-main">
+                    <div class="reviews-bar-rating-badge">
+                        <span class="reviews-bar-rating-val">4.9</span>
+                        <div class="reviews-bar-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
                     </div>
-                    <span class="rating-meta">Calificación promedio verificada</span>
-                    <button type="button" class="btn-leave-review" id="btn-open-review-modal">
+                    <div class="reviews-bar-text">
+                        <h3 class="reviews-bar-title">⭐ Reseñas de Nuestras Clientas (<span id="reviews-bar-count">3</span>)</h3>
+                        <p class="reviews-bar-sub">Opiniones reales de clientas verificadas en Pereira, Dosquebradas y Colombia</p>
+                    </div>
+                </div>
+                <div class="reviews-bar-actions">
+                    <button type="button" class="btn-leave-review-bar" id="btn-open-review-modal-bar">
                         <i class="fas fa-pen-fancy"></i> Dejar mi reseña
                     </button>
+                    <div class="reviews-toggle-pill">
+                        <span id="reviews-toggle-text">Ver reseñas</span>
+                        <i class="fas fa-chevron-down" id="reviews-chevron-icon"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="reviews-grid" id="reviews-grid">
-                <!-- Loaded dynamically from DB / fallback -->
+            <!-- 📦 Contenido de reseñas colapsable (Cerrado por defecto) -->
+            <div class="reviews-collapsible-body" id="reviews-collapsible-body">
+                <div class="reviews-header-block">
+                    <div class="reviews-title-col">
+                        <span class="section-badge-pill"><i class="fas fa-heart"></i> EXPERIENCIAS REALES</span>
+                        <h2 class="section-heading">⭐ Reseñas de Nuestras Clientas</h2>
+                        <p class="section-subheading">Clientas reales en Pereira, Dosquebradas y toda Colombia que confían en Valen Makeup.</p>
+                    </div>
+                    <div class="reviews-stats-card">
+                        <div class="rating-huge">4.9</div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <span class="rating-meta">Calificación promedio verificada</span>
+                        <button type="button" class="btn-leave-review" id="btn-open-review-modal">
+                            <i class="fas fa-pen-fancy"></i> Dejar mi reseña
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reviews-grid" id="reviews-grid">
+                    <!-- Loaded dynamically from DB / fallback -->
+                </div>
             </div>
         </div>
     </section>
@@ -383,15 +411,6 @@
                                 <span class="pay-desc">Transferencia / QR</span>
                             </div>
                         </label>
-
-                        <label class="payment-option-card" for="pay-tarjeta">
-                            <input type="radio" name="payment-method" id="pay-tarjeta" value="Tarjeta Débito/Crédito">
-                            <div class="pay-icon icon-card"><i class="fas fa-credit-card"></i></div>
-                            <div class="pay-info">
-                                <span class="pay-title">💳 Tarjeta</span>
-                                <span class="pay-desc">Link seguro con tu asesora</span>
-                            </div>
-                        </label>
                     </div>
 
                     <!-- Payment Details Dropdown Info -->
@@ -403,10 +422,6 @@
                         <div id="bancolombia-info-box" class="pay-instruction-item" style="display: none;">
                             <p><strong>🏦 Transferencia Bancolombia Ahorros:</strong> <code>717-252548-91</code></p>
                             <small>A nombre de: Valentina Arenas. O solicita el código QR por el chat de WhatsApp.</small>
-                        </div>
-                        <div id="tarjeta-info-box" class="pay-instruction-item" style="display: none;">
-                            <p><strong>💳 Pago Seguro con Tarjeta:</strong></p>
-                            <small>Tu asesora te enviará el link de pago seguro de datáfono virtual directamente a WhatsApp.</small>
                         </div>
                     </div>
                 </div>
@@ -719,7 +734,7 @@
             <div class="wheel-header">
                 <span class="wheel-badge">🎀 ¡TIENES UNA SORPRESA!</span>
                 <h3 class="wheel-title">Gira la Ruleta de la Suerte</h3>
-                <p class="wheel-subtitle">Prueba tu suerte y desbloquea beneficios exclusivos para tu pedido hoy.</p>
+                <p class="wheel-subtitle">Prueba tu suerte y desbloquea beneficios exclusivos. Válido para compras superiores al monto mínimo configurado.</p>
             </div>
 
             <div class="wheel-stage-container">
@@ -746,6 +761,9 @@
                 <div class="win-sparkles"><i class="fas fa-trophy"></i></div>
                 <h4 class="win-title">🎉 ¡Felicitaciones! Has ganado:</h4>
                 <div class="win-prize-text" id="win-prize-label">10% de descuento</div>
+                <div class="wheel-min-purchase-pill" id="wheel-win-min-badge">
+                    <i class="fas fa-shield-heart"></i> Válido para compras a partir de <strong id="wheel-win-min-text">$50.000 COP</strong>
+                </div>
                 <div class="win-coupon-box">
                     <span class="coupon-label">Tu código de descuento:</span>
                     <div class="coupon-code-pill">
@@ -772,13 +790,19 @@
                 <button class="modal-close-btn" id="fav-close-btn">&times;</button>
             </div>
 
+            <!-- Subheader Bar de Favoritos con Total Estimado -->
+            <div class="fav-drawer-stats-bar" id="fav-drawer-stats-bar" style="display: none;">
+                <span class="fav-drawer-stats-left"><i class="fas fa-sparkles" style="color: var(--bratz-pink);"></i> Total favoritos: <strong id="fav-modal-total-price">$0 COP</strong></span>
+                <button type="button" class="btn-clear-favs" id="btn-clear-favs" title="Vaciar lista de favoritos"><i class="fas fa-trash-can"></i> Vaciar</button>
+            </div>
+
             <div class="favorites-items-container" id="favorites-items-container">
                 <!-- Dynamically populated -->
             </div>
 
             <div class="favorites-drawer-footer">
                 <button type="button" class="btn-primary" id="btn-add-all-favs" style="width: 100%;">
-                    <i class="fas fa-cart-plus"></i> Agregar Todos al Carrito
+                    <i class="fas fa-cart-plus"></i> <span id="btn-add-all-favs-text">Agregar Todos al Carrito</span>
                 </button>
             </div>
         </div>
@@ -1350,6 +1374,19 @@
                                     <label for="admin-wheel-enabled" style="margin: 0; cursor: pointer; font-weight: 700;">
                                         🎡 Ruleta de Premios Activada en la Tienda
                                     </label>
+                                </div>
+
+                                <div class="form-group" style="margin-top: 12px; margin-bottom: 14px;">
+                                    <label for="admin-wheel-min-purchase" style="font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 6px;">
+                                        💰 Compra mínima requerida para redimir el cupón de la ruleta ($ COP):
+                                    </label>
+                                    <div style="position: relative;">
+                                        <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--bratz-pink); font-size: 1rem;">$</span>
+                                        <input type="number" id="admin-wheel-min-purchase" placeholder="50000" min="0" step="5000" style="padding-left: 28px; width: 100%; border-radius: 8px; border: 1.5px solid #e2e8f0; padding-top: 10px; padding-bottom: 10px; font-weight: 700; font-size: 0.95rem;">
+                                    </div>
+                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">
+                                        El dueño define este monto en el panel. El cliente solo podrá redimir el código ganado si su pedido alcanza este monto.
+                                    </small>
                                 </div>
 
                                 <div class="form-group">

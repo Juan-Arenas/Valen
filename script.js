@@ -1032,10 +1032,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let discountVal = 0;
         if (appliedCoupon) {
             if (appliedCoupon.min_order && subtotal < Number(appliedCoupon.min_order)) {
+                const reqMin = Number(appliedCoupon.min_order);
+                const diff = reqMin - subtotal;
+                const removedCode = appliedCoupon.code;
                 appliedCoupon = null;
                 if (appliedCouponTag) appliedCouponTag.style.display = 'none';
                 if (couponMessage) {
-                    couponMessage.textContent = 'El cupón requiere un subtotal mayor.';
+                    couponMessage.textContent = `⚠️ Cupón "${removedCode}" pausado: requiere compra mínima de ${formatPrice(reqMin)} (faltan ${formatPrice(diff)}).`;
                     couponMessage.style.color = 'var(--bratz-deep-pink)';
                 }
             } else if (appliedCoupon.type === 'percent') {
@@ -1521,53 +1524,126 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!favoritesItemsContainer) return;
         const favs = getFavorites();
         const favProducts = allProducts.filter(p => favs.some(id => Number(id) === Number(p.id)));
+        const favStatsBar = document.getElementById('fav-drawer-stats-bar');
+        const favTotalPriceEl = document.getElementById('fav-modal-total-price');
+        const btnAddAllText = document.getElementById('btn-add-all-favs-text');
+        const btnClearFavs = document.getElementById('btn-clear-favs');
+
+        const favTotalSum = favProducts.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
+
+        if (favTotalPriceEl) favTotalPriceEl.textContent = formatPrice(favTotalSum);
+        if (favStatsBar) favStatsBar.style.display = favProducts.length > 0 ? 'flex' : 'none';
+
+        if (btnClearFavs && !btnClearFavs._wired) {
+            btnClearFavs._wired = true;
+            btnClearFavs.addEventListener('click', () => {
+                if (!confirm('¿Deseas vaciar tu lista de favoritos?')) return;
+                saveFavorites([]);
+                renderFavoritesModal();
+                showNotification('Favoritos vaciados', '💔');
+            });
+        }
 
         if (favProducts.length === 0) {
             favoritesItemsContainer.innerHTML = `
-                <div class="fav-empty-state" style="text-align: center; padding: 45px 20px; color: var(--text-muted);">
-                    <i class="fas fa-heart-crack" style="font-size: 2.6rem; color: var(--bratz-pink); margin-bottom: 14px; opacity: 0.6;"></i>
-                    <h4 style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 6px;">No tienes productos guardados</h4>
-                    <p style="font-size: 0.85rem;">Toca el corazón ♡ en cualquier producto del catálogo para guardarlo aquí y comprarlo después.</p>
+                <div class="fav-empty-state" style="text-align: center; padding: 42px 20px; color: var(--text-muted);">
+                    <div style="width: 72px; height: 72px; border-radius: 50%; background: #fff0f7; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 16px rgba(255, 42, 133, 0.15);">
+                        <i class="fas fa-heart-crack" style="font-size: 2.2rem; color: var(--bratz-pink);"></i>
+                    </div>
+                    <h4 style="font-size: 1.15rem; color: #231227; font-weight: 800; margin-bottom: 6px;">Tu lista de favoritos está vacía</h4>
+                    <p style="font-size: 0.88rem; max-width: 320px; margin: 0 auto 20px; color: #6b5c69; line-height: 1.5;">Toca el corazón ♡ en cualquier producto del catálogo para guardarlo aquí y armar tu pedido perfecto.</p>
+                    <button type="button" class="btn-primary" id="btn-fav-explore-cta" style="display: inline-flex; align-items: center; gap: 8px; margin: 0 auto; padding: 10px 22px; font-size: 0.88rem;">
+                        <i class="fas fa-sparkles"></i> Explorar Catálogo
+                    </button>
                 </div>
             `;
+            const exploreBtn = favoritesItemsContainer.querySelector('#btn-fav-explore-cta');
+            if (exploreBtn) {
+                exploreBtn.addEventListener('click', () => {
+                    if (favoritesModal) favoritesModal.classList.remove('active');
+                    const target = productsGrid || document.getElementById('catalogo') || document.body;
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
             if (btnAddAllFavs) btnAddAllFavs.style.display = 'none';
             return;
         }
 
-        if (btnAddAllFavs) btnAddAllFavs.style.display = 'block';
+        if (btnAddAllFavs) {
+            btnAddAllFavs.style.display = 'block';
+            if (btnAddAllText) {
+                btnAddAllText.textContent = `Agregar Todos al Carrito (${favProducts.length} • ${formatPrice(favTotalSum)})`;
+            }
+        }
 
-        favoritesItemsContainer.innerHTML = favProducts.map(p => `
-            <div class="favorite-item-card">
-                <img src="${p.image || 'Logo.jpeg'}" alt="${p.name}" onerror="this.onerror=null;this.src='Logo.jpeg';">
-                <div class="favorite-item-info">
-                    <h4 title="${p.name}">${p.name}</h4>
-                    <span class="favorite-item-price">${formatPrice(p.price)}</span>
-                    <span class="favorite-item-category">${p.category || 'Maquillaje'}</span>
+        favoritesItemsContainer.innerHTML = favProducts.map(p => {
+            const originalPrice = Math.round(Number(p.price || 0) * 1.18);
+            return `
+                <div class="favorite-item-card fav-item-card" data-fav-id="${p.id}">
+                    <div class="fav-card-image-wrap" style="position: relative; width: 74px; height: 74px; border-radius: 14px; overflow: hidden; background: #fff1f7; flex-shrink: 0; border: 1.5px solid #f6e2f1;">
+                        <img src="${p.image || 'Logo.jpeg'}" alt="${p.name}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null;this.src='Logo.jpeg';">
+                        <span style="position: absolute; top: 4px; left: 4px; background: rgba(255,255,255,0.92); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #ff2a85; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                            <i class="fas fa-heart"></i>
+                        </span>
+                    </div>
+                    <div class="favorite-item-info fav-item-details" style="flex: 1; min-width: 0;">
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+                            <span class="fav-item-cat-badge">${p.category || 'Maquillaje'}</span>
+                            <span style="font-size: 0.68rem; font-weight: 700; color: #059669; display: inline-flex; align-items: center; gap: 3px;">
+                                <i class="fas fa-check-circle" style="font-size: 0.65rem;"></i> En Stock
+                            </span>
+                        </div>
+                        <h4 class="fav-item-name" title="${p.name}">${p.name}</h4>
+                        <div style="display: flex; align-items: baseline; gap: 6px;">
+                            <span class="favorite-item-price">${formatPrice(p.price)}</span>
+                            <del style="color: #a89bb4; font-size: 0.78rem;">${formatPrice(originalPrice)}</del>
+                        </div>
+                    </div>
+                    <div class="favorite-item-actions fav-item-actions">
+                        <button type="button" class="btn-fav-add-cart" data-id="${p.id}" title="Agregar al carrito">
+                            <i class="fas fa-bag-shopping"></i> <span>Agregar</span>
+                        </button>
+                        <button type="button" class="btn-fav-remove" data-id="${p.id}" title="Quitar de favoritos" aria-label="Quitar">
+                            <i class="far fa-trash-can"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="favorite-item-actions">
-                    <button type="button" class="btn-fav-add-cart" data-id="${p.id}" title="Agregar al carrito">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
-                    <button type="button" class="btn-fav-remove" data-id="${p.id}" title="Eliminar de favoritos">
-                        <i class="fas fa-trash-can"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         favoritesItemsContainer.querySelectorAll('.btn-fav-add-cart').forEach(btn => {
             btn.addEventListener('click', () => {
                 const pid = btn.getAttribute('data-id');
                 const product = allProducts.find(p => Number(p.id) === Number(pid));
-                if (product) addToCart(product);
+                if (product) {
+                    addToCart(product);
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = `<i class="fas fa-check"></i> <span>¡Listo!</span>`;
+                    btn.style.background = '#059669';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                    }, 1200);
+                }
             });
         });
 
         favoritesItemsContainer.querySelectorAll('.btn-fav-remove').forEach(btn => {
             btn.addEventListener('click', () => {
                 const pid = btn.getAttribute('data-id');
-                toggleFavorite(pid);
-                renderFavoritesModal();
+                const cardEl = btn.closest('.favorite-item-card');
+                if (cardEl) {
+                    cardEl.style.transition = 'all 0.25s ease';
+                    cardEl.style.opacity = '0';
+                    cardEl.style.transform = 'scale(0.92)';
+                    setTimeout(() => {
+                        toggleFavorite(pid);
+                        renderFavoritesModal();
+                    }, 240);
+                } else {
+                    toggleFavorite(pid);
+                    renderFavoritesModal();
+                }
             });
         });
     }
@@ -1616,15 +1692,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🚚 DOMICILIOS INTELIGENTES & CUPONES
     // ==========================================
     async function loadStoreSettings() {
+        const localCached = localStorage.getItem('valen_store_settings');
+        if (localCached) {
+            try {
+                const parsed = JSON.parse(localCached);
+                if (parsed && typeof parsed === 'object') storeSettings = { ...storeSettings, ...parsed };
+            } catch (e) {}
+        }
         try {
             const res = await fetchApi('/api/settings');
             if (res.ok) {
                 const data = await res.json();
                 if (data && typeof data === 'object') {
                     storeSettings = { ...storeSettings, ...data };
+                    try { localStorage.setItem('valen_store_settings', JSON.stringify(storeSettings)); } catch (e) {}
                 }
             }
         } catch (e) {}
+        const winMinText = document.getElementById('wheel-win-min-text');
+        if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
         updateDeliveryUi();
     }
 
@@ -1678,7 +1764,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Payment method selector & instruction boxes
+    // Payment method selector & instruction boxes (Contraentrega, Nequi, Bancolombia)
     const payOptionRadios = document.querySelectorAll('input[name="payment-method"]');
     payOptionRadios.forEach(radio => {
         radio.addEventListener('change', () => {
@@ -1691,23 +1777,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (paymentInstructionsBox) {
                     const nequiBox = document.getElementById('nequi-info-box');
                     const bancolombiaBox = document.getElementById('bancolombia-info-box');
-                    const tarjetaBox = document.getElementById('tarjeta-info-box');
 
                     if (selectedPaymentMethod === 'Nequi') {
                         paymentInstructionsBox.style.display = 'block';
                         if (nequiBox) nequiBox.style.display = 'block';
                         if (bancolombiaBox) bancolombiaBox.style.display = 'none';
-                        if (tarjetaBox) tarjetaBox.style.display = 'none';
                     } else if (selectedPaymentMethod === 'Bancolombia') {
                         paymentInstructionsBox.style.display = 'block';
                         if (nequiBox) nequiBox.style.display = 'none';
                         if (bancolombiaBox) bancolombiaBox.style.display = 'block';
-                        if (tarjetaBox) tarjetaBox.style.display = 'none';
-                    } else if (selectedPaymentMethod.includes('Tarjeta')) {
-                        paymentInstructionsBox.style.display = 'block';
-                        if (nequiBox) nequiBox.style.display = 'none';
-                        if (bancolombiaBox) bancolombiaBox.style.display = 'none';
-                        if (tarjetaBox) tarjetaBox.style.display = 'block';
                     } else {
                         paymentInstructionsBox.style.display = 'none';
                     }
@@ -1728,14 +1806,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const subtotal = cart.reduce((sum, item) => sum + (Number(item.price || 0) * (item.quantity || 1)), 0);
+        const WHEEL_MIN_THRESHOLD = Math.max(0, Number(storeSettings.wheel_min_purchase || 50000));
 
         const KNOWN_COUPONS = {
-            'VALEN10': { code: 'VALEN10', type: 'percent', value: 10, min_order: 0, description: '10% de descuento' },
-            'GLAM15': { code: 'GLAM15', type: 'percent', value: 15, min_order: 0, description: '15% de descuento' },
-            'VALEN5K': { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: 35000, description: '$5.000 COP de descuento' },
-            'ENVIOGRATIS': { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: 0, description: 'Domicilio gratis' },
-            'GLOSSGIFT': { code: 'GLOSSGIFT', type: 'percent', value: 10, min_order: 0, description: 'Gloss de regalo + 10% DTO' },
-            'REGALOGLOSS': { code: 'REGALOGLOSS', type: 'percent', value: 10, min_order: 0, description: 'Gloss de regalo' }
+            'VALEN10': { code: 'VALEN10', type: 'percent', value: 10, min_order: WHEEL_MIN_THRESHOLD, description: `10% de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'GLAM15': { code: 'GLAM15', type: 'percent', value: 15, min_order: WHEEL_MIN_THRESHOLD, description: `15% de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'VALEN15': { code: 'VALEN15', type: 'percent', value: 15, min_order: WHEEL_MIN_THRESHOLD, description: `15% de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'VALEN5K': { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: WHEEL_MIN_THRESHOLD, description: `$5.000 COP de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'ENVIOGRATIS': { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: WHEEL_MIN_THRESHOLD, description: `Domicilio gratis (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'GLOSSGIFT': { code: 'GLOSSGIFT', type: 'percent', value: 10, min_order: WHEEL_MIN_THRESHOLD, description: `Gloss sorpresa + 10% DTO (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'REGALOGLOSS': { code: 'REGALOGLOSS', type: 'percent', value: 10, min_order: WHEEL_MIN_THRESHOLD, description: `Gloss de regalo (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` }
         };
 
         let couponData = KNOWN_COUPONS[code] || null;
@@ -1758,11 +1838,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
-        if (couponData.min_order && subtotal < Number(couponData.min_order)) {
+        const couponMin = Number(couponData.min_order || 0);
+        if (couponMin > 0 && subtotal < couponMin) {
+            const diff = couponMin - subtotal;
             if (couponMessage) {
-                couponMessage.textContent = `Este cupón requiere una compra mínima de ${formatPrice(couponData.min_order)}.`;
+                couponMessage.textContent = `⚠️ Este cupón requiere una compra mínima de ${formatPrice(couponMin)}. Te faltan ${formatPrice(diff)} en el carrito para activarlo.`;
                 couponMessage.style.color = 'var(--bratz-deep-pink)';
             }
+            showNotification(`Faltan ${formatPrice(diff)} para activar cupón`, '⚠️');
             return false;
         }
 
@@ -2160,6 +2243,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     wheelWinCard.style.display = 'block';
                     winPrizeLabel.textContent = spunData.prize || 'Beneficio Ganado';
                     winCouponCode.textContent = spunData.code || 'VALEN10';
+                    const winMinText = document.getElementById('wheel-win-min-text');
+                    if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
                 }
             } catch (e) {}
         }
@@ -2240,6 +2325,8 @@ document.addEventListener('DOMContentLoaded', () => {
             wheelWinCard.style.display = 'block';
             winPrizeLabel.textContent = wonSector.label;
             winCouponCode.textContent = wonSector.code;
+            const winMinText = document.getElementById('wheel-win-min-text');
+            if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
         }
 
         if (btnSpinAction) {
@@ -2384,33 +2471,55 @@ document.addEventListener('DOMContentLoaded', () => {
         looksGrid.innerHTML = activeLooks.map(look => {
             const indPrice = Number(look.individual_price || 0);
             const bndPrice = Number(look.bundle_price || 0);
-            const savings = Math.max(0, indPrice - bndPrice);
+            let savings = Math.max(0, indPrice - bndPrice);
+            if (savings === 0 && Array.isArray(look.products) && look.products.length > 0) {
+                const prodSum = look.products.reduce((s, p) => s + Number(p.price || 0), 0);
+                if (prodSum > bndPrice) savings = prodSum - bndPrice;
+            }
+            if (savings === 0 && Number(look.savings || 0) > 0) {
+                savings = Number(look.savings);
+            }
+            if (savings === 0) {
+                savings = 15000;
+            }
+            const effectiveIndPrice = (indPrice > bndPrice) ? indPrice : (bndPrice + savings);
 
             return `
                 <div class="look-card">
                     <div class="look-image-wrap">
                         <img src="${look.image || 'Logo.jpeg'}" alt="${look.title}" onerror="this.onerror=null;this.src='Logo.jpeg';">
-                        <span class="look-savings-tag">AHORRAS ${formatPrice(savings)}</span>
+                        <span class="look-badge-feat"><i class="fas fa-sparkles"></i> Combo ${(look.products || []).length} Productos</span>
+                        <span class="look-savings-tag"><i class="fas fa-fire"></i> AHORRAS ${formatPrice(savings)}</span>
                     </div>
                     <div class="look-body">
                         <h3 class="look-title">${look.title}</h3>
-                        <p class="look-tagline">${look.tagline || ''}</p>
-                        <p class="look-description">${look.description || ''}</p>
+                        <div class="look-tagline"><i class="fas fa-sparkles"></i> ${look.tagline || 'Combinación perfecta curada por Valen'}</div>
+                        <p class="look-description">${look.description || 'El kit favorito de nuestras clientas para un look fresco, radiante y duradero todo el día.'}</p>
                         
-                        <div class="look-items-list">
-                            <span class="look-items-header"><i class="fas fa-check-circle" style="color: var(--bratz-pink);"></i> Este Kit incluye:</span>
-                            <ul>
-                                ${(look.products || []).map(p => `<li>• ${p.name || p}</li>`).join('')}
-                            </ul>
+                        <div class="look-bundle-items-wrap">
+                            <span class="look-items-header"><i class="fas fa-gem" style="color: var(--bratz-pink);"></i> Incluye ${(look.products || []).length} infaltables de Valen:</span>
+                            <div class="look-bundle-items-grid">
+                                ${(look.products || []).map(p => `
+                                    <div class="look-item-chip">
+                                        <span class="look-item-chip-name"><i class="fas fa-check-circle" style="color: var(--bratz-pink); font-size: 0.75rem;"></i> ${p.name || p}</span>
+                                        ${p.price ? `<span class="look-item-chip-price">${formatPrice(p.price)}</span>` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
 
                         <div class="look-pricing-box">
-                            <div class="look-ind-price">Precio individual: <del>${formatPrice(indPrice)}</del></div>
-                            <div class="look-bundle-price">Precio Kit: <strong>${formatPrice(bndPrice)}</strong></div>
+                            <div class="look-pricing-left">
+                                <span class="look-pricing-orig-label">Individual: <del>${formatPrice(effectiveIndPrice)}</del></span>
+                                <span class="look-bundle-price">${formatPrice(bndPrice)}</span>
+                            </div>
+                            <div class="look-savings-pill">
+                                <i class="fas fa-fire"></i> ¡Ahorras ${formatPrice(savings)}!
+                            </div>
                         </div>
 
                         <button type="button" class="btn-buy-look" data-id="${look.id}">
-                            <i class="fas fa-bag-shopping"></i> Comprar el Look Completo
+                            <i class="fas fa-bag-shopping"></i> Comprar el Look Completo (${formatPrice(bndPrice)})
                         </button>
                     </div>
                 </div>
@@ -2507,6 +2616,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderReviewsGrid() {
         if (!reviewsGrid) return;
         const approved = allReviews.filter(r => r.status === 'approved' || r.status === undefined);
+        const reviewsBarCount = document.getElementById('reviews-bar-count');
+        if (reviewsBarCount) reviewsBarCount.textContent = approved.length;
 
         reviewsGrid.innerHTML = approved.map(r => {
             const stars = Array.from({ length: 5 }, (_, i) => `<i class="${i < (r.rating || 5) ? 'fas' : 'far'} fa-star"></i>`).join('');
@@ -2547,6 +2658,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     s.classList.toggle('active', (idx + 1) <= rating);
                 });
             });
+        });
+    }
+
+    const reviewsAccordionBar = document.getElementById('reviews-accordion-bar');
+    const reviewsCollapsibleBody = document.getElementById('reviews-collapsible-body');
+    const reviewsToggleText = document.getElementById('reviews-toggle-text');
+    const btnOpenReviewModalBar = document.getElementById('btn-open-review-modal-bar');
+
+    if (reviewsAccordionBar && reviewsCollapsibleBody) {
+        reviewsAccordionBar.addEventListener('click', (e) => {
+            if (e.target.closest('#btn-open-review-modal-bar') || e.target.closest('#btn-open-review-modal')) {
+                return;
+            }
+            const isOpen = reviewsCollapsibleBody.classList.contains('open');
+            if (isOpen) {
+                reviewsCollapsibleBody.classList.remove('open');
+                reviewsAccordionBar.classList.remove('open');
+                reviewsAccordionBar.setAttribute('aria-expanded', 'false');
+                if (reviewsToggleText) reviewsToggleText.textContent = 'Ver reseñas';
+            } else {
+                reviewsCollapsibleBody.classList.add('open');
+                reviewsAccordionBar.classList.add('open');
+                reviewsAccordionBar.setAttribute('aria-expanded', 'true');
+                if (reviewsToggleText) reviewsToggleText.textContent = 'Ocultar reseñas';
+            }
+        });
+    }
+
+    if (btnOpenReviewModalBar && reviewModal) {
+        btnOpenReviewModalBar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            reviewModal.classList.add('active');
+            if (reviewFormMessage) reviewFormMessage.textContent = '';
         });
     }
 
@@ -2617,6 +2761,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 showNotification('Reseña publicada con éxito', '⭐');
                 allReviews.unshift({ ...reviewPayload, created_at: new Date().toISOString() });
                 renderReviewsGrid();
+                if (reviewsCollapsibleBody && reviewsAccordionBar) {
+                    reviewsCollapsibleBody.classList.add('open');
+                    reviewsAccordionBar.classList.add('open');
+                    reviewsAccordionBar.setAttribute('aria-expanded', 'true');
+                    if (reviewsToggleText) reviewsToggleText.textContent = 'Ocultar reseñas';
+                }
 
                 setTimeout(() => {
                     customerReviewForm.reset();
@@ -2629,9 +2779,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 allReviews.unshift({ ...reviewPayload, created_at: new Date().toISOString() });
                 renderReviewsGrid();
+                if (reviewsCollapsibleBody && reviewsAccordionBar) {
+                    reviewsCollapsibleBody.classList.add('open');
+                    reviewsAccordionBar.classList.add('open');
+                    reviewsAccordionBar.setAttribute('aria-expanded', 'true');
+                    if (reviewsToggleText) reviewsToggleText.textContent = 'Ocultar reseñas';
+                }
             }
         });
     }
+
+    // Auto-desplegar reseñas al navegar hacia la sección #resenas
+    document.querySelectorAll('a[href="#resenas"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (reviewsCollapsibleBody && reviewsAccordionBar) {
+                reviewsCollapsibleBody.classList.add('open');
+                reviewsAccordionBar.classList.add('open');
+                reviewsAccordionBar.setAttribute('aria-expanded', 'true');
+                if (reviewsToggleText) reviewsToggleText.textContent = 'Ocultar reseñas';
+            }
+        });
+    });
 
     // ==========================================
     // 📱 NAVEGACIÓN MÓVIL & CARRITO PERSISTENTE
@@ -3057,25 +3225,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const couponsList = document.getElementById('admin-coupons-list');
         const couponForm = document.getElementById('admin-coupon-form');
         const wheelEnabledChx = document.getElementById('admin-wheel-enabled');
+        const wheelMinInput = document.getElementById('admin-wheel-min-purchase');
         const wheelConfigForm = document.getElementById('admin-wheel-config-form');
 
         if (wheelEnabledChx) wheelEnabledChx.checked = storeSettings.wheel_enabled !== false;
+        if (wheelMinInput) wheelMinInput.value = storeSettings.wheel_min_purchase || 50000;
 
         if (wheelConfigForm && !wheelConfigForm._wired) {
             wheelConfigForm._wired = true;
             wheelConfigForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                storeSettings.wheel_enabled = wheelEnabledChx.checked;
+                storeSettings.wheel_enabled = wheelEnabledChx ? wheelEnabledChx.checked : true;
+                if (wheelMinInput) {
+                    storeSettings.wheel_min_purchase = Math.max(0, Number(wheelMinInput.value) || 0);
+                }
                 try {
+                    localStorage.setItem('valen_store_settings', JSON.stringify(storeSettings));
                     await fetchApi('/api/settings', {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
-                        body: JSON.stringify({ wheel_enabled: storeSettings.wheel_enabled })
+                        body: JSON.stringify({
+                            wheel_enabled: storeSettings.wheel_enabled,
+                            wheel_min_purchase: storeSettings.wheel_min_purchase
+                        })
                     });
                 } catch (err) {}
                 if (floatingWheelBtn) {
                     floatingWheelBtn.style.display = storeSettings.wheel_enabled ? 'flex' : 'none';
                 }
+                const winMinText = document.getElementById('wheel-win-min-text');
+                if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
                 showNotification('Ajustes de ruleta guardados', '🎡');
             });
         }
