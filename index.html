@@ -56,7 +56,6 @@
             <nav class="navbar">
                 <ul class="nav-menu" id="nav-menu">
                     <li><a href="#catalogo" class="active"><i class="fas fa-sparkles"></i> Catálogo</a></li>
-                    <li><a href="javascript:void(0)" id="nav-advisor-btn"><i class="fas fa-wand-magic-sparkles"></i> Ayúdame a elegir</a></li>
                     <li><a href="#compra-el-look"><i class="fas fa-gem"></i> Compra el Look</a></li>
                     <li><a href="#resenas"><i class="fas fa-star"></i> Reseñas</a></li>
                     <li>
@@ -90,23 +89,8 @@
                 <p class="catalog-subtitle">Explora nuestra colección completa de maquillaje, cuidado facial y accesorios</p>
             </div>
 
-            <!-- Smart Beauty Assistant & Surprise Wheel Highlight Cards -->
+            <!-- Surprise Wheel Highlight Card -->
             <div class="store-features-banner">
-                <div class="feature-action-card advisor-card" id="card-trigger-advisor">
-                    <div class="feature-card-icon">
-                        <i class="fas fa-wand-magic-sparkles"></i>
-                    </div>
-                    <div class="feature-card-content">
-                        <span class="feature-tag">ASESORA DIGITAL DE BELLEZA</span>
-                        <h3 class="feature-title">💕 ¿No sabes qué elegir?</h3>
-                        <p class="feature-desc">Responde 3 preguntas rápidas y te recomendamos los productos ideales para tu piel.</p>
-                        <button type="button" class="feature-btn advisor-btn" id="btn-hero-advisor">
-                            <span>Encontrar Mi Maquillaje</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
                 <div class="feature-action-card wheel-card" id="card-trigger-wheel">
                     <div class="feature-card-icon spin-icon">
                         <i class="fas fa-gift"></i>
@@ -598,131 +582,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 🧠 ASISTENTE DIGITAL: AYÚDAME A ELEGIR (BEAUTY ADVISOR MODAL) -->
-    <!-- ============================================================ -->
-    <div id="beauty-quiz-modal" class="modal quiz-modal">
-        <div class="modal-content quiz-modal-card">
-            <button class="modal-close-btn" id="quiz-close-btn" aria-label="Cerrar asistente">&times;</button>
 
-            <!-- Header -->
-            <div class="quiz-header">
-                <div class="quiz-avatar-badge">
-                    <i class="fas fa-wand-magic-sparkles"></i>
-                </div>
-                <h3 class="quiz-title">💕 Encontremos tu maquillaje</h3>
-                <p class="quiz-subtitle">Responde unas preguntas y te recomendamos productos ideales para ti.</p>
-                <div class="quiz-steps-indicator">
-                    <span class="step-dot active" data-step="1"></span>
-                    <span class="step-dot" data-step="2"></span>
-                    <span class="step-dot" data-step="3"></span>
-                    <span class="step-dot" data-step="4"></span>
-                </div>
-            </div>
-
-            <!-- Quiz Step 1: Look Style -->
-            <div class="quiz-step-pane active" id="quiz-step-1">
-                <h4 class="quiz-step-question">¿Qué estás buscando?</h4>
-                <p class="quiz-step-hint">Selecciona el estilo que mejor describe tu objetivo:</p>
-                <div class="quiz-options-grid">
-                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="natural">
-                        <span class="opt-emoji">🌸</span>
-                        <span class="opt-label">Algo natural</span>
-                        <small>Efecto piel fresca, ligera y luminosa</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="glam">
-                        <span class="opt-emoji">✨</span>
-                        <span class="opt-label">Algo glam</span>
-                        <small>Alta cobertura, brillo e impacto</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="fiesta">
-                        <span class="opt-emoji">🎉</span>
-                        <span class="opt-label">Algo para fiesta</span>
-                        <small>Larga duración e intensidad a prueba de agua</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="economico">
-                        <span class="opt-emoji">💸</span>
-                        <span class="opt-label">Algo económico</span>
-                        <small>Máximo rendimiento al mejor precio</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="goal" data-value="diario">
-                        <span class="opt-emoji">☀️</span>
-                        <span class="opt-label">Algo para uso diario</span>
-                        <small>Práctico, rápido y cómodo para el día</small>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Quiz Step 2: Skin Type -->
-            <div class="quiz-step-pane" id="quiz-step-2">
-                <h4 class="quiz-step-question">¿Qué tipo de piel tienes?</h4>
-                <p class="quiz-step-hint">Para recomendarte texturas e hidratación adecuadas:</p>
-                <div class="quiz-options-grid">
-                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="seca">
-                        <span class="opt-emoji">💧</span>
-                        <span class="opt-label">Seca</span>
-                        <small>Sensación tirante, busca hidratación y glow</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="mixta">
-                        <span class="opt-emoji">⚖️</span>
-                        <span class="opt-label">Mixta</span>
-                        <small>Brillo en zona T, normal en mejillas</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="grasa">
-                        <span class="opt-emoji">✨</span>
-                        <span class="opt-label">Grasa</span>
-                        <small>Tendencia a brillo, prefiere acabado matte</small>
-                    </button>
-                    <button type="button" class="quiz-opt-btn" data-field="skin" data-value="nose">
-                        <span class="opt-emoji">🤷‍♀️</span>
-                        <span class="opt-label">No lo sé</span>
-                        <small>Te mostraremos fórmulas balanceadas y universales</small>
-                    </button>
-                </div>
-                <div class="quiz-nav-row">
-                    <button type="button" class="btn-quiz-back" data-goto="1"><i class="fas fa-arrow-left"></i> Anterior</button>
-                </div>
-            </div>
-
-            <!-- Quiz Step 3: Product Category -->
-            <div class="quiz-step-pane" id="quiz-step-3">
-                <h4 class="quiz-step-question">¿Qué producto buscas?</h4>
-                <p class="quiz-step-hint">Elige la categoría principal que necesitas:</p>
-                <div class="quiz-options-grid grid-chips">
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="base">Base</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="corrector">Corrector</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="rubor">Rubor</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="iluminador">Iluminador</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="labios">Labios</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="ojos">Ojos</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="skincare">Skincare</button>
-                    <button type="button" class="quiz-opt-btn chip-opt" data-field="category" data-value="all">No estoy segura</button>
-                </div>
-                <div class="quiz-nav-row">
-                    <button type="button" class="btn-quiz-back" data-goto="2"><i class="fas fa-arrow-left"></i> Anterior</button>
-                </div>
-            </div>
-
-            <!-- Quiz Step 4: Recommendations -->
-            <div class="quiz-step-pane" id="quiz-step-4">
-                <div class="quiz-results-header">
-                    <span class="results-tag">✨ RECOMENDACIÓN PERSONALIZADA</span>
-                    <h4 class="quiz-step-question">💖 Estos productos podrían gustarte:</h4>
-                    <p class="quiz-results-summary" id="quiz-results-summary">Basado en tus preferencias seleccionadas</p>
-                </div>
-
-                <div class="quiz-recommendations-list" id="quiz-recommendations-list">
-                    <!-- Populated dynamically with 3-5 real catalog products -->
-                </div>
-
-                <div class="quiz-results-actions">
-                    <button type="button" class="btn-restart-quiz" id="btn-restart-quiz">
-                        <i class="fas fa-rotate-left"></i> Volver a empezar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- ============================================================ -->
     <!-- 🎡 RULETA DE PREMIOS (LUCKY WHEEL GAMIFICATION)             -->
@@ -888,10 +748,6 @@
             <i class="fas fa-shopping-bag"></i>
             <span>Carrito</span>
             <span class="mob-badge" id="mob-cart-count">0</span>
-        </a>
-        <a href="javascript:void(0)" class="mob-nav-item" id="mob-nav-advisor">
-            <i class="fas fa-wand-magic-sparkles"></i>
-            <span>Asistente</span>
         </a>
     </nav>
 
