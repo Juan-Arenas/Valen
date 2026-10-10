@@ -124,6 +124,28 @@ function formatNowDate() {
   return `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
 }
 
+function sanitizeForAudit(obj, depth = 0) {
+  if (!obj || typeof obj !== 'object' || depth > 4) return obj;
+  if (Array.isArray(obj)) return obj.map(x => sanitizeForAudit(x, depth + 1));
+  const res = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (typeof v === 'string') {
+      if (v.startsWith('data:image')) {
+        res[k] = `[Imagen base64: ${(v.length / 1024).toFixed(1)} KB]`;
+      } else if (v.length > 1000) {
+        res[k] = v.substring(0, 1000) + '...';
+      } else {
+        res[k] = v;
+      }
+    } else if (typeof v === 'object' && v !== null) {
+      res[k] = sanitizeForAudit(v, depth + 1);
+    } else {
+      res[k] = v;
+    }
+  }
+  return res;
+}
+
 async function insertAuditLog({ level = 'INFO', action, status = 'OK', message, details = {}, req }) {
   if (!sql) return null;
   try {
@@ -132,6 +154,7 @@ async function insertAuditLog({ level = 'INFO', action, status = 'OK', message, 
     const ua = req ? getClientUserAgent(req) : 'Internal Node';
     const devInfo = parseDeviceInfo(ua);
     const timeFormatted = formatNowDate();
+    const cleanDetails = sanitizeForAudit(details || {});
 
     await sql`
       INSERT INTO audit_logs (id, timestamp, time_formatted, level, action, status, message, details, ip_address, user_agent, device_info)
@@ -143,7 +166,7 @@ async function insertAuditLog({ level = 'INFO', action, status = 'OK', message, 
         ${String(action).toUpperCase()},
         ${String(status).toUpperCase()},
         ${String(message)},
-        ${JSON.stringify(details)},
+        ${JSON.stringify(cleanDetails)}::jsonb,
         ${ip},
         ${ua},
         ${devInfo}
@@ -176,6 +199,14 @@ function sendJson(res, status, payload) {
 }
 
 function parseBody(req) {
+  if (req.body) {
+    if (typeof req.body === 'object') return Promise.resolve(req.body);
+    try {
+      return Promise.resolve(JSON.parse(req.body));
+    } catch (e) {
+      return Promise.resolve({});
+    }
+  }
   return new Promise((resolve) => {
     let body = '';
     req.on('data', chunk => { body += chunk.toString(); });
@@ -187,6 +218,7 @@ function parseBody(req) {
         resolve({});
       }
     });
+    req.on('error', () => resolve({}));
   });
 }
 

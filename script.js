@@ -294,7 +294,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let allCategories = [];
     let selectedCategory = 'all';
     let cart = [];
-    let adminPassword = '2006';
+    let adminPassword = (function() {
+        try { return sessionStorage.getItem('valen_admin_session_pin') || '2006'; } catch (e) { return '2006'; }
+    })();
     let adminProducts = [];
     let adminCategories = [];
     let adminSelectedCat = 'all';
@@ -306,7 +308,9 @@ document.addEventListener('DOMContentLoaded', () => {
         delivery_dosquebradas: 8000,
         delivery_free_min: 100000,
         delivery_free_active: true,
-        wheel_enabled: true
+        wheel_enabled: true,
+        wheel_min_purchase: 50000,
+        wheel_sectors: null
     };
     let selectedCity = 'Pereira';
     let selectedBarrio = '';
@@ -532,6 +536,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function formatPrice(val) {
         return `$${Number(val || 0).toLocaleString('es-CO')}`;
+    }
+
+    function escapeHtml(str) {
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function sanitizeDetailsForLog(obj, depth = 0) {
+        if (depth > 4) return '[Max Depth]';
+        if (!obj || typeof obj !== 'object') return obj;
+        if (Array.isArray(obj)) return obj.map(item => sanitizeDetailsForLog(item, depth + 1));
+        const res = {};
+        for (const [k, v] of Object.entries(obj)) {
+            if (typeof v === 'string') {
+                if (v.startsWith('data:image/') || v.length > 500) {
+                    res[k] = v.startsWith('data:image/') ? `[Base64 Image (${Math.round(v.length / 1024)} KB)]` : (v.substring(0, 300) + '...');
+                } else {
+                    res[k] = v;
+                }
+            } else if (typeof v === 'object' && v !== null) {
+                res[k] = sanitizeDetailsForLog(v, depth + 1);
+            } else {
+                res[k] = v;
+            }
+        }
+        return res;
     }
 
     function saveLocalCache(prods) {
@@ -1702,6 +1736,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
         const winMinText = document.getElementById('wheel-win-min-text');
         if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
+        if (floatingWheelBtn) {
+            floatingWheelBtn.style.display = storeSettings.wheel_enabled !== false ? 'flex' : 'none';
+        }
+        if (typeof drawLuckyWheel === 'function' && typeof currentWheelAngle !== 'undefined') {
+            drawLuckyWheel(currentWheelAngle);
+        }
         updateDeliveryUi();
     }
 
@@ -1891,13 +1931,31 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'Gloss Gratis', code: 'GLOSSGIFT', color: '#db2777', textColor: '#ffffff', prob: 0.15 }
     ];
 
+    function getActiveWheelSectors() {
+        if (Array.isArray(storeSettings.wheel_sectors) && storeSettings.wheel_sectors.length >= 2) {
+            return storeSettings.wheel_sectors;
+        }
+        if (Array.isArray(storeSettings.wheel_prizes) && storeSettings.wheel_prizes.length >= 2) {
+            const colors = ['#ff2d87', '#7928ca', '#ec4899', '#9333ea', '#db2777', '#f43f5e', '#a855f7'];
+            return storeSettings.wheel_prizes.map((p, idx) => ({
+                label: p.label || 'Premio',
+                code: p.code || 'VALEN10',
+                color: p.color || colors[idx % colors.length],
+                textColor: '#ffffff',
+                prob: (Number(p.prob) > 1 ? Number(p.prob) / 100 : Number(p.prob)) || 0.2
+            }));
+        }
+        return WHEEL_SECTORS;
+    }
+
     let currentWheelAngle = 0;
     let isSpinning = false;
 
     function drawLuckyWheel(angle) {
         if (!luckyWheelCanvas) return;
         const ctx = luckyWheelCanvas.getContext('2d');
-        const numSectors = WHEEL_SECTORS.length;
+        const sectors = getActiveWheelSectors();
+        const numSectors = sectors.length;
         const arc = (2 * Math.PI) / numSectors;
         const centerX = luckyWheelCanvas.width / 2;
         const centerY = luckyWheelCanvas.height / 2;
@@ -1909,7 +1967,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numSectors; i++) {
             const sectorAngle = angle + (i * arc);
             ctx.beginPath();
-            ctx.fillStyle = WHEEL_SECTORS[i].color;
+            ctx.fillStyle = sectors[i].color || '#ff2d87';
             ctx.moveTo(centerX, centerY);
             ctx.arc(centerX, centerY, radius, sectorAngle, sectorAngle + arc);
             ctx.lineTo(centerX, centerY);
@@ -1925,11 +1983,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.translate(centerX, centerY);
             ctx.rotate(sectorAngle + (arc / 2));
             ctx.textAlign = 'right';
-            ctx.fillStyle = WHEEL_SECTORS[i].textColor;
+            ctx.fillStyle = sectors[i].textColor || '#ffffff';
             ctx.font = 'bold 13px Outfit, sans-serif';
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 4;
-            ctx.fillText(WHEEL_SECTORS[i].label, radius - 20, 5);
+            ctx.fillText(sectors[i].label, radius - 20, 5);
             ctx.restore();
         }
 
@@ -1990,20 +2048,22 @@ document.addEventListener('DOMContentLoaded', () => {
             btnSpinAction.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>GIRANDO...</span>`;
         }
 
-        // Pick prize based on probabilities
+        const sectors = getActiveWheelSectors();
+        const totalProb = sectors.reduce((acc, s) => acc + (Number(s.prob) || 0), 0) || 1;
         const rand = Math.random();
         let cumulative = 0;
         let selectedIndex = 0;
-        for (let i = 0; i < WHEEL_SECTORS.length; i++) {
-            cumulative += WHEEL_SECTORS[i].prob;
-            if (rand <= cumulative) {
+        for (let i = 0; i < sectors.length; i++) {
+            const pNorm = (Number(sectors[i].prob) || 0) / totalProb;
+            cumulative += pNorm;
+            if (rand <= cumulative || i === sectors.length - 1) {
                 selectedIndex = i;
                 break;
             }
         }
 
-        const wonSector = WHEEL_SECTORS[selectedIndex];
-        const numSectors = WHEEL_SECTORS.length;
+        const wonSector = sectors[selectedIndex];
+        const numSectors = sectors.length;
         const arc = (2 * Math.PI) / numSectors;
 
         // Pointer is at the top (-PI/2)
@@ -2948,6 +3008,66 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
     }
 
+    function renderAdminWheelPrizes() {
+        const prizesList = document.getElementById('admin-wheel-prizes-list');
+        if (!prizesList) return;
+        const sectors = getActiveWheelSectors();
+
+        prizesList.innerHTML = sectors.map((s, idx) => `
+            <div class="wheel-sector-row" data-idx="${idx}" style="display: flex; gap: 8px; align-items: center; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid #fbcfe8;">
+                <input type="text" class="wheel-sector-label" value="${escapeHtml(s.label || '')}" placeholder="Nombre Premio" style="flex: 2; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem;" required>
+                <input type="text" class="wheel-sector-code" value="${escapeHtml(s.code || '')}" placeholder="CUPÓN" style="flex: 1.5; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; text-transform: uppercase;" required>
+                <div style="flex: 1; display: flex; align-items: center; gap: 2px;">
+                    <input type="number" class="wheel-sector-prob" value="${Math.round((Number(s.prob) || 0) * 100)}" min="1" max="100" placeholder="%" style="width: 100%; padding: 6px 6px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem;" required>
+                    <span style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted);">%</span>
+                </div>
+                ${sectors.length > 2 ? `
+                    <button type="button" class="btn-remove-sector" data-idx="${idx}" style="background: none; border: none; color: #dc2626; cursor: pointer; padding: 4px;" title="Eliminar sector">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                ` : '<div style="width: 24px;"></div>'}
+            </div>
+        `).join('');
+
+        prizesList.querySelectorAll('.btn-remove-sector').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = Number(btn.dataset.idx);
+                const cur = getActiveWheelSectors().slice();
+                if (cur.length > 2) {
+                    cur.splice(idx, 1);
+                    storeSettings.wheel_sectors = cur;
+                    renderAdminWheelPrizes();
+                    if (luckyWheelCanvas) drawLuckyWheel(currentWheelAngle);
+                }
+            });
+        });
+
+        let addSectorBtn = document.getElementById('admin-wheel-add-sector');
+        if (!addSectorBtn) {
+            addSectorBtn = document.createElement('button');
+            addSectorBtn.id = 'admin-wheel-add-sector';
+            addSectorBtn.type = 'button';
+            addSectorBtn.className = 'btn-outline';
+            addSectorBtn.style.cssText = 'margin-top: 6px; font-size: 0.8rem; padding: 6px 12px; width: 100%;';
+            addSectorBtn.innerHTML = '<i class="fas fa-plus"></i> Agregar Otro Premio a la Ruleta';
+            addSectorBtn.addEventListener('click', () => {
+                const cur = getActiveWheelSectors().slice();
+                const colors = ['#ff2d87', '#7928ca', '#ec4899', '#9333ea', '#db2777', '#f43f5e', '#a855f7'];
+                cur.push({
+                    label: 'Nuevo Premio',
+                    code: 'PREMIO' + (cur.length + 1),
+                    color: colors[cur.length % colors.length],
+                    textColor: '#ffffff',
+                    prob: 0.10
+                });
+                storeSettings.wheel_sectors = cur;
+                renderAdminWheelPrizes();
+                if (luckyWheelCanvas) drawLuckyWheel(currentWheelAngle);
+            });
+            prizesList.parentElement.appendChild(addSectorBtn);
+        }
+    }
+
     async function loadAdminCoupons() {
         const couponsList = document.getElementById('admin-coupons-list');
         const couponForm = document.getElementById('admin-coupon-form');
@@ -2958,31 +3078,93 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wheelEnabledChx) wheelEnabledChx.checked = storeSettings.wheel_enabled !== false;
         if (wheelMinInput) wheelMinInput.value = storeSettings.wheel_min_purchase || 50000;
 
+        renderAdminWheelPrizes();
+
         if (wheelConfigForm && !wheelConfigForm._wired) {
             wheelConfigForm._wired = true;
             wheelConfigForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                const wheelMsg = document.getElementById('admin-wheel-message');
+                if (wheelMsg) {
+                    wheelMsg.textContent = 'Guardando ajustes de ruleta en base de datos...';
+                    wheelMsg.style.color = 'var(--text-muted)';
+                }
+
                 storeSettings.wheel_enabled = wheelEnabledChx ? wheelEnabledChx.checked : true;
                 if (wheelMinInput) {
                     storeSettings.wheel_min_purchase = Math.max(0, Number(wheelMinInput.value) || 0);
                 }
+
+                // Recopilar sectores configurados en la interfaz
+                const sectorRows = document.querySelectorAll('#admin-wheel-prizes-list .wheel-sector-row');
+                if (sectorRows.length >= 2) {
+                    const colors = ['#ff2d87', '#7928ca', '#ec4899', '#9333ea', '#db2777', '#f43f5e', '#a855f7', '#d946ef'];
+                    const newSectors = [];
+                    sectorRows.forEach((row, i) => {
+                        const labelInput = row.querySelector('.wheel-sector-label');
+                        const codeInput = row.querySelector('.wheel-sector-code');
+                        const probInput = row.querySelector('.wheel-sector-prob');
+                        const label = (labelInput ? labelInput.value.trim() : '') || `Premio ${i+1}`;
+                        const code = (codeInput ? codeInput.value.trim().toUpperCase() : '') || `CUPON${i+1}`;
+                        const probPct = Math.max(1, Number(probInput ? probInput.value : 10) || 10);
+                        newSectors.push({
+                            label,
+                            code,
+                            color: colors[i % colors.length],
+                            textColor: '#ffffff',
+                            prob: probPct / 100
+                        });
+                    });
+                    storeSettings.wheel_sectors = newSectors;
+                }
+
                 try {
                     localStorage.setItem('valen_store_settings', JSON.stringify(storeSettings));
-                    await fetchApi('/api/settings', {
+                    const res = await fetchApi('/api/settings', {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
                         body: JSON.stringify({
                             wheel_enabled: storeSettings.wheel_enabled,
-                            wheel_min_purchase: storeSettings.wheel_min_purchase
+                            wheel_min_purchase: storeSettings.wheel_min_purchase,
+                            wheel_sectors: storeSettings.wheel_sectors,
+                            wheel_prizes: storeSettings.wheel_sectors
                         })
                     });
-                } catch (err) {}
-                if (floatingWheelBtn) {
-                    floatingWheelBtn.style.display = storeSettings.wheel_enabled ? 'flex' : 'none';
+
+                    if (!res.ok) {
+                        const errData = await res.json().catch(() => ({}));
+                        throw new Error(errData.message || errData.error || `HTTP ${res.status}`);
+                    }
+
+                    if (wheelMsg) {
+                        wheelMsg.textContent = '✅ Ajustes de ruleta guardados en la base de datos central.';
+                        wheelMsg.style.color = '#15803d';
+                    }
+
+                    logValenEvent('OK', 'SETTINGS_UPDATE', 'Ajustes de ruleta actualizados en base de datos central', {
+                        wheel_enabled: storeSettings.wheel_enabled,
+                        wheel_min_purchase: storeSettings.wheel_min_purchase,
+                        sectors_count: storeSettings.wheel_sectors ? storeSettings.wheel_sectors.length : 5
+                    }, 'OK');
+
+                    if (floatingWheelBtn) {
+                        floatingWheelBtn.style.display = storeSettings.wheel_enabled ? 'flex' : 'none';
+                    }
+                    const winMinText = document.getElementById('wheel-win-min-text');
+                    if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
+                    if (luckyWheelCanvas) drawLuckyWheel(currentWheelAngle);
+                    showNotification('Ajustes de ruleta guardados en base de datos', '🎡');
+                } catch (err) {
+                    console.error('Error guardando ruleta:', err);
+                    if (wheelMsg) {
+                        wheelMsg.textContent = `❌ Error al guardar en base de datos: ${err.message}`;
+                        wheelMsg.style.color = '#dc2626';
+                    }
+                    logValenEvent('FAILED', 'SETTINGS_UPDATE', `Error al guardar ruleta en base de datos: ${err.message}`, {
+                        error: err.message
+                    }, 'FAILED');
+                    showNotification('Error al guardar ruleta en la nube', '❌');
                 }
-                const winMinText = document.getElementById('wheel-win-min-text');
-                if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
-                showNotification('Ajustes de ruleta guardados', '🎡');
             });
         }
 
@@ -3033,22 +3215,46 @@ document.addEventListener('DOMContentLoaded', () => {
             couponForm._wired = true;
             couponForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const code = document.getElementById('admin-coupon-code').value.trim().toUpperCase();
-                const type = document.getElementById('admin-coupon-type').value;
-                const val = Number(document.getElementById('admin-coupon-value').value || 0);
-                const min = Number(document.getElementById('admin-coupon-min').value || 0);
+                const codeInput = document.getElementById('admin-coupon-code');
+                const typeInput = document.getElementById('admin-coupon-type');
+                const valInput = document.getElementById('admin-coupon-value');
+                const minInput = document.getElementById('admin-coupon-min') || document.getElementById('admin-coupon-min-order');
+                const couponMsg = document.getElementById('admin-coupon-message');
+
+                const code = codeInput ? codeInput.value.trim().toUpperCase() : '';
+                const type = typeInput ? typeInput.value : 'percent';
+                const val = Number(valInput ? valInput.value : 0);
+                const min = Number(minInput ? minInput.value : 0);
+
+                if (!code) return;
 
                 const newCoupon = { code, type, value: val, min_order: min, active: true };
 
                 try {
-                    await fetchApi('/api/coupons', {
+                    const res = await fetchApi('/api/coupons', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
                         body: JSON.stringify(newCoupon)
                     });
-                } catch (e) {}
+                    if (res.ok) {
+                        showNotification(`Cupón ${code} creado en base de datos`, '🎟️');
+                        if (couponMsg) {
+                            couponMsg.textContent = `✅ Cupón ${code} creado exitosamente.`;
+                            couponMsg.style.color = '#15803d';
+                        }
+                        logValenEvent('OK', 'COUPON_CREATE', `Creado cupón ${code} (${type}: ${val})`, newCoupon, 'OK');
+                    } else {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || `HTTP ${res.status}`);
+                    }
+                } catch (e) {
+                    if (couponMsg) {
+                        couponMsg.textContent = `❌ Error: ${e.message}`;
+                        couponMsg.style.color = '#dc2626';
+                    }
+                    logValenEvent('FAILED', 'COUPON_CREATE', `Error al crear cupón ${code}: ${e.message}`, newCoupon, 'FAILED');
+                }
 
-                showNotification(`Cupón ${code} creado`, '🎟️');
                 couponForm.reset();
                 loadAdminCoupons();
             });
@@ -3154,6 +3360,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             adminPassword = enteredPin;
+            try { sessionStorage.setItem('valen_admin_session_pin', enteredPin); } catch (e) {}
             if (adminPasswordModal) adminPasswordModal.classList.remove('active');
             if (adminPanel) adminPanel.classList.add('active');
             logValenEvent('INFO', 'AUTH_LOGIN', 'Acceso autorizado al Panel de Administración', {
@@ -3229,7 +3436,18 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             localStorage.setItem(VALEN_LOGS_STORAGE_KEY, JSON.stringify(logs.slice(0, VALEN_MAX_LOGS)));
         } catch (e) {
-            console.warn('Error al guardar logs en localStorage:', e);
+            console.warn('Error al guardar logs en localStorage, podando logs y sanitizando:', e);
+            try {
+                // If localStorage is full, reduce to last 50 logs and sanitize details
+                const trimmed = logs.slice(0, 50).map(l => ({
+                    ...l,
+                    details: sanitizeDetailsForLog(l.details || {})
+                }));
+                localStorage.setItem(VALEN_LOGS_STORAGE_KEY, JSON.stringify(trimmed));
+            } catch (err2) {
+                console.error('LocalStorage quota crítica, reiniciando logs locales:', err2);
+                try { localStorage.removeItem(VALEN_LOGS_STORAGE_KEY); } catch (e3) {}
+            }
         }
     }
 
@@ -3279,6 +3497,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const pad = (n) => String(n).padStart(2, '0');
         const timeFormatted = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} ${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
         
+        // Accurate device info detection
+        const ua = navigator.userAgent || '';
+        let devLabel = 'Computador 💻';
+        if (/iPhone/i.test(ua)) devLabel = 'iPhone 📱';
+        else if (/iPad/i.test(ua)) devLabel = 'iPad 📱';
+        else if (/Android/i.test(ua)) devLabel = 'Android 📱';
+        else if (/Macintosh|Mac OS/i.test(ua)) devLabel = 'Mac 💻';
+        else if (/Windows/i.test(ua)) devLabel = 'Windows 💻';
+
+        // Sanitize details to prevent huge base64 strings or payloads from crashing localStorage/Vercel
+        const cleanDetails = sanitizeDetailsForLog(details && typeof details === 'object' ? details : { raw: details });
+
         const entry = {
             id: 'valen_log_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
             timestamp: now.toISOString(),
@@ -3287,8 +3517,8 @@ document.addEventListener('DOMContentLoaded', () => {
             action: String(action || 'GENERAL').toUpperCase(),
             status: String(status || 'OK').toUpperCase(),
             message: String(message || ''),
-            details: details && typeof details === 'object' ? details : { raw: details },
-            deviceInfo: 'Dispositivo Actual 💻'
+            details: cleanDetails,
+            deviceInfo: devLabel
         };
 
         const logs = getValenLogs();
@@ -3302,14 +3532,13 @@ document.addEventListener('DOMContentLoaded', () => {
             renderValenLogs();
         }
 
-        // Enviar a la base de datos central en la nube para que otros dispositivos lo vean
+        // Enviar a la base de datos central en la nube
         fetchApi('/api/logs', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(entry)
-        }).then(() => {
-            // Refrescar lista remota
-            fetchRemoteLogs();
+        }).then(res => {
+            if (res.ok) fetchRemoteLogs();
         }).catch(err => {
             console.warn('[Logs] Error al enviar log a la nube:', err);
         });
@@ -3928,63 +4157,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let currentCompressedProductImage = null;
+    let currentCompressedSkinTonesImage = null;
+
     if (adminProductCancel && adminProductPanel && adminProductForm) {
         adminProductCancel.addEventListener('click', () => {
             adminProductForm.reset();
             delete adminProductForm.dataset.editingId;
+            delete adminProductForm.dataset.existingImage;
+            delete adminProductForm.dataset.existingSkinTones;
+            currentCompressedProductImage = null;
+            currentCompressedSkinTonesImage = null;
             if (adminFormHeading) adminFormHeading.innerHTML = '<i class="fas fa-plus-circle" style="color: var(--bratz-pink);"></i> Agregar Producto';
             if (adminProductSubmitBtn) adminProductSubmitBtn.innerHTML = '<i class="fas fa-save"></i> Guardar en Base de Datos';
             if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
             if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
+            if (adminProductMessage) adminProductMessage.textContent = '';
             adminProductPanel.classList.add('hidden');
         });
     }
 
-    function compressImageFile(file, maxWidth = 800) {
+    function compressImageFile(file, maxWidth = 700, quality = 0.72) {
         return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = (event) => {
+            if (!file || !(file instanceof Blob)) {
+                return resolve('img/product_1.jpg');
+            }
+            try {
+                const objectUrl = URL.createObjectURL(file);
                 const img = new Image();
-                img.src = event.target.result;
                 img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width = maxWidth;
+                    URL.revokeObjectURL(objectUrl);
+                    try {
+                        const canvas = document.createElement('canvas');
+                        let width = img.naturalWidth || img.width || 800;
+                        let height = img.naturalHeight || img.height || 800;
+                        if (width > maxWidth || height > maxWidth) {
+                            if (width > height) {
+                                height = Math.round((height * maxWidth) / width);
+                                width = maxWidth;
+                            } else {
+                                width = Math.round((width * maxWidth) / height);
+                                height = maxWidth;
+                            }
+                        }
+                        canvas.width = Math.max(1, width);
+                        canvas.height = Math.max(1, height);
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                        resolve(dataUrl);
+                    } catch (e) {
+                        console.warn('Canvas export failed, using fallback:', e);
+                        resolve('img/product_1.jpg');
                     }
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    resolve(canvas.toDataURL('image/jpeg', 0.85));
                 };
-                img.onerror = () => resolve(event.target.result);
-            };
-            reader.onerror = () => resolve('img/product_1.jpg');
+                img.onerror = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    resolve('img/product_1.jpg');
+                };
+                img.src = objectUrl;
+            } catch (err) {
+                console.warn('Object URL error:', err);
+                resolve('img/product_1.jpg');
+            }
         });
     }
 
     if (adminProductImageInput) {
         adminProductImageInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
+            const file = e.target.files && e.target.files[0];
             if (file) {
-                const compressed = await compressImageFile(file);
-                if (adminImagePreviewImg) adminImagePreviewImg.src = compressed;
+                if (adminProductMessage) {
+                    adminProductMessage.textContent = 'Optimizando foto...';
+                    adminProductMessage.style.color = 'var(--text-muted)';
+                }
+                currentCompressedProductImage = await compressImageFile(file, 700, 0.72);
+                if (adminImagePreviewImg) adminImagePreviewImg.src = currentCompressedProductImage;
                 if (adminImagePreviewWrap) adminImagePreviewWrap.classList.remove('hidden');
+                if (adminProductMessage) adminProductMessage.textContent = '';
+            } else {
+                currentCompressedProductImage = null;
             }
         });
     }
 
     if (adminProductSkinTonesInput) {
         adminProductSkinTonesInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
+            const file = e.target.files && e.target.files[0];
             if (file) {
-                const compressed = await compressImageFile(file);
-                if (adminSkinTonesPreviewImg) adminSkinTonesPreviewImg.src = compressed;
+                currentCompressedSkinTonesImage = await compressImageFile(file, 700, 0.72);
+                if (adminSkinTonesPreviewImg) adminSkinTonesPreviewImg.src = currentCompressedSkinTonesImage;
                 if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.remove('hidden');
+            } else {
+                currentCompressedSkinTonesImage = null;
             }
         });
     }
@@ -3993,7 +4258,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (adminProductForm) {
         adminProductForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (adminProductMessage) adminProductMessage.textContent = 'Guardando producto en base de datos...';
+            if (adminProductMessage) {
+                adminProductMessage.textContent = 'Guardando producto en base de datos...';
+                adminProductMessage.style.color = 'var(--text-muted)';
+            }
 
             const name = document.getElementById('admin-product-name').value.trim();
             const rawPrice = document.getElementById('admin-product-price').value;
@@ -4006,13 +4274,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const editingId = adminProductForm.dataset.editingId ? Number(adminProductForm.dataset.editingId) : null;
 
             let image = adminProductForm.dataset.existingImage || 'img/product_1.jpg';
-            if (adminProductImageInput && adminProductImageInput.files[0]) {
-                image = await compressImageFile(adminProductImageInput.files[0]);
+            if (currentCompressedProductImage) {
+                image = currentCompressedProductImage;
+            } else if (adminProductImageInput && adminProductImageInput.files && adminProductImageInput.files[0]) {
+                image = await compressImageFile(adminProductImageInput.files[0], 700, 0.72);
             }
 
             let skin_tones_image = adminProductForm.dataset.existingSkinTones || '';
-            if (adminProductSkinTonesInput && adminProductSkinTonesInput.files[0]) {
-                skin_tones_image = await compressImageFile(adminProductSkinTonesInput.files[0]);
+            if (currentCompressedSkinTonesImage) {
+                skin_tones_image = currentCompressedSkinTonesImage;
+            } else if (adminProductSkinTonesInput && adminProductSkinTonesInput.files && adminProductSkinTonesInput.files[0]) {
+                skin_tones_image = await compressImageFile(adminProductSkinTonesInput.files[0], 700, 0.72);
             }
 
             const category = normalizeCategoryName(catNew || catSelect || 'Maquillaje');
@@ -4140,12 +4412,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 showNotification(editingId ? 'Producto actualizado en la base de datos' : '¡Producto guardado en la base de datos central!', '✅');
 
+                currentCompressedProductImage = null;
+                currentCompressedSkinTonesImage = null;
                 adminProductForm.reset();
                 delete adminProductForm.dataset.editingId;
                 delete adminProductForm.dataset.existingImage;
                 delete adminProductForm.dataset.existingSkinTones;
                 if (document.getElementById('admin-product-skin-tones-count')) document.getElementById('admin-product-skin-tones-count').value = '';
-                if (adminProductMessage) adminProductMessage.textContent = '';
+                if (adminProductMessage) {
+                    adminProductMessage.textContent = editingId ? '✅ Producto actualizado en base de datos' : '✅ Producto creado en base de datos central';
+                    adminProductMessage.style.color = '#15803d';
+                }
                 if (adminImagePreviewWrap) adminImagePreviewWrap.classList.add('hidden');
                 if (adminSkinTonesPreviewWrap) adminSkinTonesPreviewWrap.classList.add('hidden');
                 if (adminProductPanel) adminProductPanel.classList.add('hidden');
@@ -4154,16 +4431,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchRemoteLogs();
             } catch (err) {
                 console.error('Error al guardar producto:', err);
-                if (adminProductMessage) adminProductMessage.textContent = `Error: ${err.message}`;
+                if (adminProductMessage) {
+                    adminProductMessage.textContent = `❌ Error: ${err.message}`;
+                    adminProductMessage.style.color = '#dc2626';
+                }
+                const safePayload = {
+                    productId: editingId,
+                    name,
+                    price,
+                    category,
+                    active,
+                    image_length: image ? image.length : 0,
+                    skin_tones_count
+                };
                 logValenEvent('FAILED', editingId ? 'PRODUCT_UPDATE' : 'PRODUCT_CREATE', `Error al ${editingId ? 'editar' : 'crear'} producto "${name}": ${err.message}`, {
                     error: err.message,
-                    payload
+                    payload: safePayload
                 }, 'FAILED');
             }
         });
     }
 
     function openEditProduct(id) {
+        currentCompressedProductImage = null;
+        currentCompressedSkinTonesImage = null;
         const prod = adminProducts.find(p => Number(p.id) === Number(id));
         if (!prod) return;
 
@@ -4507,6 +4798,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             adminPassword = newPin;
+            try { sessionStorage.setItem('valen_admin_session_pin', newPin); } catch (e) {}
             document.getElementById('admin-new-password').value = '';
             if (adminPasswordMessage) adminPasswordMessage.textContent = 'PIN actualizado con éxito.';
             logValenEvent('INFO', 'AUTH_PIN_CHANGE', 'PIN de administrador actualizado exitosamente', {}, 'OK');

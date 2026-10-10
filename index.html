@@ -850,7 +850,7 @@
                                 <h3 id="admin-form-heading"><i class="fas fa-plus-circle" style="color: var(--bratz-pink);"></i> Agregar Producto</h3>
                             </div>
                             
-                            <button id="admin-product-toggle" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
+                            <button type="button" id="admin-product-toggle" class="btn-primary" style="width: 100%; margin-bottom: 12px;">
                                 <i class="fas fa-plus"></i> Abrir Formulario
                             </button>
 
@@ -1246,15 +1246,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Premios configurados en los sectores:</label>
-                                    <div style="background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px solid var(--border-pink); font-size: 0.82rem;">
-                                        <p style="margin-bottom: 4px;">• <strong>10% DTO</strong> (Código: <code>VALEN10</code> - Probabilidad: 25%)</p>
-                                        <p style="margin-bottom: 4px;">• <strong>Envío Gratis</strong> (Código: <code>ENVIOGRATIS</code> - Probabilidad: 20%)</p>
-                                        <p style="margin-bottom: 4px;">• <strong>$5.000 DTO</strong> (Código: <code>VALEN5K</code> - Probabilidad: 25%)</p>
-                                        <p style="margin-bottom: 4px;">• <strong>15% DTO</strong> (Código: <code>VALEN15</code> - Probabilidad: 15%)</p>
-                                        <p style="margin-bottom: 0;">• <strong>Gloss de Regalo</strong> (Código: <code>REGALOGLOSS</code> - Probabilidad: 15%)</p>
+                                    <label style="font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 6px;">
+                                        🎁 Premios en los sectores de la ruleta:
+                                    </label>
+                                    <div id="admin-wheel-prizes-list" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px;">
+                                        <!-- Generado dinámicamente con inputs de texto, código y probabilidad -->
                                     </div>
-                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">El sistema limita rigurosamente a 1 giro por usuaria vía almacenamiento local.</small>
+                                    <small style="color: var(--text-muted); display: block; margin-top: 4px;">
+                                        Puedes personalizar el nombre del premio, el código de cupón que se entrega al ganar y la probabilidad (%). Se guardan en la base de datos central.
+                                    </small>
                                 </div>
 
                                 <button type="submit" class="btn-primary" style="width: 100%;">
