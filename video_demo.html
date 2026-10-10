@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valen Makeup Store - Video Demo Studio HD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --pink-main: #ff2d87;
+            --pink-deep: #be185d;
+            --purple-main: #7928ca;
+            --purple-deep: #2a0845;
+            --bg-glow: #fdf2f8;
+            --text-dark: #1e1b4b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f0716 0%, #20072b 50%, #15031d 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Top Header Control Bar */
+        .studio-header {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 45, 135, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .studio-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .studio-title i {
+            color: var(--pink-main);
+            font-size: 1.3rem;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px var(--pink-main)); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 10px var(--pink-main)); }
+        }
+
+        .studio-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-record {
+            background: linear-gradient(135deg, #ff2d87, #e11d48);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 45, 135, 0.4);
+        }
+
+        .btn-record:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 45, 135, 0.6);
+        }
+
+        .btn-record.recording {
+            background: #ef4444;
+            animation: pulse-rec 1s infinite alternate;
+        }
+
+        @keyframes pulse-rec {
+            from { opacity: 1; }
+            to { opacity: 0.7; }
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f1f5f9;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Stage Container */
+        .stage-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+        }
+
+        /* Mockup iPhone Container */
+        .phone-mockup {
+            position: relative;
+            width: 390px;
+            height: 780px;
+            background: #000000;
+            border-radius: 48px;
+            box-shadow: 0 0 0 4px #2c1635, 0 0 0 8px #14071a, 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 45, 135, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 26px;
+            background: #000000;
+            border-radius: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .island-camera {
+            width: 10px;
+            height: 10px;
+            background: #111;
+            border-radius: 50%;
+            border: 1px solid #222;
+        }
+
+        .island-sensor {
+            width: 8px;
+            height: 8px;
+            background: #180922;
+            border-radius: 50%;
+        }
+
+        /* Screen Canvas/View */
+        .phone-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #fdf2f8;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+            color: #1e1b4b;
+        }
+
+        /* Virtual Cursor Indicator */
+        .virtual-finger {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 45, 135, 0.5);
+            border: 2.5px solid #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(1);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+            box-shadow: 0 0 15px rgba(255, 45, 135, 0.8), inset 0 0 8px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+        }
+
+        .virtual-finger.tap {
+            transform: translate(-50%, -50%) scale(0.7);
+            background: rgba(255, 45, 135, 0.9);
+            box-shadow: 0 0 25px #ff2d87, 0 0 40px #ff2d87;
+        }
+
+        /* Subtitle Bar Overlay */
+        .video-captions-overlay {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            background: rgba(20, 5, 28, 0.88);
+            backdrop-filter: blur(14px);
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 1.5px solid rgba(255, 45, 135, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            z-index: 900;
+            text-align: center;
+            pointer-events: none;
+            animation: fadeInCaption 0.3s ease;
+        }
+
+        .caption-step-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff2d87, #7928ca);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .caption-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.25;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Video Screen Elements Simulation */
+        .screen-header {
+            background: #ffffff;
+            border-bottom: 1.5px solid #fbcfe8;
+            padding: 42px 14px 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            z-index: 10;
+        }
+
+        .screen-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .screen-logo img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid #ff2d87;
+        }
+
+        .screen-logo span {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #2a0845;
+            background: linear-gradient(135deg, #ff2d87, #7928ca);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .screen-icons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .icon-badge-wrap {
+            position: relative;
+            font-size: 1.05rem;
+            color: #7928ca;
+            cursor: pointer;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #ff2d87;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 10px;
+        }
+
+        .top-notice-bar {
+            background: linear-gradient(90deg, #ff2d87, #7928ca);
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Screen Scrollable Body */
+        .screen-content {
+            flex: 1;
+            overflow-y: hidden;
+            position: relative;
+            background: #fdf2f8;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Search & Filter Bar */
+        .screen-search-box {
+            padding: 10px 14px;
+            background: #ffffff;
+            border-bottom: 1px solid #fce7f3;
+        }
+
+        .search-input-fake {
+            display: flex;
+            align-items: center;
+            background: #fdf2f8;
+            border: 1.5px solid #fbcfe8;
+            border-radius: 20px;
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            color: #64748b;
+            gap: 8px;
+        }
+
+        .search-input-fake i {
+            color: #ff2d87;
+        }
+
+        .category-pills-row {
+            display: flex;
+            gap: 6px;
+            padding: 8px 14px;
+            overflow-x: hidden;
+            background: #fff;
+        }
+
+        .pill-item {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 16px;
+            background: #fdf2f8;
+            color: #7928ca;
+            white-space: nowrap;
+            border: 1px solid #fbcfe8;
+            transition: all 0.2s;
+        }
+
+        .pill-item.active {
+            background: #ff2d87;
+            color: white;
+            border-color: #ff2d87;
+        }
+
+        /* Products Grid Mock */
+        .products-grid-mock {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 12px;
+        }
+
+        .prod-card-mock {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #fbcfe8;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .prod-thumb-mock {
+            width: 100%;
+            height: 125px;
+            object-fit: cover;
+            background: #ffe4e6;
+        }
+
+        .prod-body-mock {
+            padding: 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .prod-title-mock {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #1e1b4b;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .prod-price-mock {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #ff2d87;
+            margin-bottom: 6px;
+        }
+
+        .btn-add-mock {
+            background: linear-gradient(135deg, #ff2d87, #db2777);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            box-shadow: 0 2px 6px rgba(255,45,135,0.3);
+        }
+
+        .fav-heart-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 26px;
+            height: 26px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .fav-heart-btn.active {
+            color: #ff2d87;
+            transform: scale(1.15);
+        }
+
+        /* Floating Wheel Button in Screen */
+        .screen-floating-wheel {
+            position: absolute;
+            bottom: 20px;
+            left: 14px;
+            background: linear-gradient(135deg, #ff2d87, #7928ca);
+            color: white;
+            border-radius: 24px;
+            padding: 8px 14px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(255,45,135,0.5);
+            cursor: pointer;
+            z-index: 50;
+            animation: bounce-wheel 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce-wheel {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Wheel Modal Overlay */
+        .wheel-modal-mock {
+            position: absolute;
+            inset: 0;
+            background: rgba(20, 5, 28, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .wheel-modal-mock.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .wheel-card-inner {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 330px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 2px solid #fbcfe8;
+            position: relative;
+        }
+
+        .wheel-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2a0845;
+            margin-bottom: 10px;
+        }
+
+        .wheel-canvas-mock {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 12px;
+            display: block;
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(255,45,135,0.25);
+        }
+
+        .btn-spin-mock {
+            width: 100%;
+            background: linear-gradient(135deg, #ff2d87, #be185d);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,45,135,0.4);
+        }
+
+        .wheel-win-box {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #fdf2f8;
+            border-radius: 10px;
+            border: 1.5px dashed #ff2d87;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Cart Drawer Mock */
+        .cart-drawer-mock {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 3, 20, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .cart-drawer-mock.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cart-panel-inner {
+            background: #ffffff;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            height: 82%;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
+            border-top: 2px solid #ff2d87;
+        }
+
+        .cart-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #fce7f3;
+            margin-bottom: 10px;
+        }
+
+        .cart-header-title {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #2a0845;
+        }
+
+        .free-shipping-bar {
+            background: #fdf2f8;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            border: 1px solid #fbcfe8;
+            font-size: 0.72rem;
+            color: #7928ca;
+            font-weight: 700;
+        }
+
+        .free-shipping-progress {
+            height: 6px;
+            background: #fbcfe8;
+            border-radius: 4px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .free-shipping-fill {
+            height: 100%;
+            width: 75%;
+            background: linear-gradient(90deg, #ff2d87, #7928ca);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .cart-items-mock {
+            flex: 1;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fdf2f8;
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .cart-item-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #fbcfe8;
+        }
+
+        .cart-city-toggle {
+            display: flex;
+            gap: 6px;
+            margin: 8px 0;
+        }
+
+        .btn-city-pill {
+            flex: 1;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border: 1.5px solid #fbcfe8;
+            background: #fff;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .btn-city-pill.active {
+            border-color: #ff2d87;
+            background: #fdf2f8;
+            color: #ff2d87;
+        }
+
+        .cart-total-box {
+            background: #fdf2f8;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            font-size: 0.78rem;
+            border: 1px solid #fbcfe8;
+        }
+
+        .btn-whatsapp-mock {
+            background: #25d366;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+        }
+
+        /* Timeline Navigation */
+        .timeline-bar {
+            width: 100%;
+            max-width: 900px;
+            margin-top: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 45, 135, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff2d87, #7928ca);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .timer-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #cbd5e1;
+            min-width: 65px;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Studio Header Bar -->
+    <header class="studio-header">
+        <div class="studio-title">
+            <i class="fas fa-video"></i>
+            <span>Valen Video Demo Studio</span>
+        </div>
+        <div class="studio-actions">
+            <button class="btn-action btn-secondary" id="btn-toggle-play">
+                <i class="fas fa-play" id="play-icon"></i> <span id="play-text">Iniciar Demo</span>
+            </button>
+            <button class="btn-action btn-secondary" id="btn-restart">
+                <i class="fas fa-rotate-right"></i> Reiniciar
+            </button>
+            <button class="btn-action btn-record" id="btn-record-export">
+                <i class="fas fa-circle-arrow-down"></i> Exportar Video HD (WebM/MP4)
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Stage: iPhone 16 Pro Mockup -->
+    <div class="stage-wrapper" id="stage-wrapper">
+        <div class="phone-mockup" id="phone-mockup">
+            
+            <!-- Dynamic Island -->
+            <div class="dynamic-island">
+                <div class="island-camera"></div>
+                <div class="island-sensor"></div>
+            </div>
+
+            <!-- Virtual Touch Indicator -->
+            <div class="virtual-finger" id="virtual-finger"></div>
+
+            <!-- Phone Screen Application -->
+            <div class="phone-screen" id="phone-screen">
+                
+                <!-- Screen Header -->
+                <div class="screen-header">
+                    <div class="screen-logo">
+                        <img src="Logo.jpeg" alt="Valen Logo" onerror="this.src='img/product_1.jpg'">
+                        <span>Valen Makeup</span>
+                    </div>
+                    <div class="screen-icons">
+                        <div class="icon-badge-wrap" id="mock-fav-icon">
+                            <i class="fas fa-heart"></i>
+                            <span class="badge-count" id="mock-fav-count">0</span>
+                        </div>
+                        <div class="icon-badge-wrap" id="mock-cart-icon">
+                            <i class="fas fa-bag-shopping"></i>
+                            <span class="badge-count" id="mock-cart-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Announcement Bar -->
+                <div class="top-notice-bar">
+                    <i class="fas fa-truck-fast"></i> Domicilios Pereira y Dosquebradas | Pago Contraentrega 💖
+                </div>
+
+                <!-- Content Area -->
+                <div class="screen-content" id="screen-content">
+                    
+                    <!-- Search & Categories -->
+                    <div class="screen-search-box">
+                        <div class="search-input-fake" id="mock-search-input">
+                            <i class="fas fa-search"></i>
+                            <span id="search-text-display">Buscar producto o categoría...</span>
+                        </div>
+                    </div>
+
+                    <div class="category-pills-row" id="mock-categories-row">
+                        <div class="pill-item active" data-cat="all">✨ Todas (645)</div>
+                        <div class="pill-item" data-cat="labiales">💄 Labiales</div>
+                        <div class="pill-item" data-cat="sombras">🎨 Sombras</div>
+                        <div class="pill-item" data-cat="bases">✨ Bases</div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-grid-mock" id="mock-products-grid">
+                        <!-- Product 1 -->
+                        <div class="prod-card-mock" id="prod-card-1">
+                            <div class="fav-heart-btn" id="fav-btn-1"><i class="fas fa-heart"></i></div>
+                            <img src="img/product_1.jpg" class="prod-thumb-mock" alt="Gloss Brillo Magico" onerror="this.src='Logo.jpeg'">
+                            <div class="prod-body-mock">
+                                <div class="prod-title-mock">Gloss Brillo Mágico Y2K</div>
+                                <div class="prod-price-mock">$18.000</div>
+                                <button type="button" class="btn-add-mock" id="btn-add-1">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 2 -->
+                        <div class="prod-card-mock" id="prod-card-2">
+                            <div class="fav-heart-btn" id="fav-btn-2"><i class="fas fa-heart"></i></div>
+                            <img src="img/product_10.jpg" class="prod-thumb-mock" alt="Paleta Sombras Glam" onerror="this.src='Logo.jpeg'">
+                            <div class="prod-body-mock">
+                                <div class="prod-title-mock">Paleta Sombras Glam Pink</div>
+                                <div class="prod-price-mock">$35.000</div>
+                                <button type="button" class="btn-add-mock" id="btn-add-2">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 3 -->
+                        <div class="prod-card-mock" id="prod-card-3">
+                            <div class="fav-heart-btn" id="fav-btn-3"><i class="fas fa-heart"></i></div>
+                            <img src="img/product_100.jpg" class="prod-thumb-mock" alt="Base Cobertura Total" onerror="this.src='Logo.jpeg'">
+                            <div class="prod-body-mock">
+                                <div class="prod-title-mock">Base Cobertura Total Mate</div>
+                                <div class="prod-price-mock">$28.000</div>
+                                <button type="button" class="btn-add-mock" id="btn-add-3">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Product 4 -->
+                        <div class="prod-card-mock" id="prod-card-4">
+                            <div class="fav-heart-btn" id="fav-btn-4"><i class="fas fa-heart"></i></div>
+                            <img src="img/product_101.jpg" class="prod-thumb-mock" alt="Iluminador Glow" onerror="this.src='Logo.jpeg'">
+                            <div class="prod-body-mock">
+                                <div class="prod-title-mock">Iluminador Baked Glow</div>
+                                <div class="prod-price-mock">$22.000</div>
+                                <button type="button" class="btn-add-mock" id="btn-add-4">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compra el Look Section -->
+                    <div style="padding: 12px; background: white; margin-top: 10px; border-radius: 12px; margin: 10px 12px; border: 1px solid #fbcfe8;" id="look-section-mock">
+                        <div style="font-weight: 800; font-size: 0.85rem; color: #2a0845; margin-bottom: 4px;">
+                            💖 Compra el Look: Glam Queen Kit
+                        </div>
+                        <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 8px;">
+                            Incluye Paleta + Gloss + Iluminador con 20% de descuento.
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 800; color: #ff2d87; font-size: 0.95rem;">$59.000 <small style="text-decoration: line-through; color: #94a3b8; font-size: 0.75rem;">$75.000</small></span>
+                            <button type="button" class="btn-add-mock" style="padding: 6px 12px;">Añadir Look</button>
+                        </div>
+                    </div>
+
+                    <!-- Floating Lucky Wheel Trigger -->
+                    <div class="screen-floating-wheel" id="screen-floating-wheel">
+                        <i class="fas fa-gift"></i> Girar Ruleta
+                    </div>
+
+                </div>
+
+                <!-- Lucky Wheel Modal Mock -->
+                <div class="wheel-modal-mock" id="wheel-modal-mock">
+                    <div class="wheel-card-inner">
+                        <div class="wheel-card-title">🎡 Ruleta de la Suerte</div>
+                        <canvas id="wheel-canvas-mock" class="wheel-canvas-mock" width="220" height="220"></canvas>
+                        <button type="button" class="btn-spin-mock" id="btn-spin-mock">GIRAR AHORA</button>
+                        <div class="wheel-win-box" id="wheel-win-box">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #2a0845;">🎉 ¡Felicidades, ganaste 10% DTO!</div>
+                            <div style="margin-top: 4px; font-weight: 800; color: #ff2d87; font-size: 0.9rem; letter-spacing: 1px;">CUPÓN: VALEN10</div>
+                            <small style="color: #64748b; font-size: 0.68rem; display: block; margin-top: 2px;">Copiado automáticamente al carrito</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Drawer Modal Mock -->
+                <div class="cart-drawer-mock" id="cart-drawer-mock">
+                    <div class="cart-panel-inner">
+                        <div class="cart-header-row">
+                            <div class="cart-header-title"><i class="fas fa-bag-shopping" style="color: #ff2d87;"></i> Tu Carrito de Compras</div>
+                            <i class="fas fa-times" id="cart-close-mock" style="color: #94a3b8; cursor: pointer;"></i>
+                        </div>
+
+                        <div class="free-shipping-bar" id="free-bar-text">
+                            🚚 ¡Te faltan $15.000 para Envío Gratis!
+                            <div class="free-shipping-progress">
+                                <div class="free-shipping-fill" id="free-bar-fill"></div>
+                            </div>
+                        </div>
+
+                        <div class="cart-items-mock" id="cart-items-mock">
+                            <div class="cart-item-row">
+                                <img src="img/product_1.jpg" class="cart-item-thumb" onerror="this.src='Logo.jpeg'">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 700; font-size: 0.78rem;">Gloss Brillo Mágico Y2K</div>
+                                    <div style="color: #ff2d87; font-weight: 800; font-size: 0.78rem;">$18.000 x 1</div>
+                                </div>
+                            </div>
+                            <div class="cart-item-row" id="cart-item-2-row">
+                                <img src="img/product_10.jpg" class="cart-item-thumb" onerror="this.src='Logo.jpeg'">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 700; font-size: 0.78rem;">Paleta Sombras Glam Pink</div>
+                                    <div style="color: #ff2d87; font-weight: 800; font-size: 0.78rem;">$35.000 x 1</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery City -->
+                        <div style="font-size: 0.72rem; font-weight: 700; color: #1e1b4b; margin-top: 6px;">Ciudad de Entrega:</div>
+                        <div class="cart-city-toggle">
+                            <div class="btn-city-pill active" id="btn-city-p">Pereira ($7.000)</div>
+                            <div class="btn-city-pill" id="btn-city-d">Dosquebradas ($8.000)</div>
+                        </div>
+
+                        <!-- Coupon Tag -->
+                        <div style="display: flex; gap: 6px; margin: 4px 0;">
+                            <input type="text" id="mock-coupon-input" value="VALEN10" style="flex: 1; padding: 6px 10px; border-radius: 8px; border: 1.5px solid #fbcfe8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">
+                            <button type="button" id="mock-coupon-apply" style="padding: 6px 12px; background: #7928ca; color: white; border: none; border-radius: 8px; font-weight: 800; font-size: 0.75rem;">Aplicado ✓</button>
+                        </div>
+
+                        <!-- Total Summary -->
+                        <div class="cart-total-box">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                <span>Subtotal:</span> <span id="cart-subtotal-val">$53.000</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; color: #15803d; margin-bottom: 2px;">
+                                <span>Cupón VALEN10:</span> <span>-$5.300</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span>Domicilio Pereira:</span> <span id="cart-fee-val">$7.000</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 0.9rem; color: #2a0845; border-top: 1px solid #fbcfe8; padding-top: 4px;">
+                                <span>Total a Pagar:</span> <span id="cart-total-val" style="color: #ff2d87;">$54.700</span>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp Checkout Button -->
+                        <button type="button" class="btn-whatsapp-mock" id="btn-whatsapp-mock">
+                            <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video Captions Overlay -->
+                <div class="video-captions-overlay" id="video-captions-overlay">
+                    <span class="caption-step-tag" id="caption-step-tag">Paso 1: Catálogo</span>
+                    <div class="caption-text" id="caption-text">Explora el catálogo en vivo con más de 640 productos y precios en COP ✨</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Controller Bar -->
+    <div class="timeline-bar">
+        <span class="timer-label" id="timer-label">0:00 / 0:38</span>
+        <div class="progress-track" id="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🎵 WEB AUDIO SYNTHESIZER FOR CRISP UI SOUNDS
+        // ==========================================
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTone(freq, type = 'sine', duration = 0.08, vol = 0.2) {
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function playTapSound() { playTone(880, 'sine', 0.05, 0.15); }
+        function playTickSound() { playTone(600, 'triangle', 0.04, 0.12); }
+        function playWinSound() {
+            setTimeout(() => playTone(523.25, 'sine', 0.15, 0.2), 0);
+            setTimeout(() => playTone(659.25, 'sine', 0.15, 0.2), 100);
+            setTimeout(() => playTone(783.99, 'sine', 0.15, 0.2), 200);
+            setTimeout(() => playTone(1046.50, 'sine', 0.35, 0.25), 300);
+        }
+
+        // ==========================================
+        // 🎡 CANVAS LUCKY WHEEL RENDERING
+        // ==========================================
+        const canvas = document.getElementById('wheel-canvas-mock');
+        const ctx = canvas.getContext('2d');
+        const SECTORS = [
+            { label: '10% DTO', color: '#ff2d87', code: 'VALEN10' },
+            { label: 'Envío Gratis', color: '#7928ca', code: 'ENVIOGRATIS' },
+            { label: '$5.000 DTO', color: '#ec4899', code: 'VALEN5K' },
+            { label: '15% DTO', color: '#9333ea', code: 'GLAM15' },
+            { label: 'Gloss Gratis', color: '#db2777', code: 'GLOSSGIFT' }
+        ];
+
+        let wheelAngle = 0;
+
+        function drawWheel(angle) {
+            const num = SECTORS.length;
+            const arc = (2 * Math.PI) / num;
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const rad = cx - 10;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < num; i++) {
+                const a = angle + (i * arc);
+                ctx.beginPath();
+                ctx.fillStyle = SECTORS[i].color;
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, rad, a, a + arc);
+                ctx.lineTo(cx, cy);
+                ctx.fill();
+
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(a + arc / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px Outfit, sans-serif';
+                ctx.fillText(SECTORS[i].label, rad - 14, 4);
+                ctx.restore();
+            }
+
+            // Outer ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, rad, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#f472b6';
+            ctx.lineWidth = 6;
+            ctx.stroke();
+
+            // Center Pin
+            ctx.beginPath();
+            ctx.arc(cx, cy, 14, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(cx, cy, 8, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ff2d87';
+            ctx.fill();
+        }
+
+        drawWheel(0);
+
+        // ==========================================
+        // 🎬 TIMELINE SCENES & CHOREOGRAPHY (38s)
+        // ==========================================
+        const finger = document.getElementById('virtual-finger');
+        const captionTag = document.getElementById('caption-step-tag');
+        const captionText = document.getElementById('caption-text');
+        const progressFill = document.getElementById('progress-fill');
+        const timerLabel = document.getElementById('timer-label');
+
+        const TOTAL_DURATION = 38; // seconds
+        let currentTime = 0;
+        let isPlaying = false;
+        let animTimer = null;
+
+        function moveFinger(x, y, tap = false, duration = 0.5) {
+            finger.style.opacity = '1';
+            finger.style.transition = `left ${duration}s cubic-bezier(0.25, 1, 0.5, 1), top ${duration}s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s`;
+            finger.style.left = `${x}px`;
+            finger.style.top = `${y}px`;
+
+            if (tap) {
+                setTimeout(() => {
+                    finger.classList.add('tap');
+                    playTapSound();
+                    setTimeout(() => finger.classList.remove('tap'), 220);
+                }, duration * 1000 * 0.8);
+            }
+        }
+
+        function setCaption(tag, text) {
+            captionTag.textContent = tag;
+            captionText.textContent = text;
+        }
+
+        // Timeline Action Script
+        const SCRIPT = [
+            // 0s - 4s: Intro y Catálogo
+            { time: 0, fn: () => {
+                setCaption('Paso 1: Catálogo', 'Explora el catálogo en vivo con más de 640 productos y precios en COP ✨');
+                document.getElementById('screen-content').style.transform = 'translateY(0px)';
+                document.getElementById('wheel-modal-mock').classList.remove('open');
+                document.getElementById('cart-drawer-mock').classList.remove('open');
+                moveFinger(200, 300, false);
+            }},
+            { time: 2, fn: () => {
+                // Scroll down
+                document.getElementById('screen-content').style.transform = 'translateY(-120px)';
+                moveFinger(200, 480, false, 0.8);
+            }},
+            // 5s - 9s: Búsqueda y Filtros
+            { time: 5, fn: () => {
+                document.getElementById('screen-content').style.transform = 'translateY(0px)';
+                setCaption('Paso 2: Búsqueda Rápida', 'Buscador inteligente en tiempo real con filtro instantáneo 🔍');
+                moveFinger(180, 130, true);
+            }},
+            { time: 6.5, fn: () => {
+                document.getElementById('search-text-display').textContent = 'Gloss... (46 resultados)';
+                document.getElementById('search-text-display').style.color = '#1e1b4b';
+                document.getElementById('search-text-display').style.fontWeight = '700';
+            }},
+            { time: 8, fn: () => {
+                setCaption('Paso 2: Categorías', 'Filtra al instante por Labiales, Sombras, Bases y más ✨');
+                moveFinger(120, 168, true);
+                document.querySelectorAll('.pill-item').forEach(p => p.classList.remove('active'));
+                document.querySelector('.pill-item[data-cat="labiales"]').classList.add('active');
+            }},
+            // 10s - 15s: Favoritos y Agregar al Carrito
+            { time: 10, fn: () => {
+                setCaption('Paso 3: Favoritos y Carrito', 'Guarda en favoritos con un toque y añade tus productos 💖');
+                moveFinger(162, 225, true);
+            }},
+            { time: 11, fn: () => {
+                document.getElementById('fav-btn-1').classList.add('active');
+                document.getElementById('mock-fav-count').textContent = '1';
+                moveFinger(95, 335, true);
+            }},
+            { time: 12, fn: () => {
+                document.getElementById('mock-cart-count').textContent = '1';
+                moveFinger(280, 335, true);
+            }},
+            { time: 13.5, fn: () => {
+                document.getElementById('mock-cart-count').textContent = '2';
+                setCaption('Paso 3: Carrito Actualizado', '¡2 productos añadidos al carrito con microanimación! 🛍️');
+            }},
+            // 15s - 23s: La Ruleta de la Suerte
+            { time: 15.5, fn: () => {
+                setCaption('Paso 4: Ruleta de la Suerte', '¡Toca la Ruleta Flotante para ganar premios y descuentos! 🎡');
+                moveFinger(80, 680, true);
+            }},
+            { time: 17, fn: () => {
+                document.getElementById('wheel-modal-mock').classList.add('open');
+                setCaption('Paso 4: ¡Gira la Ruleta!', 'Premios exclusivos: Descuentos, Domicilio Gratis o Regalos 🎁');
+                moveFinger(195, 520, true);
+            }},
+            { time: 18.5, fn: () => {
+                // Spin animation
+                setCaption('Paso 4: ¡Girando Ruleta!', 'La ruleta gira con animación física suave... 🎡💫');
+                let startSpin = performance.now();
+                function animWheel(now) {
+                    let elapsed = (now - startSpin) / 1000;
+                    if (elapsed < 3.2) {
+                        wheelAngle += (4 - elapsed) * 0.15;
+                        drawWheel(wheelAngle);
+                        if (Math.random() > 0.6) playTickSound();
+                        requestAnimationFrame(animWheel);
+                    } else {
+                        wheelAngle = 0.2; // lands on 10% DTO
+                        drawWheel(wheelAngle);
+                        document.getElementById('wheel-win-box').style.display = 'block';
+                        playWinSound();
+                        setCaption('Paso 4: ¡Premio Ganado!', '¡Ganaste 10% DTO! Código VALEN10 aplicado automáticamente 🎉');
+                    }
+                }
+                requestAnimationFrame(animWheel);
+            }},
+            // 24s - 32s: Carrito Inteligente y Flete
+            { time: 24, fn: () => {
+                document.getElementById('wheel-modal-mock').classList.remove('open');
+                setCaption('Paso 5: Carrito Inteligente', 'Abre tu carrito para revisar tu pedido y flete en vivo 🚚');
+                moveFinger(355, 60, true);
+            }},
+            { time: 25.5, fn: () => {
+                document.getElementById('cart-drawer-mock').classList.add('open');
+                setCaption('Paso 5: Envío Pereira vs Dosquebradas', 'Selecciona tu ciudad y el costo de domicilio se calcula solo 📍');
+                moveFinger(280, 560, true);
+            }},
+            { time: 27.5, fn: () => {
+                // Select Dosquebradas
+                document.getElementById('btn-city-p').classList.remove('active');
+                document.getElementById('btn-city-d').classList.add('active');
+                document.getElementById('cart-fee-val').textContent = '$8.000';
+                document.getElementById('cart-total-val').textContent = '$55.700';
+                setCaption('Paso 5: Domicilio Dosquebradas', 'Domicilio actualizado: $8.000. Cupón VALEN10 aplicado en vivo ✨');
+            }},
+            // 32s - 38s: Checkout a WhatsApp
+            { time: 32, fn: () => {
+                setCaption('Paso 6: Pedido por WhatsApp', 'Toca el botón para enviar el pedido directo a WhatsApp con 1 clic 📲');
+                moveFinger(195, 710, true);
+            }},
+            { time: 35, fn: () => {
+                document.getElementById('btn-whatsapp-mock').style.transform = 'scale(0.96)';
+                document.getElementById('btn-whatsapp-mock').style.background = '#15803d';
+                document.getElementById('btn-whatsapp-mock').innerHTML = '<i class="fas fa-check"></i> ¡Abriendo WhatsApp... 💬!';
+                setCaption('Paso 6: ¡Listo para Despachar!', '¡Mensaje formateado listo para enviar a la tienda! 🌸🛍️');
+            }},
+            { time: 38, fn: () => {
+                pauseDemo();
+            }}
+        ];
+
+        // Engine Loop
+        function tick() {
+            if (!isPlaying) return;
+            currentTime += 0.1;
+            if (currentTime > TOTAL_DURATION) {
+                currentTime = TOTAL_DURATION;
+                pauseDemo();
+                return;
+            }
+
+            // Update Progress
+            const pct = (currentTime / TOTAL_DURATION) * 100;
+            progressFill.style.width = `${pct}%`;
+
+            const m = Math.floor(currentTime / 60);
+            const s = Math.floor(currentTime % 60);
+            timerLabel.textContent = `${m}:${String(s).padStart(2, '0')} / 0:38`;
+
+            // Run Script Actions
+            SCRIPT.forEach(action => {
+                if (Math.abs(currentTime - action.time) < 0.08) {
+                    action.fn();
+                }
+            });
+        }
+
+        function playDemo() {
+            if (currentTime >= TOTAL_DURATION) currentTime = 0;
+            isPlaying = true;
+            document.getElementById('play-icon').className = 'fas fa-pause';
+            document.getElementById('play-text').textContent = 'Pausar';
+            if (animTimer) clearInterval(animTimer);
+            animTimer = setInterval(tick, 100);
+        }
+
+        function pauseDemo() {
+            isPlaying = false;
+            document.getElementById('play-icon').className = 'fas fa-play';
+            document.getElementById('play-text').textContent = 'Reanudar';
+            if (animTimer) clearInterval(animTimer);
+        }
+
+        function restartDemo() {
+            pauseDemo();
+            currentTime = 0;
+            progressFill.style.width = '0%';
+            timerLabel.textContent = '0:00 / 0:38';
+            document.getElementById('search-text-display').textContent = 'Buscar producto o categoría...';
+            document.getElementById('mock-fav-count').textContent = '0';
+            document.getElementById('mock-cart-count').textContent = '0';
+            document.getElementById('fav-btn-1').classList.remove('active');
+            document.getElementById('wheel-modal-mock').classList.remove('open');
+            document.getElementById('cart-drawer-mock').classList.remove('open');
+            document.getElementById('wheel-win-box').style.display = 'none';
+            document.getElementById('btn-whatsapp-mock').innerHTML = '<i class="fab fa-whatsapp"></i> Pedir por WhatsApp';
+            document.getElementById('btn-whatsapp-mock').style.background = '#25d366';
+            document.getElementById('btn-city-p').classList.add('active');
+            document.getElementById('btn-city-d').classList.remove('active');
+            SCRIPT[0].fn();
+            playDemo();
+        }
+
+        document.getElementById('btn-toggle-play').addEventListener('click', () => {
+            if (isPlaying) pauseDemo();
+            else playDemo();
+        });
+
+        document.getElementById('btn-restart').addEventListener('click', restartDemo);
+
+        // Click on Progress Track to seek
+        document.getElementById('progress-track').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const frac = Math.max(0, Math.min(1, clickX / rect.width));
+            currentTime = frac * TOTAL_DURATION;
+            // Execute the latest passed action
+            for (let i = SCRIPT.length - 1; i >= 0; i--) {
+                if (SCRIPT[i].time <= currentTime) {
+                    SCRIPT[i].fn();
+                    break;
+                }
+            }
+        });
+
+        // ==========================================
+        // 📥 EXPORT HIGH-DEF VIDEO (MediaRecorder API)
+        // ==========================================
+        const recordBtn = document.getElementById('btn-record-export');
+        let mediaRecorder = null;
+        let recordedChunks = [];
+
+        recordBtn.addEventListener('click', async () => {
+            if (recordBtn.classList.contains('recording')) return;
+
+            recordBtn.classList.add('recording');
+            recordBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Grabando Video 60FPS...';
+
+            restartDemo();
+
+            // We capture the canvas / stream using modern DisplayMedia or HTML canvas recorder
+            try {
+                // If user browser supports display capture:
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { frameRate: 60, displaySurface: 'browser' },
+                    audio: true
+                });
+
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+                recordedChunks = [];
+
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) recordedChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Valen_Makeup_Store_Demo_HD.webm';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    recordBtn.classList.remove('recording');
+                    recordBtn.innerHTML = '<i class="fas fa-check"></i> ¡Video Descargado con Éxito!';
+                    setTimeout(() => {
+                        recordBtn.innerHTML = '<i class="fas fa-circle-arrow-down"></i> Exportar Video HD (WebM/MP4)';
+                    }, 4000);
+                };
+
+                mediaRecorder.start();
+
+                // Stop automatically after demo finishes
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === 'recording') {
+                        mediaRecorder.stop();
+                        stream.getTracks().forEach(t => t.stop());
+                    }
+                }, (TOTAL_DURATION + 1) * 1000);
+
+            } catch (err) {
+                console.warn('Direct capture cancelled or not allowed:', err);
+                recordBtn.classList.remove('recording');
+                recordBtn.innerHTML = '<i class="fas fa-circle-arrow-down"></i> Exportar Video HD (WebM/MP4)';
+                alert('Para exportar el video en alta definición automática, selecciona la pestaña de Valen Studio cuando tu navegador lo solicite.');
+            }
+        });
+
+        // Auto start on load
+        window.addEventListener('load', () => {
+            setTimeout(playDemo, 600);
+        });
+    </script>
+</body>
+</html>
