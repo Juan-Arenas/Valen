@@ -4,6 +4,7 @@
   "private": true,
   "description": "Valen Makeup Catálogo y Tienda Oficial",
   "dependencies": {
-    "@neondatabase/serverless": "^1.2.0"
+    "@neondatabase/serverless": "^1.2.0",
+    "puppeteer-core": "^25.13.0"
   }
 }

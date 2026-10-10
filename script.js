@@ -1384,7 +1384,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             msg += `\nTOTAL: $${finalTotal.toLocaleString('es-CO')}\n\n`;
             msg += `💳 MÉTODO DE PAGO\n`;
-            msg += `${selectedPaymentMethod}\n`;
+            if (selectedPaymentMethod === 'Nequi') {
+                msg += `Nequi (A nombre de Mishell Ramirez)\n`;
+            } else if (selectedPaymentMethod === 'Bancolombia') {
+                msg += `Bancolombia Ahorros: 725-159-459-55 (Mishell Valentina Ramirez Londoño)\n`;
+            } else {
+                msg += `Contraentrega (Pago al recibir)\n`;
+            }
             if (notes) {
                 msg += `\n📝 NOTAS\n`;
                 msg += `${notes}\n`;
