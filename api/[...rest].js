@@ -1365,7 +1365,7 @@ module.exports = async (req, res) => {
         if (codeQuery) {
           const rows = await sql`
             SELECT code, discount_type as "discountType", discount_value as "discountValue",
-                   min_order as "minOrder", active
+                   min_order as "minOrder", description, active
             FROM coupons
             WHERE LOWER(code) = LOWER(${String(codeQuery).trim()}) AND active = TRUE
             LIMIT 1;
@@ -1373,7 +1373,18 @@ module.exports = async (req, res) => {
           if (rows.length === 0) {
             return sendJson(res, 404, { error: 'not_found', message: 'Cupón no válido o inactivo' });
           }
-          return sendJson(res, 200, rows[0]);
+          const c = rows[0];
+          return sendJson(res, 200, {
+            code: c.code,
+            type: c.discountType,
+            discountType: c.discountType,
+            value: Number(c.discountValue || 0),
+            discountValue: Number(c.discountValue || 0),
+            min_order: Number(c.minOrder || 0),
+            minOrder: Number(c.minOrder || 0),
+            description: c.description || '',
+            active: c.active
+          });
         }
 
         // Admin list all coupons
@@ -1381,7 +1392,7 @@ module.exports = async (req, res) => {
         if (!isAuth) {
           return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
         }
-        const rows = await sql`SELECT * FROM coupons ORDER BY code ASC;`;
+        const rows = await sql`SELECT code, discount_type as "discountType", discount_type as type, discount_value as "discountValue", discount_value as value, min_order as "minOrder", min_order as min_order, description, active FROM coupons ORDER BY code ASC;`;
         return sendJson(res, 200, rows);
       } catch (err) {
         return sendJson(res, 500, { error: err.message });
@@ -1394,28 +1405,34 @@ module.exports = async (req, res) => {
         return sendJson(res, 401, { error: 'unauthorized', message: 'Credenciales inválidas' });
       }
       try {
-        const { code, discountType, discountValue, minOrder } = payload;
-        if (!code || !discountType || discountValue == null) {
-          return sendJson(res, 400, { error: 'missing_fields', message: 'Código, tipo y valor son requeridos' });
+        const code = String(payload.code || '').trim().toUpperCase();
+        const discountType = String(payload.discountType || payload.type || 'percent').trim();
+        const discountValue = Number(payload.discountValue != null ? payload.discountValue : (payload.value != null ? payload.value : 0)) || 0;
+        const minOrder = Number(payload.minOrder != null ? payload.minOrder : (payload.min_order != null ? payload.min_order : 0)) || 0;
+        const description = String(payload.description || '').trim();
+
+        if (!code) {
+          return sendJson(res, 400, { error: 'missing_fields', message: 'El código del cupón es requerido' });
         }
 
-        const cleanCode = String(code).trim().toUpperCase();
         await sql`
-          INSERT INTO coupons (code, discount_type, discount_value, min_order, active)
+          INSERT INTO coupons (code, discount_type, discount_value, min_order, description, active)
           VALUES (
-            ${cleanCode},
-            ${String(discountType).trim()},
-            ${Number(discountValue)},
-            ${Number(minOrder) || 0},
+            ${code},
+            ${discountType},
+            ${discountValue},
+            ${minOrder},
+            ${description},
             TRUE
           )
           ON CONFLICT (code) DO UPDATE SET
             discount_type = EXCLUDED.discount_type,
             discount_value = EXCLUDED.discount_value,
             min_order = EXCLUDED.min_order,
+            description = EXCLUDED.description,
             active = TRUE;
         `;
-        return sendJson(res, 201, { created: true, code: cleanCode });
+        return sendJson(res, 201, { created: true, code });
       } catch (err) {
         return sendJson(res, 500, { error: err.message });
       }

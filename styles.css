@@ -4432,4 +4432,116 @@ body {
 .order-status-pill.preparando { background: #f3e8ff; color: #7e22ce; }
 .order-status-pill.en-camino { background: #e0f2fe; color: #0369a1; }
 .order-status-pill.entregado { background: #dcfce7; color: #15803d; }
-.order-status-pill.cancelado { background: #fee2e2; color: #b91c1c; }
+.order-status-pill.cancelado { background: #fee2e2; color: #b91c1c; }
+
+/* ============================================================ */
+/* 🎨 LIGHTBOX MODAL TONOS DISPONIBLES & REGALOS               */
+/* ============================================================ */
+.tones-modal-content {
+  max-width: 480px;
+  width: 92%;
+  margin: auto;
+  border-radius: 20px;
+  background: #ffffff;
+  padding: 22px;
+  box-shadow: 0 25px 60px rgba(255, 45, 135, 0.2);
+  border: 2px solid var(--border-pink);
+  animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tones-modal-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: -4px 0 12px;
+}
+
+.tones-img-wrapper {
+  background: #fff5f9;
+  border-radius: 14px;
+  padding: 8px;
+  border: 1.5px dashed #f472b6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 52vh;
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+}
+
+#tones-modal-img {
+  max-width: 100%;
+  max-height: 50vh;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+}
+
+.tones-modal-selector-container {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #fce7f3;
+}
+
+.tones-modal-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tones-modal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tone-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tone-chip:hover {
+  border-color: var(--bratz-pink);
+  color: var(--bratz-pink);
+  transform: translateY(-1px);
+}
+
+.tone-chip.active {
+  background: var(--gradient-bratz);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(255, 45, 135, 0.35);
+}
+
+.tones-modal-footer {
+  margin-top: 16px;
+}
+
+.cart-gift-notice {
+  background: linear-gradient(135deg, #fff0f7, #fdf4ff);
+  border: 1.5px solid #fbcfe8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  color: #9d174d;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(236, 72, 153, 0.12);
+  animation: giftGlow 2s infinite alternate;
+}
+
+@keyframes giftGlow {
+  0% { border-color: #fbcfe8; }
+  100% { border-color: #ec4899; box-shadow: 0 4px 18px rgba(236, 72, 153, 0.25); }
+}

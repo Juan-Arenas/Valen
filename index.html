@@ -468,6 +468,10 @@
                     <span>🎟️ Descuento:</span>
                     <span id="cart-discount-val">-$0</span>
                 </div>
+                <div class="cart-breakdown-row gift-row" id="cart-gift-row" style="display: none; color: #db2777; font-weight: 700;">
+                    <span>🎁 Regalo Incluido:</span>
+                    <span id="cart-gift-val">Gloss Gratis</span>
+                </div>
                 <div class="cart-total-row">
                     <span class="cart-total-label">Total a Pagar:</span>
                     <span class="cart-total-price" id="cart-total-price">$0</span>
@@ -635,6 +639,37 @@
                 </div>
                 <button type="button" class="btn-apply-prize" id="btn-apply-prize-to-cart">
                     <i class="fas fa-cart-shopping"></i> Aplicar y Ver Carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 🎨 TONOS DISPONIBLES (SKIN TONES LIGHTBOX MODAL)             -->
+    <!-- ============================================================ -->
+    <div id="tones-modal" class="modal tones-modal" style="display: none;">
+        <div class="modal-content tones-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="tones-modal-title">
+                    <i class="fas fa-palette" style="color: var(--bratz-pink);"></i> Tonos Disponibles
+                </h3>
+                <button class="modal-close-btn" id="tones-close-btn" type="button" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="tones-modal-body">
+                <p id="tones-modal-subtitle" class="tones-modal-subtitle">Observa la guía de tonos para elegir el ideal para tu piel</p>
+                <div class="tones-img-wrapper">
+                    <img id="tones-modal-img" src="" alt="Muestra de tonos" loading="lazy">
+                </div>
+                <div id="tones-modal-selector-container" class="tones-modal-selector-container" style="display: none;">
+                    <label class="tones-modal-label">Selecciona tu tono directamente:</label>
+                    <div id="tones-modal-options" class="tones-modal-options">
+                        <!-- Chips de tonos generados dinámicamente -->
+                    </div>
+                </div>
+            </div>
+            <div class="tones-modal-footer">
+                <button type="button" class="btn-primary" id="tones-modal-confirm-btn" style="width: 100%;">
+                    <i class="fas fa-check"></i> <span id="tones-modal-confirm-text">Listo, Continuar</span>
                 </button>
             </div>
         </div>
@@ -1185,22 +1220,28 @@
 
                                 <div class="checkout-inputs-grid">
                                     <div class="checkout-field">
-                                        <label for="admin-coupon-type">Tipo de Descuento *</label>
+                                        <label for="admin-coupon-type">Tipo de Beneficio *</label>
                                         <select id="admin-coupon-type" required>
-                                            <option value="percent">Porcentaje (%)</option>
-                                            <option value="fixed">Valor Fijo ($ COP)</option>
-                                            <option value="free_delivery">Envío Gratis</option>
+                                            <option value="gift">🎁 Regalo de Producto (ej. Gloss Gratis)</option>
+                                            <option value="free_delivery">🚚 Envío Gratis</option>
+                                            <option value="percent">🏷️ Porcentaje (%)</option>
+                                            <option value="fixed">💰 Valor Fijo ($ COP)</option>
                                         </select>
                                     </div>
                                     <div class="checkout-field">
                                         <label for="admin-coupon-value">Valor del Descuento *</label>
-                                        <input type="number" id="admin-coupon-value" min="0" placeholder="Ej. 10 para %, 5000 para fijo" required>
+                                        <input type="number" id="admin-coupon-value" min="0" value="0" placeholder="0 para regalo o envío, 10 para %, etc." required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="admin-coupon-desc">Descripción / Nombre del Premio o Regalo</label>
+                                    <input type="text" id="admin-coupon-desc" placeholder="Ej. Gloss Gratis de Regalo, Envío Gratis Pereira, etc.">
+                                </div>
+
+                                <div class="form-group">
                                     <label for="admin-coupon-min">Compra Mínima Requerida ($ COP)</label>
-                                    <input type="number" id="admin-coupon-min" min="0" placeholder="Ej. 35000">
+                                    <input type="number" id="admin-coupon-min" min="0" placeholder="Ej. 35000 (0 para sin mínimo)">
                                 </div>
 
                                 <button type="submit" class="btn-primary" style="width: 100%;">

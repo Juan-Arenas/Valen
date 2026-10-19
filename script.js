@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartDeliveryCityLabel = document.getElementById('cart-delivery-city-label');
     const cartDiscountRow = document.getElementById('cart-discount-row');
     const cartDiscountVal = document.getElementById('cart-discount-val');
+    const cartGiftRow = document.getElementById('cart-gift-row');
+    const cartGiftVal = document.getElementById('cart-gift-val');
     const cartCouponInput = document.getElementById('cart-coupon-input');
     const btnApplyCoupon = document.getElementById('btn-apply-coupon');
     const appliedCouponTag = document.getElementById('applied-coupon-tag');
@@ -77,6 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRemoveCoupon = document.getElementById('btn-remove-coupon');
     const couponMessage = document.getElementById('coupon-message');
     const paymentInstructionsBox = document.getElementById('payment-instructions-box');
+
+    // Tones Lightbox Modal Elements
+    const tonesModal = document.getElementById('tones-modal');
+    const tonesModalTitle = document.getElementById('tones-modal-title');
+    const tonesModalImg = document.getElementById('tones-modal-img');
+    const tonesModalCloseBtn = document.getElementById('tones-close-btn');
+    const tonesModalConfirmBtn = document.getElementById('tones-modal-confirm-btn');
+    const tonesModalSelectorContainer = document.getElementById('tones-modal-selector-container');
+    const tonesModalOptions = document.getElementById('tones-modal-options');
 
 
 
@@ -933,7 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="product-price-row">
                         <div class="product-price">${formatPrice(product.price)}</div>
                     </div>
-                    ${product.skin_tones_image ? `<button type="button" class="btn-view-tones" style="background: #fdf2f8; color: var(--bratz-pink); border: 1px solid var(--bratz-pink); border-radius: 8px; padding: 6px; width: 100%; margin-bottom: 8px; font-weight: 700; cursor: pointer;" onclick="window.open('${product.skin_tones_image}', '_blank')"><i class="fas fa-palette"></i> Ver Tonos Disponibles</button>` : ''}
+                    ${product.skin_tones_image ? `<button type="button" class="btn-view-tones" data-product-id="${product.id}" style="background: #fdf2f8; color: var(--bratz-pink); border: 1.5px solid var(--border-pink); border-radius: 8px; padding: 7px 10px; width: 100%; margin-bottom: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;"><i class="fas fa-palette"></i> Ver Tonos Disponibles</button>` : ''}
                     ${product.skin_tones_count > 0 ? `<div style="margin-bottom: 8px;"><label style="font-size: 0.8rem; font-weight: bold; color: var(--text-dark);">Elige tu tono:</label><select class="product-tone-select" style="width: 100%; padding: 6px; border-radius: 8px; border: 1px solid #ddd; margin-top: 4px;"><option value="">Selecciona un tono...</option>${Array.from({length: product.skin_tones_count}, (_, i) => `<option value="${i+1}">Tono ${i+1}</option>`).join('')}</select></div>` : ''}
                     <button class="btn-add-cart" data-id="${product.id}">
                         <i class="fas fa-shopping-bag"></i> Agregar al Carrito
@@ -950,6 +961,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     favBtn.classList.toggle('active', nowFav);
                     const icon = favBtn.querySelector('i');
                     if (icon) icon.className = nowFav ? 'fas fa-heart' : 'far fa-heart';
+                });
+            }
+
+            // In-app Skin tones viewer modal listener (No redirects, no blank screen)
+            const tonesBtn = card.querySelector('.btn-view-tones');
+            if (tonesBtn) {
+                tonesBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openTonesModal(product, card);
                 });
             }
 
@@ -971,6 +991,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         productsGrid.appendChild(fragment);
+    }
+
+    // 🎨 In-App Modal for Skin Tones (Shades / Swatches)
+    function openTonesModal(product, card) {
+        if (!tonesModal || !product || !product.skin_tones_image) return;
+
+        if (tonesModalTitle) {
+            tonesModalTitle.innerHTML = `<i class="fas fa-palette" style="color: var(--bratz-pink);"></i> Tonos: ${escapeHtml(product.name)}`;
+        }
+        if (tonesModalImg) {
+            tonesModalImg.src = product.skin_tones_image;
+            tonesModalImg.alt = `Tonos de ${product.name}`;
+        }
+
+        const count = Number(product.skin_tones_count) || 0;
+        if (count > 0 && tonesModalSelectorContainer && tonesModalOptions) {
+            tonesModalSelectorContainer.style.display = 'block';
+            const cardSelect = card ? card.querySelector('.product-tone-select') : null;
+            const currentSelected = cardSelect ? cardSelect.value : '';
+
+            tonesModalOptions.innerHTML = Array.from({ length: count }, (_, i) => {
+                const toneNum = String(i + 1);
+                const isActive = currentSelected === toneNum;
+                return `<button type="button" class="tone-chip ${isActive ? 'active' : ''}" data-tone="${toneNum}">Tono ${toneNum}</button>`;
+            }).join('');
+
+            tonesModalOptions.querySelectorAll('.tone-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    tonesModalOptions.querySelectorAll('.tone-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    const toneVal = chip.dataset.tone;
+                    if (cardSelect) {
+                        cardSelect.value = toneVal;
+                    }
+                });
+            });
+        } else if (tonesModalSelectorContainer) {
+            tonesModalSelectorContainer.style.display = 'none';
+        }
+
+        tonesModal.style.display = 'flex';
+        tonesModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeTonesModal() {
+        if (!tonesModal) return;
+        tonesModal.classList.remove('active');
+        tonesModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    if (tonesModalCloseBtn) tonesModalCloseBtn.addEventListener('click', closeTonesModal);
+    if (tonesModalConfirmBtn) tonesModalConfirmBtn.addEventListener('click', closeTonesModal);
+    if (tonesModal) {
+        tonesModal.addEventListener('click', (e) => {
+            if (e.target === tonesModal) closeTonesModal();
+        });
     }
 
     // Search events
@@ -1055,6 +1133,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 🎟️ Coupon Calculation
         let discountVal = 0;
+        let giftDesc = null;
+
         if (appliedCoupon) {
             if (appliedCoupon.min_order && subtotal < Number(appliedCoupon.min_order)) {
                 const reqMin = Number(appliedCoupon.min_order);
@@ -1072,12 +1152,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 discountVal = Math.min(subtotal, Number(appliedCoupon.value));
             } else if (appliedCoupon.type === 'free_delivery') {
                 deliveryFee = 0;
-                discountVal = baseDeliveryFee;
+                discountVal = 0;
+            } else if (appliedCoupon.type === 'gift') {
+                discountVal = 0;
+                giftDesc = appliedCoupon.description || appliedCoupon.label || 'Gloss Gratis de Regalo';
             }
         }
 
-        // Final total (subtotal + delivery - coupon discount)
-        const effectiveDiscount = (appliedCoupon && appliedCoupon.type === 'free_delivery') ? 0 : discountVal;
+        // Final total (subtotal + delivery - coupon cash discount)
+        const effectiveDiscount = discountVal;
         const finalTotal = Math.max(0, subtotal + deliveryFee - effectiveDiscount);
 
         // Badges & Counters
@@ -1202,6 +1285,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 cartDiscountVal.textContent = `-${formatPrice(discountVal)}`;
             } else {
                 cartDiscountRow.style.display = 'none';
+            }
+        }
+
+        if (cartGiftRow && cartGiftVal) {
+            if (giftDesc) {
+                cartGiftRow.style.display = 'flex';
+                cartGiftVal.textContent = `${giftDesc} (${appliedCoupon.code})`;
+            } else {
+                cartGiftRow.style.display = 'none';
             }
         }
 
@@ -1330,7 +1422,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Delivery Fee calculation
             const freeThreshold = Number(storeSettings.delivery_free_min || 100000);
             const freeActive = storeSettings.delivery_free_active !== false;
-            const isFreeDelivery = (freeActive && subtotal >= freeThreshold) || (appliedCoupon && appliedCoupon.type === 'free_delivery');
+            const isCouponFreeDelivery = appliedCoupon && appliedCoupon.type === 'free_delivery';
+            const isThresholdFreeDelivery = freeActive && subtotal >= freeThreshold;
+            const isFreeDelivery = isThresholdFreeDelivery || isCouponFreeDelivery;
             
             const baseDelivery = (selectedCity === 'Dosquebradas')
                 ? Number(storeSettings.delivery_dosquebradas || 8000)
@@ -1338,20 +1432,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const deliveryFee = isFreeDelivery ? 0 : baseDelivery;
 
-            // Discount calculation
+            // Discount and Gift calculation
             let discountVal = 0;
+            let giftDesc = null;
             if (appliedCoupon) {
                 if (appliedCoupon.type === 'percent') {
                     discountVal = Math.round(subtotal * (Number(appliedCoupon.value) / 100));
                 } else if (appliedCoupon.type === 'fixed') {
                     discountVal = Math.min(subtotal, Number(appliedCoupon.value));
                 } else if (appliedCoupon.type === 'free_delivery') {
-                    discountVal = baseDelivery;
+                    discountVal = 0;
+                } else if (appliedCoupon.type === 'gift') {
+                    discountVal = 0;
+                    giftDesc = appliedCoupon.description || appliedCoupon.label || 'Gloss Gratis';
                 }
             }
 
-            const effectiveDiscount = (appliedCoupon && appliedCoupon.type === 'free_delivery') ? 0 : discountVal;
-            const finalTotal = Math.max(0, subtotal + deliveryFee - effectiveDiscount);
+            const finalTotal = Math.max(0, subtotal + deliveryFee - discountVal);
 
             // Build Exact WhatsApp message template requested:
             let msg = `🛍️ NUEVO PEDIDO — VALEN MAKEUP\n\n`;
@@ -1376,11 +1473,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg += `$${itemSub.toLocaleString('es-CO')}\n\n`;
             });
 
+            if (giftDesc) {
+                msg += `• 🎁 ${giftDesc} (Regalo cupón ${appliedCoupon.code}) × 1\n`;
+                msg += `$0 (GRATIS 🎉)\n\n`;
+            }
+
             msg += `💰 RESUMEN\n\n`;
             msg += `Subtotal: $${subtotal.toLocaleString('es-CO')}\n`;
-            msg += `Domicilio: ${deliveryFee === 0 ? '$0 (GRATIS 🎉)' : `$${deliveryFee.toLocaleString('es-CO')}`}\n`;
+            if (isFreeDelivery) {
+                const freeTag = isCouponFreeDelivery ? ` (${appliedCoupon.code})` : '';
+                msg += `Domicilio: $0 (GRATIS 🎉${freeTag})\n`;
+            } else {
+                msg += `Domicilio: $${deliveryFee.toLocaleString('es-CO')}\n`;
+            }
             if (discountVal > 0) {
                 msg += `Descuento: -$${discountVal.toLocaleString('es-CO')}${appliedCoupon ? ` (${appliedCoupon.code})` : ''}\n`;
+            }
+            if (giftDesc) {
+                msg += `🎁 Obsequio: ${giftDesc} (${appliedCoupon.code})\n`;
             }
             msg += `\nTOTAL: $${finalTotal.toLocaleString('es-CO')}\n\n`;
             msg += `💳 MÉTODO DE PAGO\n`;
@@ -1409,6 +1519,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 subtotal: subtotal,
                 delivery_fee: deliveryFee,
                 discount_val: discountVal,
+                gift_item: giftDesc ? `${giftDesc} (${appliedCoupon ? appliedCoupon.code : ''})` : null,
+                coupon_code: appliedCoupon ? appliedCoupon.code : null,
                 total: finalTotal,
                 items: cart.map(item => ({
                     id: item.id,
@@ -1847,12 +1959,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const KNOWN_COUPONS = {
             'VALEN10': { code: 'VALEN10', type: 'percent', value: 10, min_order: WHEEL_MIN_THRESHOLD, description: `10% de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
-            'GLAM15': { code: 'GLAM15', type: 'percent', value: 15, min_order: WHEEL_MIN_THRESHOLD, description: `15% de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'GLAM15': { code: 'GLAM15', type: 'gift', value: 0, min_order: WHEEL_MIN_THRESHOLD, description: `Regalo Sorpresa (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'REGALOSORPRESA': { code: 'REGALOSORPRESA', type: 'gift', value: 0, min_order: WHEEL_MIN_THRESHOLD, description: `Regalo Sorpresa (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
             'VALEN15': { code: 'VALEN15', type: 'percent', value: 15, min_order: WHEEL_MIN_THRESHOLD, description: `15% de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
             'VALEN5K': { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: WHEEL_MIN_THRESHOLD, description: `$5.000 COP de descuento (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
             'ENVIOGRATIS': { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: WHEEL_MIN_THRESHOLD, description: `Domicilio gratis (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
-            'GLOSSGIFT': { code: 'GLOSSGIFT', type: 'percent', value: 10, min_order: WHEEL_MIN_THRESHOLD, description: `Gloss sorpresa + 10% DTO (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
-            'REGALOGLOSS': { code: 'REGALOGLOSS', type: 'percent', value: 10, min_order: WHEEL_MIN_THRESHOLD, description: `Gloss de regalo (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` }
+            'GLOSSGIFT': { code: 'GLOSSGIFT', type: 'gift', value: 0, min_order: WHEEL_MIN_THRESHOLD, description: `Gloss Gratis de Regalo (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` },
+            'REGALOGLOSS': { code: 'REGALOGLOSS', type: 'gift', value: 0, min_order: WHEEL_MIN_THRESHOLD, description: `Gloss Gratis de Regalo (compras desde ${formatPrice(WHEEL_MIN_THRESHOLD)})` }
         };
 
         let couponData = KNOWN_COUPONS[code] || null;
@@ -1862,9 +1975,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await fetchApi(`/api/coupons?code=${encodeURIComponent(code)}`);
                 if (res.ok) {
                     const apiData = await res.json();
-                    if (apiData && apiData.code) couponData = apiData;
+                    if (apiData && apiData.code) {
+                        couponData = {
+                            code: apiData.code,
+                            type: apiData.type || apiData.discount_type || apiData.discountType || 'percent',
+                            value: Number(apiData.value != null ? apiData.value : (apiData.discount_value != null ? apiData.discount_value : apiData.discountValue)) || 0,
+                            min_order: Number(apiData.min_order != null ? apiData.min_order : (apiData.minOrder != null ? apiData.minOrder : 0)) || 0,
+                            description: apiData.description || ''
+                        };
+                    }
                 }
             } catch (e) {}
+        }
+
+        // Check wheel sectors dynamically if not defined elsewhere
+        if (!couponData) {
+            const sectors = getActiveWheelSectors();
+            const sectorMatch = sectors.find(s => s.code && s.code.toUpperCase() === code);
+            if (sectorMatch) {
+                const sLabel = (sectorMatch.label || '').toLowerCase();
+                const isNoPrize = sectorMatch.type === 'none' || sLabel.includes('suerte');
+                if (!isNoPrize) {
+                    const sType = sectorMatch.type || (
+                        sLabel.includes('gloss') || sLabel.includes('regalo') || sLabel.includes('obsequio') || code.toLowerCase().includes('gift') ? 'gift' :
+                        sLabel.includes('envio') || sLabel.includes('envío') || code.toLowerCase().includes('envio') ? 'free_delivery' :
+                        sLabel.includes('%') ? 'percent' :
+                        sLabel.includes('$') ? 'fixed' : 'gift'
+                    );
+                    couponData = {
+                        code: sectorMatch.code,
+                        type: sType,
+                        value: (sType === 'gift' || sType === 'free_delivery') ? 0 : 10,
+                        min_order: WHEEL_MIN_THRESHOLD,
+                        description: sectorMatch.label || 'Premio de Ruleta'
+                    };
+                }
+            }
         }
 
         if (!couponData) {
@@ -1890,15 +2036,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (appliedCouponTag && appliedCouponText) {
             appliedCouponTag.style.display = 'inline-flex';
-            appliedCouponText.textContent = `🎟️ ${couponData.code}: ${couponData.description || 'Aplicado'}`;
+            const icon = couponData.type === 'gift' ? '🎁' : couponData.type === 'free_delivery' ? '🚚' : '🎟️';
+            appliedCouponText.textContent = `${icon} ${couponData.code}: ${couponData.description || 'Aplicado'}`;
         }
         if (cartCouponInput) cartCouponInput.value = '';
         if (couponMessage) {
-            couponMessage.textContent = `¡Cupón ${couponData.code} aplicado con éxito! ✨`;
+            if (couponData.type === 'gift') {
+                couponMessage.textContent = `¡Obsequio ${couponData.description || 'Gloss Gratis'} activado para tu pedido! ✨`;
+            } else if (couponData.type === 'free_delivery') {
+                couponMessage.textContent = `¡Cupón ${couponData.code} activado: Envío GRATIS! 🚚✨`;
+            } else {
+                couponMessage.textContent = `¡Cupón ${couponData.code} aplicado con éxito! ✨`;
+            }
             couponMessage.style.color = '#047857';
         }
 
-        showNotification(`Cupón ${couponData.code} aplicado`, '🎟️');
+        const notifIcon = couponData.type === 'gift' ? '🎁' : '🎟️';
+        showNotification(`Cupón ${couponData.code} aplicado`, notifIcon);
         updateCartUi();
         return true;
     }
@@ -2027,13 +2181,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     btnSpinAction.classList.add('disabled');
                     btnSpinAction.innerHTML = `<i class="fas fa-check-circle"></i> <span>YA GIRASTE TU RULETA</span>`;
                 }
+                if (spunData.isNoPrize) {
+                    if (wheelStatusNotice) {
+                        wheelStatusNotice.innerHTML = `<i class="fas fa-heart"></i> Ya participaste en la ruleta por esta sesión.`;
+                    }
+                    if (wheelWinCard && winPrizeLabel) {
+                        wheelWinCard.style.display = 'block';
+                        winPrizeLabel.textContent = spunData.prize || 'Suerte para la próxima';
+                        const couponBox = wheelWinCard.querySelector('.wheel-coupon-box');
+                        if (couponBox) couponBox.style.display = 'none';
+                        if (btnApplyPrizeToCart) btnApplyPrizeToCart.style.display = 'none';
+                    }
+                    return;
+                }
                 if (wheelStatusNotice) {
                     wheelStatusNotice.innerHTML = `<i class="fas fa-lock"></i> Ya redimiste tu giro. Tu cupón ganado es <strong>${spunData.code}</strong>.`;
                 }
                 if (wheelWinCard && winPrizeLabel && winCouponCode) {
                     wheelWinCard.style.display = 'block';
                     winPrizeLabel.textContent = spunData.prize || 'Beneficio Ganado';
-                    winCouponCode.textContent = spunData.code || 'VALEN10';
+                    winCouponCode.textContent = spunData.code || 'GLOSSGIFT';
                     const winMinText = document.getElementById('wheel-win-min-text');
                     if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
                 }
@@ -2103,29 +2270,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function onWheelSpinFinished(wonSector) {
+        const isNoPrize = wonSector.type === 'none' || (wonSector.label && wonSector.label.toUpperCase().includes('SUERTE'));
+
         const record = {
             prize: wonSector.label,
-            code: wonSector.code,
+            code: isNoPrize ? null : wonSector.code,
+            isNoPrize: isNoPrize,
             date: new Date().toISOString()
         };
         try {
             localStorage.setItem('valen_wheel_spun', JSON.stringify(record));
         } catch (e) {}
 
-        playFuturisticAlertSound();
-
-        if (wheelWinCard && winPrizeLabel && winCouponCode) {
-            wheelWinCard.style.display = 'block';
-            winPrizeLabel.textContent = wonSector.label;
-            winCouponCode.textContent = wonSector.code;
-            const winMinText = document.getElementById('wheel-win-min-text');
-            if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
-        }
-
         if (btnSpinAction) {
             btnSpinAction.disabled = true;
             btnSpinAction.classList.add('disabled');
             btnSpinAction.innerHTML = `<i class="fas fa-check-circle"></i> <span>GIRO COMPLETADO</span>`;
+        }
+
+        if (isNoPrize) {
+            if (wheelWinCard && winPrizeLabel) {
+                wheelWinCard.style.display = 'block';
+                winPrizeLabel.textContent = wonSector.label;
+                const couponBox = wheelWinCard.querySelector('.wheel-coupon-box');
+                if (couponBox) couponBox.style.display = 'none';
+                if (btnApplyPrizeToCart) btnApplyPrizeToCart.style.display = 'none';
+                const subtitle = wheelWinCard.querySelector('.wheel-win-subtitle');
+                if (subtitle) subtitle.textContent = '¡Gracias por participar! Disfruta nuestras ofertas y vuelve a girar pronto ✨';
+            }
+            if (wheelStatusNotice) {
+                wheelStatusNotice.innerHTML = `<i class="fas fa-heart"></i> ¡Gracias por participar! Vuelve a girar en tu próxima visita.`;
+            }
+            showNotification(`¡Suerte para la próxima! ✨`, '🎀');
+            return;
+        }
+
+        playFuturisticAlertSound();
+
+        if (wheelWinCard && winPrizeLabel && winCouponCode) {
+            wheelWinCard.style.display = 'block';
+            const couponBox = wheelWinCard.querySelector('.wheel-coupon-box');
+            if (couponBox) couponBox.style.display = 'flex';
+            if (btnApplyPrizeToCart) btnApplyPrizeToCart.style.display = 'block';
+            winPrizeLabel.textContent = wonSector.label;
+            winCouponCode.textContent = wonSector.code;
+            const winMinText = document.getElementById('wheel-win-min-text');
+            if (winMinText) winMinText.textContent = formatPrice(storeSettings.wheel_min_purchase || 50000);
+            const subtitle = wheelWinCard.querySelector('.wheel-win-subtitle');
+            if (subtitle) {
+                if (wonSector.type === 'gift' || (wonSector.label && (wonSector.label.toLowerCase().includes('gloss') || wonSector.label.toLowerCase().includes('regalo')))) {
+                    subtitle.textContent = `¡Felicidades! Ganaste un ${wonSector.label}. Se añadirá como regalo a tu pedido:`;
+                } else if (wonSector.type === 'free_delivery' || (wonSector.label && wonSector.label.toLowerCase().includes('envio'))) {
+                    subtitle.textContent = `¡Felicidades! Ganaste Envío Gratis para tu pedido:`;
+                } else {
+                    subtitle.textContent = `¡Felicidades! Usa tu cupón para obtener tu descuento:`;
+                }
+            }
         }
 
         if (wheelStatusNotice) {
@@ -3020,11 +3220,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const sectors = getActiveWheelSectors();
 
         prizesList.innerHTML = sectors.map((s, idx) => `
-            <div class="wheel-sector-row" data-idx="${idx}" style="display: flex; gap: 8px; align-items: center; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid #fbcfe8;">
-                <input type="text" class="wheel-sector-label" value="${escapeHtml(s.label || '')}" placeholder="Nombre Premio" style="flex: 2; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem;" required>
-                <input type="text" class="wheel-sector-code" value="${escapeHtml(s.code || '')}" placeholder="CUPÓN" style="flex: 1.5; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; text-transform: uppercase;" required>
-                <div style="flex: 1; display: flex; align-items: center; gap: 2px;">
-                    <input type="number" class="wheel-sector-prob" value="${Math.round((Number(s.prob) || 0) * 100)}" min="1" max="100" placeholder="%" style="width: 100%; padding: 6px 6px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem;" required>
+            <div class="wheel-sector-row" data-idx="${idx}" style="display: flex; gap: 8px; align-items: center; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid #fbcfe8; flex-wrap: wrap;">
+                <input type="text" class="wheel-sector-label" value="${escapeHtml(s.label || '')}" placeholder="Nombre Premio" style="flex: 2; min-width: 130px; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem;" required>
+                <select class="wheel-sector-type" style="flex: 1.5; min-width: 120px; padding: 6px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.8rem; background: #fff;">
+                    <option value="gift" ${(s.type === 'gift' || (!s.type && ((s.label||'').toLowerCase().includes('gloss') || (s.label||'').toLowerCase().includes('regalo') || (s.label||'').toLowerCase().includes('obsequio')))) ? 'selected' : ''}>🎁 Regalo</option>
+                    <option value="free_delivery" ${(s.type === 'free_delivery' || (!s.type && (s.label||'').toLowerCase().includes('envio'))) ? 'selected' : ''}>🚚 Envío Gratis</option>
+                    <option value="fixed" ${(s.type === 'fixed' || (!s.type && (s.label||'').includes('$'))) ? 'selected' : ''}>💰 Fijo ($)</option>
+                    <option value="percent" ${(s.type === 'percent' || (!s.type && (s.label||'').includes('%'))) ? 'selected' : ''}>🏷️ Porcentaje (%)</option>
+                    <option value="none" ${(s.type === 'none' || (!s.type && (s.label||'').toLowerCase().includes('suerte'))) ? 'selected' : ''}>❌ Sin Premio (Suerte)</option>
+                </select>
+                <input type="text" class="wheel-sector-code" value="${escapeHtml(s.code || '')}" placeholder="CUPÓN" style="flex: 1.2; min-width: 90px; padding: 6px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem; text-transform: uppercase;" required>
+                <div style="flex: 0.8; min-width: 70px; display: flex; align-items: center; gap: 2px;">
+                    <input type="number" class="wheel-sector-prob" value="${Math.round((Number(s.prob) || 0) * 100)}" min="1" max="100" placeholder="%" style="width: 100%; padding: 6px 4px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 0.85rem;" required>
                     <span style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted);">%</span>
                 </div>
                 ${sectors.length > 2 ? `
@@ -3061,6 +3268,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const colors = ['#ff2d87', '#7928ca', '#ec4899', '#9333ea', '#db2777', '#f43f5e', '#a855f7'];
                 cur.push({
                     label: 'Nuevo Premio',
+                    type: 'gift',
                     code: 'PREMIO' + (cur.length + 1),
                     color: colors[cur.length % colors.length],
                     textColor: '#ffffff',
@@ -3108,13 +3316,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newSectors = [];
                     sectorRows.forEach((row, i) => {
                         const labelInput = row.querySelector('.wheel-sector-label');
+                        const typeSelect = row.querySelector('.wheel-sector-type');
                         const codeInput = row.querySelector('.wheel-sector-code');
                         const probInput = row.querySelector('.wheel-sector-prob');
                         const label = (labelInput ? labelInput.value.trim() : '') || `Premio ${i+1}`;
+                        const type = typeSelect ? typeSelect.value : 'gift';
                         const code = (codeInput ? codeInput.value.trim().toUpperCase() : '') || `CUPON${i+1}`;
                         const probPct = Math.max(1, Number(probInput ? probInput.value : 10) || 10);
                         newSectors.push({
                             label,
+                            type,
                             code,
                             color: colors[i % colors.length],
                             textColor: '#ffffff',
@@ -3177,10 +3388,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetchApi('/api/coupons');
             let coupons = [
-                { code: 'VALEN10', type: 'percent', value: 10, min_order: 0 },
-                { code: 'GLAM15', type: 'percent', value: 15, min_order: 0 },
-                { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: 35000 },
-                { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: 0 }
+                { code: 'GLOSSGIFT', type: 'gift', value: 0, min_order: 50000, description: 'Gloss Gratis de Regalo' },
+                { code: 'ENVIOGRATIS', type: 'free_delivery', value: 0, min_order: 50000, description: 'Envío Gratis' },
+                { code: 'VALEN5K', type: 'fixed', value: 5000, min_order: 35000, description: '$5.000 COP DTO' },
+                { code: 'VALEN10', type: 'percent', value: 10, min_order: 50000, description: '10% DTO' }
             ];
             if (res.ok) {
                 const data = await res.json();
@@ -3188,17 +3399,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (couponsList) {
-                couponsList.innerHTML = coupons.map(c => `
+                couponsList.innerHTML = coupons.map(c => {
+                    const cType = c.type || c.discount_type || c.discountType;
+                    const cVal = c.value != null ? c.value : (c.discount_value != null ? c.discount_value : c.discountValue);
+                    const typeLabel = cType === 'gift' ? `🎁 Regalo: ${c.description || 'Producto Gratis'}` :
+                                      cType === 'free_delivery' ? '🚚 Envío Gratis' :
+                                      cType === 'fixed' ? `💰 ${formatPrice(cVal || 0)} DTO` :
+                                      `🏷️ ${cVal || 0}% DTO`;
+                    return `
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #fdf2f8; border-radius: 8px; margin-bottom: 6px;">
                         <div>
-                            <strong>${c.code}</strong> - ${c.type === 'percent' ? `${c.value}% DTO` : c.type === 'fixed' ? `${formatPrice(c.value)} DTO` : 'Envío Gratis'}
-                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Mín: ${formatPrice(c.min_order || 0)}</small>
+                            <strong>${c.code}</strong> — <span style="color: #9d174d; font-weight: 700;">${typeLabel}</span>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.75rem;">Mín: ${formatPrice(c.min_order || c.minOrder || 0)} ${c.description ? `• ${c.description}` : ''}</small>
                         </div>
-                        <button type="button" class="btn-del-coupon" data-code="${c.code}" style="background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.9rem;">
+                        <button type="button" class="btn-del-coupon" data-code="${c.code}" style="background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.9rem;" title="Eliminar cupón">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
-                `).join('');
+                `;}).join('');
 
                 couponsList.querySelectorAll('.btn-del-coupon').forEach(btn => {
                     btn.addEventListener('click', async () => {
@@ -3224,17 +3442,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 const codeInput = document.getElementById('admin-coupon-code');
                 const typeInput = document.getElementById('admin-coupon-type');
                 const valInput = document.getElementById('admin-coupon-value');
+                const descInput = document.getElementById('admin-coupon-desc');
                 const minInput = document.getElementById('admin-coupon-min') || document.getElementById('admin-coupon-min-order');
                 const couponMsg = document.getElementById('admin-coupon-message');
 
                 const code = codeInput ? codeInput.value.trim().toUpperCase() : '';
-                const type = typeInput ? typeInput.value : 'percent';
+                const type = typeInput ? typeInput.value : 'gift';
                 const val = Number(valInput ? valInput.value : 0);
+                const description = descInput ? descInput.value.trim() : '';
                 const min = Number(minInput ? minInput.value : 0);
 
                 if (!code) return;
 
-                const newCoupon = { code, type, value: val, min_order: min, active: true };
+                const newCoupon = {
+                    code,
+                    type,
+                    discountType: type,
+                    value: val,
+                    discountValue: val,
+                    min_order: min,
+                    minOrder: min,
+                    description: description || (type === 'gift' ? 'Gloss Gratis de Regalo' : ''),
+                    active: true
+                };
 
                 try {
                     const res = await fetchApi('/api/coupons', {
@@ -3243,7 +3473,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         body: JSON.stringify(newCoupon)
                     });
                     if (res.ok) {
-                        showNotification(`Cupón ${code} creado en base de datos`, '🎟️');
+                        showNotification(`Cupón ${code} guardado en base de datos`, '🎟️');
                         if (couponMsg) {
                             couponMsg.textContent = `✅ Cupón ${code} creado exitosamente.`;
                             couponMsg.style.color = '#15803d';
