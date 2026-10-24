@@ -1,26 +1,13 @@
 const INLINE_PRODUCTS = [
   {
-    "id": 698,
-    "name": "Hola",
-    "price": 100,
-    "image": "img/product_1.jpg",
-    "page": 1,
-    "active": true,
-    "category_id": 2,
-    "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T07:43:12.404Z"
-  },
-  {
     "id": 697,
     "name": "Tinta serum candy Purpure",
-    "price": 650000,
+    "price": 6500,
     "image": "img/store_prod_69.jpg",
     "page": 1,
     "active": true,
     "category_id": 2,
-    "category": "Cuidado Facial",
+    "category": "Maquillaje",
     "skin_tones_image": "",
     "skin_tones_count": 0,
     "created_at": "2026-10-24T06:37:44.808Z"
