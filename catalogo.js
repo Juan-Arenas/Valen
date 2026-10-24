@@ -15,25 +15,12 @@ const INLINE_PRODUCTS = [
   {
     "id": 696,
     "name": "Set de uñas",
-    "price": 790000,
+    "price": 7900,
     "image": "img/store_prod_61.jpg",
     "page": 1,
     "active": true,
     "category_id": 2,
     "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
-    "id": 695,
-    "name": "Primer Bloom poros invisibles Bloomshell",
-    "price": 1390000,
-    "image": "img/store_prod_45.jpg",
-    "page": 1,
-    "active": true,
-    "category_id": 5,
-    "category": "Bloomshell",
     "skin_tones_image": "",
     "skin_tones_count": 0,
     "created_at": "2026-10-24T06:37:44.808Z"
