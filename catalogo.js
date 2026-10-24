@@ -26,45 +26,6 @@ const INLINE_PRODUCTS = [
     "created_at": "2026-10-24T06:37:44.808Z"
   },
   {
-    "id": 694,
-    "name": "Mini juego rainbow ball",
-    "price": 390000,
-    "image": "img/store_prod_39.jpg",
-    "page": 1,
-    "active": true,
-    "category_id": 2,
-    "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
-    "id": 693,
-    "name": "Mini juego deportes",
-    "price": 590000,
-    "image": "img/store_prod_38.jpg",
-    "page": 1,
-    "active": true,
-    "category_id": 2,
-    "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
-    "id": 692,
-    "name": "Bloom lamination XL Laminador de cejas GRANDE Bloomshell Gel de cejas",
-    "price": 1890000,
-    "image": "img/store_prod_33.jpg",
-    "page": 1,
-    "active": true,
-    "category_id": 5,
-    "category": "Bloomshell",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
     "id": 691,
     "name": "Jabón retinol bioaqua",
     "price": 690000,
