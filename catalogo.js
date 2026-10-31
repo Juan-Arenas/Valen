@@ -1833,19 +1833,6 @@ const INLINE_PRODUCTS = [
     "created_at": "2026-10-24T06:37:44.808Z"
   },
   {
-    "id": 562,
-    "name": "Paquete de Pestañas efecto pestañas de muñeca ojo de gato",
-    "price": 12600,
-    "image": "img/product_562.jpg",
-    "page": 51,
-    "active": true,
-    "category_id": 4,
-    "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
     "id": 561,
     "name": "Pestañas punto a punto foxy eyes",
     "price": 11500,
@@ -2288,19 +2275,6 @@ const INLINE_PRODUCTS = [
     "created_at": "2026-10-24T06:37:44.808Z"
   },
   {
-    "id": 526,
-    "name": "Pestañas completas par Atenea profesional",
-    "price": 10500,
-    "image": "img/product_526.jpg",
-    "page": 48,
-    "active": true,
-    "category_id": 4,
-    "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
     "id": 525,
     "name": "Pega de pestañas Lula (Atenea)",
     "price": 10900,
@@ -2318,19 +2292,6 @@ const INLINE_PRODUCTS = [
     "name": "Pega de pestañas Transparente Lula (Atenea)",
     "price": 18900,
     "image": "img/product_524.jpg",
-    "page": 48,
-    "active": true,
-    "category_id": 4,
-    "category": "Maquillaje",
-    "skin_tones_image": "",
-    "skin_tones_count": 0,
-    "created_at": "2026-10-24T06:37:44.808Z"
-  },
-  {
-    "id": 523,
-    "name": "Pestañas punto a punto DIY Eyelashes",
-    "price": 15500,
-    "image": "img/product_523.jpg",
     "page": 48,
     "active": true,
     "category_id": 4,
